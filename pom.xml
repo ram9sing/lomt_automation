@@ -26,6 +26,12 @@
 			<artifactId>selenium-chrome-driver</artifactId>
 			<version>3.4.0</version>
 		</dependency>
+		 <dependency>
+   			<groupId>org.testng</groupId>
+      		<artifactId>testng</artifactId>
+      		<version>6.12.x</version>
+      		<scope>test</scope>
+		 </dependency>
 		<dependency>
 			<groupId>cglib</groupId>
 			<artifactId>cglib-nodep</artifactId>
