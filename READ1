@@ -1,0 +1,135 @@
+Log4j : https://www.mkyong.com/logging/log4j-hello-world-example/
+
+#### PRODUCT TOC USE CASES ####
+
+LOMT-1039, LOMT-1040 and LOMT-1041
+
+TC_CASE_7_8_9_10_11 = "Mandatory and Non-mandatory, Program, Course are blank and Product Title has value";
+TC_12 = "Program, Course and Product Title has new value";
+TC_13 = "Program has new value, Course has existing value and Product Title has new or old value";
+TC_14 = "Program has existing value, Course has new value and Product Title has new or old value";
+TC_15 = "Program has existing and Course has existing value, Product Title has new or old value";
+TC_16 = "There should not be duplicate Product Title"; // not implement yet, re-ingestion 
+TC_17 = "AlignmentCode column has value";
+TC_18 = "CMT Intermediary Unique ID column has value";
+TC_19 = "Sequence mismatch for Level for Hierarchy";
+TC_20 = "Level for Hierarchy should be expanded for all level";
+TC_21 = "Alignment Code has wrong value";
+TC_22 = "CMT Intermediary Unique ID has wrong value";
+TC_23 = "Ingestion without non-mandatory fields";
+TC_25 = "Ingestion without mandatory fields";
+TC_26 = "Product Title is blank";
+TC_27 = "Level for Hierarchy is blank";
+TC_28 = "Level Title is blank";
+TC_29 = "Content Title is blank";
+TC_30 = "Level for Hierarchy and Content Title are  blank";
+TC_31 = "Level Title and Content Title are  blank";
+TC_32 = "Content Title has correct value while AlignmentCode has wrong value";
+TC_33 = "Level Title has correct value while CMT Intermediary Unique has wrong value";
+
+
+###################################################################################
+
+1) LOMT-458
+
+TC-LOMT-458-01_Admin_Access_Ingestion page.
+TC-LOMT-458-02_Non-Admin_Access_ Ingestion page.  - NON ADMIN CASE
+TC-LOMT-458-03_Admin user_Not Access_Ingestion page.	- De-scoped
+TC-LOMT-458-04_Non-Admin user_Access_ Ingestion page.	- De-scoped
+TC-LOMT-458-05_Ingest AB xml
+TC-LOMT-458-06_Ingest GSE sheet
+TC-LOMT-458-07_Ingest Intermediary sheet
+
+STATUS: DONE
+
+2) 1154(English GSE - explicitly ingest and export skill grammar and vocabulary)
+
+LOMT-1154-01 v1.2.4_GSE_Ingest
+LOMT-1154-02 v1.2.4_GSE_Ingest
+LOMT-1154-03 v1.2.5_GSE_Export
+LOMT-1154-04 v1.2.4_GSE_Export
+LOMT-1154-05 v1.2.4_GSE_Export
+LOMT-1154-06 v1.2.5_GSE_Export
+LOMT-1154-07 v1.2.4_GSE_Ingest
+LOMT-1154-08 v1.2.4_GSE_Ingest
+
+STATUS: DONE
+
+3)LOMT-656(Ingest misconceptions for Learning Experience Objective Hierarchy)
+
+TC-LOMT-656-01_Valid_Misconception_Ingest
+TC-LOMT-656-02_BlankMisconception_Ingest_N
+TC-LOMT-656-03_BlankMisconception_Ingest_Y
+TC-LOMT-656-04_SpecialChars_Misconception_Ingest
+TC-LOMT-656-05_LongChars_Misconception_Ingest
+
+STATUS: DONE
+
+4) LOMR-338
+
+TC-LOMT-338-01_Admin_Access_ Ingestion page.
+TC-LOMT-338-02_IngestionPage_NonAdmin.				NON ADMIN USE CASE
+TC-LOMT-338-03_Ingest_DragAndDrop_SchoolNA
+TC-LOMT-338-04_Ingest_DragAndDrop_SchoolGlobal
+TC-LOMT-338-05_UploadFile_SelectBTN_SchoolNA
+TC-LOMT-338-06_UploadFile_SelectBTN_SchoolGlobal
+TC-LOMT-338-07_VerifyDataOnUI_SchoolNA
+TC-LOMT-338-08_VerifyDataOnUI_SchoolGlobal
+TC-LOMT-338-09_VerifyState_UI_SchoolNA
+TC-LOMT-338-10_VerifyState_UI_SchoolGLobal
+
+STATUS: DONE
+
+LOMT-717(Deffered)
+TC-LOMT-717-01_IngestionSuccessful_PreRequisite
+TC-LOMT-717-02_IngestionSuccessful_PreRequisite_AboveOrBelow
+TC-LOMT-717-03_IngestionSuccessful_PreRequisite_InterchangeReference
+TC-LOMT-717-04_IngestionSuccessful_PreRequisite_InterchangeReferenceVerify_UI
+
+STATUS: DONE
+
+5) LOMT-968
+
+TC-LOMT-968-01_English_GSE_Ingestion_goalFramework_Admin_role
+TC-LOMT-968-02_English_GSE_Export_goalFramework_Admin_role
+TC-LOMT-968-03_English_GSE_Reingestion_goalFramework_Admin_role
+TC-LOMT-968-04_English_GSE_Browse_goalFramework_Admin_role
+TC-LOMT-968-05_English_GSE_Edit_goalFramework_Admin_role
+
+TC-LOMT-968-06_English_GSE_Basic_Browse_ManageIngestion_Verify 				- Non admin role(basic browser)
+TC-LOMT-968-07_English_GSE_Basic_Browse_goalFramework_Restricted_access
+TC-LOMT-968-08_English_GSE_Basic_Browse_edit_Verify
+TC-LOMT-968-09_English_GSE_Basic_Browse_goalFramework
+TC-LOMT-968-10_English_GSE_Basic_Browse_goalFramework_status
+TC-LOMT-968-11_English_GSE_Basic_Export_option
+TC-LOMT-968-12_English_GSE_Basic_Export_goalFramework_Restricted_access
+
+STATUS: DONE 50 %
+
+6) LOMT-1108
+
+TC-LOMT-1008-01_GSE_NoURN_NewDescriptive ID
+TC-LOMT-1008-02_GSE_NoURN_OldDescriptive ID
+TC-LOMT-1008-03_GSE_WithURN_OldDescriptive ID
+
+STATUS: DONE
+
+
+################################ BASIC BROWSER CASE ###########################
+
+1) LOMT-458
+TC-LOMT-458-02_Non-Admin_Access_Ingestion page.  - NON ADMIN CASE
+
+2) LOMT-968
+
+TC-LOMT-968-06_English_GSE_Basic_Browse_ManageIngestion_Verify 				- Non admin role(basic browser)
+TC-LOMT-968-07_English_GSE_Basic_Browse_goalFramework_Restricted_access
+TC-LOMT-968-08_English_GSE_Basic_Browse_edit_Verify
+TC-LOMT-968-09_English_GSE_Basic_Browse_goalFramework
+TC-LOMT-968-10_English_GSE_Basic_Browse_goalFramework_status
+TC-LOMT-968-11_English_GSE_Basic_Export_option
+TC-LOMT-968-12_English_GSE_Basic_Export_goalFramework_Restricted_access
+
+3) LOMR-338
+TC-LOMT-338-02_IngestionPage_NonAdmin.
+

@@ -1,0 +1,86 @@
+Ingestion
+TC-LOMT-10-01_UploadIntermediaryLink
+TC-LOMT-10-02_SelectFileButton
+TC-LOMT-10-03_UploadButton
+TC-LOMT-10-04_UploadIntermediary_Successful
+TC-LOMT-10-05_UploadFunctionality_xlsxOr xlsFormat
+TC-LOMT-10-06_Verify_IngestedCols
+TC-LOMT-10-07_IntermediaryIngestion_missingCol
+TC-LOMT-10-08_IntermediaryStatement_Col_Chars
+TC-LOMT-10-09_IntermediaryStatement_MaxNoOfStmts		: SKIP(there is open bug)
+TC-LOMT-10-10_Intermediary_ingestion_Tag_missing
+TC-LOMT-10-11_TagCol_values
+TC-LOMT-10-12_IntermediaryIngestion_col_blank
+TC-LOMT-10-13_Re-Ingestion 								: DESCPED(Re-ingestion use case)
+TC-LOMT-10-14_Ingestion_RemovedEntries 					: DESCPED(Re-ingestion use case)
+
+Export
+
+DESCPED
+
+TC-LOMT-615_01_Verify_Export_Option_In_Actions_For_Intermediary_SchoolNA
+TC-LOMT-615_02_Verify_Export_OpIntermediary_To_ExcelFile_SchoolNA
+TC-LOMT-615_03_Verify_Intermediaries_written_To_ExcelSpreadsheet_SchoolNA
+TC-LOMT-615_04_Verify_Title_Of_Excel_Spreadsheet_Is_IntermediaryName_SchoolNA
+TC-LOMT-615_05_Verify_ColumnA_IntermediaryStatement_In_ExcelSpreadsheet_SchoolNA
+TC-LOMT-615_06_Verify_ColumnB_Tag_In_ExcelSpreadsheet_SchoolNA
+TC-LOMT-615_07_Verify_ColumnC_Category_In_ExcelSpreadsheet_SchoolNA
+TC-LOMT-615_08_Verify_ColumnD_IntermediaryStatementCode_In_ExcelSpreadsheet_SchoolNA
+TC-LOMT-615_09_Verify_ColumnE_IntermediaryStatementID_In_ExcelSpreadsheet_SchoolNA
+
+COMPLETED
+TC-LOMT-615_10_Verify_Export_Option_In_Actions_For_Intermediary_SchoolGlobal
+TC-LOMT-615_11_Verify_Export_OpIntermediary_To_ExcelFile_SchoolGlobal
+TC-LOMT-615_12_Verify_Intermediaries_written_To_ExcelSpreadsheet_SchoolGlobal
+TC-LOMT-615_13_Verify_Title_Of_Excel_Spreadsheet_Is_IntermediaryName_SchoolGlobal
+TC-LOMT-615_14_Verify_ColumnA_IntermediaryStatement_In_ExcelSpreadsheet_SchoolGlobal
+TC-LOMT-615_15_Verify_ColumnB_Tag_In_ExcelSpreadsheet_SchoolGlobal
+TC-LOMT-615_16_Verify_ColumnC_Category_In_ExcelSpreadsheet_SchoolGlobal
+TC-LOMT-615_17_Verify_ColumnD_IntermediaryStatementCode_In_ExcelSpreadsheet_SchoolGlobal
+TC-LOMT-615_18_Verify_ColumnE_IntermediaryStatementID_In_ExcelSpreadsheet_SchoolGlobal
+
+
+Re-ingestion
+
+COMPLETED
+TC-LOMT-1587-01_SchoolGlobal_re-ingest_sameDecipline
+TC-LOMT-1587-02_SchoolGlobal_re-ingest_VerifyData 							: todo later
+TC-LOMT-1587-03_SchoolGlobal_re-ingest_UpdateIntermediary Statement
+TC-LOMT-1587-04_SchoolGlobal_re-ingest_UpdateIntermediary Statement_splChar
+TC-LOMT-1587-05_SchoolGlobal_re-ingest_UpdateIntermediary Statement_LongChar
+TC-LOMT-1587-06_SchoolGlobal_re-ingest_Update_Tag
+TC-LOMT-1587-07_SchoolGlobal_re-ingest_Update_Tag_Wrong 					: todo later
+TC-LOMT-1587-08_SchoolGlobal_re-ingest_Update_Category
+TC-LOMT-1587-09_SchoolGlobal_re-ingest_Update_Category_Blank
+TC-LOMT-1587-10_SchoolGlobal_re-ingest_Update_Intermediary Statement Code
+TC-LOMT-1587-11_SchoolGlobal_re-ingest_Update_Intermediary Statement Code_blank
+TC-LOMT-1587-12_SchoolGlobal_re-ingest_Add_New
+TC-LOMT-1587-13_SchoolGlobal_re-ingest_Delete_Exisiting
+TC-LOMT-1587-14_SchoolGlobal_re-ingest_WrongHeader
+TC-LOMT-1587-15_SchoolGlobal_re-ingest_Blank_IntermediaryStatement
+TC-LOMT-1587-15SchoolGlobal_re-ingest_Blank_Tag
+TC-LOMT-1587-17_SchoolGlobal_re-ingest_intermediaryNoExist_Have URN
+TC-LOMT-1587-18_SchoolGlobal_re-ingest_URNinStatemetn_intermediaryExistNotFound
+TC-LOMT-1587-19_SchoolGlobal_re-ingest_large sheet			:DESCOPED FOR NOW
+
+##DESCOPED NALS SPECIFIC TC###
+
+TC-LOMT-1587-20_SchoolNALS_re-ingest_sameDecipline  
+TC-LOMT-1587-21_SchoolNALS_re-ingest_VerifyData : 							
+TC-LOMT-1587-22_SchoolNALS_re-ingest_UpdateIntermediary Statement
+TC-LOMT-1587-23_SchoolNALS_re-ingest_UpdateIntermediary Statement_splChar
+TC-LOMT-1587-24_SchoolNALS_re-ingest_UpdateIntermediary Statement_LongChar
+TC-LOMT-1587-25_SchoolNALS_re-ingest_Update_Tag									
+TC-LOMT-1587-26_SchoolNALS_re-ingest_Update_Tag_Wrong						LATER
+TC-LOMT-1587-27_SchoolNALS_re-ingest_Update_Category
+TC-LOMT-1587-28_SchoolNALS_re-ingest_Update_Category_Blank
+TC-LOMT-1587-29_SchoolNALS_re-ingest_Update_Intermediary Statement Code
+TC-LOMT-1587-30_SchoolNALS_re-ingest_Update_Intermediary Statement Code_blank
+TC-LOMT-1587-31_SchoolNALS_re-ingest_Add_New
+TC-LOMT-1587-32_SchoolNALS_re-ingest_Delete_Exisiting											
+TC-LOMT-1587-33_SchoolNALS_re-ingest_WrongHeader								LATER
+TC-LOMT-1587-34_SchoolNALS_re-ingest_Blank_IntermediaryStatement				LATER
+TC-LOMT-1587-35SchoolNALS_re-ingest_Blank_Tag									LATER
+TC-LOMT-1587-36_SchoolNALS_re-ingest_intermediaryNoExist_Have URN				LATER
+TC-LOMT-1587-37_SchoolNALS_re-ingest_URNinStatemetn_intermediaryExistNotFound	LATER
+TC-LOMT-1587-38_SchoolNALS_re-ingest_large sheet								LATER(DE-SCOPED)

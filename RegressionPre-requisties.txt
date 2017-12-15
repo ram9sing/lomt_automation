@@ -1,0 +1,43 @@
+Product TOC 
+
+HE PRODUCT TOC ALIGNMENT ###
+
+1) Change Product title value at given path - 
+D:\Users\ram.sin\git_selenium\lomt_automation\src\main\java\lomt\pearson\fileupload\highereducation\producttoc\alignment_case
+
+	like - HE_EducationalObjective_12Test12345678
+
+2) ProductTOC class-> line 2559 (hePom.getLearningTitleInputText().sendKeys("HE_Test_C1");)
+    change value inside sendKeys() method and above two point value should be same
+	
+		like - HE_EducationalObjective_12Test12345678
+	
+3) Value should be same as per point 1 & 2 at given location 
+D:\Users\ram.sin\git_selenium\lomt_automation\src\main\java\lomt\pearson\fileupload\highereducation\producttoc\validation\ProductTocAlignCode-Validation.xlsx file	
+like - HE_EducationalObjective_12Test12345678
+
+
+ENGLISH PRODUCT TOC ALIGNMENT ###
+1) Pre-requiesties - gse ingestion should be done 
+
+2) gse id should exist at give path in file 
+D:\Users\ram.sin\git_selenium\lomt_automation\src\main\java\lomt\pearson\fileupload\english\product_toc\igestion_usecase_11\English_TOC_Ingestion_Usecase-11
+
+
+ENGLISH GSE ###
+For fresh ingestion change descrptive id
+D:\Users\ram.sin\git_selenium\lomt_automation\src\main\java\lomt\pearson\fileupload\english\gse\ingestion\Gse_Ingestion_Template.xlsx file
+
+##### EXTERNAL FRAMEWORK ###
+1) IF CHANGE EXTERNAL FRAMEWORK TITLE IN FILE THEN CHANGE TITLE NAME IN CODE in verification data on UI code
+
+
+CURRICULUM STANDARD ###
+
+MSS ID : if change in ingestion file then will change in re-ingestion file. It should be same 
+D:\Users\ram.sin\git_selenium\lomt_automation\src\main\java\lomt\pearson\fileupload\nals_school_global\curriculumstandard\re-ingestion
+
+
+
+
+

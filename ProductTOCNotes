@@ -1,0 +1,86 @@
+Product TOC Ingestion use case for Program, Course and Product Title
+
+1) Program Title - blank, Course Title- blank, Product Title- new value
+	Feldman_Product_TOC_A1
+	
+2)	Program Title - new value, Course Title- new value, Product Title new value
+	Feldman_Product_TOC_A2
+		Feldman_Product_TOC_Program
+		Feldman_Product_TOC_Course
+
+
+3)	Program Title - new value, Course Title- old value, Product Title new value	 : no more valid case
+	Feldman_Product_TOC_A
+		Feldman_Product_TOC_Program_New
+		Feldman_Product_TOC_Course
+Note: Not valid use case so DE-SCOPED		
+
+4) Program Title old value, Course Title new value, Product Title new value	
+	Feldman_Product_TOC_A3
+		Feldman_Product_TOC_Program
+		Feldman_Product_TOC_Course_New	
+
+5) Program Title old value, Course Title- old value, Product Title new value	
+	Feldman_Product_TOC_A4
+		Feldman_Product_TOC_Program
+		Feldman_Product_TOC_Course
+		
+6) Alignment Code
+	Feldman_Product_TOC_AlignCode
+		Feldman_Product_TOC_Program
+		Feldman_Product_TOC_Course
+		
+7)	Goal URN	
+
+##### RE-INGESTION use case #######			
+
+1) A user can change the Program Name(if any) in the cell 2 of row 1. 
+	STATUS: Done
+2) A user can change the Course Name(if any) in the cell 2 of row 2. DONE
+	STATUS: Done
+3) A user can change the Product Name in the cell 2 of row 2. (In the exported sheet, product URN is reflected in cell 3 of row 3). If Product URN is not present in re-ingestion sheet, It will be considered a fresh ingestion of product toc.
+	STATUS: Done
+4) A user can change/delete/Add the Geographic Area or Country Name(if any) in the cell 2 of row 4. 
+	STATUS: Done
+5) A user can change/delete/Add the State or Region Name(if any) in the cell 2 of row 5. 
+	STATUS: Done
+6) Market - Province (INTL) value is not considered for ingestion as of now. Hence, It does not take part in export as well as in re-ingestion.
+	STATUS: NA
+7) A user can change/delete/Add the Start Grade and End Grade(if any) in the cell 2 of row 7 and 8.
+	STATUS: Done
+8) A user can change/delete/Add the ISBN 10(if any) in the cell 2 of row 9.
+	STATUS: Done
+9) A user can change/delete/Add the ISBN 13(if any) in the cell 2 of row 10.
+	STATUS: Done
+10) A user can change/delete/Add the Type(if any) in the cell 2 of row 11. The available values for Type in the taxonomy are Print and Digital.
+From row 13 onwards till the sheet data is present, 
+	STATUS: Done
+	
+11. Content URN in cell 1 is reflected in the exported sheet and it should NOT be changed. If it is deleted, it will be considered a newly added row.
+	STATUS: NA
+12. Alfresco Object ID does not take part in ingestion, Hence, same is true in export and re-ingestion.
+	STATUS: NA
+13. A user can change the Level for Hierarchy in the cell 3 of a row.
+	STATUS: Done
+14. A user can change the Level Title in the cell 4 of a row.
+	STATUS: Done
+15. A user can change/delete/Add the Starting Page No in the cell 5 of a row.
+	STATUS: Done
+16. A user can change/delete/Add the End Page No in the cell 6 of a row.
+	STATUS: Done
+17. A user can change/delete/Add the Content Title in the cell 7 of a row.
+18. A user can change/delete/Add the Screen Location in the cell 8 of a row. 
+19. A user can change/delete/Add the Print Location in the cell 9 of a row.
+For School lob,
+20. A user can change the Discipline in the cell 10 of a row. Having said that, User needs to take care of the "Code" and "Goal URN" column values in a row accordingly.
+Also, in the exported sheet, we get "Code" in cell 11 as well as "Goal URN" in cell 13 values. In Re-ingestion, if the "Code" and "Goal URN" both are present at a time for a row, the "Goal URN" value will be considered for the validation and the alignment.
+21. A user can change/delete/Add the Alignment Type (Coverage) in the cell 14 of a row. The possible values are CENTRAL and PERIPHERAL.
+22. A user can delete/Add the Key Alignment in the cell 15 of a row. The value should be "key" only.
+For Higher Education lob,
+23. The "Code" and "Goal URN" should be given as per the HE GoalFramework name which has the same name of Product title.
+24. Alignment Type (Coverage) and Key Alignment are not applicable for HE lob.
+For English lob,
+25. The "Code" and "Goal URN" should be given as per a valid and existing GSE node.
+26. Alignment Type (Coverage) and Key Alignment are not applicable for English lob.
+27. Alignment URN is reflected in the exported sheet. If removed, a new alignment will be created for a contextdefinition.
+28. A user can add/delete a toc row from the sheet. Having said that, the level for hierarchy should be maintained. The same should be reflected in the exported sheet.	

@@ -1,0 +1,37 @@
+Ingestion Permutation
+
+1) When PRODUCT TITLE HAS VALUE
+	Feldman_Product_NoAlign
+2) When PROGRAM, COURSE AND PRODUCT TITLE HAS NEW VALUE
+	Feldman_Product_NoAlign_A1
+		Feldman_Program_NoAlign
+		Feldman_Course_NoAlign
+3) Program has new value, Course has existing value and Product Title has new or old value	
+	Feldman_Product_NoAlign_A2
+		Feldman_Program 
+		Feldman_Course_NoAlign	
+ Note: applied only in School - no longer valid
+ 4) Program has existing value, Course has new value and Product Title has new or old value
+ 	 Feldman_Product_NoAlign_A3	
+		Feldman_Program
+		Feldman_Course
+5)Program has existing and Course has existing value, Product Title has new or old value
+	Feldman_Product_NoAlign_A4	
+		Feldman_Program
+		Feldman_Course	
+
+Alignment Code
+	Feldman_Product_AlignCode
+		Feldman_Program
+		Feldman_Course
+		
+Alignment URN
+	Feldman_Product_AlignmentGoalURN
+		Feldman_Program
+		Feldman_Course
+
+Non- mandatory		
+	Feldman_Product_NonMandatory
+		
+			
+				
