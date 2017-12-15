@@ -29,11 +29,6 @@ import lomt.pearson.constant.TestCases;
 public class ReadExternalFrameworkFile {
 	
 	String exfGoalframeworkName = null;
-	/*public static void main(String [] args) {
-		ReadExternalFrameworkFile obj = new ReadExternalFrameworkFile();
-		
-		obj.compareAcutalAndExportedFile(LOMTConstant.HE_LOB);
-	}*/
 
 		public String getGoalFrameworkEXF(File actualFile) {
 		String exfGoalframeworkName = null;
@@ -755,7 +750,7 @@ public class ReadExternalFrameworkFile {
 			InputStream exportedEXFExcelFileIS = null;
 			XSSFWorkbook workbookForExportedEXFFile = null;
 			
-			heExFMap = new LinkedHashMap<>();
+			heExFMap = new LinkedHashMap<String, Boolean>();
 			try {
 				// Actual(Ingestion) data for comparison
 				exfFilePathIS = new FileInputStream(actualFile);
@@ -903,7 +898,7 @@ public class ReadExternalFrameworkFile {
 			InputStream exportedEXFExcelFileIS = null;
 			XSSFWorkbook workbookForExportedEXFFile = null;
 			
-			heExFMap = new LinkedHashMap<>();
+			heExFMap = new LinkedHashMap<String, Boolean>();
 			try {
 				// Actual(Ingestion) data for comparison
 				exfFilePathIS = new FileInputStream(actualFile);
