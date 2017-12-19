@@ -13,7 +13,8 @@ import com.relevantcodes.extentreports.LogStatus;
 public class NonAdminUserTestScript {
 
 	ExtentTest logger;
-	ExtentReports reports = new ExtentReports(LOMTConstant.NONADMIN_REPORT_FILE_PATH, true); 
+	//ExtentReports reports = new ExtentReports(LOMTConstant.NONADMIN_REPORT_FILE_PATH, true); 
+	ExtentReports reports = new ExtentReports(LOMTConstant.REPORT_FILE_PATH_COMMON, true); 
 	String disciplineName = null;
 	NonAdminUserBrowseExport nonAdminUser = new NonAdminUserBrowseExport();
 

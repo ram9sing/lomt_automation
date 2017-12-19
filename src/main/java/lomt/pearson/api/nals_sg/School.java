@@ -197,6 +197,12 @@ public class School extends BaseClass {
 			
 			jse.executeScript("window.scrollBy(0,500)");
 			
+			//Source URL selection
+			schoolPOM.getSourceUrl().sendKeys(String.valueOf(environment));
+			
+			//Curriculum Info URL selection
+			schoolPOM.getCurriculumInfoUrl().sendKeys(String.valueOf(environment));
+			
 			commonPOM.getNextButton().click();
 		} catch (Exception e) {
 			flag = false;
@@ -279,6 +285,12 @@ public class School extends BaseClass {
 			schoolPOM.getAdoptedYear().sendKeys(String.valueOf(year));
 			
 			jse.executeScript("window.scrollBy(0,500)");
+			
+			//Source URL selection
+			schoolPOM.getSourceUrl().sendKeys(String.valueOf(environment));
+			
+			//Curriculum Info URL selection
+			schoolPOM.getCurriculumInfoUrl().sendKeys(String.valueOf(environment));
 			
 			commonPOM.getNextButton().click();
 		} catch (Exception e) {

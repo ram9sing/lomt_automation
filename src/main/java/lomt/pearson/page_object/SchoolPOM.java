@@ -44,6 +44,12 @@ public class SchoolPOM {
 	@FindBy(xpath = "//div[@class='ingestion']/div/div[1]/div[5]/input")
 	private WebElement  adoptedYear;
 	
+	@FindBy(xpath = "//div[@class='ingestion']/div/div[1]/div[6]/input")
+	private WebElement  sourceUrl;
+	
+	@FindBy(xpath = "//div[@class='ingestion']/div/div[1]/div[7]/input")
+	private WebElement  curriculumInfoUrl;
+	
 	@FindBy(xpath = "//div[@id='lomtAppId']/div/div/div[2]/div[3]/span[1]/a")
 	private WebElement  curriculumSt;
 	
@@ -152,6 +158,15 @@ public class SchoolPOM {
 	public WebElement getAdoptedYear() {
 		return adoptedYear;
 	}
+	
+	public WebElement getSourceUrl() {
+		return sourceUrl;
+	}
+	
+	public WebElement getCurriculumInfoUrl() {
+		return curriculumInfoUrl;
+	}
+
 
 	public WebElement getCurriculumStructure() {
 		return curriculumStructure;

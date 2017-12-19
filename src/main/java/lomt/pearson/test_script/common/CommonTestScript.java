@@ -42,7 +42,7 @@ public class CommonTestScript {
 		logger.log(LogStatus.INFO, "TC_LOMT-1584-24_Admin_User_NALS_Intermediaries_Ingestion_Select_Back"+ " Wired off"); 
 		
 		reports.endTest(logger);
-		reports.flush();
+		//reports.flush();
 	}
 	
 	@Test(priority = 2)
