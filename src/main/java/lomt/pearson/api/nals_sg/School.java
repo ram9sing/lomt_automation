@@ -883,6 +883,7 @@ public class School extends BaseClass {
 					
 					logger.log(LogStatus.PASS, TestCases.TC_LOMT_947_01_RE_INGEST_CURRICULUM);
 					logger.log(LogStatus.PASS, TestCases.TC_LOMT_947_10_RE_INGEST_UPDATE_NAME);
+					logger.log(LogStatus.PASS, TestCases.TC_LOMT_1857_03_RE_INGEST_VERIFYDATA);
 					
 					jse.executeScript("window.scrollBy(0,-500)");
 					commonPOM.getBackLinkFirst().click();
@@ -890,6 +891,7 @@ public class School extends BaseClass {
 				} else {
 					logger.log(LogStatus.FAIL, TestCases.TC_LOMT_947_01_RE_INGEST_CURRICULUM);
 					logger.log(LogStatus.FAIL, TestCases.TC_LOMT_947_10_RE_INGEST_UPDATE_NAME);
+					logger.log(LogStatus.FAIL, TestCases.TC_LOMT_1857_03_RE_INGEST_VERIFYDATA);
 					
 					jse.executeScript("window.scrollBy(0,-500)");
 					commonPOM.getBackLinkFirst().click();
@@ -1031,9 +1033,9 @@ public class School extends BaseClass {
 					dataVFlag = false;
 					logger.log(LogStatus.FAIL, "Curriculum Standard Re-ingestion : Grade name does not match 2");
 				}
-				//grades comparision end
+				//grades comparison end
 				
-				//Parent child description comparision
+				//Parent child description comparison
 				int pcCounter = 1;
 				List<String> list = SchoolConstant.getCurrilumDescUpdatedData();
 				for (String data : list) {

@@ -479,5 +479,9 @@ public class TestCases {
 	public static String TC_LOMT_947_09_RE_INGEST_DELETENODE = "TC-LOMT-947-09_re-ingest_DeleteNode";
 	public static String TC_LOMT_947_10_RE_INGEST_UPDATE_NAME = "TC-LOMT-947-10_re-ingest_update name";
 	
+	//LOMT-1857
+	public static String TC_LOMT_1857_01_BASIC_USER_INGESTION = "TC_LOMT-1857 01_Basic_user_School_Global_Curriculum_standard_Manage_Ingestion";
+	public static String TC_LOMT_1857_02_ADMIN_INGESTION = "TC_LOMT-1857 02_Admin_user_School_Global_Curriculum_standard_verify_source URL and Curriculum info URL_After_Ingestion";
+	public static String TC_LOMT_1857_03_RE_INGEST_VERIFYDATA = "TC_LOMT-1857 03_Admin_user_School_Global_Curriculum_standard_verify_source URL and Curriculum info URL_After_Re-Ingestion";
 	
 }

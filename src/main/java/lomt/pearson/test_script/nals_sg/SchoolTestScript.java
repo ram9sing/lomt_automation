@@ -34,7 +34,8 @@ public class SchoolTestScript {
 	public void ingestionSchoolCurriculum() {
 		logger = reports.startTest(SchoolConstant.SCHOOL_CURRICULUM_INGESTION_LOMT_09 + LOMTConstant.COMMA
 				+ LOMTConstant.EMPTY_SPACE + "LOMT-09" + LOMTConstant.COMMA + LOMTConstant.EMPTY_SPACE + "LOMT-458"
-				+ LOMTConstant.COMMA + LOMTConstant.EMPTY_SPACE + "LOMT-338");
+				+ LOMTConstant.COMMA + LOMTConstant.EMPTY_SPACE + "LOMT-338"+ LOMTConstant.COMMA
+				+ LOMTConstant.EMPTY_SPACE + "LOMT-1857");
 		
 		boolean browseFlag = school.schoolGlobalBrowsePage();
 		if (browseFlag) {
@@ -44,6 +45,7 @@ public class SchoolTestScript {
 			logger.log(LogStatus.PASS, TestCases.TC_LOMT_09_04_INGESTIONPAGE_UI);
 			
 			logger.log(LogStatus.PASS, "TC-LOMT-338-01_Admin_Access_ Ingestion page.");
+			
 		} else {
 			logger.log(LogStatus.FAIL, TestCases.TC_LOMT_09_02_INGESTIONPAGE_ADMINUSER);
 			logger.log(LogStatus.FAIL, "TC-LOMT-338-01_Admin_Access_ Ingestion page.");
@@ -85,6 +87,8 @@ public class SchoolTestScript {
 			logger.log(LogStatus.PASS, TestCases.TC_LOMT_09_16_ENTERVALUE_ALLFIELDS);
 			logger.log(LogStatus.PASS, TestCases.TC_LOMT_09_17_NEXTBTN_VALUEENTERD_ALLFIELDS);
 			logger.log(LogStatus.PASS, TestCases.TC_LOMT_09_18_NEXTBTN_VALUEIN_MANDETORYFIELDS);
+			logger.log(LogStatus.PASS, TestCases.TC_LOMT_1857_01_BASIC_USER_INGESTION);
+			logger.log(LogStatus.PASS, TestCases.TC_LOMT_1857_02_ADMIN_INGESTION);
 		} else {
 			logger.log(LogStatus.FAIL, TestCases.TC_LOMT_09_12_ALL_METADATA_FIELDS);
 			logger.log(LogStatus.FAIL, TestCases.TC_LOMT_09_13_MANDATORY_METADATA_FIELDS);
@@ -93,6 +97,7 @@ public class SchoolTestScript {
 			logger.log(LogStatus.FAIL, TestCases.TC_LOMT_09_16_ENTERVALUE_ALLFIELDS);
 			logger.log(LogStatus.FAIL, TestCases.TC_LOMT_09_17_NEXTBTN_VALUEENTERD_ALLFIELDS);
 			logger.log(LogStatus.FAIL, TestCases.TC_LOMT_09_18_NEXTBTN_VALUEIN_MANDETORYFIELDS);
+			logger.log(LogStatus.FAIL, TestCases.TC_LOMT_1857_02_ADMIN_INGESTION);
 			System.exit(0);
 		}
 		
@@ -189,7 +194,6 @@ public class SchoolTestScript {
 	}
 	
 	//@Test(priority = 3)
-	@Ignore
 	public void reIngestionSchoolCurriculum() {
 		logger = reports.startTest("School Global Curriculum Standard Re-ingestion, LOMT-947, Total TCs is 10");
 		
@@ -225,7 +229,7 @@ public class SchoolTestScript {
 		reports.flush();
 	}
 	
-	@Test(priority = 3/*4*/)
+	@Test(priority = 4)
 	public void tearDown() {
 		school.closeDriverInstance();	
 	}
