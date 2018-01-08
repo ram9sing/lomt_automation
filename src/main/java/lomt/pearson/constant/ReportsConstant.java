@@ -4,10 +4,11 @@ public class ReportsConstant {
 	
 	public static String INDIRECT_TEXT = "Indirect";
 	public static String FORWARD_INDIRECT_INT_REPORT_FILE_NAME = "Forward (Indirect) Intermediary Report";
+	public static String PRODUCT_INT_TEXT = "Product (ToC) Intermediary Report";
 	
 	//Forward Indirect Intermediary Report
 	public static String TITLE = "Title";
-	public static String DATA_TIME_GENERATION = "Date / time of generation";
+	public static String DATE_TIME_GENERATION = "Date / time of generation";
 	public static String USER = "User";
 	public static String STANDARD = "Standard";
 	public static String INTERMEDIARY = "Intermediary";
@@ -25,6 +26,29 @@ public class ReportsConstant {
 	public static String CODE = "Code";
 	public static String DESCRIPTION = "Description";
 	public static String SPANISH_DESCRIPTION = "Spanish Description";
+	
+	//Product ToC Intermediary Report
+	public static String ALIGNMENTS = "Alignments";
+	public static String CENTRAL = "Central";
+	public static String PERIPHERAL = "Peripheral";
+	public static String CENTRAL_PERIPHERAL = "Central,Peripheral";
+	public static String CONTENT = "Content";
+	public static String PROGRAM = "Program";
+	public static String COURSE = "Course";
+	public static String PRODUCT = "Product";
+	public static String GEOGRAPHIC_AREA_OR__COUNTRY = "Geographic Area or Country";
+	public static String STATE_OR_REGION = "State or Region";
+	public static String START_GRADE = "Start Grade";
+	public static String END_GRADE = "End Grade";
+	public static String ISBN10 = "ISBN10";
+	public static String ISBN13 = "ISBN13";
+	public static String TYPE = "Type";
+	public static String URN = "URN";
+	public static String ALFRESCO_OBJECT_ID = "Alfresco Object ID";
+	public static String COMPONENT_TOC = "Component ToC";
+	public static String START_PAGE = "Page Start";
+	public static String END_PAGE = "Page End";
+	public static String PERIPHERAL_ALIGNMENTS = "Peripheral Alignments";	
 	
 	public static String DATA_FORMAT = "dd/MM/yyyy HH:mm:ss";
 	

@@ -266,6 +266,50 @@ public class Reports extends BaseClass {
 		return flag;
 	}
 	
+	public boolean productToCIntermediaryReport() {
+		boolean flag = false;
+		WebDriverWait wait = new WebDriverWait(driver, 120);
+		JavascriptExecutor jse = (JavascriptExecutor) driver;
+		try {
+			commonPOM.getSchoolGlobalLOB().click();
+			if (reportsPOM.getReportsExportLink().isDisplayed()) {
+				reportsPOM.getReportsExportLink().click();
+				wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+				if (reportsPOM.getRepotCountText().getText().contains("Showing")) {
+					
+					reportsPOM.getEnterSearchTerm().sendKeys(ReportsConstant.PRODUCT_INT_TEXT);
+					reportsPOM.getUpdateResult().click();
+					//wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+					Thread.sleep(10000);
+					if (reportsPOM.getRepotCountText().getText().contains("Showing")) {
+						removeExistingFile();
+						
+						jse.executeScript("window.scrollBy(0,300)");
+						reportsPOM.getReportActionLink().click();
+						reportsPOM.getReportExportButton().click();
+						wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+						jse.executeScript("window.scrollBy(0,-500)");
+						commonPOM.getPearsonLogo().click();
+						flag = true;
+					}
+				} else {
+					//create new reports Forward Indirect Intermediary Report
+					createAndDownloadReport();
+					flag = true;
+				}
+				
+			} else {
+				flag = false;
+				return flag;
+			}
+		} catch (Exception e) {
+			flag = false;
+			e.printStackTrace();
+			return flag;
+		}
+		return flag;
+	}
+	
 	public void searchAndExportForwardIndirectIntermediaryReport() {
 		JavascriptExecutor jse = (JavascriptExecutor) driver;
 		WebDriverWait wait = new WebDriverWait(driver, 120);
@@ -317,13 +361,38 @@ public class Reports extends BaseClass {
 		return forwardIIRepMap;
 	}
 	
+	public Map<String, List<String>> verifyProductToCIntermediaryReport() {
+		Map<String, List<String>> productTIRepMap = new LinkedHashMap<String, List<String>>();
+		InputStream inputStream = null;
+		XSSFWorkbook workbook = null;
+		XSSFSheet worksheet = null;
+		try {
+			String fileName = getFileFromDirectory(LOMTConstant.EXPORTED_FILE_PATH);
+			File productTIReportExpFile = new File(LOMTConstant.EXPORTED_FILE_PATH + fileName);
+			
+			inputStream =  new FileInputStream(productTIReportExpFile);
+			workbook = new XSSFWorkbook(inputStream);
+			worksheet = workbook.getSheetAt(0);
+			boolean headerFlag = verifyProductToCIntermediaryReportHeaders(worksheet);
+			if(headerFlag) {
+				getCurriculumStandardAndIntermediaryDataFromExportedSheet(worksheet, productTIRepMap);
+			}
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return productTIRepMap;
+	}
+	
+	
 	public boolean verifyForwardIIReportHeaders(XSSFSheet worksheet) {
 		boolean flag = false;
 		try {
 			assertEquals(worksheet.getRow(LOMTConstant.ZERO).getCell(LOMTConstant.ZERO).getStringCellValue(), ReportsConstant.TITLE);
 			assertNotNull(worksheet.getRow(LOMTConstant.ZERO).getCell(LOMTConstant.ONE).getStringCellValue());
 			
-			assertEquals(worksheet.getRow(LOMTConstant.ONE).getCell(LOMTConstant.ZERO).getStringCellValue().trim(), ReportsConstant.DATA_TIME_GENERATION.trim());
+			assertEquals(worksheet.getRow(LOMTConstant.ONE).getCell(LOMTConstant.ZERO).getStringCellValue().trim(), ReportsConstant.DATE_TIME_GENERATION.trim());
 			assertTrue(isValidFormat(worksheet.getRow(LOMTConstant.ONE).getCell(LOMTConstant.ZERO).getStringCellValue().trim()));
 				
 			assertEquals(worksheet.getRow(LOMTConstant.TWO).getCell(LOMTConstant.ZERO).getStringCellValue().trim(), ReportsConstant.USER.trim());
@@ -364,6 +433,82 @@ public class Reports extends BaseClass {
 			assertEquals(worksheet.getRow(LOMTConstant.TEN).getCell(LOMTConstant.TEN).getStringCellValue(), ReportsConstant.CODE);
 			assertEquals(worksheet.getRow(LOMTConstant.TEN).getCell(LOMTConstant.ELEVENTH).getStringCellValue(), ReportsConstant.DESCRIPTION);
 			assertEquals(worksheet.getRow(LOMTConstant.TEN).getCell(LOMTConstant.TWELEVE).getStringCellValue(), ReportsConstant.SPANISH_DESCRIPTION);
+			flag = true;
+		} catch (Exception e) {
+			flag = false;
+			e.printStackTrace();
+			return flag;
+		}
+		return flag;
+	}
+	
+	public boolean verifyProductToCIntermediaryReportHeaders(XSSFSheet worksheet) {
+		boolean flag = false;
+		try {
+			assertEquals(worksheet.getRow(LOMTConstant.ZERO).getCell(LOMTConstant.ZERO).getStringCellValue(), ReportsConstant.TITLE);
+			assertNotNull(worksheet.getRow(LOMTConstant.ZERO).getCell(LOMTConstant.ONE).getStringCellValue());
+			
+			assertEquals(worksheet.getRow(LOMTConstant.ONE).getCell(LOMTConstant.ZERO).getStringCellValue().trim(), ReportsConstant.USER.trim());
+			assertTrue(worksheet.getRow(LOMTConstant.ONE).getCell(LOMTConstant.ONE).getStringCellValue().equalsIgnoreCase(ReportsConstant.ADMIN_USER_COMMON)
+					|| worksheet.getRow(LOMTConstant.ONE).getCell(LOMTConstant.ONE).getStringCellValue().equalsIgnoreCase(ReportsConstant.ADMIN_USER_PPE)
+					|| worksheet.getRow(LOMTConstant.ONE).getCell(LOMTConstant.ONE).getStringCellValue().equalsIgnoreCase(ReportsConstant.LEARNING_USER_PPE)
+					|| worksheet.getRow(LOMTConstant.ONE).getCell(LOMTConstant.ONE).getStringCellValue().equalsIgnoreCase(ReportsConstant.SME_USER)
+					|| worksheet.getRow(LOMTConstant.ONE).getCell(LOMTConstant.ONE).getStringCellValue().equalsIgnoreCase(ReportsConstant.EDITOR_USER) );
+			
+			assertEquals(worksheet.getRow(LOMTConstant.TWO).getCell(LOMTConstant.ZERO).getStringCellValue().trim(), ReportsConstant.DATE_TIME_GENERATION.trim());
+			assertTrue(isValidFormat(worksheet.getRow(LOMTConstant.TWO).getCell(LOMTConstant.ZERO).getStringCellValue().trim()));
+				
+			assertEquals(worksheet.getRow(LOMTConstant.THREE).getCell(LOMTConstant.ZERO).getStringCellValue().trim(), ReportsConstant.ALIGNMENTS);
+			assertTrue(worksheet.getRow(LOMTConstant.THREE).getCell(LOMTConstant.ONE).getStringCellValue().equalsIgnoreCase(ReportsConstant.CENTRAL_PERIPHERAL)
+					|| worksheet.getRow(LOMTConstant.THREE).getCell(LOMTConstant.ONE).getStringCellValue().equalsIgnoreCase(ReportsConstant.CENTRAL)
+					|| worksheet.getRow(LOMTConstant.THREE).getCell(LOMTConstant.ONE).getStringCellValue().equalsIgnoreCase(ReportsConstant.PERIPHERAL)	);
+			
+			assertEquals(worksheet.getRow(LOMTConstant.FIVE).getCell(LOMTConstant.ZERO).getStringCellValue().trim(), ReportsConstant.CONTENT);
+			assertEquals(worksheet.getRow(LOMTConstant.FIVE).getCell(LOMTConstant.SEVEN).getStringCellValue().trim(), ReportsConstant.INTERMEDIARY);
+			
+			assertEquals(worksheet.getRow(LOMTConstant.SIX).getCell(LOMTConstant.ZERO).getStringCellValue().trim(), ReportsConstant.PROGRAM);
+			assertEquals(worksheet.getRow(LOMTConstant.SIX).getCell(LOMTConstant.SEVEN).getStringCellValue().trim(), ReportsConstant.DISCIPLINE);
+			assertNotNull(worksheet.getRow(LOMTConstant.SIX).getCell(LOMTConstant.EIGHT).getStringCellValue());
+			
+			assertEquals(worksheet.getRow(LOMTConstant.SEVEN).getCell(LOMTConstant.ZERO).getStringCellValue(), ReportsConstant.COURSE);
+			assertNotNull(worksheet.getRow(LOMTConstant.SEVEN).getCell(LOMTConstant.ONE).getStringCellValue());
+			
+			assertEquals(worksheet.getRow(LOMTConstant.EIGHT).getCell(LOMTConstant.ZERO).getStringCellValue(), ReportsConstant.PRODUCT);
+			assertNotNull(worksheet.getRow(LOMTConstant.EIGHT).getCell(LOMTConstant.ONE).getStringCellValue());
+			
+			assertEquals(worksheet.getRow(LOMTConstant.NINE).getCell(LOMTConstant.ZERO).getStringCellValue(), ReportsConstant.GEOGRAPHIC_AREA_OR__COUNTRY);
+			//assertNotNull(worksheet.getRow(LOMTConstant.NINE).getCell(LOMTConstant.ONE).getStringCellValue());
+			
+			assertEquals(worksheet.getRow(LOMTConstant.TEN).getCell(LOMTConstant.ZERO).getStringCellValue(), ReportsConstant.STATE_OR_REGION);
+			//assertNotNull(worksheet.getRow(LOMTConstant.TEN).getCell(LOMTConstant.ONE).getStringCellValue());
+			
+			assertEquals(worksheet.getRow(LOMTConstant.ELEVENTH).getCell(LOMTConstant.ZERO).getStringCellValue(), ReportsConstant.START_GRADE);
+			//assertNotNull(worksheet.getRow(LOMTConstant.ELEVENTH).getCell(LOMTConstant.ONE).getStringCellValue());
+			
+			assertEquals(worksheet.getRow(LOMTConstant.TWELEVE).getCell(LOMTConstant.ZERO).getStringCellValue(), ReportsConstant.END_GRADE);
+			//assertNotNull(worksheet.getRow(LOMTConstant.TWELEVE).getCell(LOMTConstant.ONE).getStringCellValue());
+			
+			assertEquals(worksheet.getRow(LOMTConstant.THIRTEEN).getCell(LOMTConstant.ZERO).getStringCellValue(), ReportsConstant.ISBN10);
+			//assertNotNull(worksheet.getRow(LOMTConstant.THIRTEEN).getCell(LOMTConstant.ONE).getStringCellValue());
+			
+			assertEquals(worksheet.getRow(LOMTConstant.FOURTEEN).getCell(LOMTConstant.ZERO).getStringCellValue(), ReportsConstant.ISBN13);
+			//assertNotNull(worksheet.getRow(LOMTConstant.FOURTEEN).getCell(LOMTConstant.ONE).getStringCellValue());
+			
+			assertEquals(worksheet.getRow(LOMTConstant.FIFTEEN).getCell(LOMTConstant.ZERO).getStringCellValue(), ReportsConstant.TYPE);
+			//assertNotNull(worksheet.getRow(LOMTConstant.FIFTEEN).getCell(LOMTConstant.ONE).getStringCellValue());			
+			
+			assertEquals(worksheet.getRow(LOMTConstant.SEVENTEEN).getCell(LOMTConstant.ZERO).getStringCellValue(), ReportsConstant.URN);
+			assertEquals(worksheet.getRow(LOMTConstant.SEVENTEEN).getCell(LOMTConstant.ONE).getStringCellValue(), ReportsConstant.ALFRESCO_OBJECT_ID);
+			assertEquals(worksheet.getRow(LOMTConstant.SEVENTEEN).getCell(LOMTConstant.TWO).getStringCellValue(), ReportsConstant.COMPONENT_TOC);
+			assertEquals(worksheet.getRow(LOMTConstant.SEVENTEEN).getCell(LOMTConstant.THREE).getStringCellValue(), ReportsConstant.START_PAGE);
+			assertEquals(worksheet.getRow(LOMTConstant.SEVENTEEN).getCell(LOMTConstant.FOUR).getStringCellValue(), ReportsConstant.END_PAGE);
+			assertEquals(worksheet.getRow(LOMTConstant.SEVENTEEN).getCell(LOMTConstant.FIVE).getStringCellValue(), ReportsConstant.PERIPHERAL_ALIGNMENTS);
+			assertTrue(worksheet.getRow(LOMTConstant.SEVENTEEN).getCell(LOMTConstant.SIX).getStringCellValue().isEmpty());
+			assertEquals(worksheet.getRow(LOMTConstant.SEVENTEEN).getCell(LOMTConstant.SEVEN).getStringCellValue(), ReportsConstant.INTERMEDIARY_URN);
+			assertEquals(worksheet.getRow(LOMTConstant.SEVENTEEN).getCell(LOMTConstant.EIGHT).getStringCellValue(), ReportsConstant.SUBJECT);
+			assertEquals(worksheet.getRow(LOMTConstant.SEVENTEEN).getCell(LOMTConstant.NINE).getStringCellValue(), ReportsConstant.CODE);
+			assertEquals(worksheet.getRow(LOMTConstant.SEVENTEEN).getCell(LOMTConstant.TEN).getStringCellValue(), ReportsConstant.DESCRIPTION);
+			assertEquals(worksheet.getRow(LOMTConstant.SEVENTEEN).getCell(LOMTConstant.ELEVENTH).getStringCellValue(), ReportsConstant.SPANISH_DESCRIPTION);
 			flag = true;
 		} catch (Exception e) {
 			flag = false;
