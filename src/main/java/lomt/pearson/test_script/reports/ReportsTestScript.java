@@ -56,6 +56,7 @@ public class ReportsTestScript {
 		logger = reports.startTest("Product (ToC) Intermediary Report, LOMT-1762");
 		
 		//Admin user
+		report.createAndDownloadReport1();
 		boolean reportFlag = report.productToCIntermediaryReport();
 		if(reportFlag) {
 			Map<String, List<String>> productTIRepMap = report.verifyProductToCIntermediaryReport();

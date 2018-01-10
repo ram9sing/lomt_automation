@@ -50,7 +50,7 @@ public class ReportsPOM {
 	@FindBy(xpath = "//div[@id='react-tabs-3']/div[2]/div[1]/div[1]/span")
 	private WebElement reverseToCStandardintermediaryReport;
 	
-	@FindBy(xpath = "//div[@id='react-tabs-3']/div[2]/div[2]/div[1]/span")
+	@FindBy(xpath = "//div[@id='react-tabs-1']/div[2]/div[2]/div[1]/span")
 	private WebElement productToCIntermediaryReport;
 	
 	@FindBy(xpath = "//div[@id='react-tabs-3']/div[2]/div[3]/div[1]/span")

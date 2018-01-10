@@ -5,6 +5,9 @@ public class ReportsConstant {
 	public static String INDIRECT_TEXT = "Indirect";
 	public static String FORWARD_INDIRECT_INT_REPORT_FILE_NAME = "Forward (Indirect) Intermediary Report";
 	public static String PRODUCT_INT_TEXT = "Product (ToC) Intermediary Report";
+	public static String INGESTED_PRODUCT = "Automation_Ingested_Product";
+	public static String INGESTED_INTERMEDIARY = "Economics";
+	public static String INGESTED_STANDARD_YEAR = "1234";
 	
 	//Forward Indirect Intermediary Report
 	public static String TITLE = "Title";
