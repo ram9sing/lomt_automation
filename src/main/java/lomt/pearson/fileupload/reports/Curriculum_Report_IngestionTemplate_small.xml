@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MSS id="1ABABFA209202-asx309202-11E209202-90F809202-C8549DFF4B22156pol7890crtqq1q1q2RGE">
+<TIMESTAMP>2017-12-19 10:55:42</TIMESTAMP><STATE code='AR'>Arkansas</STATE><TITLE>Automation Test Report</TITLE><SOURCE>http://www.arkansased.gov/divisions/learning-services/curriculum-and-instruction/curriculum-framework-documents/english-language-arts</SOURCE><SUBJECT code="LANG" seq="10">English Language Arts</SUBJECT><YEAR>2015</YEAR>
+<STANDARD id="B458F7F2-D959-11E2-9C66-33FC9CFF4B22"><GRADE lo="K" hi="12" seq="350" code="K12">Automation Report Test</GRADE>
+<TOPIC id="FC30E83E-D90C-11E2-8CB5-43E6D51F4EFC" state_num="W" label="Strand" seq="20" level="1" placeholder="N" linkable="N">TEST 1<TOPIC id="FC6D6A20-D90C-11E2-8CB5-43E6D51F4EFC" parent_id="FC30E83E-D90C-11E2-8CB5-43E6D51F4EFC" seq="21" level="2" placeholder="N" linkable="N">Text Types and Purposes<EXTENDEDTOPIC>These broad types of writing include many subgenres.</EXTENDEDTOPIC><TOPIC id="FD5F1230-D90C-11E2-8CB5-43E6D51F4EFC" parent_id="FC6D6A20-D90C-11E2-8CB5-43E6D51F4EFC" state_num="W.1" raw_state_num="1" label="Anchor Standard" seq="22" level="3" placeholder="N" linkable="Y">Write arguments to support claims in an analysis of substantive topics or texts, using valid reasoning and relevant and sufficient evidence.</TOPIC>
+</TOPIC>
+</TOPIC>
+<TOPIC id="FC36A684-D90C-11E2-8CB5-43E6D51F4EFC" state_num="SL" label="Strand" seq="38" level="1" placeholder="N" linkable="N">TEST 2<TOPIC id="FCA8C4DA-D90C-11E2-8CB5-43E6D51F4EFC" parent_id="FC36A684-D90C-11E2-8CB5-43E6D51F4EFC" seq="39" level="2" placeholder="N" linkable="N">Comprehension and Collaboration<TOPIC id="FDF86282-D90C-11E2-8CB5-43E6D51F4EFC" parent_id="FCA8C4DA-D90C-11E2-8CB5-43E6D51F4EFC" state_num="SL.1" raw_state_num="1" label="Anchor Standard" seq="40" level="3" placeholder="N" linkable="Y">Prepare for and participate effectively in a range of conversations and collaborations with diverse partners, building on others&#8217; ideas and expressing their own clearly and persuasively.</TOPIC>
+</TOPIC>
+</TOPIC>
+<TOPIC id="FC3AEE06-D90C-11E2-8CB5-43E6D51F4EFC" state_num="L" label="Strand" seq="52" level="1" placeholder="N" linkable="N">TEST 3<TOPIC id="FCCF1D1A-D90C-11E2-8CB5-43E6D51F4EFC" parent_id="FC3AEE06-D90C-11E2-8CB5-43E6D51F4EFC" seq="53" level="2" placeholder="N" linkable="N">Conventions of Standard English<TOPIC id="FE5A2968-D90C-11E2-8CB5-43E6D51F4EFC" parent_id="FCCF1D1A-D90C-11E2-8CB5-43E6D51F4EFC" state_num="L.1" raw_state_num="1" label="Anchor Standard" seq="54" level="3" placeholder="N" linkable="Y">Demonstrate command of the conventions of standard English grammar and usage when writing or speaking.</TOPIC>
+</TOPIC>
+</TOPIC>
+<TOPIC id="FC3AEE06-D90C-11E2-8CB5-43E6D51F4EFC" state_num="L" label="Strand" seq="52" level="1" placeholder="N" linkable="N">TEST 4<TOPIC id="FCCF1D1A-D90C-11E2-8CB5-43E6D51F4EFC" parent_id="FC3AEE06-D90C-11E2-8CB5-43E6D51F4EFC" seq="53" level="2" placeholder="N" linkable="N">Conventions of Standard English<TOPIC id="FE5A2968-D90C-11E2-8CB5-43E6D51F4EFC" parent_id="FCCF1D1A-D90C-11E2-8CB5-43E6D51F4EFC" state_num="L.1" raw_state_num="1" label="Anchor Standard" seq="54" level="3" placeholder="N" linkable="Y">Abc</TOPIC>
+</TOPIC>
+</TOPIC>
+</STANDARD>
+
+</MSS>
