@@ -1,5 +1,9 @@
 package lomt.pearson.api.nals_sg;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.assertTrue;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -39,8 +43,8 @@ import lomt.pearson.page_object.SchoolPOM;
 public class School extends BaseClass {
 	
 	private String environment = LoadPropertiesFile.getPropertiesValues(LOMTConstant.LOMT_ENVIRONMENT);
-	private String userName = LoadPropertiesFile.getPropertiesValues(LOMTConstant.USER_NAME);  //PPE admin user
-	//private String userName = LoadPropertiesFile.getPropertiesValues(LOMTConstant.USER_NAME_TEST);
+	//private String userName = LoadPropertiesFile.getPropertiesValues(LOMTConstant.USER_NAME);  //PPE admin user
+	private String userName = LoadPropertiesFile.getPropertiesValues(LOMTConstant.USER_NAME_TEST);
 	private String pwd = LoadPropertiesFile.getPropertiesValues(LOMTConstant.PASSWORD);
 	
 	private WebDriver driver;
@@ -154,6 +158,22 @@ public class School extends BaseClass {
 				return flag;
 			}
 			
+			//Country selection, as per JIRA: LOMT-1779
+			schoolPOM.getCountryDropdown().click();
+			Thread.sleep(6000);
+			List<WebElement> countryList = schoolPOM.getCountryDropdownList();
+			int countryLength = countryList.size();
+			if (countryLength > 0) {
+				for (int i = 0; i <= countryLength; i++) {
+					WebElement element = countryList.get(i);
+					if (element.getText().equalsIgnoreCase(SchoolConstant.UNITIED_STATES)) {
+						element.click();
+						flag = true;
+						break;
+					}
+				}
+			}
+			
 			//Authority Selection, pick authority name, 
 			schoolPOM.getAuthorityDropdown().click();
 			Thread.sleep(6000);
@@ -195,13 +215,13 @@ public class School extends BaseClass {
 			//Adopted Year Selection
 			schoolPOM.getAdoptedYear().sendKeys(String.valueOf(year));
 			
+			//Source URL
+			schoolPOM.getCsSourceURL().sendKeys(SchoolConstant.CS_SOURCE_URL);
+			
+			//Curriculum Info URL
+			schoolPOM.getCsInfoURL().sendKeys(SchoolConstant.CS_INFO_URL);
+			
 			jse.executeScript("window.scrollBy(0,500)");
-			
-			//Source URL selection
-			schoolPOM.getSourceUrl().sendKeys(String.valueOf(environment));
-			
-			//Curriculum Info URL selection
-			schoolPOM.getCurriculumInfoUrl().sendKeys(String.valueOf(environment));
 			
 			commonPOM.getNextButton().click();
 		} catch (Exception e) {
@@ -226,7 +246,7 @@ public class School extends BaseClass {
 			if (subjectLength > 0) {
 				for (int i = 0; i <= subjectLength; i++) {
 					WebElement element = subjectList.get(i);
-					if (element.getText()!= null && counter == 1) {
+					if (element.getText()!= null && counter == 2) {
 						element.click();
 						flag = true;
 						counter = 0;
@@ -239,6 +259,22 @@ public class School extends BaseClass {
 				return flag;
 			}
 			
+			//Country selection, as per JIRA: LOMT-1779
+			schoolPOM.getCountryDropdown().click();
+			Thread.sleep(6000);
+			List<WebElement> countryList = schoolPOM.getCountryDropdownList();
+			int countryLength = countryList.size();
+			if (countryLength > 0) {
+				for (int i = 0; i <= countryLength; i++) {
+					WebElement element = countryList.get(i);
+					if (element.getText().equalsIgnoreCase(SchoolConstant.UNITIED_STATES)) {
+						element.click();
+						flag = true;
+						break;
+					}
+				}
+			}
+			
 			//Authority Selection, pick authority name, 
 			schoolPOM.getAuthorityDropdown().click();
 			Thread.sleep(6000);
@@ -247,7 +283,7 @@ public class School extends BaseClass {
 			if (aLength > 0) {
 				for (int i = 0; i <= aLength; i++) {
 					WebElement element = authorityList.get(i);
-					if (element.getText()!= null && counter == 1) {
+					if (element.getText()!= null && counter == 2) {
 						element.click();
 						flag = true;
 						counter = 0;
@@ -268,7 +304,7 @@ public class School extends BaseClass {
 			if (csLength > 0) {
 				for (int i = 0; i <= csLength; i++) {
 					WebElement element = curriculumSetList.get(i);
-					if (element.getText()!= null && counter == 1) {
+					if (element.getText()!= null && counter == 2) {
 						element.click();
 						flag = true;
 						counter = 0;
@@ -284,13 +320,13 @@ public class School extends BaseClass {
 			//Adopted Year Selection
 			schoolPOM.getAdoptedYear().sendKeys(String.valueOf(year));
 			
+			//Source URL
+			schoolPOM.getCsSourceURL().sendKeys(SchoolConstant.CS_SOURCE_URL_REINGESTION);
+			
+			//Curriculum Info URL
+			schoolPOM.getCsInfoURL().sendKeys(SchoolConstant.CS_INFO_URL_REINGESTION);
+			
 			jse.executeScript("window.scrollBy(0,500)");
-			
-			//Source URL selection
-			schoolPOM.getSourceUrl().sendKeys(String.valueOf(environment));
-			
-			//Curriculum Info URL selection
-			schoolPOM.getCurriculumInfoUrl().sendKeys(String.valueOf(environment));
 			
 			commonPOM.getNextButton().click();
 		} catch (Exception e) {
@@ -307,7 +343,7 @@ public class School extends BaseClass {
 		boolean flag = false;
 		try {
 			commonPOM.getUploadFileLink().click();
-			//Thread.sleep(2000);
+			Thread.sleep(2000);
 			
 			Runtime.getRuntime().exec(SchoolConstant.SCHOOL_CURRICULUM_FILE_PATH);
 			
@@ -377,48 +413,58 @@ public class School extends BaseClass {
 		return flag;
 	}
 	
-	public boolean verifyingestedDataUI(boolean ingestionFlag, int year) {
+	public boolean verifyingestedDataUI(boolean ingestionFlag, int year, ExtentTest logger) {
 		boolean flag = false;
 		
 		JavascriptExecutor jse = (JavascriptExecutor) driver;
-		WebDriverWait wait1 = new WebDriverWait(driver, 600);
+		WebDriverWait wait1 = new WebDriverWait(driver, 180);
 		try {
 			if (ingestionFlag) {
 				commonPOM.getSchoolGlobalLOB().click();
 				schoolPOM.getCurriculumSt().click();
-				//Thread.sleep(15000);
 				wait1.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
 				
-				//exfPOM.getEnterSearchTerm().sendKeys(String.valueOf(year)); // CSS changed
 				schoolPOM.getEnterEnterSearch().sendKeys(String.valueOf(year));
 				Thread.sleep(1000);
 				
-				//exfPOM.getUpdateResultButton().click(); cc changed
 				schoolPOM.getSchoolUpdateResultButton().click();
-				//Thread.sleep(10000);
 				wait1.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
 				
 				schoolPOM.getEnterEnterSearch().clear();
 				jse.executeScript("window.scrollBy(0,350)");
 				
 				if(schoolPOM.getResultFound().getText().contains("Showing")) {
+					String csGoalframeworkTitle = schoolPOM.getCurriculumGoalFramework().getText();
 					schoolPOM.getCurriculumGoalFramework().click();
 					wait1.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+					
+					//Meta Data Verification
+					verifyGoalframeworkMetaData(jse, csGoalframeworkTitle, logger);
 					
 					jse.executeScript("window.scrollBy(0,300)");
 					
 					List<String> list = SchoolConstant.getCurrilumTestData();
 					for (String data : list) {
 						schoolPOM.getInnerEnterSearch().sendKeys(data);
-						Thread.sleep(1000);
 						
 						schoolPOM.getSchoolInnerUpdateResultButton().click();				
 						//Thread.sleep(10000);
 						wait1.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
-						if (schoolPOM.getInnerResultFound().getText().contains("Found Results")) {
+						List<WebElement> webElement  =  schoolPOM.getParentChildList();
+						if (!webElement.isEmpty()) {
+							Iterator<WebElement> itr = webElement.iterator();
+							while (itr.hasNext()) {
+								WebElement childStructureElement = 	itr.next();
+								String structureName = childStructureElement.getText();
+								if (structureName.contains(data)) {
+									flag = true;
+									continue;
+								} else {
+									flag = false;
+									return flag;
+								}
+							}
 							schoolPOM.getInnerEnterSearch().clear();
-							flag = true;
-							continue;
 						} else {
 							flag = false;
 							return flag;
@@ -443,6 +489,74 @@ public class School extends BaseClass {
 			jse.executeScript("window.scrollBy(0,-1000)");
 			commonPOM.getPearsonLogo().click();
 		} catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void verifyGoalframeworkMetaData(JavascriptExecutor jse, String goalframeworkTitle, ExtentTest logger) {
+		try {
+			jse.executeScript("window.scrollBy(0,-500)");
+			
+			int i = goalframeworkTitle.indexOf("(");
+			String csGoalframework = goalframeworkTitle.substring(0, i);
+			
+			assertEquals(csGoalframework.trim(), schoolPOM.getGoalframeworkHeaderTitle().getText());			
+			assertTrue(SchoolConstant.CS_METADATA.equalsIgnoreCase(schoolPOM.getCSMetaDataArrowAndText().getText().trim()));
+			
+			schoolPOM.getCSMetaDataArrowAndText().click();
+			Thread.sleep(1000);
+			assertTrue(SchoolConstant.URN.equalsIgnoreCase(schoolPOM.getUrnLevel().getText().trim()));
+			assertNotNull(schoolPOM.getUrnLevelVal().getText());
+			
+			assertTrue(SchoolConstant.TITLE.equalsIgnoreCase(schoolPOM.getTitleLevel().getText().trim()));
+			assertNotNull(schoolPOM.getTitleLevelVal().getText());
+			
+			assertTrue((SchoolConstant.DESCRIPTION.equalsIgnoreCase(schoolPOM.getDescriptionLevel().getText().trim())));
+			
+			assertTrue(SchoolConstant.DEFINED_BY.equalsIgnoreCase(schoolPOM.getDefinedByLevel().getText().trim()));
+			assertNotNull(schoolPOM.getDefinedByLevelVal().getText());
+			
+			assertTrue(SchoolConstant.DEFINED_BY.equalsIgnoreCase(schoolPOM.getDefinedByLevel().getText().trim()));
+			assertNotNull(schoolPOM.getDefinedByLevelVal().getText());
+			
+			assertTrue(SchoolConstant.SUBJECT.equalsIgnoreCase(schoolPOM.getSubjectLevel().getText().trim()));
+			assertNotNull(schoolPOM.getSubjectLevelVal().getText());
+			
+			assertTrue(SchoolConstant.COUNTRY.equalsIgnoreCase(schoolPOM.getCountryLevel().getText().trim()));
+			assertNotNull(schoolPOM.getCountryLevelVal().getText());
+			
+			assertTrue(SchoolConstant.ISSUE_DATE.equalsIgnoreCase(schoolPOM.getIssueDateLevel().getText().trim()));
+			assertNotNull(schoolPOM.getSetsLevel().getText());
+			
+			assertTrue(SchoolConstant.SETS.equalsIgnoreCase(schoolPOM.getSetsLevel().getText().trim()));
+			assertNotNull(schoolPOM.getSetsLevelVal().getText());
+			
+			assertTrue(SchoolConstant.STATUS.equalsIgnoreCase(schoolPOM.getStatusLevel().getText().trim()));
+			assertNotNull(schoolPOM.getStatusLevelVal().getText());
+			
+			assertTrue(SchoolConstant.FRAMEWORK_LEVEL.equalsIgnoreCase(schoolPOM.getFrameworkLevel().getText().trim()));
+			assertNotNull(schoolPOM.getFrameworkLevelVal().getText());
+			
+			assertTrue(SchoolConstant.LAST_UPDATED.equalsIgnoreCase(schoolPOM.getLastUpdatedLevel().getText().trim()));
+			assertNotNull(schoolPOM.getLastUpdatedLevelVal().getText());
+			
+			assertTrue(SchoolConstant.INGESTION_TYPE.equalsIgnoreCase(schoolPOM.getIngestionTypeLevel().getText().trim()));
+			assertNotNull(schoolPOM.getIngestionTypeLevelVal().getText());
+			
+			assertTrue(SchoolConstant.SOURCE_URL.equalsIgnoreCase(schoolPOM.getSourceURLLevel().getText().trim()));
+			assertNotNull(schoolPOM.getSourceURLLevelVal().getText());
+			
+			assertTrue(SchoolConstant.CURRICULUM_INFO_URL.equalsIgnoreCase(schoolPOM.getCurriculumInfoLevel().getText().trim()));
+			assertNotNull(schoolPOM.getCurriculumInfoLevelVal().getText());
+			
+			schoolPOM.getCSMetaDataArrowAndText().click();
+			Thread.sleep(1000);
+			
+			logger.log(LogStatus.PASS, "TC_LOMT-1719 01_Admin_user_School_Global_Curriculum_standard_Detail_Metadata");
+			logger.log(LogStatus.PASS, "TC_LOMT-1719 02_Admin_user_School_Global_Curriculum_standard_Detail_Metadata_Collapsed");
+			logger.log(LogStatus.INFO, "TC_LOMT-1719 03_Admin_user_NALS_Curriculum_standard_Detail_Metadata");
+			logger.log(LogStatus.INFO, "TC_LOMT-1719 04_Admin_user_NALS_Curriculum_standard_Detail_Metadata_Collapsed");
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
@@ -883,7 +997,6 @@ public class School extends BaseClass {
 					
 					logger.log(LogStatus.PASS, TestCases.TC_LOMT_947_01_RE_INGEST_CURRICULUM);
 					logger.log(LogStatus.PASS, TestCases.TC_LOMT_947_10_RE_INGEST_UPDATE_NAME);
-					logger.log(LogStatus.PASS, TestCases.TC_LOMT_1857_03_RE_INGEST_VERIFYDATA);
 					
 					jse.executeScript("window.scrollBy(0,-500)");
 					commonPOM.getBackLinkFirst().click();
@@ -891,7 +1004,6 @@ public class School extends BaseClass {
 				} else {
 					logger.log(LogStatus.FAIL, TestCases.TC_LOMT_947_01_RE_INGEST_CURRICULUM);
 					logger.log(LogStatus.FAIL, TestCases.TC_LOMT_947_10_RE_INGEST_UPDATE_NAME);
-					logger.log(LogStatus.FAIL, TestCases.TC_LOMT_1857_03_RE_INGEST_VERIFYDATA);
 					
 					jse.executeScript("window.scrollBy(0,-500)");
 					commonPOM.getBackLinkFirst().click();
@@ -933,7 +1045,7 @@ public class School extends BaseClass {
 					Thread.sleep(1000);
 				}
 			} 
-			//Add new node
+			//Add new node, Standard, Parent and Child Topic
 			else if (useCase.equalsIgnoreCase(SchoolConstant.C_USECASE_3) ) {
 				commonPOM.getUploadFileLink().click();
 				
@@ -997,19 +1109,19 @@ public class School extends BaseClass {
 	public void verifyReingestedDataUI(ExtentTest logger, int yearReingestion) {
 		JavascriptExecutor jse = (JavascriptExecutor) driver;
 		WebDriverWait wait = new WebDriverWait(driver, 300);
-		boolean dataVFlag = true;
+		boolean dataVFlag = false;
 		try {
 			commonPOM.getSchoolGlobalLOB().click();
 			schoolPOM.getCurriculumSt().click();
 
 			wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
-			exfPOM.getEnterSearchTerm().sendKeys(String.valueOf(yearReingestion));
+			schoolPOM.getEnterEnterSearch().sendKeys(String.valueOf(yearReingestion));
 			Thread.sleep(1000);
 			
-			exfPOM.getUpdateResultButton().click();				
+			schoolPOM.getSchoolUpdateResultButton().click();			
 			wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
 			
-			exfPOM.getEnterSearchTerm().clear();
+			schoolPOM.getEnterEnterSearch().clear();
 			jse.executeScript("window.scrollBy(0,350)");
 			
 			if(schoolPOM.getResultFound().getText().contains("Showing")) {
@@ -1017,23 +1129,19 @@ public class School extends BaseClass {
 				wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
 				jse.executeScript("window.scrollBy(0,300)");
 				
-				// compare grades name
-				if (schoolPOM.getGradeText1().getText().contains(SchoolConstant.GRADE_1)) {
+				//Compare Grades description
+				if (schoolPOM.getGradeText1().getText().equalsIgnoreCase(SchoolConstant.GRADE_1)) {
+					dataVFlag = true;
 				} else {
 					dataVFlag = false;
 					logger.log(LogStatus.FAIL, "Curriculum Standard Re-ingestion : Grade name does not match 1");
 				}
 				if (schoolPOM.getGradeText2().getText().contains(SchoolConstant.GRADE_2)) {
+					dataVFlag = true;
 				} else {
 					dataVFlag = false;
 					logger.log(LogStatus.FAIL, "Curriculum Standard Re-ingestion : Grade name does not match 2");
 				}
-				if (schoolPOM.getGradeText3().getText().contains(SchoolConstant.GRADE_3)) {
-				} else {
-					dataVFlag = false;
-					logger.log(LogStatus.FAIL, "Curriculum Standard Re-ingestion : Grade name does not match 2");
-				}
-				//grades comparison end
 				
 				//Parent child description comparison
 				int pcCounter = 1;
@@ -1042,10 +1150,9 @@ public class School extends BaseClass {
 					schoolPOM.getInnerEnterSearch().sendKeys(data);
 					Thread.sleep(1000);
 					
-					//exfPOM.getUpdateResultButton().click();		
 					schoolPOM.getSchoolInnerUpdateResultButton().click();
-					Thread.sleep(10000);
-					//wait1.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+					wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+					
 					List<WebElement> webElement  =  schoolPOM.getParentChildList();
 					if (!webElement.isEmpty()) {
 						Iterator<WebElement> itr = webElement.iterator();
@@ -1053,6 +1160,7 @@ public class School extends BaseClass {
 							WebElement childStructureElement = 	itr.next();
 							String structureName = childStructureElement.getText();
 							if (structureName.contains(data)) {
+								dataVFlag = true;
 								pcCounter++;
 								continue;
 							} else {
@@ -1062,8 +1170,6 @@ public class School extends BaseClass {
 							}
 						}
 						schoolPOM.getInnerEnterSearch().clear();
-						//wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
-						continue;
 					} else {
 						dataVFlag = false;
 						logger.log(LogStatus.FAIL, "Curriculum Standard Re-ingestion : Parent/Child description does not filtered using Enter serach term option"
@@ -1071,14 +1177,14 @@ public class School extends BaseClass {
 					}
 				}
 				
-				//Verifying Newly added node
+				//Verifying Newly added node(Topics)
 				List<String> list1 = SchoolConstant.getCurrilumNewAddedNode();
 				for (String data : list1) {
 					schoolPOM.getInnerEnterSearch().sendKeys(data);
 					Thread.sleep(1000);
 					
-					exfPOM.getUpdateResultButton().click();				
-					Thread.sleep(10000);
+					schoolPOM.getSchoolInnerUpdateResultButton().click();			
+					wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
 					
 					List<WebElement> webElement  =  schoolPOM.getParentChildList();
 					if (!webElement.isEmpty()) {
@@ -1087,29 +1193,29 @@ public class School extends BaseClass {
 							WebElement childStructureElement = 	itr.next();
 							String structureName = childStructureElement.getText();
 							if (structureName.contains(data)) {
+								dataVFlag = true;
 								pcCounter++;
 								continue;
 							} else {
 								pcCounter++;
 								dataVFlag = false;
-								logger.log(LogStatus.FAIL, "Curriculum Standard Re-ingestion : Newly added does not found using Enter search terms field");
+								logger.log(LogStatus.FAIL, "Curriculum Standard Re-ingestion : Newly added Topics does not found using Enter search terms field - "+structureName);
 							}
 						}
 						schoolPOM.getInnerEnterSearch().clear();
-						continue;
 					} else {
 						dataVFlag = false;
-						logger.log(LogStatus.FAIL, "Curriculum Standard Re-ingestion : Newly added does not found using Enter search terms field");
+						logger.log(LogStatus.FAIL, "Curriculum Standard Re-ingestion : No Topics are available in reslut page");
 					}
 				}
 				
-				// Deleted Node
+				//Deleted Node(Topics)
 				if (SchoolConstant.DELETED_NODE != null) {
 					schoolPOM.getInnerEnterSearch().sendKeys(SchoolConstant.DELETED_NODE);
 					Thread.sleep(1000);
 
-					exfPOM.getUpdateResultButton().click();
-					Thread.sleep(10000);
+					schoolPOM.getSchoolInnerUpdateResultButton().click();
+					wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
 
 					List<WebElement> webElement = schoolPOM.getParentChildList();
 					if (!webElement.isEmpty()) {
@@ -1119,8 +1225,9 @@ public class School extends BaseClass {
 							String structureName = childStructureElement.getText();
 							if (structureName.contains(SchoolConstant.DELETED_NODE)) {
 								dataVFlag = false;
-								logger.log(LogStatus.FAIL, "Curriculum Standard Re-ingestion : Deleted Node found using Enter search terms field");
+								logger.log(LogStatus.FAIL, "Curriculum Standard Re-ingestion : Deleted Topic found using Enter search terms field");
 							} else {
+								dataVFlag = true;
 								continue;
 							}
 						}
@@ -1133,8 +1240,8 @@ public class School extends BaseClass {
 					schoolPOM.getInnerEnterSearch().sendKeys(SchoolConstant.STATE_NUM_DESC);
 					Thread.sleep(1000);
 
-					exfPOM.getUpdateResultButton().click();
-					Thread.sleep(10000);
+					schoolPOM.getSchoolInnerUpdateResultButton().click();
+					wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
 
 					List<WebElement> webElement = schoolPOM.getParentChildList();
 					if (!webElement.isEmpty()) {
@@ -1159,7 +1266,6 @@ public class School extends BaseClass {
 				}
 				
 			} else {
-				logger.log(LogStatus.FAIL, "Unable to open Curriculum Standard Goalframework on UI : data verification failed");
 				logger.log(LogStatus.FAIL, TestCases.TC_LOMT_947_02_RE_INGEST_VERIFY);
 				logger.log(LogStatus.FAIL, TestCases.TC_LOMT_947_03_RE_INGEST_VERIFYDATA);
 			}

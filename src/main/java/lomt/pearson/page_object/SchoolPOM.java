@@ -8,6 +8,8 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
 public class SchoolPOM {
+	
+	String employeeName;
 
 	WebDriver driver;
 	
@@ -29,6 +31,12 @@ public class SchoolPOM {
 	@FindBy(xpath = "//div[@class='select-dropdown']/div/div[@class='Select-menu-outer']/div/child::div")
 	private List<WebElement>  subjectDropdownList;
 	
+	@FindBy(xpath = "//div[@class='ingestion']/div/div[1]/div[2]/div/div")
+	private WebElement  countryDropdown;
+	
+	@FindBy(xpath = "//div[@class='select-dropdown']/div/div[@class='Select-menu-outer']/div/child::div")
+	private List<WebElement>  countryDropdownList;
+	
 	@FindBy(xpath = "//div[@class='ingestion']/div/div[1]/div[3]/div/div")
 	private WebElement  authorityDropdown;
 	
@@ -43,12 +51,6 @@ public class SchoolPOM {
 	
 	@FindBy(xpath = "//div[@class='ingestion']/div/div[1]/div[5]/input")
 	private WebElement  adoptedYear;
-	
-	@FindBy(xpath = "//div[@class='ingestion']/div/div[1]/div[6]/input")
-	private WebElement  sourceUrl;
-	
-	@FindBy(xpath = "//div[@class='ingestion']/div/div[1]/div[7]/input")
-	private WebElement  curriculumInfoUrl;
 	
 	@FindBy(xpath = "//div[@id='lomtAppId']/div/div/div[2]/div[3]/span[1]/a")
 	private WebElement  curriculumSt;
@@ -84,10 +86,10 @@ public class SchoolPOM {
 	@FindBy(xpath = "//div[@id='lomtAppId']/div/div/div[2]/div/div[1]/div[5]/button")
 	private WebElement  schoolInnerUpdateResultButton;
 	
-	@FindBy(xpath = "//div[@id='curriculum-tree']/ul/li[1]/a/span/div/span/span/span/span")
+	@FindBy(xpath = "//div[@id='curriculum-tree']/ul/li[1]/span[3]/span/div/span/span/span/span")
 	private WebElement  gradeText1;
 	
-	@FindBy(xpath = "//div[@id='curriculum-tree']/ul/li[2]/a/span/div/span/span/span/span")
+	@FindBy(xpath = "//div[@id='curriculum-tree']/ul/li[2]/span[3]/span/div/span/span/span/span")
 	private WebElement  gradeText2;
 	
 	@FindBy(xpath = "//div[@id='curriculum-tree']/ul/li[3]/a/span/div/span/span/span/span")
@@ -113,7 +115,102 @@ public class SchoolPOM {
 	
 	@FindBy(xpath = "//div[@id='lomtAppId']/div/div/div[2]/div/div/div[2]/div[1]/div/div[2]/div/span/span[1]")
 	private WebElement  intAction;
+	
+	@FindBy(xpath = "//div[@id='lomtAppId']/div/div/div/div[2]/div/div[1]/div[6]/input")
+	private WebElement  csSourceURL;
+	
+	@FindBy(xpath = "//div[@id='lomtAppId']/div/div/div/div[2]/div/div[1]/div[7]/input")
+	private WebElement  csInfoURL;
+	
+	//GOALFRAMEWORK META DATA SECTION
+	
+	@FindBy(xpath = "//div[@id='lomtAppId']/div/div/div[1]/span")
+	private WebElement  goalframeworkHeaderTitle;
+	
+	@FindBy(xpath = "//div[@id='lomtAppId']/div/div/div[1]/div[2]/div[1]/span[2]")
+	private WebElement  CSMetaDataArrowAndText;
+	
+	@FindBy(xpath = "//div[@id='lomtAppId']/div/div/div[1]/div[2]/div[2]/div[1]/div/div/div[1]/div")
+	private WebElement  urnLevel;
+	
+	@FindBy(xpath = "//div[@id='lomtAppId']/div/div/div[1]/div[2]/div[2]/div[1]/div/div/div[2]/div")
+	private WebElement  urnLevelVal;
+	
+	@FindBy(xpath = "//div[@id='lomtAppId']/div/div/div[1]/div[2]/div[2]/div[2]/div/div/div[1]/div")
+	private WebElement  titleLevel;
+	
+	@FindBy(xpath = "//div[@id='lomtAppId']/div/div/div[1]/div[2]/div[2]/div[2]/div/div/div[2]/div")
+	private WebElement  titleLevelVal;
 
+	@FindBy(xpath = "//div[@id='lomtAppId']/div/div/div[1]/div[2]/div[2]/div[3]/div/div/div[1]/div")
+	private WebElement  descriptionLevel;
+	
+	@FindBy(xpath = "//div[@id='lomtAppId']/div/div/div[1]/div[2]/div[2]/div[4]/div/div/div[1]/div")
+	private WebElement  definedByLevel;
+	
+	@FindBy(xpath = "//div[@id='lomtAppId']/div/div/div[1]/div[2]/div[2]/div[4]/div/div/div[2]/div")
+	private WebElement  definedByLevelVal;
+	
+	@FindBy(xpath = "//div[@id='lomtAppId']/div/div/div[1]/div[2]/div[2]/div[5]/div/div/div[1]/div")
+	private WebElement  subjectLevel;
+	
+	@FindBy(xpath = "//div[@id='lomtAppId']/div/div/div[1]/div[2]/div[2]/div[5]/div/div/div[2]/div")
+	private WebElement  subjectLevelVal;
+	
+	@FindBy(xpath = "//div[@id='lomtAppId']/div/div/div[1]/div[2]/div[2]/div[6]/div/div/div[1]/div")
+	private WebElement  countryLevel;
+	
+	@FindBy(xpath = "//div[@id='lomtAppId']/div/div/div[1]/div[2]/div[2]/div[6]/div/div/div[2]/div")
+	private WebElement  countryLevelVal;
+	
+	@FindBy(xpath = "//div[@id='lomtAppId']/div/div/div[1]/div[2]/div[2]/div[7]/div/div/div[1]/div")
+	private WebElement  issueDateLevel;
+	
+	@FindBy(xpath = "//div[@id='lomtAppId']/div/div/div[1]/div[2]/div[2]/div[7]/div/div/div[2]/div")
+	private WebElement  issueDateLevelVal;
+	
+	@FindBy(xpath = "//div[@id='lomtAppId']/div/div/div[1]/div[2]/div[2]/div[8]/div/div/div[1]/div")
+	private WebElement  setsLevel;
+	
+	@FindBy(xpath = "//div[@id='lomtAppId']/div/div/div[1]/div[2]/div[2]/div[8]/div/div/div[2]/div")
+	private WebElement  setsLevelVal;
+	
+	@FindBy(xpath = "//div[@id='lomtAppId']/div/div/div[1]/div[2]/div[2]/div[9]/div/div/div[1]/div")
+	private WebElement  statusLevel;
+	
+	@FindBy(xpath = "//div[@id='lomtAppId']/div/div/div[1]/div[2]/div[2]/div[9]/div/div/div[2]/div")
+	private WebElement  statusLevelVal;
+	
+	@FindBy(xpath = "//div[@id='lomtAppId']/div/div/div[1]/div[2]/div[2]/div[10]/div/div/div[1]/div")
+	private WebElement  frameworkLevel;
+	
+	@FindBy(xpath = "//div[@id='lomtAppId']/div/div/div[1]/div[2]/div[2]/div[10]/div/div/div[2]/div")
+	private WebElement  frameworkLevelVal;
+	
+	@FindBy(xpath = "//div[@id='lomtAppId']/div/div/div[1]/div[2]/div[2]/div[11]/div/div/div[1]/div")
+	private WebElement  lastUpdatedLevel;
+	
+	@FindBy(xpath = "//div[@id='lomtAppId']/div/div/div[1]/div[2]/div[2]/div[11]/div/div/div[2]/div")
+	private WebElement  lastUpdatedLevelVal;
+	
+	@FindBy(xpath = "//div[@id='lomtAppId']/div/div/div[1]/div[2]/div[2]/div[12]/div/div/div[1]/div")
+	private WebElement  ingestionTypeLevel;
+	
+	@FindBy(xpath = "//div[@id='lomtAppId']/div/div/div[1]/div[2]/div[2]/div[12]/div/div/div[2]/div")
+	private WebElement  ingestionTypeLevelVal;
+	
+	@FindBy(xpath = "//div[@id='lomtAppId']/div/div/div[1]/div[2]/div[2]/div[13]/div/div/div[1]/div")
+	private WebElement  sourceURLLevel;
+	
+	@FindBy(xpath = "//div[@id='lomtAppId']/div/div/div[1]/div[2]/div[2]/div[13]/div/div/div[2]/div")
+	private WebElement  sourceURLLevelVal;
+	
+	@FindBy(xpath = "//div[@id='lomtAppId']/div/div/div[1]/div[2]/div[2]/div[14]/div/div/div[1]/div")
+	private WebElement  curriculumInfoLevel;
+	
+	@FindBy(xpath = "//div[@id='lomtAppId']/div/div/div[1]/div[2]/div[2]/div[14]/div/div/div[2]/div")
+	private WebElement  curriculumInfoLevelVal;
+	
 	public SchoolPOM(WebDriver driver) {
 		this.driver = driver;
 		PageFactory.initElements(driver, this);
@@ -158,15 +255,6 @@ public class SchoolPOM {
 	public WebElement getAdoptedYear() {
 		return adoptedYear;
 	}
-	
-	public WebElement getSourceUrl() {
-		return sourceUrl;
-	}
-	
-	public WebElement getCurriculumInfoUrl() {
-		return curriculumInfoUrl;
-	}
-
 
 	public WebElement getCurriculumStructure() {
 		return curriculumStructure;
@@ -258,6 +346,134 @@ public class SchoolPOM {
 
 	public WebElement getSchoolInnerUpdateResultButton() {
 		return schoolInnerUpdateResultButton;
+	}
+
+	public WebElement getCsSourceURL() {
+		return csSourceURL;
+	}
+
+	public WebElement getCsInfoURL() {
+		return csInfoURL;
+	}
+
+	public WebElement getCountryDropdown() {
+		return countryDropdown;
+	}
+
+	public List<WebElement> getCountryDropdownList() {
+		return countryDropdownList;
+	}
+
+	public WebElement getGoalframeworkHeaderTitle() {
+		return goalframeworkHeaderTitle;
+	}
+
+	public WebElement getCSMetaDataArrowAndText() {
+		return CSMetaDataArrowAndText;
+	}
+
+	public WebElement getUrnLevel() {
+		return urnLevel;
+	}
+
+	public WebElement getUrnLevelVal() {
+		return urnLevelVal;
+	}
+
+	public WebElement getTitleLevel() {
+		return titleLevel;
+	}
+
+	public WebElement getTitleLevelVal() {
+		return titleLevelVal;
+	}
+
+	public WebElement getDescriptionLevel() {
+		return descriptionLevel;
+	}
+
+	public WebElement getDefinedByLevel() {
+		return definedByLevel;
+	}
+
+	public WebElement getDefinedByLevelVal() {
+		return definedByLevelVal;
+	}
+
+	public WebElement getSubjectLevel() {
+		return subjectLevel;
+	}
+
+	public WebElement getSubjectLevelVal() {
+		return subjectLevelVal;
+	}
+
+	public WebElement getCountryLevel() {
+		return countryLevel;
+	}
+
+	public WebElement getCountryLevelVal() {
+		return countryLevelVal;
+	}
+
+	public WebElement getIssueDateLevel() {
+		return issueDateLevel;
+	}
+
+	public WebElement getSetsLevel() {
+		return setsLevel;
+	}
+
+	public WebElement getSetsLevelVal() {
+		return setsLevelVal;
+	}
+
+	public WebElement getStatusLevel() {
+		return statusLevel;
+	}
+
+	public WebElement getStatusLevelVal() {
+		return statusLevelVal;
+	}
+
+	public WebElement getFrameworkLevel() {
+		return frameworkLevel;
+	}
+
+	public WebElement getFrameworkLevelVal() {
+		return frameworkLevelVal;
+	}
+
+	public WebElement getLastUpdatedLevel() {
+		return lastUpdatedLevel;
+	}
+
+	public WebElement getLastUpdatedLevelVal() {
+		return lastUpdatedLevelVal;
+	}
+
+	public WebElement getIngestionTypeLevel() {
+		return ingestionTypeLevel;
+	}
+
+	public WebElement getIngestionTypeLevelVal() {
+		return ingestionTypeLevelVal;
+	}
+
+	public WebElement getSourceURLLevel() {
+		return sourceURLLevel;
+	}
+
+	public WebElement getCurriculumInfoLevelVal() {
+		return curriculumInfoLevelVal;
+	}
+
+	public WebElement getSourceURLLevelVal() {
+		return sourceURLLevelVal;
+	}
+
+	public WebElement getCurriculumInfoLevel() {
+		return curriculumInfoLevel;
 	}
 
 }

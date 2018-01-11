@@ -18,22 +18,47 @@ public class SchoolConstant {
 	public static String INT_DESTINATION_FILE_PATH = System.getProperty("user.dir")+ "\\src\\main\\java\\lomt\\pearson\\fileupload\\intermediary\\reingestion\\";
 	public static String INT_REINGESTION_TEMPLATE = "Intermediary_Reingestion_Template.xlsx";
 	
+	public static String CURRICULUM_REINGESTION = "School Global Curriculum Standard Re-ingestion, LOMT-947, Total TCs is 10";
+	
 	public static String DATA_1 = "Key Ideas and Details";
-	public static String DATA_2 = "Integration of Knowledge and Ideas";
-	public static String DATA_3 = "Read and comprehend complex literary and informational texts independently and proficiently.";
-	public static String DATA_4 = "Note on range and content of student writing";
-	public static String DATA_5 = "Craft and Structure";
-	public static String DATA_6 = "Range of Reading and Level of Text Complexity";
-	public static String DATA_7 = "Actively engage in group reading activities with purpose and understanding.";
-	public static String DATA_8 = "Literature advanced";
-	public static String DATA_9 = "Range of Reading and Level of Text Complexity";
-	public static String DATA_10 = "With prompting and support, read informational texts appropriately complex for grade 1.";
+	public static String DATA_2 = "Key Ideas and Details updated-4.";
+	public static String DATA_3 = "Integration of Knowledge and Ideas";
+	public static String DATA_4 = "Range of Reading and Level of Text Complexity";
+	public static String DATA_5 = "Read and comprehend complex literary and informational texts independently and proficiently.";
+	//public static String DATA_6 = "Text Types and Purposes<EXTENDEDTOPIC>These broad types of writing include many subgenres.";
+	public static String DATA_7 = "Vocabulary Acquisition and Use";
 	
 	
 	public static String SCHOOL_CURRICULUM_INGESTION_LOMT_09 = "School Curriculum Ingestion";
 	
 	public static String SCHOOL_CURRICULUM_EXPORT_LOMT_614 = "School Curriculum Export, LOMT-614, Total TCs is 30";
 	
+	public static String CS_SOURCE_URL = "https://www.google.com/";	
+	public static String CS_INFO_URL = "https://www.amazon.com/";
+	
+	public static String CS_SOURCE_URL_REINGESTION = "https://www.snapdeal.com/";	
+	public static String CS_INFO_URL_REINGESTION = "https://www.flipkart.com/";
+	
+	public static String UNITIED_STATES = "United States";
+	public static String LOMT_458 = "LOMT-458";
+	public static String LOMT_338 = "LOMT-338";
+	public static String LOMT_1548 = "LOMT-1548";
+	
+	public static String CS_METADATA = "Curriculum Standard METADATA";
+	public static String URN = "URN";
+	public static String TITLE = "TITLE";
+	public static String DESCRIPTION = "DESCRIPTION";
+	public static String DEFINED_BY = "Defined By";
+	public static String SUBJECT = "SUBJECT";
+	public static String COUNTRY = "COUNTRY";
+	public static String ISSUE_DATE = "ISSUE DATE";
+	public static String SETS = "SETS";
+	public static String STATUS = "STATUS";
+	public static String FRAMEWORK_LEVEL = "FRAMEWORK LEVEL";
+	public static String LAST_UPDATED = "LAST UPDATED";
+	public static String INGESTION_TYPE = "INGESTION TYPE";
+	public static String SOURCE_URL = "SOURCE URL";
+	public static String CURRICULUM_INFO_URL = "CURRICULUM INFO URL";
 	
 	public static List<String> getCurrilumTestData() {
 		List<String> list = new LinkedList<String>();
@@ -42,11 +67,8 @@ public class SchoolConstant {
 		list.add(DATA_3);
 		list.add(DATA_4);
 		list.add(DATA_5);
-		list.add(DATA_6);
+		//list.add(DATA_6);
 		list.add(DATA_7);
-		list.add(DATA_8);
-		list.add(DATA_9);
-		list.add(DATA_10);		
 		
 		return list;
 	}
@@ -85,17 +107,16 @@ public class SchoolConstant {
 	//updated Grade value
 	
 	//use case 2
-	public static String GRADE_1 = "College- and Career-Readiness Anchor Standards updated";
-	public static String GRADE_2 = "Kindergarten updated";
-	public static String GRADE_3 = "Grade 1 updated";
+	public static String GRADE_1 = "College- and Career-Readiness Anchor Standards Enhanced to 12";
+	public static String GRADE_2 = "New PK to 5 grade created";
 	
-	public static String DESC_1 = "Reading updated";
-	public static String DESC_2 = "Key Ideas and Details updated";
-	public static String DESC_3 = "Read closely to determine what the text says explicitly and to make logical inferences from it; cite specific textual evidence when writing or speaking to support conclusions drawn from the text updated.";
-	public static String DESC_4 = "Key Ideas and Details updated-1 lomt.";
-	public static String DESC_5 = "Key Ideas and Details updated-2 lomt.";
-	public static String DESC_6 = "Key Ideas and Details updated-3 lomt.";
-	public static String DESC_7 = "Key Ideas and Details updated-4 lomt.";
+	public static String DESC_1 = "Reading UPDATED 1.0";
+	public static String DESC_2 = "Key Ideas and Details UPDATED 1.0";
+	public static String DESC_3 = "Read closely to determine what the text says explicitly and to make logical inferences from it; cite specific textual evidence when writing or speaking to support conclusions drawn from the text UPDATED 1.2.";
+	public static String DESC_4 = "Key Ideas and Details UPDATED 1.3.";
+	public static String DESC_5 = "Key Ideas and Details UPDATED 1.4.";
+	public static String DESC_6 = "Key Ideas and Details UPDATED 1.5.";
+	public static String DESC_7 = "Key Ideas and Details UPDATED 1.6.";
 	public static String STATE_NUM_DESC = "QS 007";
 	
 	//Re-ingestion
@@ -114,12 +135,19 @@ public class SchoolConstant {
 	}
 	
 	//New node added
-	public static String NEW_NODE_DESC = "New node added.";
+	public static String NEW_NODE_DESC_1 = "Parent Topic added";
+	public static String NEW_NODE_DESC_2 = "Child Topic-1 added";
+	public static String NEW_NODE_DESC_3 = "New Child Topic added";
+	public static String NEW_NODE_DESC_4 = "New Topic added";
+	
 	public static String STATE_NUM = "QS 007";
 	
 	public static List<String> getCurrilumNewAddedNode() {
 		List<String> reingestionList1 = new LinkedList<String>();
-		reingestionList1.add(NEW_NODE_DESC);
+		reingestionList1.add(NEW_NODE_DESC_1);
+		reingestionList1.add(NEW_NODE_DESC_2);
+		reingestionList1.add(NEW_NODE_DESC_3);
+		reingestionList1.add(NEW_NODE_DESC_4);
 		//reingestionList1.add(STATE_NUM);
 		
 		return reingestionList1;
@@ -132,7 +160,7 @@ public class SchoolConstant {
 	public static String STATE_NUM_2 = "L.1.6.1.2";
 	
 	// DELETED NODE
-	public static String DELETED_NODE = "With prompting and support, identify characters, settings, and major events in a story.";
+	public static String DELETED_NODE = "Child Topic-2 added";
 	
 	public static List<String> getIntermediaryDisciplineData() {
 		List<String> IntermediaryDisciplineList = new LinkedList<String>();
@@ -319,6 +347,5 @@ public class SchoolConstant {
 		list.add(INTERMEDIARY_STMT_NEW_2);
 		return list;
 	}
-
 
 }
