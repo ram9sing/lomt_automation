@@ -30,12 +30,14 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import com.relevantcodes.extentreports.ExtentTest;
 import com.relevantcodes.extentreports.LogStatus;
 
 import lomt.pearson.common.BaseClass;
 import lomt.pearson.common.LoadPropertiesFile;
 import lomt.pearson.constant.LOMTConstant;
 import lomt.pearson.constant.ReportsConstant;
+import lomt.pearson.constant.SchoolConstant;
 import lomt.pearson.page_object.CommonPOM;
 import lomt.pearson.page_object.ExternalFrameworkPOM;
 import lomt.pearson.page_object.HEPom;
@@ -651,10 +653,10 @@ public void searchAndExportForwardIndirectIntermediaryReport() {
 				}
 				//verifying topics
 				for (String prTopics : prList) {
-					schoolPOM.getInnerEnterSearch().sendKeys(prTopics);
-					schoolPOM.getSchoolInnerUpdateResultButton().click();
+					productTocPOM.getInnerEnterSearchTerm().sendKeys(prTopics);
+					productTocPOM.getProductInnerUpdateResultButton().click();
 					wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
-					
+					jse.executeScript("window.scrollBy(0,300)");
 					List<WebElement> webElement  =  schoolPOM.getParentChildList();
 					if (!webElement.isEmpty()) {
 						Iterator<WebElement> itr = webElement.iterator();
@@ -669,7 +671,7 @@ public void searchAndExportForwardIndirectIntermediaryReport() {
 								//logger.log(LogStatus.FAIL, "Curriculum Standard Re-ingestion : Parent/Child description does not match, "+"Level - "+pcCounter);
 							}
 						}
-						schoolPOM.getInnerEnterSearch().clear();
+						productTocPOM.getInnerEnterSearchTerm().clear();
 						//wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
 						continue;
 					} else {
@@ -687,9 +689,55 @@ public void searchAndExportForwardIndirectIntermediaryReport() {
 		}
 		return flag;
 	}
-	public boolean verifyIntermediaryDataUI(Map<String, List<String>> forwardIIRepMap) {
+	public boolean verifyIntermediaryDataUI(Map<String, List<String>> productTIRepMap) {
 		boolean flag = false;
 		try {
+			JavascriptExecutor jse = (JavascriptExecutor) driver;
+			WebDriverWait wait = new WebDriverWait(driver, 600);
+			List <String> disList = null;
+			try {
+				jse.executeScript("window.scrollBy(0,-500)");
+				commonPOM.getPearsonLogo().click();
+				commonPOM.getSchoolGlobalLOB().click();
+				for(String disKey : productTIRepMap.keySet()) {
+					disList = productTIRepMap.get(disKey);
+					break;
+				}
+				if(!disList.isEmpty()){
+					if (!intermediaryPOM.getInnerLoadMoreButton().getAttribute("class").contains("load-more-text disabled")) {
+						intermediaryPOM.getInnerLoadMoreButton().click();
+						wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+						jse.executeScript("window.scrollBy(0,1000)");
+					}
+					for(String dis : disList){
+						this.searchIntermediaryDiscipline(dis);
+						break;
+					}
+						
+				for (String dis : disList) {
+					
+					intermediaryPOM.getEnterSearchTerm().sendKeys(dis);
+					intermediaryPOM.getUpdateResultButton().click();
+					wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+					if (intermediaryPOM.getSearchResultText().getText().contains("Showing")) {
+						jse.executeScript("window.scrollBy(0,200)");
+						intermediaryPOM.getEnterSearchTerm().clear();
+						flag = true;
+						continue;
+					} else {
+						flag = false;
+					}
+				}
+				
+				
+				}} catch (Exception e) {
+				flag = false;
+				e.printStackTrace();
+				return flag;
+			}
+			jse.executeScript("window.scrollBy(0,-500)");
+			commonPOM.getPearsonLogo().click();
+			return flag;
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -784,7 +832,7 @@ public void searchAndExportForwardIndirectIntermediaryReport() {
 			
 			Thread.sleep(1000);
 			reportsPOM.getUpdateResult().click();
-			Thread.sleep(8000);
+			wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
 			jse.executeScript("window.scrollBy(0,-300)");
 			reportsPOM.getEnterSearchTerm().sendKeys(reportName);
 			reportsPOM.getUpdateResult().click();
@@ -885,7 +933,96 @@ public void searchAndExportForwardIndirectIntermediaryReport() {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-			
 	}
+	
+		public void searchIntermediaryDiscipline(String disName) {
+			//List<String> intermediaryList = new LinkedList<String>();
+			
+			JavascriptExecutor jse = (JavascriptExecutor) driver;
+			WebDriverWait wait = new WebDriverWait(driver, 600);
+			try {
+				intermediaryPOM.getIntermediaryStructure().click();
+				wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+				jse.executeScript("window.scrollBy(0,1000)");
+				
+				//expanding all the ingested Intermediary disciplines
+				if (!intermediaryPOM.getLoadMoreButton().getAttribute("class").contains("load-more-text disabled")) {
+					intermediaryPOM.getLoadMoreButton().click();
+					wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+					jse.executeScript("window.scrollBy(0,1000)");
+					if (!intermediaryPOM.getLoadMoreButton().getAttribute("class").contains("load-more-text disabled")) {
+						intermediaryPOM.getLoadMoreButton().click();
+						wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+						jse.executeScript("window.scrollBy(0,1000)");
+						if (!intermediaryPOM.getLoadMoreButton().getAttribute("class").contains("load-more-text disabled")) {
+							intermediaryPOM.getLoadMoreButton().click();
+							wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+							jse.executeScript("window.scrollBy(0, -2000)");
+						} else {
+							jse.executeScript("window.scrollBy(0, -2000)");
+						}
+					} else {
+						jse.executeScript("window.scrollBy(0, -2000)");
+					}
+				} else {
+					jse.executeScript("window.scrollBy(0, -1000)");
+				}
+				
+				jse.executeScript("window.scrollBy(0,200)");
+				
+				//verifying ingested data
+				List<WebElement> webElement  =  intermediaryPOM.getIntermediaryGFList();
+					if (!webElement.isEmpty()) {
+						int counter = 0;
+						Iterator<WebElement> itr = webElement.iterator();
+						while (itr.hasNext()) {
+							WebElement childStructureElement = 	itr.next();
+							String discipline = childStructureElement.getText();
+							//System.out.println("Intermediary ingested discipline : "+structureName);
+							int i = discipline.indexOf("\n");
+							int j = discipline.lastIndexOf("\n");
+							counter++;
+							if (disName.equalsIgnoreCase(discipline.substring(i, j).trim())) {
+								String xpath = "//div[@class='list-data-container']/child::div["+counter+"]/div/div[1]/div/span/span[2]/a";
+								if (counter <=7) {
+									WebElement element = driver.findElement(By.xpath(xpath));
+									element.click();
+									wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+								}
+								if (counter >=7 && counter <=14) {
+									jse.executeScript("window.scrollBy(0,600)");
+									WebElement element = driver.findElement(By.xpath(xpath));
+									element.click();
+									wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+									jse.executeScript("window.scrollBy(0,-1000)");
+								}
+								if (counter >=14 && counter <=21) {
+									jse.executeScript("window.scrollBy(0,1100)");
+									WebElement element = driver.findElement(By.xpath(xpath));
+									element.click();
+									wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+									jse.executeScript("window.scrollBy(0,-1500)");
+								}
+								if (counter >=21 && counter <=28) {
+									jse.executeScript("window.scrollBy(0,1600)");
+									WebElement element = driver.findElement(By.xpath(xpath));
+									element.click();
+									wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+									jse.executeScript("window.scrollBy(0,-2000)");
+								}
+								if (counter >=28 && counter <=35) {
+									jse.executeScript("window.scrollBy(0,2100)");
+									WebElement element = driver.findElement(By.xpath(xpath));
+									element.click();
+									wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+									jse.executeScript("window.scrollBy(0,-2100)");
+								}
+							}
+						}
+					}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 	
 }

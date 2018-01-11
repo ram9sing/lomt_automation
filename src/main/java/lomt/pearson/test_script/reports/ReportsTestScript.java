@@ -64,7 +64,7 @@ public class ReportsTestScript {
 				report.verifyIntermediaryDataUI(productTIRepMap);
 			}
 		} else {
-			logger.log(LogStatus.FAIL, "TC-LOMT-1758-01_Admin_User_SchoolGlobal_Reports_&exports_Forward-Indirect_Intermediary_Report"); 
+			logger.log(LogStatus.FAIL, "TC_LOMT-1762-01_Admin_User_School_Global_Report_Export_Download"); 
 			return;
 		}
 		

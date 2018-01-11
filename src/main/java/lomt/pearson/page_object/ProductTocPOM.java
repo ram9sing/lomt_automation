@@ -14,6 +14,9 @@ public class ProductTocPOM {
 	
 	@FindBy(xpath = "//div[@id='lomtAppId']/div/div/div[2]/div/div[1]/div[7]/button")
 	private WebElement updateResultButton;
+	
+	@FindBy(xpath = "//*[@id='lomtAppId']/div/div/div[2]/div/div[1]/div[2]/button")
+	private WebElement productInnerUpdateResultButton;
 					 
 	@FindBy(xpath = "//div[@id='lomtAppId']/div/div/div[2]/div/div[1]/div[6]/input")
 	private WebElement enterSearchTerm;
@@ -45,6 +48,9 @@ public class ProductTocPOM {
 	@FindBy(xpath = "//div[@id='lomtAppId']/div/div/div[2]/div/div[2]/div[2]/div/div/div[2]/div/span/span[1]")
 	private WebElement tocEnglishActionLink;
 	
+	@FindBy(xpath = "//*[@id='lomtAppId']/div/div/div[2]/div/div[1]/div[1]/input")
+	private WebElement innerEnterSearchTerm;
+	
 	@FindBy(xpath = "//div[@id='browse-action-container']/div[2]/div[3]/span")
 	private WebElement tocEnglishExport;
 	
@@ -64,10 +70,19 @@ public class ProductTocPOM {
 	public WebElement getUpdateResultButton() {
 		return updateResultButton;
 	}
+	
+	public WebElement getProductInnerUpdateResultButton() {
+		return productInnerUpdateResultButton;
+	}
 
 	public WebElement getEnterSearchTerm() {
 		return enterSearchTerm;
 	}
+	
+	public WebElement getInnerEnterSearchTerm() {
+		return innerEnterSearchTerm;
+	}
+
 
 	public WebElement getExport() {
 		return export;
