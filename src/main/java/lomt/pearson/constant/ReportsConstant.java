@@ -4,6 +4,7 @@ public class ReportsConstant {
 	
 	public static String INDIRECT_TEXT = "Indirect";
 	public static String FORWARD_INDIRECT_INT_REPORT_FILE_NAME = "Forward (Indirect) Intermediary Report";
+	public static String PRODUCT_TOC_INT_REPORT_FILE_NAME = "Automation Report";
 	public static String PRODUCT_INT_TEXT = "Product (ToC) Intermediary Report";
 	public static String INGESTED_PRODUCT = "Automation_Ingested_Product";
 	public static String INGESTED_INTERMEDIARY = "Economics";
@@ -43,8 +44,8 @@ public class ReportsConstant {
 	public static String STATE_OR_REGION = "State or Region";
 	public static String START_GRADE = "Start Grade";
 	public static String END_GRADE = "End Grade";
-	public static String ISBN10 = "ISBN10";
-	public static String ISBN13 = "ISBN13";
+	public static String ISBN10 = "ISBN 10";
+	public static String ISBN13 = "ISBN 13";
 	public static String TYPE = "Type";
 	public static String URN = "URN";
 	public static String ALFRESCO_OBJECT_ID = "Alfresco Object ID";
@@ -55,7 +56,7 @@ public class ReportsConstant {
 	
 	public static String DATA_FORMAT = "dd/MM/yyyy HH:mm:ss";
 	
-	public static String ADMIN_USER_COMMON = "learn-usr1";
+	public static String ADMIN_USER_COMMON = "learn usr1";
 	public static String ADMIN_USER_PPE = "LOMT-ADMIN";
 	public static String LEARNING_USER_PPE = "LOMT-USER";
 	public static String SME_USER = "LOMT-SME"; 

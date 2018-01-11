@@ -20,6 +20,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.openqa.selenium.By;
@@ -195,8 +196,8 @@ public class Reports extends BaseClass {
 				
 				reportName = ReportsConstant.FORWARD_INDIRECT_INT_REPORT_FILE_NAME + String.valueOf(1300 + (int)Math.round(Math.random() * (1400 - 1300)));
 				
-				reportsPOM.getForwardIndirectInterReportName().clear();
-				reportsPOM.getForwardIndirectInterReportName().sendKeys(reportName);
+				reportsPOM.getReportName().clear();
+				reportsPOM.getReportName().sendKeys(reportName);
 				
 				jse.executeScript("window.scrollBy(0,500)");
 				reportsPOM.getRunReport().click();
@@ -268,52 +269,7 @@ public class Reports extends BaseClass {
 		}
 		return flag;
 	}
-	
-	public boolean productToCIntermediaryReport() {
-		boolean flag = false;
-		WebDriverWait wait = new WebDriverWait(driver, 120);
-		JavascriptExecutor jse = (JavascriptExecutor) driver;
-		try {
-			commonPOM.getSchoolGlobalLOB().click();
-			if (reportsPOM.getReportsExportLink().isDisplayed()) {
-				reportsPOM.getReportsExportLink().click();
-				wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
-				if (reportsPOM.getRepotCountText().getText().contains("Showing")) {
-					
-					reportsPOM.getEnterSearchTerm().sendKeys(ReportsConstant.PRODUCT_INT_TEXT);
-					reportsPOM.getUpdateResult().click();
-					//wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
-					Thread.sleep(10000);
-					if (reportsPOM.getRepotCountText().getText().contains("Showing")) {
-						removeExistingFile();
-						
-						jse.executeScript("window.scrollBy(0,300)");
-						reportsPOM.getReportActionLink().click();
-						reportsPOM.getReportExportButton().click();
-						wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
-						jse.executeScript("window.scrollBy(0,-500)");
-						commonPOM.getPearsonLogo().click();
-						flag = true;
-					}
-				} else {
-					//create new reports Forward Indirect Intermediary Report
-					createAndDownloadReport();
-					flag = true;
-				}
-				
-			} else {
-				flag = false;
-				return flag;
-			}
-		} catch (Exception e) {
-			flag = false;
-			e.printStackTrace();
-			return flag;
-		}
-		return flag;
-	}
-	
-	public void searchAndExportForwardIndirectIntermediaryReport() {
+public void searchAndExportForwardIndirectIntermediaryReport() {
 		JavascriptExecutor jse = (JavascriptExecutor) driver;
 		WebDriverWait wait = new WebDriverWait(driver, 120);
 		try {
@@ -378,7 +334,7 @@ public class Reports extends BaseClass {
 			worksheet = workbook.getSheetAt(0);
 			boolean headerFlag = verifyProductToCIntermediaryReportHeaders(worksheet);
 			if(headerFlag) {
-				getCurriculumStandardAndIntermediaryDataFromExportedSheet(worksheet, productTIRepMap);
+				getProductAndIntermediaryDataFromExportedSheet(worksheet,productTIRepMap);
 			}
 			
 			
@@ -458,8 +414,8 @@ public class Reports extends BaseClass {
 					|| worksheet.getRow(LOMTConstant.ONE).getCell(LOMTConstant.ONE).getStringCellValue().equalsIgnoreCase(ReportsConstant.SME_USER)
 					|| worksheet.getRow(LOMTConstant.ONE).getCell(LOMTConstant.ONE).getStringCellValue().equalsIgnoreCase(ReportsConstant.EDITOR_USER) );
 			
-			assertEquals(worksheet.getRow(LOMTConstant.TWO).getCell(LOMTConstant.ZERO).getStringCellValue().trim(), ReportsConstant.DATE_TIME_GENERATION.trim());
-			assertTrue(isValidFormat(worksheet.getRow(LOMTConstant.TWO).getCell(LOMTConstant.ZERO).getStringCellValue().trim()));
+			//assertEquals(worksheet.getRow(LOMTConstant.TWO).getCell(LOMTConstant.ZERO).getStringCellValue().trim(), ReportsConstant.DATE_TIME_GENERATION.trim());
+			assertTrue(isValidFormat(worksheet.getRow(LOMTConstant.TWO).getCell(LOMTConstant.ONE).getStringCellValue().trim()));
 				
 			assertEquals(worksheet.getRow(LOMTConstant.THREE).getCell(LOMTConstant.ZERO).getStringCellValue().trim(), ReportsConstant.ALIGNMENTS);
 			assertTrue(worksheet.getRow(LOMTConstant.THREE).getCell(LOMTConstant.ONE).getStringCellValue().equalsIgnoreCase(ReportsConstant.CENTRAL_PERIPHERAL)
@@ -483,22 +439,22 @@ public class Reports extends BaseClass {
 			//assertNotNull(worksheet.getRow(LOMTConstant.NINE).getCell(LOMTConstant.ONE).getStringCellValue());
 			
 			assertEquals(worksheet.getRow(LOMTConstant.TEN).getCell(LOMTConstant.ZERO).getStringCellValue(), ReportsConstant.STATE_OR_REGION);
-			//assertNotNull(worksheet.getRow(LOMTConstant.TEN).getCell(LOMTConstant.ONE).getStringCellValue());
+			assertNotNull(worksheet.getRow(LOMTConstant.TEN).getCell(LOMTConstant.ONE).getStringCellValue());
 			
 			assertEquals(worksheet.getRow(LOMTConstant.ELEVENTH).getCell(LOMTConstant.ZERO).getStringCellValue(), ReportsConstant.START_GRADE);
-			//assertNotNull(worksheet.getRow(LOMTConstant.ELEVENTH).getCell(LOMTConstant.ONE).getStringCellValue());
+			assertNotNull(worksheet.getRow(LOMTConstant.ELEVENTH).getCell(LOMTConstant.ONE).getStringCellValue());
 			
 			assertEquals(worksheet.getRow(LOMTConstant.TWELEVE).getCell(LOMTConstant.ZERO).getStringCellValue(), ReportsConstant.END_GRADE);
-			//assertNotNull(worksheet.getRow(LOMTConstant.TWELEVE).getCell(LOMTConstant.ONE).getStringCellValue());
+			assertNotNull(worksheet.getRow(LOMTConstant.TWELEVE).getCell(LOMTConstant.ONE).getStringCellValue());
 			
 			assertEquals(worksheet.getRow(LOMTConstant.THIRTEEN).getCell(LOMTConstant.ZERO).getStringCellValue(), ReportsConstant.ISBN10);
-			//assertNotNull(worksheet.getRow(LOMTConstant.THIRTEEN).getCell(LOMTConstant.ONE).getStringCellValue());
+			assertNotNull(worksheet.getRow(LOMTConstant.THIRTEEN).getCell(LOMTConstant.ONE).getStringCellValue());
 			
 			assertEquals(worksheet.getRow(LOMTConstant.FOURTEEN).getCell(LOMTConstant.ZERO).getStringCellValue(), ReportsConstant.ISBN13);
-			//assertNotNull(worksheet.getRow(LOMTConstant.FOURTEEN).getCell(LOMTConstant.ONE).getStringCellValue());
+			assertNotNull(worksheet.getRow(LOMTConstant.FOURTEEN).getCell(LOMTConstant.ONE).getStringCellValue());
 			
 			assertEquals(worksheet.getRow(LOMTConstant.FIFTEEN).getCell(LOMTConstant.ZERO).getStringCellValue(), ReportsConstant.TYPE);
-			//assertNotNull(worksheet.getRow(LOMTConstant.FIFTEEN).getCell(LOMTConstant.ONE).getStringCellValue());			
+			assertNotNull(worksheet.getRow(LOMTConstant.FIFTEEN).getCell(LOMTConstant.ONE).getStringCellValue());			
 			
 			assertEquals(worksheet.getRow(LOMTConstant.SEVENTEEN).getCell(LOMTConstant.ZERO).getStringCellValue(), ReportsConstant.URN);
 			assertEquals(worksheet.getRow(LOMTConstant.SEVENTEEN).getCell(LOMTConstant.ONE).getStringCellValue(), ReportsConstant.ALFRESCO_OBJECT_ID);
@@ -506,7 +462,8 @@ public class Reports extends BaseClass {
 			assertEquals(worksheet.getRow(LOMTConstant.SEVENTEEN).getCell(LOMTConstant.THREE).getStringCellValue(), ReportsConstant.START_PAGE);
 			assertEquals(worksheet.getRow(LOMTConstant.SEVENTEEN).getCell(LOMTConstant.FOUR).getStringCellValue(), ReportsConstant.END_PAGE);
 			assertEquals(worksheet.getRow(LOMTConstant.SEVENTEEN).getCell(LOMTConstant.FIVE).getStringCellValue(), ReportsConstant.PERIPHERAL_ALIGNMENTS);
-			assertTrue(worksheet.getRow(LOMTConstant.SEVENTEEN).getCell(LOMTConstant.SIX).getStringCellValue().isEmpty());
+			//System.out.println(worksheet.getRow(LOMTConstant.SEVENTEEN).getCell(LOMTConstant.SIX).getStringCellValue());
+			assertTrue(worksheet.getRow(LOMTConstant.SEVENTEEN).getCell(LOMTConstant.SIX)==null);
 			assertEquals(worksheet.getRow(LOMTConstant.SEVENTEEN).getCell(LOMTConstant.SEVEN).getStringCellValue(), ReportsConstant.INTERMEDIARY_URN);
 			assertEquals(worksheet.getRow(LOMTConstant.SEVENTEEN).getCell(LOMTConstant.EIGHT).getStringCellValue(), ReportsConstant.SUBJECT);
 			assertEquals(worksheet.getRow(LOMTConstant.SEVENTEEN).getCell(LOMTConstant.NINE).getStringCellValue(), ReportsConstant.CODE);
@@ -550,6 +507,49 @@ public class Reports extends BaseClass {
 			e.printStackTrace();
 		}
 		return forwardIIRepMap;
+	}
+	
+	public Map<String, List<String>> getProductAndIntermediaryDataFromExportedSheet(XSSFSheet worksheet, Map<String, List<String>> productTIRepMap) {
+		try {
+			int counter = 0;
+			List<String> productList = new LinkedList<String>();
+			List<String> disciplineList = new LinkedList<String>();
+			
+			Iterator<Row> rowIterator = worksheet.iterator();
+			while (rowIterator.hasNext()) {
+				Row row = rowIterator.next();
+				if (row.getRowNum() == 6) {
+					//adding Product and Intermediary goal framework name for searching purpose on UI
+					disciplineList.add(row.getCell(8).getStringCellValue());
+				}
+				if (row.getRowNum() == 8) {
+					productList.add(row.getCell(1).getStringCellValue());
+				}
+				
+				if (row.getRowNum() > 17 && counter<=10) {
+					if (row.getCell(2) != null && row.getCell(2).getStringCellValue() !=null){
+						productList.add(row.getCell(2).getStringCellValue());
+					}
+					if (row.getCell(11) != null && row.getCell(11).getStringCellValue() !=null){
+						disciplineList.add(row.getCell(11).getStringCellValue());
+						//function(disciplineList, 11);
+					}
+					counter++;
+				}
+			}
+			
+			/*function(list, cellnumber) {
+				list.add(row.getCell(cellnumber).getStringCellValue());
+			}*/
+			//else {
+				productTIRepMap.put("Product", productList);
+				productTIRepMap.put("Discipline", disciplineList);
+				return productTIRepMap;
+			//}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return productTIRepMap;
 	}
 	
 	public boolean verifyCurriculumStandardDataUI(Map<String, List<String>> forwardIIRepMap) {
@@ -620,6 +620,73 @@ public class Reports extends BaseClass {
 		return flag;
 	}
 	
+	public boolean verifyProductDataUI(Map<String, List<String>> productTIRepMap) {
+		boolean flag = false;
+		JavascriptExecutor jse = (JavascriptExecutor) driver;
+		WebDriverWait wait = new WebDriverWait(driver, 120);
+		List<String> prList = null;
+		try {
+			commonPOM.getSchoolGlobalLOB().click();
+			hePom.getProductLink().click();
+			wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+			jse.executeScript("window.scrollBy(0,200)");
+			
+			for(String prKey : productTIRepMap.keySet()) {
+				prList = productTIRepMap.get(prKey);
+				break;
+			}
+			if (!prList.isEmpty()) {
+				//goalframework
+				for (String prTopics : prList) {
+					productTocPOM.getEnterSearchTerm().sendKeys(prTopics);
+					productTocPOM.getUpdateResultButton().click();
+					wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+					jse.executeScript("window.scrollBy(0,300)");
+					if(schoolPOM.getResultFound().getText().contains("Showing")) {
+						schoolPOM.getCurriculumGoalFramework().click();
+						wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+						jse.executeScript("window.scrollBy(0,300)");
+						break;
+					}
+				}
+				//verifying topics
+				for (String prTopics : prList) {
+					schoolPOM.getInnerEnterSearch().sendKeys(prTopics);
+					schoolPOM.getSchoolInnerUpdateResultButton().click();
+					wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+					
+					List<WebElement> webElement  =  schoolPOM.getParentChildList();
+					if (!webElement.isEmpty()) {
+						Iterator<WebElement> itr = webElement.iterator();
+						while (itr.hasNext()) {
+							WebElement childStructureElement = 	itr.next();
+							String structureName = childStructureElement.getText();
+							if (structureName.contains(prTopics)) {
+								flag = true;
+								continue;
+							} else {
+								flag = false;
+								//logger.log(LogStatus.FAIL, "Curriculum Standard Re-ingestion : Parent/Child description does not match, "+"Level - "+pcCounter);
+							}
+						}
+						schoolPOM.getInnerEnterSearch().clear();
+						//wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+						continue;
+					} else {
+						flag = false;
+						/*logger.log(LogStatus.FAIL, "Curriculum Standard Re-ingestion : Parent/Child description does not filtered using Enter serach term option"
+								+ "so data verification is failed");*/
+					}
+					
+				}
+			}
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return flag;
+	}
 	public boolean verifyIntermediaryDataUI(Map<String, List<String>> forwardIIRepMap) {
 		boolean flag = false;
 		try {
@@ -676,9 +743,8 @@ public class Reports extends BaseClass {
 		System.out.println(isValidFormat("25/09/2013  12:13:50"));
 	}*/
 	
-	public String createAndDownloadReport1() {
+	public String createAndDownloadReportProductToCInt() {
 		String reportName = null;
-		String curriculumName = null;
 		WebDriverWait wait = new WebDriverWait(driver, 120);
 		JavascriptExecutor jse = (JavascriptExecutor) driver;
 		try {
@@ -686,6 +752,7 @@ public class Reports extends BaseClass {
 			// Search the ingested product and create report
 			commonPOM.getSchoolGlobalLOB().click();
 			hePom.getProductLink().click();
+			//Thread.sleep(4000);
 			wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
 			productTocPOM.getEnterSearchTerm().sendKeys(ReportsConstant.INGESTED_PRODUCT);
 			productTocPOM.getUpdateResultButton().click();
@@ -696,62 +763,33 @@ public class Reports extends BaseClass {
 			Thread.sleep(1000);
 			schoolPOM.getAction().click();
 			reportsPOM.getSchoolCreateReportLink().click();
+			Thread.sleep(1000);
 			reportsPOM.getSchoolModelWindowNextButton().click();
-			
+			wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
 			reportsPOM.getProductToCIntermediaryReport().click();
-			
-			List<String> disciplineList = getIngestedIntermediaryDiscipline();
-			
-			////////////////////////////
-			
-			Thread.sleep(1000);
-			jse.executeScript("window.scrollBy(0, -500)");
-			schoolPOM.getEnterEnterSearch().sendKeys(curriculumName);
-			
-			schoolPOM.getSchoolUpdateResultButton().click();	
-			//wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
-			Thread.sleep(8000);
-			jse.executeScript("window.scrollBy(0, 400)");
-			
-			Thread.sleep(1000);
-			schoolPOM.getAction().click();
-			reportsPOM.getSchoolCreateReportLink().click();
-			Thread.sleep(10000);
-			//wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
-			
-			//Model window is appears, click on next button
-			Thread.sleep(10000);
-			//wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
-			
-			jse.executeScript("window.scrollBy(0, 400)");
-			Thread.sleep(1000);
-			reportsPOM.getForwardIndirectIntermediaryReport().click();
-			Thread.sleep(10000);
-			//wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
-			
-			reportsPOM.getFirstIntermediaryPivot().click();
-			Thread.sleep(10000);
-			//wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
-			
+			Thread.sleep(3000);
+			//pivot select and click
+			clickIngestedIntermediaryDiscipline();	
 			reportsPOM.getSchoolModelWindowNextButton().click();
-			Thread.sleep(10000);
-			//wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+			Thread.sleep(2000);
 			
-			reportName = ReportsConstant.FORWARD_INDIRECT_INT_REPORT_FILE_NAME + String.valueOf(1300 + (int)Math.round(Math.random() * (1400 - 1300)));
+			reportName = ReportsConstant.PRODUCT_TOC_INT_REPORT_FILE_NAME + String.valueOf(1300 + (int)Math.round(Math.random() * (1400 - 1300)));
 			
-			reportsPOM.getForwardIndirectInterReportName().clear();
-			reportsPOM.getForwardIndirectInterReportName().sendKeys(reportName);
+			reportsPOM.getReportName().clear();
+			reportsPOM.getReportName().sendKeys(reportName);
 			
 			jse.executeScript("window.scrollBy(0,500)");
 			reportsPOM.getRunReport().click();
 			wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
 			
-			Thread.sleep(60000);
+			Thread.sleep(1000);
+			reportsPOM.getUpdateResult().click();
+			Thread.sleep(8000);
 			jse.executeScript("window.scrollBy(0,-300)");
 			reportsPOM.getEnterSearchTerm().sendKeys(reportName);
 			reportsPOM.getUpdateResult().click();
-			//wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
-			Thread.sleep(10000);
+			wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+			Thread.sleep(2000);
 			if (reportsPOM.getRepotCountText().getText().contains("Showing")) {
 				removeExistingFile();
 				
@@ -768,9 +806,7 @@ public class Reports extends BaseClass {
 		return reportName;
 	}
 	
-	public List<String> getIngestedIntermediaryDiscipline() {
-		List<String> intermediaryList = new LinkedList<String>();
-		
+	public void clickIngestedIntermediaryDiscipline() {
 		JavascriptExecutor jse = (JavascriptExecutor) driver;
 		WebDriverWait wait = new WebDriverWait(driver, 600);
 		try {
@@ -804,19 +840,52 @@ public class Reports extends BaseClass {
 				while (itr.hasNext()){
 				WebElement childStructureElement = 	itr.next();
 				String discipline = childStructureElement.getText();
-				System.out.println(discipline);
-				
-				
+				int i = discipline.indexOf("\n");
+				int j = discipline.lastIndexOf("\n");
+				counter++;
+					if(ReportsConstant.INGESTED_INTERMEDIARY.equalsIgnoreCase(discipline.substring(i, j).trim())){
+					String xpath = "//div[@id='report-target-container']/div[2]/div/div[1]/div[2]/div["+counter+"]/div/div[2]/div/span[1]";
+						if (counter <=7) {
+							WebElement element = driver.findElement(By.xpath(xpath));
+							System.out.println("Selecting Intermediary : "+discipline.substring(i, j).trim());
+							element.click();
+							wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+						}
+						if (counter >=7 && counter <=14) {
+							jse.executeScript("window.scrollBy(0,600)");
+							WebElement element = driver.findElement(By.xpath(xpath));
+							element.click();
+							wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+							jse.executeScript("window.scrollBy(0,-1000)");
+						}
+						if (counter >=14 && counter <=21) {
+							jse.executeScript("window.scrollBy(0,1100)");
+							WebElement element = driver.findElement(By.xpath(xpath));
+							element.click();
+							wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+							jse.executeScript("window.scrollBy(0,-1500)");
+						}
+						if (counter >=21 && counter <=28) {
+							jse.executeScript("window.scrollBy(0,1600)");
+							WebElement element = driver.findElement(By.xpath(xpath));
+							element.click();
+							wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+							jse.executeScript("window.scrollBy(0,-2000)");
+						}
+						if (counter >=28 && counter <=35) {
+							jse.executeScript("window.scrollBy(0,2100)");
+							WebElement element = driver.findElement(By.xpath(xpath));
+							element.click();
+							wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+							jse.executeScript("window.scrollBy(0,-2100)");
+						}
+					}
 				}
-			} else {
-				//do simple ingestion
-				return intermediaryList;
-			}
-			
+			} 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-				
-		return intermediaryList;
+			
 	}
+	
 }

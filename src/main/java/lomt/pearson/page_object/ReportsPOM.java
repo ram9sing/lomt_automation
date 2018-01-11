@@ -66,7 +66,7 @@ public class ReportsPOM {
 	private WebElement firstIntermediaryPivot;
 	
 	@FindBy(xpath = "//input[@id='_reportName']")
-	private WebElement forwardIndirectInterReportName;
+	private WebElement reportName;
 	
 	@FindBy(xpath = "//div[@id='lomtAppId']/div/div/div[2]/div[2]/button")
 	private WebElement runReport;
@@ -156,8 +156,8 @@ public class ReportsPOM {
 		return firstIntermediaryPivot;
 	}
 
-	public WebElement getForwardIndirectInterReportName() {
-		return forwardIndirectInterReportName;
+	public WebElement getReportName() {
+		return reportName;
 	}
 
 	public WebElement getRunReport() {

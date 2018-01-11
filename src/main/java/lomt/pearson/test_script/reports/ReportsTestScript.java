@@ -56,12 +56,11 @@ public class ReportsTestScript {
 		logger = reports.startTest("Product (ToC) Intermediary Report, LOMT-1762");
 		
 		//Admin user
-		report.createAndDownloadReport1();
-		boolean reportFlag = report.productToCIntermediaryReport();
-		if(reportFlag) {
+		String reportName = report.createAndDownloadReportProductToCInt();
+		if(!reportName.isEmpty()) {
 			Map<String, List<String>> productTIRepMap = report.verifyProductToCIntermediaryReport();
 			if (!productTIRepMap.isEmpty()) {
-				report.verifyCurriculumStandardDataUI(productTIRepMap);
+				report.verifyProductDataUI(productTIRepMap);
 				report.verifyIntermediaryDataUI(productTIRepMap);
 			}
 		} else {
