@@ -2942,13 +2942,14 @@ public class ExternalFramework2 extends BaseClass {
 							}
 
 							// Grade Title
-							if (!(String.valueOf(rowSource.getCell(LOMTConstant.THREE)).contains(LOMTConstant.NULL))
+							// According to comment in LOMT-1606 Grade title value should not be verified
+						/*	if (!(String.valueOf(rowSource.getCell(LOMTConstant.THREE)).contains(LOMTConstant.NULL))
 									&& !(String.valueOf(rowDest.getCell(LOMTConstant.THREE)).contains(LOMTConstant.NULL))) {
 
 								Assert.assertEquals(String.valueOf(rowSource.getCell(LOMTConstant.THREE).getStringCellValue().trim()),
 										String.valueOf(rowDest.getCell(LOMTConstant.THREE).getStringCellValue()).trim());
 							}
-							break;
+							break;*/
 						}
 					}
 				}

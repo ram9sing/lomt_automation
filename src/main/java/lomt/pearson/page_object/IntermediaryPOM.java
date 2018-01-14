@@ -71,9 +71,6 @@ public class IntermediaryPOM {
 	@FindBy(xpath = "//div[@id='lomtAppId']/div/div/div[2]/div/div[2]/div/div")
 	private WebElement loadMoreButton;
 	
-	@FindBy(xpath = "//div[@id='lomtAppId']/div/div/div[2]/div/div[2]/div/div")
-	private WebElement innerLoadMoreButton;
-	
 	@FindBy(xpath = "//div[@id='lomtAppId']/div/div/div[2]/div/div/div[2]/div[1]/div/div[1]/div/div/a")
 	private WebElement fistSubject;
 	
@@ -258,10 +255,6 @@ public class IntermediaryPOM {
 
 	public WebElement getLoadMoreButton() {
 		return loadMoreButton;
-	}
-
-	public WebElement getInnerLoadMoreButton() {
-		return innerLoadMoreButton;
 	}
 	
 	public WebElement getFistSubject() {

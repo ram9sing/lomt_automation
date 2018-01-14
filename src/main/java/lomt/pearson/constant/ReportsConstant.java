@@ -6,9 +6,9 @@ public class ReportsConstant {
 	public static String FORWARD_INDIRECT_INT_REPORT_FILE_NAME = "Forward (Indirect) Intermediary Report";
 	public static String PRODUCT_TOC_INT_REPORT_FILE_NAME = "Automation Report";
 	public static String PRODUCT_INT_TEXT = "Product (ToC) Intermediary Report";
-	public static String INGESTED_PRODUCT = "Automation_Ingested_Product";
-	public static String INGESTED_INTERMEDIARY = "Economics";
-	public static String INGESTED_STANDARD_YEAR = "1234";
+	public static String INGESTED_PRODUCT = "Automation_Report_Verification_Product";
+	public static String INGESTED_INTERMEDIARY = "Information and Communication Technology";
+	public static String INGESTED_STANDARD_YEAR = "1351";
 	
 	//Forward Indirect Intermediary Report
 	public static String TITLE = "Title";
@@ -57,9 +57,9 @@ public class ReportsConstant {
 	public static String DATA_FORMAT = "dd/MM/yyyy HH:mm:ss";
 	
 	public static String ADMIN_USER_COMMON = "learn usr1";
-	public static String ADMIN_USER_PPE = "LOMT-ADMIN";
-	public static String LEARNING_USER_PPE = "LOMT-USER";
-	public static String SME_USER = "LOMT-SME"; 
-	public static String EDITOR_USER = "LOMT-EDITOR";
+	public static String ADMIN_USER_PPE = "LOMT ADMIN";
+	public static String LEARNING_USER_PPE = "LOMT USER";
+	public static String SME_USER = "LOMT SME"; 
+	public static String EDITOR_USER = "LOMT EDITOR";
 
 }
