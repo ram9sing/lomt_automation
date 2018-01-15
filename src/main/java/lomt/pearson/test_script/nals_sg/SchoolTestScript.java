@@ -1,5 +1,6 @@
 package lomt.pearson.test_script.nals_sg;
 
+import org.junit.Ignore;
 import org.testng.annotations.Test;
 
 import com.relevantcodes.extentreports.ExtentReports;
@@ -140,7 +141,7 @@ public class SchoolTestScript {
 		}
 		
 		//verify ingested data
-		boolean verifyFlag =  school.verifyingestedDataUI(true, year, logger);
+		boolean verifyFlag =  school.verifyingestedDataUI(true, 1962/*year*/, logger);
 		if (verifyFlag) {
 			logger.log(LogStatus.PASS, TestCases.TC_LOMT_09_30_VERIFYUI_AFTERINGESTION);
 			
@@ -180,7 +181,7 @@ public class SchoolTestScript {
 		
 		
 		//school.searchAndExportIngestedCurriculumData(year, logger, "medium");  // with 3 standard
-		school.searchAndExportIngestedCurriculumData(year, logger, "small");  // with 1 standard
+		school.searchAndExportIngestedCurriculumData(/*year*/1962, logger, "small");  // with 1 standard
 		
 		reports.endTest(logger);
 		reports.flush();

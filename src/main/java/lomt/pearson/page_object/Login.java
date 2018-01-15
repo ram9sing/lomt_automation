@@ -15,12 +15,12 @@ public class Login {
 
 	WebDriver driver;
 
-	//@FindBy(xpath = "//div[@id='lomtAppId']/div/div/div/div[2]/div/div[1]/div/input")  New
-	@FindBy(xpath = "//div[@id='lomtAppId']/div/div/div[2]/div[1]/div[2]/div/input")  // OLD
+	//@FindBy(xpath = "//input[@placeholder='username']")
+	@FindBy(xpath = "//*[@id='lomtAppId']/div/div/div/div[2]/div/div[1]/div/input")
 	private WebElement userName;
 
-	//@FindBy(xpath = "//*[@id='lomtAppId']/div/div/div/div[2]/div/div[2]/div/input") // New
-	@FindBy(xpath = "//div[@id='lomtAppId']/div/div/div[2]/div[2]/div[2]/div/input")
+	//@FindBy(xpath = "//input[@placeholder='password']")
+	@FindBy(xpath = "//*[@id='lomtAppId']/div/div/div/div[2]/div/div[2]/div/input")
 	private WebElement password;
 
 	@FindBy(xpath = "//div[@class='login-btn-panel']/button")
