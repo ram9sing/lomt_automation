@@ -12,6 +12,7 @@ import com.relevantcodes.extentreports.LogStatus;
 
 import lomt.pearson.api.reports.Reports;
 import lomt.pearson.constant.LOMTConstant;
+import lomt.pearson.constant.TestCases;
 
 public class ReportsTestScript {
 
@@ -37,7 +38,7 @@ public class ReportsTestScript {
 			Map<String, List<String>> forwardIIRepMap = report.verifiedForwardIndirectIntermediaryReportsExportedFile();
 			if (!forwardIIRepMap.isEmpty()) {
 				report.verifyCurriculumStandardDataUI(forwardIIRepMap);
-				report.verifyIntermediaryDataUI(forwardIIRepMap);
+				report.verifyIntermediaryDataUI(forwardIIRepMap,logger);
 			}
 		} else {
 			logger.log(LogStatus.FAIL, "TC-LOMT-1758-01_Admin_User_SchoolGlobal_Reports_&exports_Forward-Indirect_Intermediary_Report"); 
@@ -58,12 +59,19 @@ public class ReportsTestScript {
 		//Admin user
 		String reportName = report.createAndDownloadReportProductToCInt();
 		if(!reportName.isEmpty()) {
+			logger.log(LogStatus.PASS, TestCases.TC_LOMT_1762_01_ADMIN_USER_DOWNLOAD_REPORT);
+			logger.log(LogStatus.PASS, TestCases.TC_LOMT_1762_02_BASIC_USER_DOWNLOAD_REPORT);
 			Map<String, List<String>> productTIRepMap = report.verifyProductToCIntermediaryReport();
 			if (!productTIRepMap.isEmpty()) {
-				report.verifyProductDataUI(productTIRepMap);
-				report.verifyIntermediaryDataUI(productTIRepMap);
+				boolean verifyFlag =	report.verifyProductDataUI(productTIRepMap,logger);
+				verifyFlag = report.verifyIntermediaryDataUI(productTIRepMap,logger);
+				if (verifyFlag){
+				logger.log(LogStatus.PASS, TestCases.TC_LOMT_1762_03_ADMIN_USER_DOWNLOAD_VERIFY_REPORT);
+				}
 			}
-		} else {
+		} 
+		
+		else {
 			logger.log(LogStatus.FAIL, "TC_LOMT-1762-01_Admin_User_School_Global_Report_Export_Download"); 
 			return;
 		}
