@@ -1,19 +1,22 @@
 package lomt.pearson.constant;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class ReportsConstant {
 	
 	public static String INDIRECT_TEXT = "Indirect";
 	public static String FORWARD_INDIRECT_INT_REPORT_FILE_NAME = "Forward (Indirect) Intermediary Report";
 	public static String PRODUCT_TOC_INT_REPORT_FILE_NAME = "Automation Report";
 	public static String PRODUCT_INT_TEXT = "Product (ToC) Intermediary Report";
-	
-	public static String INGESTED_PRODUCT = "Automation_Report_Verification_Product";	
-	public static String INGESTED_INTERMEDIARY = "Information and Communication Technology";
+	public static String REVERSE_SHARED_INT_TEXT = "Reverse Shared Intermediary Report";
+	public static String INGESTED_PRODUCT = "Automation_Report_Verification_Product";
+	public static String INGESTED_INTERMEDIARY = "Psychology";
 	public static String INGESTED_STANDARD_YEAR = "1352";
 	
 	//Forward Indirect Intermediary Report
 	public static String TITLE = "Title";
-	public static String DATE_TIME_GENERATION = "Date / time of generation";
+	public static String DATE_TIME_GENERATION = "Date of generation";//"Date / time of generation";
 	public static String USER = "User";
 	public static String STANDARD = "Standard";
 	public static String INTERMEDIARY = "Intermediary";
@@ -54,6 +57,21 @@ public class ReportsConstant {
 	public static String START_PAGE = "Page Start";
 	public static String END_PAGE = "Page End";
 	public static String PERIPHERAL_ALIGNMENTS = "Peripheral Alignments";	
+	
+	//Reverse Shared Intermediary
+	public static String COMMON_ALIGNMENT = "Common Alignment";
+	public static String COMPONENT_REFERENCE = "Component Reference";
+	public static String CORRELATION_SCORE = "Correlation Score";
+	public static String STRENGTH = "Strength";
+	public static String UNMET_STATEMENTS = "Unmet Statements";
+	public static String MET_STATMENTS = "Met Statements";
+	
+	//Expected Correlation Scores for Product
+	public static List <String> Corr_Product = Arrays.asList("1/1","3/4","","","2/4","","0/1","NO CORRELATION","","NO CORRELATION");
+	public static List <String> met_List = Arrays.asList("ELA.CP.1 -Intermediary 1", "ELA.CP.2 - Intermediary 2\nELA.CP.4 - Intermediary 4\nELA.CP.3 - Intermediary 3","","",
+			"ELA.CP.6 - Intermediary 6\nELA.CP.7 - Intermediary 7","","","","","");
+	public static List <String> strength_List = Arrays.asList("COMPLETE", "STRONG","","","AVERAGE","","WEAK", "WEAK","","WEAK");
+	public static List <String> unmet_List = Arrays.asList("","ELA.CP.5 - Intermediary 5","","","ELA.CP.12 - Intermediary 12\n ELA.CP.8 - Intermediary 8","","ELA.CP.9 -Intermediary 9","","","");
 	
 	public static String DATA_FORMAT = "dd/MM/yyyy HH:mm:ss";
 	

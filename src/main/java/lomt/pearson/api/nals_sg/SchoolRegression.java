@@ -961,7 +961,7 @@ public class SchoolRegression {
 					dataVFlag = false;
 					logger.log(LogStatus.FAIL, "Curriculum Standard Re-ingestion : Grade name does not match 2");
 				}
-				if (schoolPOM.getGradeText3().getText().contains(SchoolConstant.GRADE_3)) {
+				if (schoolPOM.getGradeText3().getText().contains(SchoolConstant.GRADE_2)) {
 				} else {
 					dataVFlag = false;
 					logger.log(LogStatus.FAIL, "Curriculum Standard Re-ingestion : Grade name does not match 2");

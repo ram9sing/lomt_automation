@@ -29,7 +29,7 @@ public class LOMTConstant {
 	
 	public static String CONFIGURATION_FILE_PATH = "src/main/java/lomt/pearson/resources/lomt-config.properties";
 	public static String LOG4J_FILE_PATH = "src/main/java/lomt/pearson/resources/log4j.properties";
-	public static String REPORT_FILE_PATH = "src/main/java/lomt/pearson/reports/lomt.html";
+	public static String REPORT_FILE_PATH = "src/main/java/lomt/pearson/reports/lomt_report.html";
 	public static String REPORT_FILE_PATH_COMMON = "src/main/java/lomt/pearson/reports/lomt_common.html";
 	public static String REPORT_INTERMEDIARY_FILE_PATH = "src/main/java/lomt/pearson/reports/lomt_intermediary.html";
 	public static String REPORT_GSE_FILE_PATH = "src/main/java/lomt/pearson/reports/lomt_gse.html";

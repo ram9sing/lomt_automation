@@ -489,4 +489,15 @@ public class TestCases {
 	public static String TC_LOMT_1762_02_BASIC_USER_DOWNLOAD_REPORT = "TC_LOMT-1762-02_Basic_User_School_Global_Report_Export_Download";
 	public static String TC_LOMT_1762_03_ADMIN_USER_DOWNLOAD_VERIFY_REPORT = "TC_LOMT-1762-03_Admin_User_School_Global_Report_Export_Download";
 	public static String TC_LOMT_1762_04_ADMIN_USER_DOWNLOAD_VERIFY_REPORT = "TC_LOMT-1762-04_Basic_User_School_Global_Report_Export_Download";
+	
+	//LOMT-1839
+	public static String TC_LOMT_1839_01_DOWNLOAD_REPORT = "TC-LOMT-1839-01_All_User_Download_Report";
+	public static String TC_LOMT_1839_02_REPORT_VERIFY = "TC-LOMT-1839-02_Verify_Report_Data";
+	public static String TC_LOMT_1839_03_CORRELATION_VERIFY = "TC-LOMT-1839-03_Verify_Correlation in excel file";
+	public static String TC_LOMT_1839_04_STRENGTH_WEAK_VERIFY = "TC-LOMT-1839-04_Verify_Weak_Node_IN_Report";
+	public static String TC_LOMT_1839_05_STRENGTH_AVERAGE_VERIFY = "TC-LOMT-1839-05_Verify_Strength_As_Average_IN_Report";
+	public static String TC_LOMT_1839_06_STRENGTH_COMPLETE_VERIFY = "TC-LOMT-1839-06_Verify_Strength_As_Completed_IN_Report";
+	public static String TC_LOMT_1839_07_MET_VERIFY = "TC-LOMT-1839-07_Verify_MET_Column_In_Report";
+	public static String TC_LOMT_1839_08_UNMET_VERIFY = "TC-LOMT-1839-08_Verify_UNMET_Column_In_Report";
 }
+

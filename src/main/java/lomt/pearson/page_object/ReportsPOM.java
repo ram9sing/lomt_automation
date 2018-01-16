@@ -47,23 +47,29 @@ public class ReportsPOM {
 	@FindBy(xpath = "//div[@class='report-utility-container']/div[6]/div[1]")
 	private WebElement forwardIndirectIntermediaryReport;
 	
-	@FindBy(xpath = "//div[@id='react-tabs-3']/div[2]/div[1]/div[1]/span")
+	@FindBy(xpath = "//*[@id='lomtAppId']/div/div/div[2]/div/div[2]/div[1]/div[1]/span")
 	private WebElement reverseToCStandardintermediaryReport;
 	
-	@FindBy(xpath = "//div[@id='react-tabs-1']/div[2]/div[2]/div[1]/span")
+	@FindBy(xpath = "//*[@id='lomtAppId']/div/div/div[2]/div/div[2]/div[2]/div[1]/span")
 	private WebElement productToCIntermediaryReport;
 	
-	@FindBy(xpath = "//div[@id='react-tabs-3']/div[2]/div[3]/div[1]/span")
+	@FindBy(xpath = "//*[@id='lomtAppId']/div/div/div[2]/div/div[2]/div[8]/div[1]/span")
+	private WebElement reverseSharedIntermediaryReport;
+	
+	@FindBy(xpath = "//*[@id='lomtAppId']/div/div/div[2]/div/div[2]/div[3]/div[1]/span")
 	private WebElement standardToCIntermediaryReport;
 	
-	@FindBy(xpath = "//div[@id='react-tabs-3']/div[2]/div[4]/div[1]/span")
+	@FindBy(xpath = "//*[@id='lomtAppId']/div/div/div[2]/div/div[2]/div[4]/div[1]/span")
 	private WebElement forwardDirectReport;
 	
-	@FindBy(xpath = "//div[@id='react-tabs-3']/div[2]/div[5]/div[1]/span")
+	@FindBy(xpath = "//*[@id='lomtAppId']/div/div/div[2]/div/div[2]/div[5]/div[1]/span")
 	private WebElement reverseDirectReport;
 	
 	@FindBy(xpath = "//div[@id='report-target-container']/div[2]/div/div[1]/div[2]/div[1]/div/div[2]/div/span[1]")
 	private WebElement firstIntermediaryPivot;
+	
+	@FindBy(xpath = "//div[@id='report-target-container']/div[2]/div/div[2]/div[2]/div/div/div[2]/div/span[1]")
+	private WebElement selectTarget;
 	
 	@FindBy(xpath = "//input[@id='_reportName']")
 	private WebElement reportName;
@@ -140,6 +146,10 @@ public class ReportsPOM {
 		return productToCIntermediaryReport;
 	}
 
+	public WebElement ReverseSharedIntermediaryReport() {
+		return reverseSharedIntermediaryReport;
+	}
+	
 	public WebElement getStandardToCIntermediaryReport() {
 		return standardToCIntermediaryReport;
 	}
@@ -155,7 +165,11 @@ public class ReportsPOM {
 	public WebElement getFirstIntermediaryPivot() {
 		return firstIntermediaryPivot;
 	}
-
+	
+	public WebElement getSelectTarget() {
+		return selectTarget;
+	}
+	
 	public WebElement getReportName() {
 		return reportName;
 	}

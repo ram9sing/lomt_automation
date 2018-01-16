@@ -433,21 +433,6 @@ public class Common extends BaseClass {
 				Assert.assertFalse((subjectLength == 0), LOMTConstant.SUBJECT+LOMTConstant.DROPDOWN_SIZE_NOT_ZERO);
 			}
 			
-			//Country selection, as per JIRA: LOMT-1779
-			schoolPOM.getCountryDropdown().click();
-			Thread.sleep(6000);
-			List<WebElement> countryList = schoolPOM.getCountryDropdownList();
-			int countryLength = countryList.size();
-			if (countryLength > 0) {
-				for (int i = 0; i <= countryLength; i++) {
-					WebElement element = countryList.get(i);
-					if (element.getText().equalsIgnoreCase(SchoolConstant.UNITIED_STATES)) {
-						element.click();
-						break;
-					}
-				}
-			}
-			
 			//Authority Selection, pick authority name, 
 			schoolPOM.getAuthorityDropdown().click();
 			Thread.sleep(6000);
@@ -483,15 +468,7 @@ public class Common extends BaseClass {
 			}
 			
 			//Adopted Year Selection
-			schoolPOM.getAdoptedYear().sendKeys(String.valueOf("2017"));
-			
-			//Source URL
-			schoolPOM.getCsSourceURL().sendKeys(SchoolConstant.CS_SOURCE_URL);
-			
-			//Curriculum Info URL
-			schoolPOM.getCsInfoURL().sendKeys(SchoolConstant.CS_INFO_URL);
-			
-			jse.executeScript("window.scrollBy(0,500)");
+			schoolPOM.getAdoptedYear().sendKeys("2017");
 			
 			jse.executeScript("window.scrollBy(0,500)");
 			
