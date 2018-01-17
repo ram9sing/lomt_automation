@@ -603,7 +603,7 @@ public class Reports extends BaseClass {
 			// Title
 			if (worksheet.getRow(LOMTConstant.SIX).getCell(LOMTConstant.TEN).getStringCellValue().trim()
 					.equalsIgnoreCase(ReportsConstant.TITLE)) {
-				if (worksheet.getRow(LOMTConstant.SIX).getCell(LOMTConstant.ELEVENTH).getStringCellValue() != null) {
+				if (worksheet.getRow(LOMTConstant.SIX).getCell(LOMTConstant.ELEVENTH) != null) {
 				} else {
 					logger.log(LogStatus.FAIL, "Curriculum Standard should not be null in exported file");
 				}
@@ -614,7 +614,7 @@ public class Reports extends BaseClass {
 			// Course
 			if (worksheet.getRow(LOMTConstant.SEVEN).getCell(LOMTConstant.ZERO).getStringCellValue()
 					.equalsIgnoreCase(ReportsConstant.COURSE)) {
-				if (worksheet.getRow(LOMTConstant.SEVEN).getCell(LOMTConstant.ONE).getStringCellValue() != null) {
+				if (worksheet.getRow(LOMTConstant.SEVEN).getCell(LOMTConstant.ONE) != null) {
 				} else {
 					logger.log(LogStatus.FAIL, "Course is null/empty in exported file");
 				}
@@ -625,7 +625,7 @@ public class Reports extends BaseClass {
 			// Country
 			if (worksheet.getRow(LOMTConstant.SEVEN).getCell(LOMTConstant.TEN).getStringCellValue()
 					.equalsIgnoreCase(ReportsConstant.COUNTRY)) {
-				if (worksheet.getRow(LOMTConstant.SEVEN).getCell(LOMTConstant.ELEVENTH).getStringCellValue() != null) {
+				if (worksheet.getRow(LOMTConstant.SEVEN).getCell(LOMTConstant.ELEVENTH) != null) {
 				} else {
 					logger.log(LogStatus.FAIL, "Country is null/empty in exported file");
 				}
@@ -648,7 +648,7 @@ public class Reports extends BaseClass {
 			// Grade
 			if (worksheet.getRow(LOMTConstant.EIGHT).getCell(LOMTConstant.TEN).getStringCellValue()
 					.equalsIgnoreCase(ReportsConstant.GRADE)) {
-				if (worksheet.getRow(LOMTConstant.EIGHT).getCell(LOMTConstant.ELEVENTH).getStringCellValue() != null) {
+				if (worksheet.getRow(LOMTConstant.EIGHT).getCell(LOMTConstant.ELEVENTH) != null) {
 				} else {
 					logger.log(LogStatus.FAIL, "Grade is null/empty in exported file");
 				}
@@ -669,7 +669,7 @@ public class Reports extends BaseClass {
 			// State Or Region
 			if (worksheet.getRow(LOMTConstant.TEN).getCell(LOMTConstant.ZERO).getStringCellValue()
 					.equalsIgnoreCase(ReportsConstant.STATE_OR_REGION)) {
-				if (worksheet.getRow(LOMTConstant.TEN).getCell(LOMTConstant.ONE).getStringCellValue() != null) {
+				if (worksheet.getRow(LOMTConstant.TEN).getCell(LOMTConstant.ONE) != null) {
 				} else {
 					logger.log(LogStatus.FAIL, "State or Region is null/empty in exported file");
 				}
@@ -680,7 +680,7 @@ public class Reports extends BaseClass {
 			// Start Grade
 			if (worksheet.getRow(LOMTConstant.ELEVENTH).getCell(LOMTConstant.ZERO).getStringCellValue()
 					.equalsIgnoreCase(ReportsConstant.START_GRADE)) {
-				if (worksheet.getRow(LOMTConstant.ELEVENTH).getCell(LOMTConstant.ONE).getStringCellValue() != null) {
+				if (worksheet.getRow(LOMTConstant.ELEVENTH).getCell(LOMTConstant.ONE) != null) {
 				} else {
 					logger.log(LogStatus.FAIL, "Start Grade is null/empty in exported file");
 				}
@@ -691,7 +691,7 @@ public class Reports extends BaseClass {
 			// End Grade
 			if (worksheet.getRow(LOMTConstant.TWELEVE).getCell(LOMTConstant.ZERO).getStringCellValue()
 					.equalsIgnoreCase(ReportsConstant.END_GRADE)) {
-				if (worksheet.getRow(LOMTConstant.TWELEVE).getCell(LOMTConstant.ONE).getStringCellValue() != null) {
+				if (worksheet.getRow(LOMTConstant.TWELEVE).getCell(LOMTConstant.ONE) != null) {
 				} else {
 					logger.log(LogStatus.FAIL, "End Grade is null/empty in exported file");
 				}
@@ -702,7 +702,7 @@ public class Reports extends BaseClass {
 			// ISBN10
 			if (worksheet.getRow(LOMTConstant.THIRTEEN).getCell(LOMTConstant.ZERO).getStringCellValue()
 					.equalsIgnoreCase(ReportsConstant.ISBN10)) {
-				if (worksheet.getRow(LOMTConstant.THIRTEEN).getCell(LOMTConstant.ONE).getStringCellValue() != null) {
+				if (worksheet.getRow(LOMTConstant.THIRTEEN).getCell(LOMTConstant.ONE) != null) {
 				} else {
 					logger.log(LogStatus.FAIL, "ISBN10 is null/empty in exported file");
 				}
@@ -713,7 +713,7 @@ public class Reports extends BaseClass {
 			// ISBN13
 			if (worksheet.getRow(LOMTConstant.FOURTEEN).getCell(LOMTConstant.ZERO).getStringCellValue()
 					.equalsIgnoreCase(ReportsConstant.ISBN13)) {
-				if (worksheet.getRow(LOMTConstant.FOURTEEN).getCell(LOMTConstant.ONE).getStringCellValue() != null) {
+				if (worksheet.getRow(LOMTConstant.FOURTEEN).getCell(LOMTConstant.ONE) != null) {
 				} else {
 					logger.log(LogStatus.FAIL, "ISBN13 is null/empty in exported file");
 				}
@@ -724,7 +724,7 @@ public class Reports extends BaseClass {
 			// Type
 			if (worksheet.getRow(LOMTConstant.FIFTEEN).getCell(LOMTConstant.ZERO).getStringCellValue()
 					.equalsIgnoreCase(ReportsConstant.TYPE)) {
-				if (worksheet.getRow(LOMTConstant.FIFTEEN).getCell(LOMTConstant.ONE).getStringCellValue() != null) {
+				if (worksheet.getRow(LOMTConstant.FIFTEEN).getCell(LOMTConstant.ONE) != null) {
 				} else {
 					logger.log(LogStatus.FAIL, "Type is null/empty in exported file");
 				}
