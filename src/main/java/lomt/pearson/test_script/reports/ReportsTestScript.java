@@ -27,27 +27,54 @@ public class ReportsTestScript {
 		report.openBrowser();		
 		report.login();
 	}
-
-	//@Test(priority = 1)
-	@Ignore
+	
+	@Test(priority = 1)
 	public void forwardIndirectIntermediaryReport() throws Exception {
-		logger = reports.startTest("Forward Indirect Intermediary Report, LOMT-1758");
+		logger = reports.startTest(ReportsConstant.FORWARD_INDIRECT_INTERMEDIARY_REPORT+LOMTConstant.COMMA+LOMTConstant.EMPTY_SPACE+ReportsConstant.LOMT_1758);
 		
-		//Admin user
-		boolean reportFlag = report.forwardIndirectIntermediaryReports();
-		if(reportFlag) {
-			Map<String, List<String>> forwardIIRepMap = report.verifiedForwardIndirectIntermediaryReportsExportedFile();
+		//Admin user		
+		String reportName = report.createAndDownloadReport(ReportsConstant.FORWARD_INDIRECT_INTERMEDIARY_REPORT, ReportsConstant.CS_GOALFRAMEWORK_NAME_PPE,
+				 ReportsConstant.INGESTED_INTERMEDIARY_PPE, null, logger);
+		if(reportName != null) {
+			Map<String, List<String>> forwardIIRepMap = report.verifiedForwardIndirectIntermediaryReportsExportedFile(reportName, logger);
 			if (!forwardIIRepMap.isEmpty()) {
-				report.verifyCurriculumStandardDataUI(forwardIIRepMap,logger);
-				report.verifyIntermediaryDataUI(forwardIIRepMap,logger);
+				report.verifyCurriculumStandardDataUI(forwardIIRepMap, logger);
+				report.verifyIntermediaryDataUI(forwardIIRepMap, logger);
+				logger.log(LogStatus.PASS, "TC-LOMT-1758-01_Admin_User_SchoolGlobal_Reports_&exports_Forward-Indirect_Intermediary_Report"); 
 			}
 		} else {
 			logger.log(LogStatus.FAIL, "TC-LOMT-1758-01_Admin_User_SchoolGlobal_Reports_&exports_Forward-Indirect_Intermediary_Report"); 
-			return;
 		}
 		
+		//Coordinator User
+		report.logout();
+		report.loginLearningEditor();
+		boolean coordinatorReportFlag = report.searchAndExportReport(reportName);
+		if (coordinatorReportFlag) {
+			logger.log(LogStatus.PASS, "TC-LOMT-1758-02_Coordinator_User_SchoolGlobal_Reports_&exports_Forward-Indirect_Intermediary_Report"); 
+		} else {
+			logger.log(LogStatus.FAIL, "TC-LOMT-1758-02_Coordinator_User_SchoolGlobal_Reports_&exports_Forward-Indirect_Intermediary_Report"); 
+		}
 		
-		logger.log(LogStatus.INFO, ""); 
+		//SME User
+		report.logout();
+		report.loginLearingSME();
+		boolean smeReportFlag = report.searchAndExportReport(reportName);
+		if (smeReportFlag) {
+			logger.log(LogStatus.PASS, "TC-LOMT-1758-03_SME_User_SchoolGlobal_Reports_&exports_Forward-Indirect_Intermediary_Report"); 
+		} else {
+			logger.log(LogStatus.FAIL, "TC-LOMT-1758-03_SME_User_SchoolGlobal_Reports_&exports_Forward-Indirect_Intermediary_Report"); 
+		}
+		
+		//BasicBrowser User
+		report.logout();
+		report.loginLearningUser();
+		boolean basicReportFlag = report.searchAndExportReport(reportName);
+		if (basicReportFlag) {
+			logger.log(LogStatus.PASS, "TC-LOMT-1758-04_BasicBrowser_User_SchoolGlobal_Reports_&exports_Forward-Indirect_Intermediary_Report"); 
+		} else {
+			logger.log(LogStatus.FAIL, "TC-LOMT-1758-04_BasicBrowser_User_SchoolGlobal_Reports_&exports_Forward-Indirect_Intermediary_Report"); 
+		}
 		
 		reports.endTest(logger);
 		reports.flush();
@@ -59,7 +86,7 @@ public class ReportsTestScript {
 		logger = reports.startTest("Product (ToC) Intermediary Report, LOMT-1762");
 		
 		//Admin user
-		String reportName = report.createAndDownloadReport(ReportsConstant.PRODUCT_INT_TEXT);
+		String reportName = report.createAndDownloadReport1(ReportsConstant.PRODUCT_INT_TEXT);
 		if(!reportName.isEmpty()) {
 			logger.log(LogStatus.PASS, TestCases.TC_LOMT_1762_01_ADMIN_USER_DOWNLOAD_REPORT);
 			logger.log(LogStatus.PASS, TestCases.TC_LOMT_1762_02_BASIC_USER_DOWNLOAD_REPORT);
@@ -90,7 +117,7 @@ public class ReportsTestScript {
 		logger = reports.startTest("Reverse Shared Intermediary Report, LOMT-1839");
 		
 		//Admin user
-		String reportName = report.createAndDownloadReport(ReportsConstant.REVERSE_SHARED_INT_TEXT);
+		String reportName = report.createAndDownloadReport1(ReportsConstant.REVERSE_SHARED_INT_TEXT);
 		if(!reportName.isEmpty()) {
 			logger.log(LogStatus.PASS, TestCases.TC_LOMT_1839_01_DOWNLOAD_REPORT);
 			Map<String, List<String>> productCSRepMap = report.verifyReverseSharedIntermediaryReport(logger);

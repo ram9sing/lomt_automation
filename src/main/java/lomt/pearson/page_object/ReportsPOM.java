@@ -11,8 +11,12 @@ public class ReportsPOM {
 	
 	private WebDriver driver;
 	
+	//Admin
 	@FindBy(xpath = "//div[@id='browse-grids']/div[1]/div[2]/span[1]")
 	private WebElement reportsExportLink;
+		
+	@FindBy(xpath = "//div[@id='browse-grids']/div[1]/div/span[1]")
+	private WebElement reportsExportLinkNonAdmin;
 	
 	@FindBy(xpath = "//div[@class='fixed-header-container']/div/div[2]/div/span[1]")
 	private WebElement repotCountText;
@@ -176,6 +180,10 @@ public class ReportsPOM {
 
 	public WebElement getRunReport() {
 		return runReport;
+	}
+	
+	public WebElement getReportsExportLinkNonAdmin() {
+		return reportsExportLinkNonAdmin;
 	}
 
 }

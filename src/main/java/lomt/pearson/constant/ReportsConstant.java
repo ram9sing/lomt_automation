@@ -16,7 +16,7 @@ public class ReportsConstant {
 	
 	//Forward Indirect Intermediary Report
 	public static String TITLE = "Title";
-	public static String DATE_TIME_GENERATION = "Date of generation";//"Date / time of generation";
+	public static String DATE_TIME_GENERATION = "Date / time of generation";
 	public static String USER = "User";
 	public static String STANDARD = "Standard";
 	public static String INTERMEDIARY = "Intermediary";
@@ -80,5 +80,13 @@ public class ReportsConstant {
 	public static String LEARNING_USER_PPE = "LOMT USER";
 	public static String SME_USER = "LOMT SME"; 
 	public static String EDITOR_USER = "LOMT EDITOR";
+	
+	//Forward Indirect Intermediary Report
+	public static String LOMT_1758 = "LOMT-1758";
+	public static String FORWARD_INDIRECT_INTERMEDIARY_REPORT = "Forward Indirect Intermediary Report";
+	
+	//Reports Test data - prerequisites : PPE
+	public static String CS_GOALFRAMEWORK_NAME_PPE = "Board of Studies New South Wales Art and Design K-12 1351";
+	public static String INGESTED_INTERMEDIARY_PPE = "Information and Communication Technology";
 
 }
