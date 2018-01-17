@@ -488,7 +488,7 @@ public class TestCases {
 	public static String TC_LOMT_1762_01_ADMIN_USER_DOWNLOAD_REPORT = "TC_LOMT-1762-01_Admin_User_School_Global_Report_Export_Download";
 	public static String TC_LOMT_1762_02_BASIC_USER_DOWNLOAD_REPORT = "TC_LOMT-1762-02_Basic_User_School_Global_Report_Export_Download";
 	public static String TC_LOMT_1762_03_ADMIN_USER_DOWNLOAD_VERIFY_REPORT = "TC_LOMT-1762-03_Admin_User_School_Global_Report_Export_Download";
-	public static String TC_LOMT_1762_04_ADMIN_USER_DOWNLOAD_VERIFY_REPORT = "TC_LOMT-1762-04_Basic_User_School_Global_Report_Export_Download";
+	public static String TC_LOMT_1762_04_BASIC_USER_DOWNLOAD_VERIFY_REPORT = "TC_LOMT-1762-04_Basic_User_School_Global_Report_Export_Download";
 	
 	//LOMT-1839
 	public static String TC_LOMT_1839_01_DOWNLOAD_REPORT = "TC-LOMT-1839-01_All_User_Download_Report";

@@ -44,7 +44,7 @@ public class ReportsConstant {
 	public static String PROGRAM = "Program";
 	public static String COURSE = "Course";
 	public static String PRODUCT = "Product";
-	public static String GEOGRAPHIC_AREA_OR__COUNTRY = "Geographic Area or Country";
+	public static String GEOGRAPHIC_AREA_OR_COUNTRY = "Geographic Area or Country";
 	public static String STATE_OR_REGION = "State or Region";
 	public static String START_GRADE = "Start Grade";
 	public static String END_GRADE = "End Grade";
