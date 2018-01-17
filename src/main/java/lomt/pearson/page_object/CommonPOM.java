@@ -196,7 +196,8 @@ public class CommonPOM {
 	@FindBy(xpath = "//div[@id='lomtAppId']/div/header/span/span")
 	private WebElement logoutOption;
 	
-	@FindBy(xpath = "//div[@id='userInfoPopoverId']/div[2]/div/div[4]/button")
+	//@FindBy(xpath = "//div[@id='userInfoPopoverId']/div[2]/div/div[4]/button")
+	@FindBy(xpath = "//div[@id='userInfoPopoverId']/div[2]/div/div[5]/button")
 	private WebElement logout;
 	
 	@FindBy(xpath = "//div[@class='list-common-header']/span[1]")

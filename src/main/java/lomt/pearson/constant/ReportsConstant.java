@@ -86,7 +86,7 @@ public class ReportsConstant {
 	public static String FORWARD_INDIRECT_INTERMEDIARY_REPORT = "Forward Indirect Intermediary Report";
 	
 	//Reports Test data - prerequisites : PPE
-	public static String CS_GOALFRAMEWORK_NAME_PPE = "Board of Studies New South Wales Art and Design K-12 1351";
+	public static String CS_GOALFRAMEWORK_NAME_PPE = "Department for Education Business K-12 1352";
 	public static String INGESTED_INTERMEDIARY_PPE = "Information and Communication Technology";
 
 }

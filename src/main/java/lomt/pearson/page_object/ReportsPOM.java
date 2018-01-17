@@ -16,6 +16,7 @@ public class ReportsPOM {
 	private WebElement reportsExportLink;
 		
 	@FindBy(xpath = "//div[@id='browse-grids']/div[1]/div/span[1]")
+	//@FindBy(xpath = "//*[@id='browse-grids']/div[1]/div[2]/span[1]")
 	private WebElement reportsExportLinkNonAdmin;
 	
 	@FindBy(xpath = "//div[@class='fixed-header-container']/div/div[2]/div/span[1]")

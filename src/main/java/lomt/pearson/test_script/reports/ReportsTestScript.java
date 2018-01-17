@@ -19,7 +19,7 @@ public class ReportsTestScript {
 
 	ExtentTest logger;
 	ExtentReports reports = new ExtentReports(LOMTConstant.REPORT_FILE_PATH, true);
-
+	String userName = null;
 	Reports report = new Reports();
 
 	@Test(priority = 0)
@@ -54,7 +54,7 @@ public class ReportsTestScript {
 		// Coordinator User
 		report.logout();
 		report.loginLearningEditor();
-		boolean coordinatorReportFlag = report.searchAndExportReport(reportName);
+		boolean coordinatorReportFlag = report.searchAndExportReport(reportName, userName);
 		if (coordinatorReportFlag) {
 			logger.log(LogStatus.PASS,
 					"TC-LOMT-1758-02_Coordinator_User_SchoolGlobal_Reports_&exports_Forward-Indirect_Intermediary_Report");
@@ -66,7 +66,7 @@ public class ReportsTestScript {
 		// SME User
 		report.logout();
 		report.loginLearingSME();
-		boolean smeReportFlag = report.searchAndExportReport(reportName);
+		boolean smeReportFlag = report.searchAndExportReport(reportName, userName);
 		if (smeReportFlag) {
 			logger.log(LogStatus.PASS,
 					"TC-LOMT-1758-03_SME_User_SchoolGlobal_Reports_&exports_Forward-Indirect_Intermediary_Report");
@@ -78,7 +78,7 @@ public class ReportsTestScript {
 		// BasicBrowser User
 		report.logout();
 		report.loginLearningUser();
-		boolean basicReportFlag = report.searchAndExportReport(reportName);
+		boolean basicReportFlag = report.searchAndExportReport(reportName, userName);
 		if (basicReportFlag) {
 			logger.log(LogStatus.PASS,
 					"TC-LOMT-1758-04_BasicBrowser_User_SchoolGlobal_Reports_&exports_Forward-Indirect_Intermediary_Report");
@@ -123,7 +123,7 @@ public class ReportsTestScript {
 		// BasicBrowser User
 				report.logout();
 				report.loginLearningUser();
-				boolean basicReportFlag = report.searchAndExportReport(reportName);
+				boolean basicReportFlag = report.searchAndExportReport(reportName, userName);
 				if (basicReportFlag) {
 					logger.log(LogStatus.PASS, TestCases.TC_LOMT_1762_02_BASIC_USER_DOWNLOAD_REPORT);
 				} else {
@@ -165,8 +165,8 @@ public class ReportsTestScript {
 		}
 
 		report.logout();
-		report.loginLearningEditor();
-		boolean coordinatorReportFlag = report.searchAndExportReport(reportName);
+		userName = report.loginLearningEditor();
+		boolean coordinatorReportFlag = report.searchAndExportReport(reportName,userName);
 		if (coordinatorReportFlag) {
 			logger.log(LogStatus.PASS, TestCases.TC_LOMT_1839_01_DOWNLOAD_REPORT + ": Coordinator User");
 		} else {
@@ -175,8 +175,8 @@ public class ReportsTestScript {
 
 		// SME User
 		report.logout();
-		report.loginLearingSME();
-		boolean smeReportFlag = report.searchAndExportReport(reportName);
+		userName = report.loginLearingSME();
+		boolean smeReportFlag = report.searchAndExportReport(reportName,userName);
 		if (smeReportFlag) {
 			logger.log(LogStatus.PASS, TestCases.TC_LOMT_1839_01_DOWNLOAD_REPORT + ": SME User");
 		} else {
@@ -185,8 +185,8 @@ public class ReportsTestScript {
 
 		// BasicBrowser User
 		report.logout();
-		report.loginLearningUser();
-		boolean basicReportFlag = report.searchAndExportReport(reportName);
+		userName = report.loginLearningUser();
+		boolean basicReportFlag = report.searchAndExportReport(reportName,userName);
 		if (basicReportFlag) {
 			logger.log(LogStatus.PASS, TestCases.TC_LOMT_1839_01_DOWNLOAD_REPORT + ": Basic User");
 		} else {

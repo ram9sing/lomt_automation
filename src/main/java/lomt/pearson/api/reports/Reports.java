@@ -349,11 +349,41 @@ public class Reports extends BaseClass {
 			worksheet = workbook.getSheetAt(0);
 			verifyReverseSharedIntermediaryReportHeaders(worksheet, logger, reportName);
 			getProductAndCurriculumDataFromExportedSheet(worksheet, productCSRepMap, logger);
+			// Verify the Correlation, met, unmet and Strength for Report
+			verifyScoresAndStrength(productCSRepMap,logger);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return productCSRepMap;
 	}
+	
+	public Map<String, List<String>> verifyScoresAndStrength(Map<String, List<String>>productCSRepMap , ExtentTest logger) {
+	try{
+		List<String> correlationList = productCSRepMap.get("Correlation_Product");
+		List<String> metList = productCSRepMap.get("Met_Statement");
+		List<String> strengthList = productCSRepMap.get("Strength_Product");
+		List<String> unmetList = productCSRepMap.get("Unmet_Statement");
+		if(correlationList.equals(ReportsConstant.Corr_Product)){
+		}else{
+			logger.log(LogStatus.FAIL,"Reverse Shared Intermediary Report: Correlation scores mismatch");
+		}
+		if(metList.equals(ReportsConstant.met_List)){
+		}else{
+			logger.log(LogStatus.FAIL,"Reverse Shared Intermediary Report: Met statements are not as expected in the exported report");
+		}
+		if(strengthList.equals(ReportsConstant.strength_List)){
+		}else{
+			logger.log(LogStatus.FAIL,"Reverse Shared Intermediary Report: Strength values not as expected in the exported report");
+		}	
+		if(unmetList.equals(ReportsConstant.unmet_List)){
+		}else{
+			logger.log(LogStatus.FAIL,"Reverse Shared Intermediary Report: Met statements are not as expected in the exported report");
+		}
+	}catch (Exception e) {
+		logger.log(LogStatus.FAIL,"Reverse Shared Intermediary Report: Error occured while veryfying Score and statements");
+	}
+	return productCSRepMap;
+}
 
 	public boolean verifyProductToCIntermediaryReportHeaders(XSSFSheet worksheet) {
 		boolean flag = false;
@@ -625,10 +655,10 @@ public class Reports extends BaseClass {
 			} else {
 				logger.log(LogStatus.FAIL, "Header : Grade do not match in exported file");
 			}
-
+			//Geographic Area or Country
 			if (worksheet.getRow(LOMTConstant.NINE).getCell(LOMTConstant.ZERO).getStringCellValue()
 					.equalsIgnoreCase(ReportsConstant.GEOGRAPHIC_AREA_OR_COUNTRY)) {
-				if (worksheet.getRow(LOMTConstant.NINE).getCell(LOMTConstant.ONE).getStringCellValue() != null) {
+				if (worksheet.getRow(LOMTConstant.NINE).getCell(LOMTConstant.ONE) != null) {
 				} else {
 					logger.log(LogStatus.FAIL, "Geographic Area or Country is null/empty in exported file");
 				}
@@ -908,19 +938,12 @@ public class Reports extends BaseClass {
 					counter++;
 				}
 			}
-			// Verify the Correlation, met, unmet and Strength for Report
-			if (correlationList.equals(ReportsConstant.Corr_Product) && metList.equals(ReportsConstant.met_List)
-					&& strengthList.equals(ReportsConstant.strength_List)
-					&& unmetList.equals(ReportsConstant.unmet_List)) {
-				System.out.println(
-						"Reverse Shared Intermediary Report: Correlation scores, met, unmet and Strength values are as expected");
-			} else {
-				logger.log(LogStatus.FAIL,
-						"Reverse Shared Intermediary Report: Correlation scores, met, unmet or Strength Value mismatch");
-			}
-
 			productTIRepMap.put("Product", productList);
 			productTIRepMap.put("CurriculumStandard", standardList);
+			productTIRepMap.put("Correlation_Product", correlationList);
+			productTIRepMap.put("Met_Statement", metList);
+			productTIRepMap.put("Strength_Product", strengthList);
+			productTIRepMap.put("Unmet_Statement", unmetList);
 			return productTIRepMap;
 
 		} catch (Exception e) {
@@ -941,11 +964,7 @@ public class Reports extends BaseClass {
 			hePom.getProductLink().click();
 			wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
 			jse.executeScript("window.scrollBy(0,200)");
-
-			for (String prKey : productTIRepMap.keySet()) {
-				prList = productTIRepMap.get(prKey);
-				break;
-			}
+			prList = productTIRepMap.get("Product");
 			if (!prList.isEmpty()) {
 				// goalframework
 				for (String prTopics : prList) {
@@ -960,10 +979,11 @@ public class Reports extends BaseClass {
 						break;
 					}
 				}
-				// verifying topics
-				for (String prTopics : prList) {
+				// verifying titles
+				for (String prTitle : prList) {
+					if(!prTitle.equalsIgnoreCase(ReportsConstant.INGESTED_PRODUCT)){
 					List<WebElement> webElement = schoolPOM.getParentChildList();
-					productTocPOM.getInnerEnterSearchTerm().sendKeys(prTopics);
+					productTocPOM.getInnerEnterSearchTerm().sendKeys(prTitle);
 					productTocPOM.getProductInnerUpdateResultButton().click();
 					// wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
 					Thread.sleep(4000);
@@ -973,28 +993,23 @@ public class Reports extends BaseClass {
 						while (itr.hasNext()) {
 							WebElement childStructureElement = itr.next();
 							String structureName = childStructureElement.getText();
-							if (structureName.contains(prTopics)) {
+							if (structureName.contains(prTitle)) {
 								flag = true;
 								continue;
-							} else if (prTopics.equalsIgnoreCase(ReportsConstant.INGESTED_PRODUCT)) {
-								flag = false;
 							} else {
 								flag = false;
-								logger.log(LogStatus.FAIL, "Product Name not matching with the downloaded report");
+								logger.log(LogStatus.FAIL, "Product Data Verification Failed - Not Found Topic : " + structureName);
 							}
 						}
 						productTocPOM.getInnerEnterSearchTerm().clear();
 						continue;
-					} else {
-						flag = false;
-						logger.log(LogStatus.FAIL, "Ingested Product not found");
 					}
-
 				}
 			}
+		}
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.log(LogStatus.FAIL, "Product UI Data Verification Failed");
 		}
 		return flag;
 	}
@@ -1672,6 +1687,8 @@ public class Reports extends BaseClass {
 		WebDriverWait wait = new WebDriverWait(driver, 120);
 		List<String> csList = null;
 		try {
+			jse.executeScript("window.scrollBy(0,-500)");
+			commonPOM.getPearsonLogo().click();
 			commonPOM.getSchoolGlobalLOB().click();
 			schoolPOM.getCurriculumSt().click();
 			wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
@@ -1698,7 +1715,7 @@ public class Reports extends BaseClass {
 					if (!csTopics.equalsIgnoreCase(ReportsConstant.CS_GOALFRAMEWORK_NAME_PPE)) {
 						schoolPOM.getInnerEnterSearch().sendKeys(csTopics);
 						schoolPOM.getSchoolInnerUpdateResultButton().click();
-						Thread.sleep(10000);
+						Thread.sleep(4000);
 						// wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
 
 						List<WebElement> webElement = schoolPOM.getParentChildList();
@@ -1844,13 +1861,18 @@ public class Reports extends BaseClass {
 		}
 	}
 
-	public boolean searchAndExportReport(String reportName) {
+	public boolean searchAndExportReport(String reportName, String userName) {
 		JavascriptExecutor jse = (JavascriptExecutor) driver;
 		WebDriverWait wait = new WebDriverWait(driver, 120);
 		boolean flag = false;
 		try {
+			removeExistingFile();
 			commonPOM.getSchoolGlobalLOB().click();
+			if(userName.equalsIgnoreCase(learningEditor)){
+				reportsPOM.getReportsExportLink().click();	
+			}else{
 			reportsPOM.getReportsExportLinkNonAdmin().click();
+			}
 			wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
 
 			reportsPOM.getEnterSearchTerm().sendKeys(reportName);
