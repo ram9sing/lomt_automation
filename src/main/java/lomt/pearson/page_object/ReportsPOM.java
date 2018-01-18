@@ -67,7 +67,7 @@ public class ReportsPOM {
 	@FindBy(xpath = "//*[@id='lomtAppId']/div/div/div[2]/div/div[2]/div[4]/div[1]/span")
 	private WebElement forwardDirectReport;
 	
-	@FindBy(xpath = "//*[@id='lomtAppId']/div/div/div[2]/div/div[2]/div[5]/div[1]/span")
+	@FindBy(xpath = "//*[@id='lomtAppId']/div/div/div[2]/div/div[2]/div[6]/div[1]/span")
 	private WebElement reverseDirectReport;
 	
 	@FindBy(xpath = "//div[@id='report-target-container']/div[2]/div/div[1]/div[2]/div[1]/div/div[2]/div/span[1]")
@@ -151,7 +151,7 @@ public class ReportsPOM {
 		return productToCIntermediaryReport;
 	}
 
-	public WebElement ReverseSharedIntermediaryReport() {
+	public WebElement getReverseSharedIntermediaryReport() {
 		return reverseSharedIntermediaryReport;
 	}
 	

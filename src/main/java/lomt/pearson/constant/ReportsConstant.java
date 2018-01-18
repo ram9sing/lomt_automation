@@ -10,6 +10,7 @@ public class ReportsConstant {
 	public static String PRODUCT_TOC_INT_REPORT_FILE_NAME = "Automation Report";
 	public static String PRODUCT_INT_TEXT = "Product (ToC) Intermediary Report";
 	public static String REVERSE_SHARED_INT_TEXT = "Reverse Shared Intermediary Report";
+	public static String REVERSE_DIRECT_TEXT = "Reverse Direct Report";
 	public static String INGESTED_PRODUCT = "Automation_Report_Verification_Product";
 	public static String INGESTED_INTERMEDIARY = "Psychology";
 	public static String INGESTED_STANDARD_YEAR = "1352";
@@ -88,5 +89,11 @@ public class ReportsConstant {
 	//Reports Test data - prerequisites : PPE
 	public static String CS_GOALFRAMEWORK_NAME_PPE = "Department for Education Business K-12 1352";
 	public static String INGESTED_INTERMEDIARY_PPE = "Information and Communication Technology";
+	
+	//Reverse Direct Report
+	public static String LOMT_1761 = "LOMT-1761";
+	
+	//Reverse Shared Intermediary Report
+	public static String LOMT_1839 = "LOMT-1839";
 
 }

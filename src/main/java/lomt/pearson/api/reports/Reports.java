@@ -1071,7 +1071,7 @@ public class Reports extends BaseClass {
 		try {
 			reportName = createAndDownloadProductReport(reportType, source, pivot, target, wait, jse);
 		} catch (Exception e) {
-			logger.log(LogStatus.FAIL, "Forward Indirect Intermediary Report either Creation or download is failed");
+			logger.log(LogStatus.FAIL, reportType + " either Creation or download is failed");
 			return reportName;
 		}
 		return reportName;
@@ -1103,7 +1103,10 @@ public class Reports extends BaseClass {
 				reportsPOM.getProductToCIntermediaryReport().click();
 			} else if (reportType.equalsIgnoreCase(ReportsConstant.REVERSE_SHARED_INT_TEXT)) {
 				jse.executeScript("window.scrollBy(0,400)");
-				reportsPOM.ReverseSharedIntermediaryReport().click();
+				reportsPOM.getReverseSharedIntermediaryReport().click();
+			}else if (reportType.equalsIgnoreCase(ReportsConstant.REVERSE_DIRECT_TEXT)) {
+				jse.executeScript("window.scrollBy(0,400)");
+				reportsPOM.getReverseDirectReport().click();
 			}
 			Thread.sleep(6000);
 			// pivot select and click
@@ -1112,7 +1115,8 @@ public class Reports extends BaseClass {
 			// Thread.sleep(2000);
 			wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
 			Thread.sleep(3000);
-			if (reportType.equalsIgnoreCase(ReportsConstant.REVERSE_SHARED_INT_TEXT)) {
+			if (reportType.equalsIgnoreCase(ReportsConstant.REVERSE_SHARED_INT_TEXT) 
+					|| reportType.equalsIgnoreCase(ReportsConstant.REVERSE_DIRECT_TEXT)) {
 				jse.executeScript("window.scrollBy(0,-250)");
 				schoolPOM.getEnterEnterSearch().sendKeys(ReportsConstant.INGESTED_STANDARD_YEAR);
 				schoolPOM.getSchoolUpdateResultButton().click();

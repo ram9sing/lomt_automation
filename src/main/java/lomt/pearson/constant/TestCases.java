@@ -499,5 +499,16 @@ public class TestCases {
 	public static String TC_LOMT_1839_06_STRENGTH_COMPLETE_VERIFY = "TC-LOMT-1839-06_Verify_Strength_As_Completed_IN_Report";
 	public static String TC_LOMT_1839_07_MET_VERIFY = "TC-LOMT-1839-07_Verify_MET_Column_In_Report";
 	public static String TC_LOMT_1839_08_UNMET_VERIFY = "TC-LOMT-1839-08_Verify_UNMET_Column_In_Report";
+	
+	//LOMT-1761
+	public static String TC_LOMT_1761_01_DOWNLOAD_REPORT_ADMIN = "TC-LOMT-1761-01_Admin_User_SchoolGlobal_CurriculumStandard_Actions_Options_ReverseDirectReport";
+	public static String TC_LOMT_1761_02_DOWNLOAD_REPORT_SME = "TC-LOMT-1761-02_SME_User_SchoolGlobal_CurriculumStandard_Actions_Options_ReverseDirectReport";
+	public static String TC_LOMT_1761_03_DOWNLOAD_REPORT_COORDINATOR = "TC-LOMT-1761-03_Coordinator_User_SchoolGlobal_CurriculumStandard_Actions_Options_ReverseDirectReport";
+	public static String TC_LOMT_1761_04_DOWNLOAD_REPORT_BASIC = "TC-LOMT-1761-04_Baisc browser_User_SchoolGlobal_CurriculumStandard_Actions_Options_ReverseDirectReport";
+	public static String TC_LOMT_1761_05_CORRELATION_VERIFY = "TC-LOMT-1761-05_Admin_Coordinator_SME_User_SchoolGlobal_Actions_Options_ReverseDirectReport_CorrelationScore";
+	public static String TC_LOMT_1761_06_REPORT_VERIFY = "TC-LOMT-1761-06_Admin_Coordinator_SME_User_SchoolGlobal_CurriculumStandard_Actions_Options_ReverseDirectReport_Excel_Sheet_Verify";
+	public static String TC_LOMT_1761_07_REPORT_VERIFY_BASIC = "TC-LOMT-1761-07_Basic_User_SchoolGlobal_CurriculumStandard_Actions_Options_ReverseDirectReport_Excel_Sheet_Verify";
+	public static String TC_LOMT_1761_08_SCAPI_URL_VERIFY= "TC-LOMT-1761-08_Admin_User_SchoolGlobal_Product_Actions_Options_ReverseDirectReport_SCAPI_URL_Verify";
+	public static String TC_LOMT_1761_09_SCAPI_DATA_VERIFY = "TC-LOMT-1761-09_Admin_User_SchoolGlobal_Product_Actions_Options_ReverseDirectReport_SCAPI_Data_verify";
 }
 

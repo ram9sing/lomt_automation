@@ -134,9 +134,11 @@ public class ReportsTestScript {
 		reports.flush();
 	}
 
-	@Test(priority = 1)
+	//@Test(priority = 3)
+	@Ignore
 	public void reverseSharedIntermediaryReport() throws Exception {
-		logger = reports.startTest("Reverse Shared Intermediary Report, LOMT-1839");
+		logger = reports.startTest(ReportsConstant.REVERSE_SHARED_INT_TEXT + LOMTConstant.COMMA
+				+ LOMTConstant.EMPTY_SPACE + ReportsConstant.LOMT_1839);
 
 		// Admin user
 		String reportName = report.createAndDownloadReportSourceProduct(ReportsConstant.REVERSE_SHARED_INT_TEXT,ReportsConstant.INGESTED_PRODUCT,
@@ -196,6 +198,70 @@ public class ReportsTestScript {
 		reports.endTest(logger);
 		reports.flush();
 	}
+	
+	@Test(priority = 4)
+	public void reverseDirectReport() throws Exception {
+		logger = reports.startTest(ReportsConstant.REVERSE_DIRECT_TEXT + LOMTConstant.COMMA
+				+ LOMTConstant.EMPTY_SPACE + ReportsConstant.LOMT_1761);
+
+		// Admin user
+		String reportName = report.createAndDownloadReportSourceProduct(ReportsConstant.REVERSE_DIRECT_TEXT,ReportsConstant.INGESTED_PRODUCT,
+				ReportsConstant.INGESTED_INTERMEDIARY,ReportsConstant.INGESTED_STANDARD_YEAR,logger);
+		if (!reportName.isEmpty()) {
+			logger.log(LogStatus.PASS, TestCases.TC_LOMT_1761_01_DOWNLOAD_REPORT_ADMIN);
+			Map<String, List<String>> productCSRepMap = report.verifyReverseSharedIntermediaryReport(reportName,logger);
+			if (!productCSRepMap.isEmpty()) {
+				logger.log(LogStatus.PASS, TestCases.TC_LOMT_1761_05_CORRELATION_VERIFY);
+				boolean verifyFlag1 = report.verifyProductDataUI(productCSRepMap, logger);
+				boolean verifyFlag2 = report.verifyCurriculumStandardDataUI(productCSRepMap, logger);
+				;
+				if (verifyFlag1 && verifyFlag2) {
+					logger.log(LogStatus.PASS, TestCases.TC_LOMT_1761_06_REPORT_VERIFY);
+					logger.log(LogStatus.PASS, TestCases.TC_LOMT_1761_07_REPORT_VERIFY_BASIC);
+				} else {
+					logger.log(LogStatus.FAIL, TestCases.TC_LOMT_1761_06_REPORT_VERIFY);
+				}
+			}
+		} else {
+			logger.log(LogStatus.FAIL, TestCases.TC_LOMT_1761_01_DOWNLOAD_REPORT_ADMIN);
+		}
+
+		report.logout();
+		userName = report.loginLearningEditor();
+		boolean coordinatorReportFlag = report.searchAndExportReport(reportName,userName);
+		if (coordinatorReportFlag) {
+			logger.log(LogStatus.PASS, TestCases.TC_LOMT_1761_03_DOWNLOAD_REPORT_COORDINATOR);
+		} else {
+			logger.log(LogStatus.FAIL, TestCases.TC_LOMT_1761_03_DOWNLOAD_REPORT_COORDINATOR);
+		}
+
+		// SME User
+		report.logout();
+		userName = report.loginLearingSME();
+		boolean smeReportFlag = report.searchAndExportReport(reportName,userName);
+		if (smeReportFlag) {
+			logger.log(LogStatus.PASS, TestCases.TC_LOMT_1761_02_DOWNLOAD_REPORT_SME);
+		} else {
+			logger.log(LogStatus.FAIL, TestCases.TC_LOMT_1761_02_DOWNLOAD_REPORT_SME);
+		}
+
+		// Basic User
+		report.logout();
+		userName = report.loginLearningUser();
+		boolean basicReportFlag = report.searchAndExportReport(reportName,userName);
+		if (basicReportFlag) {
+			logger.log(LogStatus.PASS, TestCases.TC_LOMT_1761_04_DOWNLOAD_REPORT_BASIC);
+		} else {
+			logger.log(LogStatus.FAIL, TestCases.TC_LOMT_1761_04_DOWNLOAD_REPORT_BASIC);
+		}
+		
+		logger.log(LogStatus.INFO, TestCases.TC_LOMT_1761_08_SCAPI_URL_VERIFY);
+		logger.log(LogStatus.INFO, TestCases.TC_LOMT_1761_09_SCAPI_DATA_VERIFY);
+
+		reports.endTest(logger);
+		reports.flush();
+	}
+
 
 	@Test(priority = 3)
 	public void tearDown() {
