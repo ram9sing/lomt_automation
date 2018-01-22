@@ -145,7 +145,7 @@ public class ReportsTestScript {
 				ReportsConstant.INGESTED_INTERMEDIARY,ReportsConstant.INGESTED_STANDARD_YEAR,logger);
 		if (!reportName.isEmpty()) {
 			logger.log(LogStatus.PASS, TestCases.TC_LOMT_1839_01_DOWNLOAD_REPORT);
-			Map<String, List<String>> productCSRepMap = report.verifyReverseSharedIntermediaryReport(reportName,logger);
+			Map<String, List<String>> productCSRepMap = report.verifyReport(reportName,logger);
 			if (!productCSRepMap.isEmpty()) {
 				logger.log(LogStatus.PASS, TestCases.TC_LOMT_1839_03_CORRELATION_VERIFY);
 				logger.log(LogStatus.PASS, TestCases.TC_LOMT_1839_04_STRENGTH_WEAK_VERIFY);
@@ -199,7 +199,7 @@ public class ReportsTestScript {
 		reports.flush();
 	}
 	
-	@Test(priority = 4)
+	@Test(priority = 1)
 	public void reverseDirectReport() throws Exception {
 		logger = reports.startTest(ReportsConstant.REVERSE_DIRECT_TEXT + LOMTConstant.COMMA
 				+ LOMTConstant.EMPTY_SPACE + ReportsConstant.LOMT_1761);
@@ -209,7 +209,7 @@ public class ReportsTestScript {
 				ReportsConstant.INGESTED_INTERMEDIARY,ReportsConstant.INGESTED_STANDARD_YEAR,logger);
 		if (!reportName.isEmpty()) {
 			logger.log(LogStatus.PASS, TestCases.TC_LOMT_1761_01_DOWNLOAD_REPORT_ADMIN);
-			Map<String, List<String>> productCSRepMap = report.verifyReverseSharedIntermediaryReport(reportName,logger);
+			Map<String, List<String>> productCSRepMap = report.verifyReport(reportName,logger);
 			if (!productCSRepMap.isEmpty()) {
 				logger.log(LogStatus.PASS, TestCases.TC_LOMT_1761_05_CORRELATION_VERIFY);
 				boolean verifyFlag1 = report.verifyProductDataUI(productCSRepMap, logger);

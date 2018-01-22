@@ -92,6 +92,8 @@ public class ReportsConstant {
 	
 	//Reverse Direct Report
 	public static String LOMT_1761 = "LOMT-1761";
+	public static String SYSTEM_UUID = "System UUID";
+	public static String CONTENT_REFERENCE = "Content Reference";
 	
 	//Reverse Shared Intermediary Report
 	public static String LOMT_1839 = "LOMT-1839";
