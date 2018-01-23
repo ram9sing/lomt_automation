@@ -952,11 +952,11 @@ public class Reports extends BaseClass {
 				}
 
 				if (row.getRowNum() > 17 && counter <= 10) {
-					if (row.getCell(0) != null) {
-						productList.add(row.getCell(0).getStringCellValue());
-					}
 					//Reverse Shared Intermediary List
 					if(reportType.equalsIgnoreCase(ReportsConstant.REVERSE_SHARED_INT_TEXT)){
+						if (row.getCell(0) != null) {
+							productList.add(row.getCell(0).getStringCellValue());
+						}
 						if (row.getCell(3) != null) {
 							correlationList.add(row.getCell(3).getStringCellValue());
 						} else {
@@ -982,6 +982,9 @@ public class Reports extends BaseClass {
 						}
 					}   //Reverse Direct Report List
 						else if(reportType.equalsIgnoreCase(ReportsConstant.REVERSE_DIRECT_TEXT)){
+						if (row.getCell(1) != null) {
+							productList.add(row.getCell(1).getStringCellValue());
+						}
 						if (row.getCell(4) != null) {
 							correlationList.add(row.getCell(4).getStringCellValue());
 						} else {
