@@ -510,5 +510,22 @@ public class TestCases {
 	public static String TC_LOMT_1761_07_REPORT_VERIFY_BASIC = "TC-LOMT-1761-07_Basic_User_SchoolGlobal_CurriculumStandard_Actions_Options_ReverseDirectReport_Excel_Sheet_Verify";
 	public static String TC_LOMT_1761_08_SCAPI_URL_VERIFY= "TC-LOMT-1761-08_Admin_User_SchoolGlobal_Product_Actions_Options_ReverseDirectReport_SCAPI_URL_Verify";
 	public static String TC_LOMT_1761_09_SCAPI_DATA_VERIFY = "TC-LOMT-1761-09_Admin_User_SchoolGlobal_Product_Actions_Options_ReverseDirectReport_SCAPI_Data_verify";
+	
+	//LOMT-1837
+	public static String TC_LOMT_1837_01_DOWNLOAD_REPORT = "TC_LOMT-1837-01_All_User_Reports&Exports_download_Reverse ToC to Standard via Intermediary Report";
+	public static String TC_LOMT_1837_02_VERIFY_REPORT = "TC_LOMT-1837-02_All_User_Reports&Exports_verify_Reverse ToC to Standard via Intermediary Report";
+	public static String TC_LOMT_1837_03_STRENGTH_WEAK_VERIFY = "TC_LOMT-1837-03_Admin_User_Reports&Exports_Download_Reverse ToC to Standard via Intermediary Report_report_Verify_CONTENT_Strength_Weak";
+	public static String TC_LOMT_1837_04_STRENGTH_AVERAGE_VERIFY = "TC_LOMT-1837-04_Admin_User_Reports&Exports_Download_Reverse ToC to Standard via Intermediary Report_report_Verify_CONTENT_Strength_Average";
+	public static String TC_LOMT_1837_05_STRENGTH_STRONG_VERIFY = "TC_LOMT-1837-05_Admin_User_Reports&Exports_Download_Reverse ToC to Standard via Intermediary Report_report_Verify_CONTENT_Strength_Strong";
+	public static String TC_LOMT_1837_06_STRENGTH_COMPLETE_VERIFY = "TC_LOMT-1837-06_Admin_User_Reports&Exports_Download_Reverse ToC to Standard via Intermediary Report_report_Verify_CONTENT_Strength_Complete";
+	public static String TC_LOMT_1837_07_PERIPHERAL_COUNT_VERIFY = "TC_LOMT-1837-07_Admin_User_Reports&Exports_Download_Reverse ToC to Standard via Intermediary Report_report_Verify_CONTENT_Peripheral_Count_Data";
+	public static String TC_LOMT_1837_08_CORRELATION_VERIFY= "TC_LOMT-1837-08_Admin_User_Reports&Exports_Download_Reverse ToC to Standard via Intermediary Report_report_Verify_CONTENT_Correlation_Ratio";
+	public static String TC_LOMT_1837_09_STRENGTH_STANDARD_WEAK_VERIFY = "TC_LOMT-1837-09_Admin_User_Reports&Exports_Download_Reverse ToC to Standard via Intermediary Report_report_Verify_STANDARD_Strength_Weak";
+	public static String TC_LOMT_1837_10_STRENGTH_STANDARD_AVERAGE_VERIFY = "TC_LOMT-1837-10_Admin_User_Reports&Exports_Download_Reverse ToC to Standard via Intermediary Report_report_Verify_STANDARD_Strength_Average";
+	public static String TC_LOMT_1837_11_STRENGTH_STANDARD_STRONG_VERIFY = "TC_LOMT-1837-11_Admin_User_Reports&Exports_Download_Reverse ToC to Standard via Intermediary Report_report_Verify_STANDARD_Strength_Strong";
+	public static String TC_LOMT_1837_12_STRENGTH_STANDARD_COMPLETE_VERIFY = "TC_LOMT-1837-12_Admin_User_Reports&Exports_Download_Reverse ToC to Standard via Intermediary Report_report_Verify_STANDARD_Strength_Complete";
+	public static String TC_LOMT_1837_13_STANDARD_PERIPHERAL_COUNT_VERIFY = "TC_LOMT-1837-13_Admin_User_Reports&Exports_Download_Reverse ToC to Standard via Intermediary Report_report_Verify_STANDARD_Peripheral_Count_Data";
+	public static String TC_LOMT_1837_14_STANDARD_CORRELATION_VERIFY = "TC_LOMT-1837-14_Admin_User_Reports&Exports_Download_Reverse ToC to Standard via Intermediary Report_report_Verify_STANDARD_Correlation_Ratio";
+	
 }
 
