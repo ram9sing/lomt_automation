@@ -69,11 +69,11 @@ public class ReportsConstant {
 	public static String MET_STATMENTS = "Met Statements";
 	
 	//Expected Correlation Scores for Product
-	public static List <String> Corr_Product = Arrays.asList("1/1","3/4","","","2/4","","0/1","NO CORRELATION","","NO CORRELATION");
+	public static List <String> Corr_Product = Arrays.asList("1/1","3/4","","","2/4","","0/1","0/0","","0/0");
 	public static List <String> met_List = Arrays.asList("ELA.CP.1 -Intermediary 1", "ELA.CP.2 - Intermediary 2\nELA.CP.4 - Intermediary 4\nELA.CP.3 - Intermediary 3","","",
 			"ELA.CP.6 - Intermediary 6\nELA.CP.7 - Intermediary 7","","","","","");
-	public static List <String> strength_List = Arrays.asList("COMPLETE", "STRONG","","","AVERAGE","","WEAK", "WEAK","","WEAK");
-	public static List <String> unmet_List = Arrays.asList("","ELA.CP.5 - Intermediary 5","","","ELA.CP.12 - Intermediary 12\n ELA.CP.8 - Intermediary 8","","ELA.CP.9 -Intermediary 9","","","");
+	public static List <String> strength_List = Arrays.asList("COMPLETE", "STRONG","","","AVERAGE","","WEAK", "NO CORRELATION","","NO CORRELATION");
+	public static List <String> unmet_List = Arrays.asList("","ELA.CP.5 - Intermediary 5","","","ELA.CP.8 - Intermediary 8\n ELA.CP.12 - Intermediary 12","","ELA.CP.9 -Intermediary 9","","","");
 	
 	public static String DATA_FORMAT = "dd/MM/yyyy HH:mm:ss";
 	
@@ -88,7 +88,7 @@ public class ReportsConstant {
 	public static String FORWARD_INDIRECT_INTERMEDIARY_REPORT = "Forward Indirect Intermediary Report";
 	
 	//Reports Test data - prerequisites : PPE
-	public static String CS_GOALFRAMEWORK_NAME_PPE = "Department for Education Business K-12 1352";
+	public static String CS_GOALFRAMEWORK_NAME_PPE = "Department for Education Accounting K-12 1352";
 	public static String INGESTED_INTERMEDIARY_PPE = "Information and Communication Technology";
 	
 	//Reverse Direct Report

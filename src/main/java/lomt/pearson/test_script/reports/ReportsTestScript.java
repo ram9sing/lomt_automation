@@ -134,8 +134,7 @@ public class ReportsTestScript {
 		reports.flush();
 	}
 
-	//@Test(priority = 3)
-	@Ignore
+	@Test(priority = 1)
 	public void reverseSharedIntermediaryReport() throws Exception {
 		logger = reports.startTest(ReportsConstant.REVERSE_SHARED_INT_TEXT + LOMTConstant.COMMA
 				+ LOMTConstant.EMPTY_SPACE + ReportsConstant.LOMT_1839);
@@ -266,7 +265,8 @@ public class ReportsTestScript {
 		reports.flush();
 	}
 
-	@Test(priority = 1)
+	//@Test(priority = 1)
+	@Ignore
 	public void reverseTocToStandardViaIntermediaryReport() throws Exception {
 		logger = reports.startTest(ReportsConstant.REVERSE_TOC_STANDARD_VIA_INT_TEXT + LOMTConstant.COMMA
 				+ LOMTConstant.EMPTY_SPACE + ReportsConstant.LOMT_1837);
