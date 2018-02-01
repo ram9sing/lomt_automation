@@ -14,7 +14,7 @@ public class ReportsConstant {
 	public static String REVERSE_TOC_STANDARD_VIA_INT_TEXT = "Reverse ToC to Standard via intermediary report";
 	public static String INGESTED_PRODUCT = "Automation_Report_Verification_Product";
 	public static String INGESTED_INTERMEDIARY = "Psychology";
-	public static String INGESTED_STANDARD_YEAR = "1352";
+	public static String INGESTED_STANDARD_YEAR = "2564";
 	
 	//Forward Indirect Intermediary Report
 	public static String TITLE = "Title";
@@ -88,7 +88,7 @@ public class ReportsConstant {
 	public static String FORWARD_INDIRECT_INTERMEDIARY_REPORT = "Forward Indirect Intermediary Report";
 	
 	//Reports Test data - prerequisites : PPE
-	public static String CS_GOALFRAMEWORK_NAME_PPE = "Department for Education Accounting K-12 1352";
+	public static String CS_GOALFRAMEWORK_NAME_PPE = "Australian Curriculum, Assessment and Reporting Authority Art and Design K-12 2564";
 	public static String INGESTED_INTERMEDIARY_PPE = "Information and Communication Technology";
 	
 	//Reverse Direct Report
