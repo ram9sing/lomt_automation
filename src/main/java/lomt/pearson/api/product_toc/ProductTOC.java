@@ -2497,7 +2497,7 @@ public class ProductTOC extends BaseClass {
 			commonPOM.getNextButtonFirst().click();
 			Thread.sleep(2000);
 			
-			hePom.getLearningTitleInputText().sendKeys("HE_Test_T004");
+			hePom.getLearningTitleInputText().sendKeys("HE_Test_T123");
 			Thread.sleep(4000);
 			
 			//DOMAIN SELECTION

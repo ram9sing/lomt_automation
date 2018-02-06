@@ -479,9 +479,9 @@ public class LOMTConstant {
 	public static final String LEVEL_15_INCORRECT_ERROR_MESSAGE =  "The level is not correct at row 15";
 	
 	//EXF ingested file name
-	public static final String EXF_INGESTION_FILE_NAME_1 = "External Frameworks-C003";	
-	public static final String INGESTION_FILE_10TH_LEVEL = "External_Frameworks_10Level-C003";
-	public static final String INGESTION_NON_MAND = "External Frameworks_non_mandatory_fields_without_metadata-Test-C003";
+	public static final String EXF_INGESTION_FILE_NAME_1 = "External Frameworks-Test_Z007";	
+	public static final String INGESTION_FILE_10TH_LEVEL = "External_Frameworks_10Level-Z007";
+	public static final String INGESTION_NON_MAND = "External Frameworks_non_mandatory_fields_without_metadata-Test-Z007";
 	
 	public static final String INGESTION_FAILED_10TH_LEVEL = "External Framework ingestion is failing with 10th level values";
 	public static final String INGESTION_SUCCESSFUL_NTH_LEVEL = "External Framework ingestion is successful with 10th level values";
