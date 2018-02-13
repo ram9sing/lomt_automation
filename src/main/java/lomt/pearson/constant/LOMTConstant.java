@@ -8,6 +8,7 @@ public class LOMTConstant {
 	public static String NALS_LOB = "North America Learning Services";
 	public static String SG_LOB = "School Global";
 	public static String SCHOOL = "School";
+	public static String CUSTOM = "Custom";
 	
 	public static String LOMT_ENVIRONMENT = "lomt.environment";
 	public static String USER_NAME = "lomt.cms.service.user";

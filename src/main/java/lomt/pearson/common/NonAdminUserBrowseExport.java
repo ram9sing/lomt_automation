@@ -2,12 +2,15 @@ package lomt.pearson.common;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Iterator;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -82,7 +85,7 @@ public class NonAdminUserBrowseExport extends BaseClass {
 			login.getUserName().sendKeys(userName);
 			login.getPassword().sendKeys(pwd);
 			login.getLoginButton().click();
-			driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+			driver.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -145,166 +148,296 @@ public class NonAdminUserBrowseExport extends BaseClass {
 	
 	public boolean englishGSEBrowseAndExport(ExtentTest logger, String userName) {
 		boolean flag = false;
-		
-		JavascriptExecutor jse = (JavascriptExecutor) driver;			
-		WebDriverWait wait = new WebDriverWait(driver, 180); 
+
+		JavascriptExecutor jse = (JavascriptExecutor) driver;
+		WebDriverWait wait = new WebDriverWait(driver, 180);
 		try {
-			Thread.sleep(4000);
-			commonPOM.getEnglishLOB().click();			
+			commonPOM.getEnglishLOB().click();
 			englishPOM.getGseLink().click();
-		
 			wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(LOMTConstant.GSE_ACTION_LINK)));
-			
-			Thread.sleep(200);
-			englishPOM.getGseStructure().click();			
-			//wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
-			Thread.sleep(60000);
-			
-			englishPOM.getCancelFilterBySet().click();
-			jse.executeScript("window.scrollBy(0,400)");	
-			commonPOM.getUpdateResultButton().click();
+
+			englishPOM.getGseStructure().click();
 			wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
-			jse.executeScript("window.scrollBy(0,200)");	
+			Thread.sleep(10000);
 			
-			Thread.sleep(1000);
-			
-			//jse.executeScript("window.scrollBy(0,500)");
-			
+			jse.executeScript("window.scrollBy(0,400)");
+
 			if (commonPOM.getShowingGFText().getText().contains("Showing")) {
 				removeExistingFile();
 				englishPOM.getSelectAll().click();
 				englishPOM.getRenderedLink().click();
-				Thread.sleep(1000);
-				
+
 				commonPOM.getExportButton().click();
-				//wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
-				Thread.sleep(60000);
-				
-				String exportedFileName = getFileFromDirectory(LOMTConstant.EXPORTED_FILE_PATH);
-				if (exportedFileName.contains("Gse_Template_Level")) {
-					flag = true;
-				}
-				jse.executeScript("window.scrollBy(0,-500)");
-				englishPOM.getEnglishLink().click();
-				Thread.sleep(1000);
-			} else {
-				jse.executeScript("window.scrollBy(0,-500)");
-				englishPOM.getClearFunLink().click();
-				
-				jse.executeScript("window.scrollBy(0,400)");
-				commonPOM.getUpdateResultButton().click();
+				wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));				
+				Thread.sleep(35000);
+				englishPOM.getFirstGSENode().click();
 				wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
-				jse.executeScript("window.scrollBy(0,100)");
+				Thread.sleep(20000);
+				flag = true;
+				
+				jse.executeScript("window.scrollBy(0,-1000)");
+				commonPOM.getPearsonLogo().click();
+			} else {
+				logger.log(LogStatus.FAIL, "No results found on English GSE browse page, logged user : " + userName);
+				jse.executeScript("window.scrollBy(0,-800)");
+				commonPOM.getPearsonLogo().click();
+				flag = false;
+				return flag;
+			}
+		} catch (Exception e) {
+			logger.log(LogStatus.FAIL, "Exception occured on the English GSE browse and export, logged user : " + userName);
+			jse.executeScript("window.scrollBy(0,-800)");
+			commonPOM.getPearsonLogo().click();
+			flag = false;
+			return flag;
+		}
+		return flag;
+	}
+	
+	public boolean exfBrowseAndExport(ExtentTest logger, String userName, String lob) {
+		boolean flag = false;
+		
+		JavascriptExecutor jse = (JavascriptExecutor) driver;			
+		WebDriverWait wait = new WebDriverWait(driver, 300); 
+		
+		if (lob.equalsIgnoreCase(LOMTConstant.ENGLISH_LOB)) {
+			try {
+				commonPOM.getEnglishLOB().click();
+				exfPOM.getExternalFrameworkStructureBrowseEnglish().click();
+				wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+				jse.executeScript("window.scrollBy(0,300)");
 				
 				if (commonPOM.getShowingGFText().getText().contains("Showing")) {
 					removeExistingFile();
-					englishPOM.getSelectAll().click();
-					englishPOM.getRenderedLink().click();
-					Thread.sleep(1000);
-					
-					commonPOM.getExportButton().click();
-					//wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
-					Thread.sleep(60000);
-					
-					String exportedFileName = getFileFromDirectory(LOMTConstant.EXPORTED_FILE_PATH);
-					if (exportedFileName.contains("Gse_Template_Level")) {
+					exfPOM.getActionLink().click();
+					Thread.sleep(2000);
+					commonPOM.getExfExport().click();
+					wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+					/*String exportedFileName = getFileFromDirectory(LOMTConstant.EXPORTED_FILE_PATH);
+					if (exportedFileName.contains("External_Framework_Template")) {
 						flag = true;
-					}
-					jse.executeScript("window.scrollBy(0,-500)");
-					englishPOM.getEnglishLink().click();
-					Thread.sleep(1000);
+					}*/
+					commonPOM.getExfFirtBrowsedGF().click();
+					wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+					jse.executeScript("window.scrollBy(0,-800)");
+					flag = true;
+					
+					commonPOM.getPearsonLogo().click();
 				} else {
-					logger.log(LogStatus.FAIL, "English GSE either export or browse is failed, user "+userName);
-					jse.executeScript("window.scrollBy(0,-500)");
-					englishPOM.getEnglishLink().click();
-					Thread.sleep(1000);
+					logger.log(LogStatus.FAIL, "No results found on English External Framework browse page, logged user : " + userName);
+					jse.executeScript("window.scrollBy(0,-800)");
+					commonPOM.getPearsonLogo().click();
+					flag = false;
+					return flag;
+				
 				}
+			} catch (Exception e) {
+				logger.log(LogStatus.FAIL, "Exception occured on the English External Framework during browse and export, logged user : " + userName);
+				jse.executeScript("window.scrollBy(0,-800)");
+				commonPOM.getPearsonLogo().click();
+				flag = false;
+				return flag;
 			}
-		} catch (Exception e) {
-			logger.log(LogStatus.FAIL, "English GSE export and browse successful "+userName);
-			jse.executeScript("window.scrollBy(0,-500)");
-			englishPOM.getEnglishLink().click();
-			flag = false;
-			return flag;
-		}
+		} else if (lob.equalsIgnoreCase(LOMTConstant.HE_LOB)) {
+			try {
+				commonPOM.getHeLOB().click();
+				exfPOM.getExternalFrameworkStructureBrowseHE().click();
+				wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+				jse.executeScript("window.scrollBy(0,300)");
+				
+				if (commonPOM.getShowingGFText().getText().contains("Showing")) {
+					removeExistingFile();
+					exfPOM.getActionLink().click();
+					Thread.sleep(2000);
+					commonPOM.getCommonExportButton().click();
+					wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+					/*String exportedFileName = getFileFromDirectory(LOMTConstant.EXPORTED_FILE_PATH);
+					if (exportedFileName.contains("External_Framework_Template")) {
+						flag = true;
+					}*/
+					commonPOM.getExfFirtBrowsedGF().click();
+					wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+					jse.executeScript("window.scrollBy(0,-1000)");
+					flag = true;
+					
+					commonPOM.getPearsonLogo().click();
+				} else {
+					logger.log(LogStatus.FAIL, "No results found on HE External Framework browse page, logged user : " + userName);
+					jse.executeScript("window.scrollBy(0,-1000)");
+					commonPOM.getPearsonLogo().click();
+					flag = false;
+					return flag;
+				}
+			} catch (Exception e) {
+				logger.log(LogStatus.FAIL, "Exception occured on the HE External Framework during browse and export, logged user : " + userName);
+				jse.executeScript("window.scrollBy(0,-1000)");
+				commonPOM.getPearsonLogo().click();
+				flag = false;
+				return flag;
+			}
+		} 
 		return flag;
 	}
 	
-	public boolean englishEXFBrowseAndExport(ExtentTest logger, String userName) {
+	public boolean productBrowseAndExport(ExtentTest logger, String userName, String lob) {
 		boolean flag = false;
 		
 		JavascriptExecutor jse = (JavascriptExecutor) driver;			
 		WebDriverWait wait = new WebDriverWait(driver, 300); 
-		try {
-			exfPOM.getExternalFrameworkStructureBrowseEnglish().click();
-			wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
-			jse.executeScript("window.scrollBy(0,500)");
-			
-			removeExistingFile();
-			exfPOM.getActionLink().click();
-			Thread.sleep(2000);
-			commonPOM.getExfExport().click();
-			wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
-			Thread.sleep(2000);
-			String exportedFileName = getFileFromDirectory(LOMTConstant.EXPORTED_FILE_PATH);
-			if (exportedFileName.contains("External_Framework_Template")) {
-				flag = true;
+		
+		if (lob.equalsIgnoreCase(LOMTConstant.ENGLISH_LOB)) {
+			try {
+				commonPOM.getEnglishLOB().click();
+				commonPOM.getEnglishProductTOCStructure().click();
+				wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+				Thread.sleep(30000);
+				jse.executeScript("window.scrollBy(0,300)");
+				
+				if (commonPOM.getShowingGFText().getText().contains("Showing")) {
+					removeExistingFile();
+					exfPOM.getActionLink().click();
+					Thread.sleep(2000);
+					commonPOM.getExfExport().click();
+					wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+					
+					/*String exportedFileName = getFileFromDirectory(LOMTConstant.EXPORTED_FILE_PATH);
+					if (exportedFileName.contains(".xlsx") || exportedFileName.contains(".xlsx") ) {
+						flag = true;
+					}*/
+					commonPOM.getExfFirtBrowsedGF().click();
+					wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+					flag = true;
+					
+					jse.executeScript("window.scrollBy(0,-1000)");
+					commonPOM.getPearsonLogo().click();
+				} else {
+					logger.log(LogStatus.FAIL, "No results found on English Product browse page, logged user : " + userName);
+					jse.executeScript("window.scrollBy(0,-1000)");
+					commonPOM.getPearsonLogo().click();
+					flag = false;
+					return flag;
+				}
+			} catch (Exception e) {
+				logger.log(LogStatus.FAIL, "Exception occured on the English Product browse page, logged user : " + userName);
+				jse.executeScript("window.scrollBy(0,-1000)");
+				commonPOM.getPearsonLogo().click();
+				flag = false;
+				return flag;
 			}
-			commonPOM.getExfFirtBrowsedGF().click();
-			wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
-			jse.executeScript("window.scrollBy(0,-400)");
-			flag = true;
-			
-			jse.executeScript("window.scrollBy(0,-400)");
-			englishPOM.getEnglishLink().click();
-			Thread.sleep(1000);
-		} catch (Exception e) {
-			jse.executeScript("window.scrollBy(0,-500)");
-			englishPOM.getEnglishLink().click();
-			flag = false;
-			return flag;
+		} else if(lob.equalsIgnoreCase(LOMTConstant.HE_LOB)) {
+			try {
+				commonPOM.getHeLOB().click();
+				commonPOM.getHeProductTOCStructure().click();
+				wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));	
+				Thread.sleep(40000);
+				jse.executeScript("window.scrollBy(0,300)");
+				
+				if (commonPOM.getShowingGFText().getText().contains("Showing")) {
+					removeExistingFile();
+					productTocPOM.getTocActionLink().click();
+					Thread.sleep(2000);
+					commonPOM.getCommonExportButton().click();
+					wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+					
+					/*String exportedFileName = getFileFromDirectory(LOMTConstant.EXPORTED_FILE_PATH);
+					if (exportedFileName.contains(".xlsx") || exportedFileName.contains(".xlsx") ) {
+						flag = true;
+					}*/
+					commonPOM.getTocFirstGF().click();
+					wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+					flag = true;
+					
+					jse.executeScript("window.scrollBy(0,-1000)");
+					commonPOM.getPearsonLogo().click();
+				} else {
+					logger.log(LogStatus.FAIL, "No results found on HE Product browse page, logged user : " + userName);
+					jse.executeScript("window.scrollBy(0,-1000)");
+					commonPOM.getPearsonLogo().click();
+					flag = false;
+					return flag;
+				}
+			} catch (Exception e) {
+				logger.log(LogStatus.FAIL, "Exception occured on the HE Product browse page, logged user : " + userName);
+				jse.executeScript("window.scrollBy(0,-1000)");
+				commonPOM.getPearsonLogo().click();
+				flag = false;
+				return flag;
+			}
+		} else {
+			//School
+			try {
+				commonPOM.getSchoolGlobalLOB().click();
+				commonPOM.getSchoolProductTOCStructure().click();
+				wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));	
+				Thread.sleep(20000);
+				
+				jse.executeScript("window.scrollBy(0,300)");
+				
+				if (commonPOM.getShowingGFText().getText().contains("Showing")) {
+					removeExistingFile();
+
+					productTocPOM.getActionLink().click();
+					Thread.sleep(2000);
+								
+					commonPOM.getCommonExportButton().click();
+					wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+					
+					commonPOM.getExfFirtBrowsedGF().click();
+					wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+					flag = true;
+					
+					jse.executeScript("window.scrollBy(0,-1000)");
+					commonPOM.getPearsonLogo().click();
+				} else {
+					logger.log(LogStatus.FAIL, "No results found on School Product browse page, logged user : " + userName);
+					jse.executeScript("window.scrollBy(0,-1000)");
+					commonPOM.getPearsonLogo().click();
+					flag = false;
+					return flag;
+				}
+			} catch (Exception e) {
+				logger.log(LogStatus.FAIL, "Exception occured on the School Product browse page, logged user : " + userName);
+				jse.executeScript("window.scrollBy(0,-800)");
+				commonPOM.getPearsonLogo().click();
+				flag = false;
+				return flag;
+			}
 		}
 		return flag;
 	}
 	
-	public boolean englishProductBrowseAndExport(ExtentTest logger, String userName) {
+	public boolean heEducationalObjectiveAndExport(ExtentTest logger, String userName) {
 		boolean flag = false;
-		
 		JavascriptExecutor jse = (JavascriptExecutor) driver;			
 		WebDriverWait wait = new WebDriverWait(driver, 300); 
 		try {
-			commonPOM.getEnglishLOB().click();
-			commonPOM.getEnglishProductTOCStructure().click();
+			commonPOM.getHeLOB().click();
+			hePom.getEoStructure().click();
 			wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
-			//jse.executeScript("window.scrollBy(0,500)");
+			jse.executeScript("window.scrollBy(0,300)");
 			
-			commonPOM.getTocEngEnterSearchTerm().sendKeys("Feldman_Product_TOC"); // css is generic
-			Thread.sleep(1000);
-			
-			commonPOM.getTocEngUpdateBtn().click();
-			wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
-			
-			jse.executeScript("window.scrollBy(0,400)");
-			removeExistingFile();
-			exfPOM.getActionLink().click();
-			Thread.sleep(2000);
-			commonPOM.getExfExport().click();
-			wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
-			//Thread.sleep(120000);
-			
-			String exportedFileName = getFileFromDirectory(LOMTConstant.EXPORTED_FILE_PATH);
-			if (exportedFileName.contains(".xlsx") || exportedFileName.contains(".xlsx") ) {
+			if (commonPOM.getShowingGFText().getText().contains("Showing")) {
+				removeExistingFile();
+				schoolPOM.getAction().click();
+				commonPOM.getCommonExportButton().click();
+				wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+				
+				hePom.getHegoalframework().click();
+				wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
 				flag = true;
+				
+				jse.executeScript("window.scrollBy(0,-1000)");
+				commonPOM.getPearsonLogo().click();
+			} else {
+				logger.log(LogStatus.FAIL, "No results found on HE Educational Objetive browse page, logged user : " + userName);
+				jse.executeScript("window.scrollBy(0,-1000)");
+				commonPOM.getPearsonLogo().click();
+				flag = false;
+				return flag;
 			}
-			commonPOM.getExfFirtBrowsedGF().click();
-			wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
-			flag = true;
-			jse.executeScript("window.scrollBy(0,-800)");
-			commonPOM.getPearsonLogo().click();
-			Thread.sleep(1000);
-			
 		} catch (Exception e) {
-			jse.executeScript("window.scrollBy(0,-800)");
+			logger.log(LogStatus.FAIL, "Exception occured on the HE Educational Objetive browse page, logged user : " + userName);
+			jse.executeScript("window.scrollBy(0,-1000)");
 			commonPOM.getPearsonLogo().click();
 			flag = false;
 			return flag;
@@ -312,7 +445,102 @@ public class NonAdminUserBrowseExport extends BaseClass {
 		return flag;
 	}
 	
+	public boolean getABAndCustomBrowseAndExport(ExtentTest logger, String userName, String lob) {
+		boolean flag = false;
+		JavascriptExecutor jse = (JavascriptExecutor) driver;			
+		WebDriverWait wait = new WebDriverWait(driver, 300); 
+		if (lob.equalsIgnoreCase(LOMTConstant.SCHOOL) || lob.equalsIgnoreCase(LOMTConstant.CUSTOM)) {
+			try {
+				commonPOM.getSchoolGlobalLOB().click();
+				schoolPOM.getCurriculumSt().click();
+				wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));				
+				jse.executeScript("window.scrollBy(0,250)");
+				if(schoolPOM.getResultFound().getText().contains("Showing")) {
+					removeExistingFile();
+					//export
+					schoolPOM.getAction().click();
+					commonPOM.getCommonExportButton().click();
+					wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+					
+					jse.executeScript("window.scrollBy(0,100)");
+					
+					int counter = 0;
+					List<WebElement> webElement  =  intermediaryPOM.getIntermediaryGFList(); // common for school CS and Intermediary
+					if (!webElement.isEmpty()) {
+						Iterator<WebElement> itr = webElement.iterator();
+						while (itr.hasNext()) {
+							WebElement childStructureElement = 	itr.next();
+							String discipline = childStructureElement.getText();
+							if (discipline.contains("ABXmlImport") || discipline.contains("ExternalFrameworkSpreadsheetImport")) {
+								counter++;
+								String xpath = "//div[@class='list-data-container']/child::div["+counter+"]/div/div[1]/div/span/span[2]/a";
+								WebElement element = driver.findElement(By.xpath(xpath));
+								element.click();
+								wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+								break;
+							}
+						}
+						flag = true;
+						jse.executeScript("window.scrollBy(0,-1000)");
+						commonPOM.getPearsonLogo().click();
+					}
+				} else {
+					logger.log(LogStatus.FAIL, "No results found on School Global Curriculum Standard/Custom browse page, logged user : " + userName);
+					jse.executeScript("window.scrollBy(0,-1000)");
+					commonPOM.getPearsonLogo().click();
+					flag = false;
+					return flag;
+				}
+			} catch (Exception e) {
+				logger.log(LogStatus.FAIL, "Exception occured on the School Global Curriculum Standard/Custom browse page, logged user : " + userName);
+				jse.executeScript("window.scrollBy(0,-1000)");
+				commonPOM.getPearsonLogo().click();
+				flag = false;
+				return flag;
+			}
+		} 
+		return flag;
+	}
 	
+	public boolean getIntermediaryBrowseAndExport(ExtentTest logger, String userName) {
+		boolean flag = false;
+		JavascriptExecutor jse = (JavascriptExecutor) driver;			
+		WebDriverWait wait = new WebDriverWait(driver, 300); 
+		try {
+			commonPOM.getSchoolGlobalLOB().click();
+			intermediaryPOM.getIntermediaryStructure().click();
+			wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+			jse.executeScript("window.scrollBy(0,300)");
+			
+			if (schoolPOM.getResultFound().getText().contains("Showing")) {
+				removeExistingFile();
+				schoolPOM.getIntAction().click();
+				
+				commonPOM.getCommonExportButton().click();
+				wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+				
+				commonPOM.getExfFirtBrowsedGF().click();
+				wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+				flag = true;
+				
+				jse.executeScript("window.scrollBy(0,-1000)");
+				commonPOM.getPearsonLogo().click();
+			} else {
+				logger.log(LogStatus.FAIL, "No results found on School Global Intermediary browse page, logged user : " + userName);
+				jse.executeScript("window.scrollBy(0,-1000)");
+				commonPOM.getPearsonLogo().click();
+				flag = false;
+				return flag;
+			}
+		} catch (Exception e) {
+			logger.log(LogStatus.FAIL, "Exception occured on the School Global Intermediary browse page, logged user : " + userName);
+			jse.executeScript("window.scrollBy(0,-1000)");
+			commonPOM.getPearsonLogo().click();
+			flag = false;
+			return flag;
+		} 
+		return flag;
+	}
 	
 	public void removeExistingFile() throws IOException {
 		if (new File(LOMTConstant.EXPORTED_FILE_PATH).exists()) 

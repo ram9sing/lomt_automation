@@ -61,6 +61,9 @@ public class EnglishPOM {
 	@FindBy(xpath = "//div[@id='lomtAppId']/div/div/div[2]/div/div[1]/div[10]/button/span[1]")
 	private WebElement updateResultButton;
 	
+	@FindBy(xpath = "//*[@id='lomtAppId']/div/div/div[2]/div/div[2]/div[2]/div[1]/div/div[2]/div/div/div/a")
+	private WebElement firstGSENode;
+	
 	public EnglishPOM(WebDriver driver) {
 		this.driver = driver;
 		PageFactory.initElements(driver, this);
@@ -172,6 +175,10 @@ public class EnglishPOM {
 
 	public WebElement getUpdateResultButton() {
 		return updateResultButton;
+	}
+
+	public WebElement getFirstGSENode() {
+		return firstGSENode;
 	}
 
 }

@@ -303,6 +303,13 @@ public class CommonPOM {
 	@FindBy(xpath = "//div[@id='browse-action-container']/div[2]/div[2]/span")
 	private WebElement exfExport;
 	
+	@FindBy(xpath = "//div[@id='lomtAppId']/div/div/div[2]/div/div[2]/div[2]/div[1]/div/div[1]/div/span[2]/span/a")
+	private WebElement tocFirstGF;
+	
+	//For non-admin user
+	@FindBy(xpath = "//div[@id='browse-action-container']/div[2]/div[2]/span")
+	private WebElement commonExportButton;
+	
 	public WebElement getPearsonLogo() {
 		return pearsonLogo;
 	}
@@ -962,6 +969,14 @@ public class CommonPOM {
 
 	public void setTocEngUpdateBtn(WebElement tocEngUpdateBtn) {
 		this.tocEngUpdateBtn = tocEngUpdateBtn;
+	}
+
+	public WebElement getTocFirstGF() {
+		return tocFirstGF;
+	}
+
+	public WebElement getCommonExportButton() {
+		return commonExportButton;
 	}
 
 }
