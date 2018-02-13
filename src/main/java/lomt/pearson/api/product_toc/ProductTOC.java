@@ -1356,7 +1356,7 @@ public class ProductTOC extends BaseClass {
 	public void getHomePage() {
 		try {
 			JavascriptExecutor jse = (JavascriptExecutor) driver;
-			jse.executeScript("window.scrollBy(0,-500)");
+			jse.executeScript("window.scrollBy(0,-1000)");
 			commonPOM.getPearsonLogo().click();
 			Thread.sleep(1000);
 		} catch (Exception e) {
@@ -1641,9 +1641,9 @@ public class ProductTOC extends BaseClass {
 	public void searchIngestedProductTitle(String productTitleName, ExtentTest logger){
 		try {
 			JavascriptExecutor jse = (JavascriptExecutor) driver;
-			exfPOM.getEnterSearchTerm().sendKeys(productTitleName);
+			productTocPOM.getEnterSearchTerm().sendKeys(productTitleName);
 			Assert.assertTrue(exfPOM.getUpdateResultButton().isEnabled());
-			exfPOM.getUpdateResultButton().click();
+			productTocPOM.getUpdateResultButton().click();
 			
 			Thread.sleep(10000);
 			jse.executeScript("window.scrollBy(0,400)");
@@ -1658,9 +1658,7 @@ public class ProductTOC extends BaseClass {
 				//logger.log(LogStatus.INFO, "School Product TOC not found in search result");
 				System.out.println("School Product TOC not found in search result");
 			}
-			Thread.sleep(1000);
 			exfPOM.getEnterSearchTerm().clear();
-			Thread.sleep(1000);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -1671,11 +1669,11 @@ public class ProductTOC extends BaseClass {
 			WebDriverWait wait1 = new WebDriverWait(driver, 180); 
 			commonPOM.getSchoolGlobalLOB().click();
 			commonPOM.getSchoolProductTOCStructure().click();
-			//Thread.sleep(20000);
-			wait1.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+			Thread.sleep(60000);
+			//wait1.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
 			
 			JavascriptExecutor jse = (JavascriptExecutor) driver;
-			jse.executeScript("window.scrollBy(0,500)");
+			jse.executeScript("window.scrollBy(0,100)");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -2072,6 +2070,7 @@ public class ProductTOC extends BaseClass {
 				commonPOM.getSchoolGlobalLOB().click();
 				commonPOM.getSchoolProductTOCStructure().click();
 				wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));	
+				Thread.sleep(30000);
 				
 				productTocPOM.getEnterSearchTerm().sendKeys(productTitle); 
 				Thread.sleep(1000);
@@ -2090,6 +2089,8 @@ public class ProductTOC extends BaseClass {
 				
 				productTocPOM.getExport().click();
 				wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+				
+				Thread.sleep(10000); // Temporary applied
 				
 				productTocPOM.getEnterSearchTerm().clear();
 				Thread.sleep(1000);
@@ -2195,6 +2196,7 @@ public class ProductTOC extends BaseClass {
 				commonPOM.getHeLOB().click();
 				commonPOM.getHeProductTOCStructure().click();
 				wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));	
+				Thread.sleep(30000);
 				
 				productTocPOM.getTocHEenterSearchTerm().sendKeys(productTitle); 
 				Thread.sleep(1000);
@@ -2213,6 +2215,8 @@ public class ProductTOC extends BaseClass {
 				
 				productTocPOM.getTocExport().click();
 				wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+				
+				Thread.sleep(10000); // Temporary applied
 				
 				productTocPOM.getTocHEenterSearchTerm().clear();
 				Thread.sleep(1000);
@@ -2310,13 +2314,13 @@ public class ProductTOC extends BaseClass {
 				commonPOM.getPearsonLogo().click();
 			}
 		} 
-		
 		//English lob
 		else {
 			try {
 				commonPOM.getEnglishLOB().click();
 				commonPOM.getEnglishProductTOCStructure().click();
 				wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));	
+				Thread.sleep(30000);
 				
 				productTocPOM.getTocEnglishEenterSearchTerm().sendKeys(productTitle); 
 				Thread.sleep(1000);
@@ -2335,6 +2339,8 @@ public class ProductTOC extends BaseClass {
 				
 				productTocPOM.getTocEnglishExport().click();
 				wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+				
+				Thread.sleep(10000); // Temporary applied
 				
 				productTocPOM.getTocEnglishEenterSearchTerm().clear();
 				Thread.sleep(1000);
@@ -2497,7 +2503,7 @@ public class ProductTOC extends BaseClass {
 			commonPOM.getNextButtonFirst().click();
 			Thread.sleep(2000);
 			
-			hePom.getLearningTitleInputText().sendKeys("HE_Test_T123");
+			hePom.getLearningTitleInputText().sendKeys("domain_model_qapairs_9feb_automation");
 			Thread.sleep(4000);
 			
 			//DOMAIN SELECTION
@@ -2684,9 +2690,10 @@ public class ProductTOC extends BaseClass {
 				commonPOM.getSchoolGlobalLOB().click();
 				commonPOM.getSchoolProductTOCStructure().click();
 				wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));	
+				Thread.sleep(30000);
 				
 				productTocPOM.getEnterSearchTerm().sendKeys(productTitleName); // css is generic
-				Thread.sleep(1000);
+				Thread.sleep(3000);
 				
 				productTocPOM.getUpdateResultButton().click();
 				wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
@@ -2701,6 +2708,8 @@ public class ProductTOC extends BaseClass {
 							
 				productTocPOM.getExport().click();
 				wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+				
+				Thread.sleep(10000); // Temporary applied
 				
 				productTocPOM.getEnterSearchTerm().clear();
 				Thread.sleep(1000);
@@ -2751,6 +2760,7 @@ public class ProductTOC extends BaseClass {
 				commonPOM.getHeLOB().click();
 				commonPOM.getHeProductTOCStructure().click();
 				wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));	
+				Thread.sleep(30000);
 				
 				productTocPOM.getTocHEenterSearchTerm().sendKeys(productTitleName); 
 				Thread.sleep(1000);
@@ -2768,6 +2778,8 @@ public class ProductTOC extends BaseClass {
 							
 				productTocPOM.getExport().click();
 				wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+				
+				Thread.sleep(10000); // Temporary applied
 				
 				productTocPOM.getTocHEenterSearchTerm().clear();
 				Thread.sleep(1000);
@@ -2802,6 +2814,7 @@ public class ProductTOC extends BaseClass {
 				commonPOM.getEnglishLOB().click();
 				commonPOM.getEnglishProductTOCStructure().click();
 				wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));	
+				Thread.sleep(30000);
 				
 				productTocPOM.getTocEnglishEenterSearchTerm().sendKeys(productTitleName); 
 				Thread.sleep(1000);
@@ -2819,6 +2832,8 @@ public class ProductTOC extends BaseClass {
 							
 				productTocPOM.getTocEnglishExport().click();
 				wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+				
+				Thread.sleep(10000); // Temporary applied
 				
 				productTocPOM.getTocEnglishEenterSearchTerm().clear();
 				Thread.sleep(1000);

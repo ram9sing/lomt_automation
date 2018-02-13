@@ -25,9 +25,6 @@ public class EnglishGSETestScript {
 	public void setUp() {
 		gseIngestion.openBrowser();
 		gseIngestion.login();
-		//gseIngestion.loginNonAdminRole();
-		
-		reports.flush();
 	}
 
 	@Test(priority = 1)
@@ -39,11 +36,7 @@ public class EnglishGSETestScript {
 				"LOMT-458"+LOMTConstant.COMMA+LOMTConstant.EMPTY_SPACE+
 				"LOMT-1154"+LOMTConstant.COMMA+LOMTConstant.EMPTY_SPACE+"LOMT-968");
 		
-		//gseIngestion.englishGSEBrowsePageForNonAdminUser();
 		logger.log(LogStatus.PASS, "TC-LOMT-11-01_SME or Coordinator or Basic Browser cannot ingest");
-		
-		//gseIngestion.logout();
-		//gseIngestion.login();
 		
 		gseIngestion.englishBrowsePage(logger);		
 		gseIngestion.createUploadStructurePage();
