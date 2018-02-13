@@ -921,7 +921,6 @@ public class HigherEducation extends BaseClass {
 			
 			//Delete LO/EO, counter = 2
 			flag = reingestionHE(null, counter, logger, updateGoalframework);
-			flag = true;
 			if (flag) {
 				logger.log(LogStatus.PASS, "TC-LOMT-815-17_Update_Question and Ans_Q&A_Pair");
 				logger.log(LogStatus.PASS, "TC-LOMT-815-18_Update_Assertion_Q&A_Pair");	
