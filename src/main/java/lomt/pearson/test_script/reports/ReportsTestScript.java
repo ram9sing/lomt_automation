@@ -266,7 +266,8 @@ public class ReportsTestScript {
 		reports.flush();
 	}
 
-	@Test(priority = 1)
+	//@Test(priority = 1)
+	@Ignore
 	public void reverseTocToStandardViaIntermediaryReport() throws Exception {
 		logger = reports.startTest(ReportsConstant.REVERSE_TOC_STANDARD_VIA_INT_TEXT + LOMTConstant.COMMA
 				+ LOMTConstant.EMPTY_SPACE + ReportsConstant.LOMT_1837);
@@ -332,7 +333,8 @@ public class ReportsTestScript {
 		reports.flush();
 	}
 	
-	@Test(priority = 1)
+	//@Test(priority = 1)
+	@Ignore
 	public void forwardDirectReport() {
 		logger = reports.startTest(ReportsConstant.FORWARD_DIRECT_REPORT+LOMTConstant.COMMA+LOMTConstant.EMPTY_SPACE+ReportsConstant.LOMT_1760);
 		
@@ -359,7 +361,18 @@ public class ReportsTestScript {
 		reports.flush();
 	}
 	
-	@Test(priority = 4)
+	@Test(priority = 1)
+	public void gapAnalysisReport() {
+		logger = reports.startTest(ReportsConstant.GAP_ANALYSIS_REPORT+LOMTConstant.COMMA+LOMTConstant.EMPTY_SPACE+ReportsConstant.LOMT_1840);
+		
+		String reportName = report.createAndDownloadReport(ReportsConstant.GAP_ANALYSIS_REPORT, ReportsConstant.CS_YEAR_PPE,
+				 null, ReportsConstant.INGESTED_STANDARD_YEAR, logger); 
+		
+		reports.endTest(logger);
+		reports.flush();
+	}
+	
+	@Test(priority = 2)
 	public void tearDown() {
 		report.closeDriverInstance();
 	}

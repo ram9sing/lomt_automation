@@ -114,6 +114,7 @@ public class ReportsConstant {
 	//Gap Analysis Report
 	public static String LOMT_1840 = "LOMT-1840";
 	public static String GAP_ANALYSIS_REPORT = "Gap Analysis Standard to Standard Report";
+	public static String CS_YEAR_PPE = "1669";	
 	
 	//This methods returns Standards' Topics, CS Correlation Score, Strength and Peripheral Alignments
 		public static Map<String, List<String>> getForwardDirectCSTestData() {
