@@ -82,6 +82,21 @@ public class ReportsPOM {
 	@FindBy(xpath = "//div[@id='lomtAppId']/div/div/div[2]/div[2]/button")
 	private WebElement runReport;
 	
+	@FindBy(xpath = "//div[@id='report-target-container']/div[2]/div/div[1]/div[6]/input")
+	private WebElement productReportEnterSearchTerm;
+	
+	@FindBy(xpath = "//div[@id='report-target-container']/div[2]/div/div[1]/div[7]/button")
+	private WebElement productReportUpdateResultBtn;
+	
+	@FindBy(xpath = "//div[@id='report-target-container']/div[2]/div/div[2]/div[2]/div/div/div[2]/div/span[1]")
+	private WebElement productTargetLink;
+	
+	@FindBy(xpath = "//div[@id='lomtAppId']/div/div/div[2]/div/div[2]/div[5]/div[1]/span")
+	private WebElement gapAnalysisReport;
+	
+	@FindBy(xpath = "//div[@id='report-target-container']/div[2]/div/div[2]/div[2]/div/div/div[2]/div/span[1]")
+	private WebElement csTargetBtn;
+	
 	public ReportsPOM(WebDriver driver) {
 		this.driver = driver;
 		PageFactory.initElements(driver, this);
@@ -185,6 +200,26 @@ public class ReportsPOM {
 	
 	public WebElement getReportsExportLinkNonAdmin() {
 		return reportsExportLinkNonAdmin;
+	}
+
+	public WebElement getProductReportEnterSearchTerm() {
+		return productReportEnterSearchTerm;
+	}
+
+	public WebElement getProductReportUpdateResultBtn() {
+		return productReportUpdateResultBtn;
+	}
+
+	public WebElement getProductTargetLink() {
+		return productTargetLink;
+	}
+
+	public WebElement getGapAnalysisReport() {
+		return gapAnalysisReport;
+	}
+
+	public WebElement getCsTargetBtn() {
+		return csTargetBtn;
 	}
 
 }

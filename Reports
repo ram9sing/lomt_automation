@@ -1,3 +1,12 @@
 LOMT-1758(Reports & exports - School Global - download Forward (Indirect) Intermediary report)
 
 1) Prerequisties, Reports should be available before export
+
+##### Gap Analysis Prerequisties #####
+	Uat ingested data: 
+		Source: 2015
+		Target: 2014
+		
+	PPE ingested data: 
+		Source 
+		Target	

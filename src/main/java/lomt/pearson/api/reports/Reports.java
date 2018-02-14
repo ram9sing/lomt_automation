@@ -1742,7 +1742,7 @@ public class Reports extends BaseClass {
 	}
 
 	public String createAndDownloadReport(String reportType, String source, String pivot, String target,
-			WebDriverWait wait, JavascriptExecutor jse) throws IOException {
+			WebDriverWait wait, JavascriptExecutor jse) throws IOException, InterruptedException {
 		String reportName = null;
 		commonPOM.getSchoolGlobalLOB().click();
 		schoolPOM.getCurriculumSt().click();
@@ -1762,20 +1762,64 @@ public class Reports extends BaseClass {
 		reportsPOM.getSchoolModelWindowNextButton().click();
 		wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
 
-		// Selection of report based on coming Report Type
+		//Selection of report based on coming Report Type
 		if (reportType.equalsIgnoreCase(ReportsConstant.FORWARD_INDIRECT_INTERMEDIARY_REPORT)) {
 			jse.executeScript("window.scrollBy(0, 400)");
 			reportsPOM.getForwardIndirectIntermediaryReport().click();
 			wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+			
+			clickIngestedIntermediaryDiscipline(pivot);
+
+			reportsPOM.getSchoolModelWindowNextButton().click();
+			wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+			
+			reportName = ReportsConstant.FORWARD_INDIRECT_INT_REPORT_FILE_NAME + "-"
+					+ String.valueOf(1300 + (int) Math.round(Math.random() * (1100 - 1200)));
 		}
+		if (reportType.equalsIgnoreCase(ReportsConstant.FORWARD_DIRECT_REPORT)) {
+			reportsPOM.getForwardDirectReport().click();
+			wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+			
+			clickIngestedIntermediaryDiscipline(pivot);
 
-		clickIngestedIntermediaryDiscipline(pivot);
+			reportsPOM.getSchoolModelWindowNextButton().click();
+			wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+			Thread.sleep(5000);
+			//searching Target(Product)
+			jse.executeScript("window.scrollBy(0, -300)");
+			reportsPOM.getProductReportEnterSearchTerm().sendKeys(target);
+			reportsPOM.getProductReportUpdateResultBtn().click();
+			wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+			jse.executeScript("window.scrollBy(0, 300)");
+			
+			reportsPOM.getProductTargetLink().click();
+			reportsPOM.getSchoolModelWindowNextButton().click();
+			wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+			
+			reportName = ReportsConstant.FORWARD_DIRECT_REPORT + "-"+ String.valueOf(1300 + (int) Math.round(Math.random() * (1000 - 1100)));
+			
+		}
+		if (reportType.equalsIgnoreCase(ReportsConstant.GAP_ANALYSIS_REPORT)) {
+			jse.executeScript("window.scrollBy(0, 200)");
+			reportsPOM.getGapAnalysisReport().click();
+			wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+			
+			schoolPOM.getEnterEnterSearch().sendKeys(target);
 
-		reportsPOM.getSchoolModelWindowNextButton().click();
-		wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
-
-		reportName = ReportsConstant.FORWARD_INDIRECT_INT_REPORT_FILE_NAME + "-"
-				+ String.valueOf(1300 + (int) Math.round(Math.random() * (1400 - 1300)));
+			schoolPOM.getSchoolUpdateResultButton().click();
+			wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+			jse.executeScript("window.scrollBy(0, 300)");
+			
+			reportsPOM.getCsTargetBtn().click();			
+			wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+			
+			reportsPOM.getSchoolModelWindowNextButton().click();
+			wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+			
+			reportName = ReportsConstant.GAP_ANALYSIS_REPORT + "-"+ String.valueOf(1300 + (int) Math.round(Math.random() * (1000 - 1100)));
+		}
+		
+		System.out.println(reportType+ " : "+reportName);
 
 		reportsPOM.getReportName().clear();
 		reportsPOM.getReportName().sendKeys(reportName);

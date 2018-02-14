@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MSS id="1ABABFATY0004-asx300004-11E200004-90F800008-C8549DFF4B22156qwert0004">
+<TIMESTAMP>2017-12-19 10:55:42</TIMESTAMP><STATE code='AR'>Arkansas</STATE><TITLE>Automation Test Report</TITLE><SOURCE>http://www.arkansased.gov/divisions/learning-services/curriculum-and-instruction/curriculum-framework-documents/english-language-arts</SOURCE><SUBJECT code="LANG" seq="10">English Language Arts</SUBJECT><YEAR>2015</YEAR>
+<STANDARD id="B458F7F2-D959-11E2-9C66-33FC9CFF4B22"><GRADE lo="K" hi="12" seq="350" code="K12">Automation Report Test-2</GRADE>
+<TOPIC id="FC30E83E-D90C-11E2-8CB5-43E6D51F4EFC" state_num="W" label="Strand" seq="20" level="1" placeholder="N" linkable="N">Reading<TOPIC id="FC6D6A20-D90C-11E2-8CB5-43E6D51F4EFC" parent_id="FC30E83E-D90C-11E2-8CB5-43E6D51F4EFC" seq="21" level="2" placeholder="N" linkable="N">Text Types and Purposes - LEVEL 2.<TOPIC id="FD5F1230-D90C-11E2-8CB5-43E6D51F4EFC" parent_id="FC6D6A20-D90C-11E2-8CB5-43E6D51F4EFC" state_num="W.1" raw_state_num="1" label="Anchor Standard" seq="22" level="3" placeholder="N" linkable="Y">Write arguments to support claims in an analysis of substantive topics or texts, using valid reasoning and relevant and sufficient evidence - LEVEL 3.<TOPIC id="FD5F1230-QW21-11E2-8CB5-43E6D51XXOI9" parent_id="FD5F1230-D90C-11E2-8CB5-43E6D51F4EFC" state_num="W.1" raw_state_num="1" label="Anchor Standard" seq="22" level="3" placeholder="N" linkable="Y">Reading LEVEL 4.<TOPIC id="FE5F1230-QW20-11E2-8CB5-43E6D51X4OI7" parent_id="FD5F1230-QW21-11E2-8CB5-43E6D51XXOI9" state_num="W.1" raw_state_num="1" label="Anchor Standard" seq="22" level="3" placeholder="N" linkable="Y">Reading LEVEL 5.<TOPIC id="4367YU5V-QW20-75TI-8CB5-43E6D51X4OI7" parent_id="FE5F1230-QW20-11E2-8CB5-43E6D51X4OI7" state_num="W.1" raw_state_num="1" label="Anchor Standard" seq="22" level="3" placeholder="N" linkable="Y">Reading LOWEST LEVEL</TOPIC>
+</TOPIC>
+</TOPIC>
+</TOPIC>
+</TOPIC>
+</TOPIC>
+</STANDARD>
+<STANDARD id="9567UYQ2-D959-11E2-17YY-93IO9CZP4BX3"><GRADE lo="K" hi="5" seq="350" code="K12">Automation Report Test-3</GRADE>
+<TOPIC id="FC30E83E-D90C-11E2-8CB5-43E6D51F4EFC" state_num="W" label="Strand" seq="20" level="1" placeholder="N" linkable="N">Reading<TOPIC id="FC6D6A20-D90C-11E2-8CB5-43E6D51F4EFC" parent_id="FC30E83E-D90C-11E2-8CB5-43E6D51F4EFC" seq="21" level="2" placeholder="N" linkable="N">Text Types and Purposes - LEVEL 2.<TOPIC id="FD5F1230-D90C-11E2-8CB5-43E6D51F4EFC" parent_id="FC6D6A20-D90C-11E2-8CB5-43E6D51F4EFC" state_num="W.1" raw_state_num="1" label="Anchor Standard" seq="22" level="3" placeholder="N" linkable="Y">Write arguments to support claims in an analysis of substantive topics or texts, using valid reasoning and relevant and sufficient evidence - LEVEL 3.<TOPIC id="FD5F1230-QW21-11E2-8CB5-43E6D51XXOI9" parent_id="FD5F1230-D90C-11E2-8CB5-43E6D51F4EFC" state_num="W.1" raw_state_num="1" label="Anchor Standard" seq="22" level="3" placeholder="N" linkable="Y">Reading LEVEL 4.<TOPIC id="FE5F1230-QW20-11E2-8CB5-43E6D51X4OI7" parent_id="FD5F1230-QW21-11E2-8CB5-43E6D51XXOI9" state_num="W.1" raw_state_num="1" label="Anchor Standard" seq="22" level="3" placeholder="N" linkable="Y">Reading LEVEL 5.<TOPIC id="4367YU5V-QW20-75TI-8CB5-43E6D51X4OI7" parent_id="FE5F1230-QW20-11E2-8CB5-43E6D51X4OI7" state_num="W.1" raw_state_num="1" label="Anchor Standard" seq="22" level="3" placeholder="N" linkable="Y">Reading LOWEST LEVEL</TOPIC>
+</TOPIC>
+</TOPIC>
+</TOPIC>
+</TOPIC>
+</TOPIC>
+</STANDARD>
+
+</MSS>

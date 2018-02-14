@@ -365,8 +365,16 @@ public class ReportsTestScript {
 	public void gapAnalysisReport() {
 		logger = reports.startTest(ReportsConstant.GAP_ANALYSIS_REPORT+LOMTConstant.COMMA+LOMTConstant.EMPTY_SPACE+ReportsConstant.LOMT_1840);
 		
-		String reportName = report.createAndDownloadReport(ReportsConstant.GAP_ANALYSIS_REPORT, ReportsConstant.CS_YEAR_PPE,
-				 null, ReportsConstant.INGESTED_STANDARD_YEAR, logger); 
+		String reportName = report.createAndDownloadReport(ReportsConstant.GAP_ANALYSIS_REPORT, ReportsConstant.CS_SOURCE_YEAR_UAT,
+				 null, ReportsConstant.CS_TARGET_YEAR_UAT, logger); 
+		if (reportName != null) {
+			// logger
+			report.verifyExportedFile(ReportsConstant.GAP_ANALYSIS_REPORT, reportName, logger);
+		} else {
+			
+		}
+		
+		System.out.println("Gap Analysis report name : "+reportName);
 		
 		reports.endTest(logger);
 		reports.flush();
