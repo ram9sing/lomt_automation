@@ -348,7 +348,7 @@ public class ReportsTestScript {
 			logger.log(LogStatus.PASS, "TC_LOMT-1760-03_Admin_User_School_Global_Report_Export_Download_Forward_Direct_Report"); 
 			logger.log(LogStatus.PASS, "TC_LOMT-1760-05_Admin_User_School_Global_Report_Export_Download_Forward_Direct_Report"); 
 			
-			Map<String, List<String>> forwardIIRepMap = report.verifyExportedFile(ReportsConstant.FORWARD_DIRECT_REPORT, reportName, logger);
+			Map<String, List<String>> forwardIIRepMap = report.verifyExportedFile(ReportsConstant.FORWARD_DIRECT_REPORT, reportName, logger, null, null);
 			if (!forwardIIRepMap.isEmpty()) {
 				report.verifyCurriculumStandardDataUI(forwardIIRepMap, logger);
 				report.verifyIntermediaryDataUI(forwardIIRepMap, logger);
@@ -367,11 +367,13 @@ public class ReportsTestScript {
 		
 		String reportName = report.createAndDownloadReport(ReportsConstant.GAP_ANALYSIS_REPORT, ReportsConstant.CS_SOURCE_YEAR_UAT,
 				 null, ReportsConstant.CS_TARGET_YEAR_UAT, logger); 
+		//String reportName =  "Gap Analysis Standard to Standard Report-1290"; // UAT report
 		if (reportName != null) {
-			// logger
-			report.verifyExportedFile(ReportsConstant.GAP_ANALYSIS_REPORT, reportName, logger);
+			logger.log(LogStatus.PASS, "TC_LOMT-1840-01_For_SchoolGlobal_download_GAP_Analysis_StandardToStandard_Report_for_Admin"); 
+			report.verifyExportedFile(ReportsConstant.GAP_ANALYSIS_REPORT, reportName, logger, ReportsConstant.CS_SOURCE_YEAR_UAT,
+					ReportsConstant.CS_TARGET_YEAR_UAT);
 		} else {
-			
+			logger.log(LogStatus.FAIL, "TC_LOMT-1840-01_For_SchoolGlobal_download_GAP_Analysis_StandardToStandard_Report_for_Admin"); 
 		}
 		
 		System.out.println("Gap Analysis report name : "+reportName);

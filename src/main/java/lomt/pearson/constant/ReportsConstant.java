@@ -21,14 +21,14 @@ public class ReportsConstant {
 	
 	//Forward Indirect Intermediary Report
 	public static String TITLE = "Title";
-	public static String DATE_TIME_GENERATION = "Date / time of generation";
+	public static String DATE_TIME_GENERATION = "Date of generation";
 	public static String USER = "User";
 	public static String STANDARD = "Standard";
 	public static String INTERMEDIARY = "Intermediary";
 	public static String COUNTRY = "Country";
 	public static String GRADE = "Grade";
 	public static String DISCIPLINE = "Discipline";
-	public static String STANDARDS_STRANDS = "Standards' Strands";
+	public static String STANDARDS_STRANDS = "Standards' Strands"; 
 	public static String STANDARDS_TOPICS = "Standards' Topics";
 	public static String STANDARDS_NUMBER = "Standard Number";
 	public static String PARENT_CODE = "Parent Code";
@@ -115,8 +115,16 @@ public class ReportsConstant {
 	public static String LOMT_1840 = "LOMT-1840";
 	public static String GAP_ANALYSIS_REPORT = "Gap Analysis Standard to Standard Report";
 	public static String CS_YEAR_PPE = "1669";	
-	public static String CS_SOURCE_YEAR_UAT = "2015";
-	public static String CS_TARGET_YEAR_UAT = "2014";
+	public static String CS_SOURCE_YEAR_UAT = "Alabama Education Association Citizenship K-12 2015";
+	public static String CS_TARGET_YEAR_UAT = "Arizona Education Association Business Studies K-12 2014";
+	public static String COLOUR_KEY = "Colour Key";
+	public static String OVERVIEW_HEADING = "= Overview Heading"; 
+	public static String LEVEL_1_HEADING = "= Level 1 Heading";
+	public static String LEVEL_2_HEADING = "= Level 2 Heading";
+	public static String LEVEL_3_HEADING = "= Level 3 Heading";
+	public static String NO_ALIGNMENT = "= No Alignment";
+	public static String ALIGNMENT = "Alignment";
+	public static String COMMENT = "Comment";
 	
 	//This methods returns Standards' Topics, CS Correlation Score, Strength and Peripheral Alignments
 		public static Map<String, List<String>> getForwardDirectCSTestData() {

@@ -19,7 +19,9 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -2638,7 +2640,7 @@ public class Reports extends BaseClass {
 		}
 	}
 	
-	public Map<String, List<String>> verifyExportedFile(String reportType, String reportName, ExtentTest logger) {
+	public Map<String, List<String>> verifyExportedFile(String reportType, String reportName, ExtentTest logger, String source, String target) {
 		Map<String, List<String>> forwardIIRepMap = new LinkedHashMap<String, List<String>>();
 		InputStream inputStream = null;
 		XSSFWorkbook workbook = null;
@@ -2661,6 +2663,10 @@ public class Reports extends BaseClass {
 				//Verifying CS and TOC Correlation Score, Strength and Peripheral Alignments data
 				getForwardDirectReportData(worksheet, forwardIIRepMap); 
 				verifyForwardDirectReportData(worksheet, logger);
+			}
+			if (reportType.equalsIgnoreCase(ReportsConstant.GAP_ANALYSIS_REPORT)) {
+				verifyGapAnalysisReportHeaders(worksheet, reportName, logger, source, target);
+				//verifyGapAnalysisReportData(worksheet, reportName, logger);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -3041,6 +3047,517 @@ public class Reports extends BaseClass {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
+		}
+	}
+	
+	public void verifyGapAnalysisReportHeaders(XSSFSheet worksheet, String reportName, ExtentTest logger, String source, String target) {
+		try {
+			int count = 0;
+			//Title
+			if (worksheet.getRow(LOMTConstant.ZERO).getCell(LOMTConstant.ZERO).getStringCellValue().trim().equalsIgnoreCase(ReportsConstant.TITLE)) {
+				XSSFCellStyle style1 = worksheet.getRow(LOMTConstant.ZERO).getCell(LOMTConstant.ZERO).getCellStyle();
+				short blackColourCode = style1.getFillForegroundColorColor().getIndexed();
+				if (blackColourCode == IndexedColors.BLACK.getIndex()) {
+				} else {
+					count++;
+					logger.log(LogStatus.FAIL, "TC_LOMT-1840-Title Foreground colour does not match in exported file");
+				}
+				if (worksheet.getRow(LOMTConstant.ZERO).getCell(LOMTConstant.ONE).getStringCellValue() != null
+						&& worksheet.getRow(LOMTConstant.ZERO).getCell(LOMTConstant.ONE).getStringCellValue()
+								.equalsIgnoreCase(reportName)) {
+				} else {
+					count++;
+					logger.log(LogStatus.FAIL, "TC_LOMT-1840-Title value does not match in exported file");
+				}
+			} else {
+				count++;
+				logger.log(LogStatus.FAIL, "TC_LOMT-1840-Title header does not match in exported file");
+			}
+
+			// User
+			if (worksheet.getRow(LOMTConstant.ONE).getCell(LOMTConstant.ZERO).getStringCellValue().trim()
+					.equalsIgnoreCase(ReportsConstant.USER.trim())) {
+				XSSFCellStyle style1 = worksheet.getRow(LOMTConstant.ONE).getCell(LOMTConstant.ZERO).getCellStyle();
+				short blackColourCode = style1.getFillForegroundColorColor().getIndexed();
+				if (blackColourCode == IndexedColors.BLACK.getIndex()) {
+				} else {
+					count++;
+					logger.log(LogStatus.FAIL, "TC_LOMT-1840-User Foreground colour does not match in exported file");
+				}
+				if (worksheet.getRow(LOMTConstant.ONE).getCell(LOMTConstant.ONE).getStringCellValue()
+						.equalsIgnoreCase(ReportsConstant.ADMIN_USER_COMMON)
+						|| worksheet.getRow(LOMTConstant.ONE).getCell(LOMTConstant.ONE).getStringCellValue()
+								.equalsIgnoreCase(ReportsConstant.ADMIN_USER_PPE)
+						|| worksheet.getRow(LOMTConstant.ONE).getCell(LOMTConstant.ONE).getStringCellValue()
+								.equalsIgnoreCase(ReportsConstant.LEARNING_USER_PPE)
+						|| worksheet.getRow(LOMTConstant.ONE).getCell(LOMTConstant.ONE).getStringCellValue()
+								.equalsIgnoreCase(ReportsConstant.SME_USER)
+						|| worksheet.getRow(LOMTConstant.ONE).getCell(LOMTConstant.ONE).getStringCellValue()
+								.equalsIgnoreCase(ReportsConstant.EDITOR_USER)) {
+				} else {
+					count++;
+					logger.log(LogStatus.FAIL, "TC_LOMT-1840-User name does not match in exported file");
+				}
+			} else {
+				count++;
+				logger.log(LogStatus.FAIL, "TC_LOMT-1840-User headers does not match in exported file");
+			}
+
+			//Date/time of generation
+			if (worksheet.getRow(LOMTConstant.TWO).getCell(LOMTConstant.ZERO).getStringCellValue().trim().equalsIgnoreCase(ReportsConstant.DATE_TIME_GENERATION.trim())) {
+				XSSFCellStyle style1 = worksheet.getRow(LOMTConstant.TWO).getCell(LOMTConstant.ZERO).getCellStyle();
+				short blackColourCode = style1.getFillForegroundColorColor().getIndexed();
+				if (blackColourCode == IndexedColors.BLACK.getIndex()) {
+				} else {
+					count++;
+					logger.log(LogStatus.FAIL, "TC_LOMT-1840-Date of generation Foreground colour does not match in exported file");
+				}
+				
+				if (isValidFormat(worksheet.getRow(LOMTConstant.TWO).getCell(LOMTConstant.ONE).getStringCellValue().trim())) {
+				} else {
+					count++;
+					logger.log(LogStatus.FAIL, "TC_LOMT-1840-Date of generation format does not match in exported file");
+				}
+			} else {
+				count++;
+				logger.log(LogStatus.FAIL, "TC_LOMT-1840-Date of generation header does not match in exported file");
+			}
+
+			//Alignments 
+			if (worksheet.getRow(LOMTConstant.THREE).getCell(LOMTConstant.ZERO).getStringCellValue().trim().equalsIgnoreCase(ReportsConstant.ALIGNMENTS)) {
+				XSSFCellStyle style1 = worksheet.getRow(LOMTConstant.THREE).getCell(LOMTConstant.ZERO).getCellStyle();
+				short blackColourCode = style1.getFillForegroundColorColor().getIndexed();
+				if (blackColourCode == IndexedColors.BLACK.getIndex()) {
+				} else {
+					count++;
+					logger.log(LogStatus.FAIL, "TC_LOMT-1840-Alignments Foreground colour does not match in exported file");
+				}
+				
+				if (worksheet.getRow(LOMTConstant.THREE).getCell(LOMTConstant.ONE).getStringCellValue().contains(ReportsConstant.CENTRAL)
+						|| worksheet.getRow(LOMTConstant.THREE).getCell(LOMTConstant.ONE).getStringCellValue().contains(ReportsConstant.PERIPHERAL)) {
+				} else {
+					count++;
+					logger.log(LogStatus.FAIL, "TC_LOMT-1840-Alignments value(Central/Peripheral) does not match in exported file");
+				}
+			} else {
+				count++;
+				logger.log(LogStatus.FAIL, "TC_LOMT-1840-Alignments header does not match in exported file");
+			}
+
+			//Standard - Left side
+			if (worksheet.getRow(LOMTConstant.FIVE).getCell(LOMTConstant.ZERO).getStringCellValue().trim().equalsIgnoreCase(ReportsConstant.STANDARD)) {
+				XSSFCellStyle style1 = worksheet.getRow(LOMTConstant.THREE).getCell(LOMTConstant.ZERO).getCellStyle();
+				short blackColourCode = style1.getFillForegroundColorColor().getIndexed();
+				if (blackColourCode == IndexedColors.BLACK.getIndex()) {
+				} else {
+					count++;
+					logger.log(LogStatus.FAIL, "TC_LOMT-1840-Standard Foreground colour does not match in exported file");
+				}
+			} else {
+				count++;
+				logger.log(LogStatus.FAIL, "TC_LOMT-1840-Standard header does not match in exported file");
+			}
+			
+			//Standard - Right side
+			if (worksheet.getRow(LOMTConstant.FIVE).getCell(LOMTConstant.EIGHT).getStringCellValue().trim().equalsIgnoreCase(ReportsConstant.STANDARD)) {
+				XSSFCellStyle style1 = worksheet.getRow(LOMTConstant.FIVE).getCell(LOMTConstant.EIGHT).getCellStyle();
+				short blackColourCode = style1.getFillForegroundColorColor().getIndexed();
+				if (blackColourCode == IndexedColors.BLACK.getIndex()) {
+				} else {
+					count++;
+					logger.log(LogStatus.FAIL, "TC_LOMT-1840-Standard Foreground colour does not match in exported file");
+				}
+			} else {
+				count++;
+				logger.log(LogStatus.FAIL, "TC_LOMT-1840-Standard header does not match in exported file");
+			}
+
+			// Title - Left side
+			if (worksheet.getRow(LOMTConstant.SIX).getCell(LOMTConstant.ZERO).getStringCellValue().trim().equalsIgnoreCase(ReportsConstant.TITLE)) {
+				XSSFCellStyle style1 = worksheet.getRow(LOMTConstant.SIX).getCell(LOMTConstant.ZERO).getCellStyle();
+				short blackColourCode = style1.getFillForegroundColorColor().getIndexed();
+				if (blackColourCode == IndexedColors.BLACK.getIndex()) {
+				} else {
+					count++;
+					logger.log(LogStatus.FAIL, "TC_LOMT-1840-Title Foreground colour does not match in exported file");
+				}
+				
+				if (worksheet.getRow(LOMTConstant.SIX).getCell(LOMTConstant.ONE).getStringCellValue() != null &&
+						worksheet.getRow(LOMTConstant.SIX).getCell(LOMTConstant.ONE).getStringCellValue().equalsIgnoreCase(source)) {
+				} else {
+					count++;
+					logger.log(LogStatus.FAIL, "TC_LOMT-1840-Title of Curriculum Standard should not be null in exported file");
+				}
+			} else {
+				count++;
+				logger.log(LogStatus.FAIL, "TC_LOMT-1840-Title header does not match in exported file");
+			}
+			
+			//Title - right side
+			if (worksheet.getRow(LOMTConstant.SIX).getCell(LOMTConstant.EIGHT).getStringCellValue().trim().equalsIgnoreCase(ReportsConstant.TITLE)) {
+				XSSFCellStyle style1 = worksheet.getRow(LOMTConstant.SIX).getCell(LOMTConstant.EIGHT).getCellStyle();
+				short blackColourCode = style1.getFillForegroundColorColor().getIndexed();
+				if (blackColourCode == IndexedColors.BLACK.getIndex()) {
+				} else {
+					count++;
+					logger.log(LogStatus.FAIL, "TC_LOMT-1840-Title Foreground colour does not match in exported file");
+				}
+				
+				if (worksheet.getRow(LOMTConstant.SIX).getCell(LOMTConstant.ONE).getStringCellValue() != null &&
+						worksheet.getRow(LOMTConstant.SIX).getCell(LOMTConstant.ONE).getStringCellValue().equalsIgnoreCase(source)) {
+				} else {
+					count++;
+					logger.log(LogStatus.FAIL, "TC_LOMT-1840-Title of Curriculum Standard should not be null in exported file");
+				}
+			} else {
+				count++;
+				logger.log(LogStatus.FAIL, "TC_LOMT-1840-Title header does not match in exported file");
+			}
+			
+
+			// Country - Left side
+			if (worksheet.getRow(LOMTConstant.SEVEN).getCell(LOMTConstant.ZERO).getStringCellValue().equalsIgnoreCase(ReportsConstant.COUNTRY)) {
+				XSSFCellStyle style1 = worksheet.getRow(LOMTConstant.SEVEN).getCell(LOMTConstant.ZERO).getCellStyle();
+				short blackColourCode = style1.getFillForegroundColorColor().getIndexed();
+				if (blackColourCode == IndexedColors.BLACK.getIndex()) {
+				} else {
+					count++;
+					logger.log(LogStatus.FAIL, "TC_LOMT-1840-Country Foreground colour does not match in exported file");
+				}
+				
+				if (worksheet.getRow(LOMTConstant.SEVEN).getCell(LOMTConstant.ONE).getStringCellValue() != null) {
+				} else {
+					count++;
+					logger.log(LogStatus.FAIL, "TC_LOMT-1840-Country should not be null in exported file");
+				}
+			} else {
+				count++;
+				logger.log(LogStatus.FAIL, "TC_LOMT-1840-Country header does not match in exported file");
+			}
+			
+			//Country - right side
+			if (worksheet.getRow(LOMTConstant.SEVEN).getCell(LOMTConstant.EIGHT).getStringCellValue().equalsIgnoreCase(ReportsConstant.COUNTRY)) {
+				XSSFCellStyle style1 = worksheet.getRow(LOMTConstant.SEVEN).getCell(LOMTConstant.EIGHT).getCellStyle();
+				short blackColourCode = style1.getFillForegroundColorColor().getIndexed();
+				if (blackColourCode == IndexedColors.BLACK.getIndex()) {
+				} else {
+					count++;
+					logger.log(LogStatus.FAIL, "TC_LOMT-1840-Country Foreground colour does not match in exported file");
+				}
+				
+				if (worksheet.getRow(LOMTConstant.SEVEN).getCell(LOMTConstant.ONE).getStringCellValue() != null) {
+				} else {
+					count++;
+					logger.log(LogStatus.FAIL, "TC_LOMT-1840-Country should not be null in exported file");
+				}
+			} else {
+				count++;
+				logger.log(LogStatus.FAIL, "TC_LOMT-1840-Country header does not match in exported file");
+			}
+
+			//Grade - left side
+			if (worksheet.getRow(LOMTConstant.EIGHT).getCell(LOMTConstant.ZERO).getStringCellValue().equalsIgnoreCase(ReportsConstant.GRADE)) {
+				XSSFCellStyle style1 = worksheet.getRow(LOMTConstant.EIGHT).getCell(LOMTConstant.ZERO).getCellStyle();
+				short blackColourCode = style1.getFillForegroundColorColor().getIndexed();
+				if (blackColourCode == IndexedColors.BLACK.getIndex()) {
+				} else {
+					count++;
+					logger.log(LogStatus.FAIL, "TC_LOMT-1840-Grade(Source) Foreground colour does not match in exported file");
+				}
+				
+				if (worksheet.getRow(LOMTConstant.EIGHT).getCell(LOMTConstant.ONE).getStringCellValue() != null) {
+				} else {
+					count++;
+					logger.log(LogStatus.FAIL, "TC_LOMT-1840-Grade(Source) should not be null in exported file");
+				}
+			} else {
+				count++;
+				logger.log(LogStatus.FAIL, "TC_LOMT-1840-Grade header(Source) does not match in exported file");
+			}
+			
+			//Grade - Right side
+			if (worksheet.getRow(LOMTConstant.EIGHT).getCell(LOMTConstant.EIGHT).getStringCellValue().equalsIgnoreCase(ReportsConstant.GRADE)) {
+				XSSFCellStyle style1 = worksheet.getRow(LOMTConstant.EIGHT).getCell(LOMTConstant.EIGHT).getCellStyle();
+				short blackColourCode = style1.getFillForegroundColorColor().getIndexed();
+				if (blackColourCode == IndexedColors.BLACK.getIndex()) {
+				} else {
+					count++;
+					logger.log(LogStatus.FAIL, "TC_LOMT-1840-Grade(Target) Foreground colour does not match in exported file");
+				}
+				
+				if (worksheet.getRow(LOMTConstant.EIGHT).getCell(LOMTConstant.ONE).getStringCellValue() != null) {
+				} else {
+					count++;
+					logger.log(LogStatus.FAIL, "TC_LOMT-1840-Grade(Target) should not be null in exported file");
+				}
+			} else {
+				count++;
+				logger.log(LogStatus.FAIL, "TC_LOMT-1840-Grade(Target) header does not match in exported file");
+			}
+			
+			//####### Colour Key ##########			
+			if (worksheet.getRow(LOMTConstant.TEN).getCell(LOMTConstant.ZERO).getStringCellValue().equalsIgnoreCase(ReportsConstant.COLOUR_KEY)) {
+				XSSFCellStyle style1 = worksheet.getRow(LOMTConstant.TEN).getCell(LOMTConstant.ZERO).getCellStyle();
+				short blackColourCode = style1.getFillForegroundColorColor().getIndexed();
+				if (blackColourCode == IndexedColors.BLACK.getIndex()) {
+				} else {
+					count++;
+					logger.log(LogStatus.FAIL, "TC_LOMT-1840-Colour Key Foreground colour does not match in exported file");
+				}
+			} else {
+				count++;
+				logger.log(LogStatus.FAIL, "TC_LOMT-1840-Colour Key header does not match in exported file");
+			}
+			
+			//Overview Heading
+			if (worksheet.getRow(LOMTConstant.ELEVENTH).getCell(LOMTConstant.ONE).getStringCellValue().equalsIgnoreCase(ReportsConstant.OVERVIEW_HEADING)) {
+				XSSFCellStyle style1 = worksheet.getRow(LOMTConstant.ELEVENTH).getCell(LOMTConstant.ZERO).getCellStyle();
+				short blackColourCode = style1.getFillForegroundColorColor().getIndexed();
+				if (blackColourCode == IndexedColors.RED.getIndex()) {
+				} else {
+					count++;
+					logger.log(LogStatus.FAIL, "TC_LOMT-1840-Overview Heading Foreground colour does not match in exported file");
+				}
+			} else {
+				System.out.println("dfdf");
+				count++;
+				logger.log(LogStatus.FAIL, "TC_LOMT-1840-Overview Heading header does not match in exported file");
+			}
+			
+			//Level 1 Heading
+			if (worksheet.getRow(LOMTConstant.TWELEVE).getCell(LOMTConstant.ONE).getStringCellValue().equalsIgnoreCase(ReportsConstant.LEVEL_1_HEADING)) {
+				XSSFCellStyle style1 = worksheet.getRow(LOMTConstant.TWELEVE).getCell(LOMTConstant.ZERO).getCellStyle();
+				short blackColourCode = style1.getFillForegroundColorColor().getIndexed();
+				if (blackColourCode == IndexedColors.LIGHT_ORANGE.getIndex()) {
+				} else {
+					count++;
+					logger.log(LogStatus.FAIL, "TC_LOMT-1840-Level 1 Heading Foreground colour does not match in exported file");
+				}
+			} else {
+				count++;
+				logger.log(LogStatus.FAIL, "TC_LOMT-1840-Level 1 Heading header does not match in exported file");
+			}
+			
+			//Level 2 Heading
+			if (worksheet.getRow(LOMTConstant.THIRTEEN).getCell(LOMTConstant.ONE).getStringCellValue().equalsIgnoreCase(ReportsConstant.LEVEL_2_HEADING)) {
+				XSSFCellStyle style1 = worksheet.getRow(LOMTConstant.THIRTEEN).getCell(LOMTConstant.ZERO).getCellStyle();
+				short blackColourCode = style1.getFillForegroundColorColor().getIndexed();
+				if (blackColourCode == 47) { // TODO: need to get exact color code
+				} else {
+					count++;
+					logger.log(LogStatus.FAIL, "TC_LOMT-1840-Level 2 Heading Foreground colour does not match in exported file");
+				}
+			} else {
+				count++;
+				logger.log(LogStatus.FAIL, "TC_LOMT-1840-Level 2 Heading header does not match in exported file");
+			}
+			
+			//Level 3 Heading
+			if (worksheet.getRow(LOMTConstant.FOURTEEN).getCell(LOMTConstant.ONE).getStringCellValue().equalsIgnoreCase(ReportsConstant.LEVEL_3_HEADING)) {
+				XSSFCellStyle style1 = worksheet.getRow(LOMTConstant.FOURTEEN).getCell(LOMTConstant.ZERO).getCellStyle();
+				short blackColourCode = style1.getFillForegroundColorColor().getIndexed();
+				if (blackColourCode == IndexedColors.LIGHT_YELLOW.getIndex()) { // colour code is 43
+				} else {
+					count++;
+					logger.log(LogStatus.FAIL, "TC_LOMT-1840-Level 3 Heading Foreground colour does not match in exported file");
+				}
+			} else {
+				count++;
+				logger.log(LogStatus.FAIL, "TC_LOMT-1840-Level 3 Heading header does not match in exported file");
+			}
+			
+			//No Alignment
+			if (worksheet.getRow(LOMTConstant.FIFTEEN).getCell(LOMTConstant.ONE).getStringCellValue().equalsIgnoreCase(ReportsConstant.NO_ALIGNMENT)) {
+				XSSFCellStyle style1 = worksheet.getRow(LOMTConstant.FIFTEEN).getCell(LOMTConstant.ZERO).getCellStyle();
+				short blackColourCode = style1.getFillForegroundColorColor().getIndexed();
+				if (blackColourCode == IndexedColors.LIGHT_GREEN.getIndex()) { // colour code is 42
+				} else {
+					count++;
+					logger.log(LogStatus.FAIL, "TC_LOMT-1840-No Alignment Heading Foreground colour does not match in exported file");
+				}
+			} else {
+				count++;
+				logger.log(LogStatus.FAIL, "TC_LOMT-1840-No Alignment Heading header does not match in exported file");
+			}
+			
+			//Source, Target Educational Goal's headings
+			
+			//Grade
+			if (worksheet.getRow(LOMTConstant.SEVENTEEN).getCell(LOMTConstant.ZERO).getStringCellValue().equalsIgnoreCase(ReportsConstant.GRADE)) {
+				XSSFCellStyle style1 = worksheet.getRow(LOMTConstant.SEVENTEEN).getCell(LOMTConstant.ZERO).getCellStyle();
+				short blackColourCode = style1.getFillForegroundColorColor().getIndexed();
+				if (blackColourCode == IndexedColors.BLACK.getIndex()) { 
+				} else {
+					count++;
+					logger.log(LogStatus.FAIL, "TC_LOMT-1840-Grade Heading Foreground colour does not match in exported file");
+				}
+			} else {
+				count++;
+				logger.log(LogStatus.FAIL, "TC_LOMT-1840-Grade header does not match in exported file");
+			}
+
+			//Standards' Strands			
+			if (worksheet.getRow(LOMTConstant.SEVENTEEN).getCell(LOMTConstant.ONE).getStringCellValue().equalsIgnoreCase(ReportsConstant.STANDARDS_STRANDS)) {
+				XSSFCellStyle style1 = worksheet.getRow(LOMTConstant.SEVENTEEN).getCell(LOMTConstant.ONE).getCellStyle();
+				short blackColourCode = style1.getFillForegroundColorColor().getIndexed();
+				if (blackColourCode == IndexedColors.BLACK.getIndex()) { 
+				} else {
+					count++;
+					logger.log(LogStatus.FAIL, "TC_LOMT-1840-Standards' Strands Heading Foreground colour does not match in exported file");
+				}
+			} else {
+				count++;
+				logger.log(LogStatus.FAIL, "TC_LOMT-1840-Standards' Strands header does not match in exported file");
+			}
+
+			//Standards' Topics
+			if (worksheet.getRow(LOMTConstant.SEVENTEEN).getCell(LOMTConstant.TWO).getStringCellValue().equalsIgnoreCase(ReportsConstant.STANDARDS_TOPICS)) {
+				XSSFCellStyle style1 = worksheet.getRow(LOMTConstant.SEVENTEEN).getCell(LOMTConstant.TWO).getCellStyle();
+				short blackColourCode = style1.getFillForegroundColorColor().getIndexed();
+				if (blackColourCode == IndexedColors.BLACK.getIndex()) { 
+				} else {
+					count++;
+					logger.log(LogStatus.FAIL, "TC_LOMT-1840-Standards' Topics Heading Foreground colour does not match in exported file");
+				}
+			} else {
+				count++;
+				logger.log(LogStatus.FAIL, "TC_LOMT-1840-Standards' Topics does not match in exported file");
+			}
+
+			//Standard Number
+			if (worksheet.getRow(LOMTConstant.SEVENTEEN).getCell(LOMTConstant.THREE).getStringCellValue().equalsIgnoreCase(ReportsConstant.STANDARDS_NUMBER)) {
+				XSSFCellStyle style1 = worksheet.getRow(LOMTConstant.SEVENTEEN).getCell(LOMTConstant.THREE).getCellStyle();
+				short blackColourCode = style1.getFillForegroundColorColor().getIndexed();
+				if (blackColourCode == IndexedColors.BLACK.getIndex()) { 
+				} else {
+					count++;
+					logger.log(LogStatus.FAIL, "TC_LOMT-1840-Standards' Number Heading Foreground colour does not match in exported file");
+				}
+			} else {
+				count++;
+				logger.log(LogStatus.FAIL, "TC_LOMT-1840-Standard Number does not match in exported file");
+			}
+
+			//AB GUID
+			if (worksheet.getRow(LOMTConstant.SEVENTEEN).getCell(LOMTConstant.FOUR).getStringCellValue().equalsIgnoreCase(ReportsConstant.AB_GUIDE)) {
+				XSSFCellStyle style1 = worksheet.getRow(LOMTConstant.SEVENTEEN).getCell(LOMTConstant.FOUR).getCellStyle();
+				short blackColourCode = style1.getFillForegroundColorColor().getIndexed();
+				if (blackColourCode == IndexedColors.BLACK.getIndex()) { 
+				} else {
+					count++;
+					logger.log(LogStatus.FAIL, "TC_LOMT-1840-AB GUID Heading Foreground colour does not match in exported file");
+				}
+			} else {
+				count++;
+				logger.log(LogStatus.FAIL, "TC_LOMT-1840-AB GUID header does not match in exported file");
+			}
+
+			// Alignment
+			if (worksheet.getRow(LOMTConstant.SEVENTEEN).getCell(LOMTConstant.FIVE).getStringCellValue().equalsIgnoreCase(ReportsConstant.ALIGNMENT)) {
+				XSSFCellStyle style1 = worksheet.getRow(LOMTConstant.SEVENTEEN).getCell(LOMTConstant.FIVE).getCellStyle();
+				short blackColourCode = style1.getFillForegroundColorColor().getIndexed();
+				if (blackColourCode == IndexedColors.BLACK.getIndex()) { 
+				} else {
+					count++;
+					logger.log(LogStatus.FAIL, "TC_LOMT-1840-AB Alignment(Source) Heading Foreground colour does not match in exported file");
+				}
+			} else {
+				count++;
+				logger.log(LogStatus.FAIL, "TC_LOMT-1840-Alignment header(Source) does not match in exported file");
+			}
+
+			//Comment
+			if (worksheet.getRow(LOMTConstant.SEVENTEEN).getCell(LOMTConstant.SIX).getStringCellValue().equalsIgnoreCase(ReportsConstant.COMMENT)) {
+				XSSFCellStyle style1 = worksheet.getRow(LOMTConstant.SEVENTEEN).getCell(LOMTConstant.SIX).getCellStyle();
+				short blackColourCode = style1.getFillForegroundColorColor().getIndexed();
+				if (blackColourCode == IndexedColors.BLACK.getIndex()) { 
+				} else {
+					count++;
+					logger.log(LogStatus.FAIL, "TC_LOMT-1840-Comment Heading Foreground colour does not match in exported file");
+				}
+			} else {
+				count++;
+				logger.log(LogStatus.FAIL, "TC_LOMT-1840-Comment header does not match in exported file");
+			}
+			
+			//Right side
+			//Grade
+			if (worksheet.getRow(LOMTConstant.SEVENTEEN).getCell(LOMTConstant.EIGHT).getStringCellValue().equalsIgnoreCase(ReportsConstant.GRADE)) {
+				XSSFCellStyle style1 = worksheet.getRow(LOMTConstant.SEVENTEEN).getCell(LOMTConstant.EIGHT).getCellStyle();
+				short blackColourCode = style1.getFillForegroundColorColor().getIndexed();
+				if (blackColourCode == IndexedColors.BLACK.getIndex()) { 
+				} else {
+					count++;
+					logger.log(LogStatus.FAIL, "TC_LOMT-1840-Grade Heading Foreground colour does not match in exported file");
+				}
+			} else {
+				count++;
+				logger.log(LogStatus.FAIL, "TC_LOMT-1840-Grade header(Target) does not match in exported file");
+			}
+			
+			//Standards' Strands
+			if (worksheet.getRow(LOMTConstant.SEVENTEEN).getCell(LOMTConstant.NINE).getStringCellValue().equalsIgnoreCase(ReportsConstant.STANDARDS_STRANDS)) {
+				XSSFCellStyle style1 = worksheet.getRow(LOMTConstant.SEVENTEEN).getCell(LOMTConstant.NINE).getCellStyle();
+				short blackColourCode = style1.getFillForegroundColorColor().getIndexed();
+				if (blackColourCode == IndexedColors.BLACK.getIndex()) { 
+				} else {
+					count++;
+					logger.log(LogStatus.FAIL, "TC_LOMT-1840-Standards' Strands Heading Foreground colour does not match in exported file");
+				}
+			} else {
+				count++;
+				logger.log(LogStatus.FAIL, "TC_LOMT-1840-Standards' Strands(Target) does not match in exported file");
+			}
+			
+			//Standards' Topics
+			if (worksheet.getRow(LOMTConstant.SEVENTEEN).getCell(LOMTConstant.TEN).getStringCellValue().equalsIgnoreCase(ReportsConstant.STANDARDS_TOPICS)) {
+				XSSFCellStyle style1 = worksheet.getRow(LOMTConstant.SEVENTEEN).getCell(LOMTConstant.TEN).getCellStyle();
+				short blackColourCode = style1.getFillForegroundColorColor().getIndexed();
+				if (blackColourCode == IndexedColors.BLACK.getIndex()) { 
+				} else {
+					count++;
+					logger.log(LogStatus.FAIL, "TC_LOMT-1840-Standards' Topics Heading Foreground colour does not match in exported file");
+				}
+			} else {
+				count++;
+				logger.log(LogStatus.FAIL, "TC_LOMT-1840-Standards' Topics(Target) does not match in exported file");
+			}
+			
+			//Standard Number
+			if (worksheet.getRow(LOMTConstant.SEVENTEEN).getCell(LOMTConstant.ELEVENTH).getStringCellValue().equalsIgnoreCase(ReportsConstant.STANDARDS_NUMBER)) {
+				XSSFCellStyle style1 = worksheet.getRow(LOMTConstant.SEVENTEEN).getCell(LOMTConstant.ELEVENTH).getCellStyle();
+				short blackColourCode = style1.getFillForegroundColorColor().getIndexed();
+				if (blackColourCode == IndexedColors.BLACK.getIndex()) { 
+				} else {
+					count++;
+					logger.log(LogStatus.FAIL, "TC_LOMT-1840-Standards' Number Heading Foreground colour does not match in exported file");
+				}
+			} else {
+				count++;
+				logger.log(LogStatus.FAIL, "TC_LOMT-1840-Standards' Number(Target) does not match in exported file");
+			}
+
+			//AB GUID
+			if (worksheet.getRow(LOMTConstant.SEVENTEEN).getCell(LOMTConstant.TWELEVE).getStringCellValue().equalsIgnoreCase(ReportsConstant.AB_GUIDE)) {
+				XSSFCellStyle style1 = worksheet.getRow(LOMTConstant.SEVENTEEN).getCell(LOMTConstant.TWELEVE).getCellStyle();
+				short blackColourCode = style1.getFillForegroundColorColor().getIndexed();
+				if (blackColourCode == IndexedColors.BLACK.getIndex()) { 
+				} else {
+					count++;
+					logger.log(LogStatus.FAIL, "TC_LOMT-1840-AB GUID Heading Foreground colour does not match in exported file");
+				}
+			} else {
+				count++;
+				logger.log(LogStatus.FAIL, "TC_LOMT-1840-AB GUID(Target) does not match in exported file");
+			}
+			
+			if (count == 0) {
+				logger.log(LogStatus.PASS, "TC_LOMT-1840-05_For_SchoolGlobal_download_GAP_Analysis_StandardToStandard_Report");
+			} else {
+				logger.log(LogStatus.FAIL, "TC_LOMT-1840-05_For_SchoolGlobal_download_GAP_Analysis_StandardToStandard_Report");
+			}
+		} catch (Exception e) {
+			logger.log(LogStatus.FAIL, "Unable to verify Headers in exported file");
 		}
 	}
 
