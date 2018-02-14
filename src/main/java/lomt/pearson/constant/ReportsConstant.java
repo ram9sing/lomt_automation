@@ -1,7 +1,10 @@
 package lomt.pearson.constant;
 
 import java.util.Arrays;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 public class ReportsConstant {
 	
@@ -46,6 +49,7 @@ public class ReportsConstant {
 	public static String PROGRAM = "Program";
 	public static String COURSE = "Course";
 	public static String PRODUCT = "Product";
+	public static String GEOGRAPHIC_AREA_OR__COUNTRY = "Geographic Area or Country";
 	public static String GEOGRAPHIC_AREA_OR_COUNTRY = "Geographic Area or Country";
 	public static String STATE_OR_REGION = "State or Region";
 	public static String START_GRADE = "Start Grade";
@@ -102,5 +106,104 @@ public class ReportsConstant {
 	//Reverse ToC to Standard via intermediary report
 	public static String LOMT_1837 = "LOMT-1837";
 	
+	
+	//Forward Direct Report
+	public static String LOMT_1760 = "LOMT-1760";
+	public static String FORWARD_DIRECT_REPORT = "Forward Direct Report";
+		
+	//Gap Analysis Report
+	public static String LOMT_1840 = "LOMT-1840";
+	public static String GAP_ANALYSIS_REPORT = "Gap Analysis Standard to Standard Report";
+	
+	//This methods returns Standards' Topics, CS Correlation Score, Strength and Peripheral Alignments
+		public static Map<String, List<String>> getForwardDirectCSTestData() {
+			Map<String, List<String>> map = new LinkedHashMap<String, List<String>>();
+			
+			List<String> list = new LinkedList<String>();
+			list.add("TEST 1");
+			list.add("3/3");
+			list.add("COMPLETE");		
+			list.add("1");
+			map.put("1", list);
+			
+			List<String> list1 = new LinkedList<String>();
+			list1.add("Text Types and Purposes");
+			list1.add("NO CORRELATION");
+			list1.add("WEAK");
+			list1.add("0");
+			map.put("2", list1);
+			
+			List<String> list2 = new LinkedList<String>();
+			list2.add("Write arguments to support claims in an analysis of substantive topics or texts, using valid reasoning and relevant and sufficient evidence.");
+			list2.add("NO CORRELATION");
+			list2.add("WEAK");
+			list2.add("0");
+			map.put("3", list2);
+			
+			List<String> list3 = new LinkedList<String>();
+			list3.add("TEST 2");
+			list3.add("2/2");
+			list3.add("COMPLETE");
+			list3.add("1");
+			map.put("4", list3);
+			
+			List<String> list4 = new LinkedList<String>();
+			list4.add("Comprehension and Collaboration");
+			list4.add("NO CORRELATION");
+			list4.add("WEAK");
+			list4.add("0");
+			map.put("5", list4);
+			
+			List<String> list5 = new LinkedList<String>();
+			list5.add("Prepare for and participate effectively in a range of conversations and collaborations with diverse partners, building on others’ ideas and expressing their own clearly and persuasively.");
+			list5.add("NO CORRELATION");
+			list5.add("WEAK");
+			list5.add("0");
+			map.put("6", list5);
+			
+			List<String> list6 = new LinkedList<String>();
+			list6.add("TEST 3");
+			list6.add("1/1");
+			list6.add("COMPLETE");
+			list6.add("0");
+			map.put("7", list6);
+			
+			List<String> list7 = new LinkedList<String>();
+			list7.add("Conventions of Standard English");
+			list7.add("NO CORRELATION");
+			list7.add("WEAK");
+			list7.add("0");
+			map.put("8", list7);
+			
+			List<String> list8 = new LinkedList<String>();
+			list8.add("Demonstrate command of the conventions of standard English grammar and usage when writing or speaking.");
+			list8.add("NO CORRELATION");
+			list8.add("WEAK");
+			list8.add("0");
+			map.put("9", list8);
+			
+			List<String> list9 = new LinkedList<String>();
+			list9.add("TEST 4");
+			list9.add("NO CORRELATION");
+			list9.add("WEAK");
+			list9.add("0");
+			map.put("10", list9);
+			
+			List<String> list10 = new LinkedList<String>();
+			list10.add("Conventions of Standard English");
+			list10.add("NO CORRELATION");
+			list10.add("WEAK");
+			list10.add("0");
+			map.put("11", list10);
+			
+			List<String> list11 = new LinkedList<String>();
+			list11.add("Abc");
+			list11.add("NO CORRELATION");
+			list11.add("WEAK");
+			list11.add("0");
+			map.put("12", list11);
+			
+			return map;
+		}
 
 }

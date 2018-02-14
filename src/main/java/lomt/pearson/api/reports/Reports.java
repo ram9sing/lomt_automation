@@ -2593,5 +2593,411 @@ public class Reports extends BaseClass {
 			logger.log(LogStatus.FAIL, "Unable to verify Headers in exported file");
 		}
 	}
+	
+	public Map<String, List<String>> verifyExportedFile(String reportType, String reportName, ExtentTest logger) {
+		Map<String, List<String>> forwardIIRepMap = new LinkedHashMap<String, List<String>>();
+		InputStream inputStream = null;
+		XSSFWorkbook workbook = null;
+		XSSFSheet worksheet = null;
+		try {
+			String fileName = getFileFromDirectory(LOMTConstant.EXPORTED_FILE_PATH);
+			File forwardIIReportExpFile = new File(LOMTConstant.EXPORTED_FILE_PATH + fileName);
+			
+			inputStream =  new FileInputStream(forwardIIReportExpFile);
+			workbook = new XSSFWorkbook(inputStream);
+			worksheet = workbook.getSheetAt(0);
+			
+			if (reportType.equalsIgnoreCase(ReportsConstant.FORWARD_INDIRECT_INTERMEDIARY_REPORT)) {
+				verifyForwardIIReportHeaders(worksheet, reportName, logger);
+				getCurriculumStandardAndIntermediaryDataFromExportedSheet(worksheet, forwardIIRepMap);
+			} 
+			if (reportType.equalsIgnoreCase(ReportsConstant.FORWARD_DIRECT_REPORT)) {
+				verifyForwardDirectReportHeaders(worksheet, reportName, logger);
+				//preparing CS and TOC list for UI verification
+				//Verifying CS and TOC Correlation Score, Strength and Peripheral Alignments data
+				getForwardDirectReportData(worksheet, forwardIIRepMap); 
+				verifyForwardDirectReportData(worksheet, logger);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return forwardIIRepMap;
+	}
+	
+	public void verifyForwardDirectReportHeaders(XSSFSheet worksheet, String reportName, ExtentTest logger) {
+		try {
+			//Title
+			if (worksheet.getRow(LOMTConstant.ZERO).getCell(LOMTConstant.ZERO).getStringCellValue().trim().equalsIgnoreCase(ReportsConstant.TITLE)) {
+				if(worksheet.getRow(LOMTConstant.ZERO).getCell(LOMTConstant.ONE).getStringCellValue() != null &&
+						worksheet.getRow(LOMTConstant.ZERO).getCell(LOMTConstant.ONE).getStringCellValue().equalsIgnoreCase(reportName)) {
+				} else {
+					logger.log(LogStatus.FAIL, "Title value(report name) does not match in exported file");
+				}
+			} else {
+				logger.log(LogStatus.FAIL, "Header : Title does not match in exported file");
+			}
+			
+			//User
+			if (worksheet.getRow(LOMTConstant.ONE).getCell(LOMTConstant.ZERO).getStringCellValue().trim().equalsIgnoreCase(ReportsConstant.USER.trim())) {
+				if (worksheet.getRow(LOMTConstant.ONE).getCell(LOMTConstant.ONE).getStringCellValue().equalsIgnoreCase(ReportsConstant.ADMIN_USER_COMMON)
+						|| worksheet.getRow(LOMTConstant.ONE).getCell(LOMTConstant.ONE).getStringCellValue().equalsIgnoreCase(ReportsConstant.ADMIN_USER_PPE)
+						|| worksheet.getRow(LOMTConstant.ONE).getCell(LOMTConstant.ONE).getStringCellValue().equalsIgnoreCase(ReportsConstant.LEARNING_USER_PPE)
+						|| worksheet.getRow(LOMTConstant.ONE).getCell(LOMTConstant.ONE).getStringCellValue().equalsIgnoreCase(ReportsConstant.SME_USER)
+						|| worksheet.getRow(LOMTConstant.ONE).getCell(LOMTConstant.ONE).getStringCellValue().equalsIgnoreCase(ReportsConstant.EDITOR_USER) ) {
+				} else {
+					logger.log(LogStatus.FAIL, "User name does not match in exported file");
+				}
+			} else {
+				logger.log(LogStatus.FAIL, "Header : User does not match in exported file");
+			}
+			
+			//Date/time of generation
+			if (worksheet.getRow(LOMTConstant.TWO).getCell(LOMTConstant.ZERO).getStringCellValue().trim().equalsIgnoreCase(ReportsConstant.DATE_TIME_GENERATION.trim())) {
+				if (isValidFormat(worksheet.getRow(LOMTConstant.TWO).getCell(LOMTConstant.ONE).getStringCellValue().trim())) {
+				} else {
+					logger.log(LogStatus.FAIL, "Date/time of generation format does not match in exported file");
+				}
+			} else {
+				logger.log(LogStatus.FAIL, "Header : Date/time of generation does not match in exported file");
+			}
+			
+			//Alignments ALIGNMENTS
+			if (worksheet.getRow(LOMTConstant.THREE).getCell(LOMTConstant.ZERO).getStringCellValue().trim().equalsIgnoreCase(ReportsConstant.ALIGNMENTS)) {
+				if (worksheet.getRow(LOMTConstant.THREE).getCell(LOMTConstant.ONE).getStringCellValue().contains(ReportsConstant.CENTRAL)
+						|| worksheet.getRow(LOMTConstant.THREE).getCell(LOMTConstant.ONE).getStringCellValue().contains(ReportsConstant.PERIPHERAL)) {
+				} else {
+					logger.log(LogStatus.FAIL, "Alignments value(Central/Peripheral) does not match in exported file");
+				}
+			} else {
+				logger.log(LogStatus.FAIL, "Header : Alignments does not match in exported file");
+			}
+			
+			//Standard
+			if (worksheet.getRow(LOMTConstant.FIVE).getCell(LOMTConstant.ZERO).getStringCellValue().trim().equalsIgnoreCase(ReportsConstant.STANDARD)) {
+			} else {
+				logger.log(LogStatus.FAIL, "Header : Standard does not match in exported file");
+			}
+			
+			//Title
+			if (worksheet.getRow(LOMTConstant.SIX).getCell(LOMTConstant.ZERO).getStringCellValue().trim().equalsIgnoreCase(ReportsConstant.TITLE)) {
+				if (worksheet.getRow(LOMTConstant.SIX).getCell(LOMTConstant.ONE).getStringCellValue() != null) {
+				} else {
+					logger.log(LogStatus.FAIL, "Curriculum Standard should not be null in exported file");
+				}
+			} else {
+				logger.log(LogStatus.FAIL, "Header : Standard does not match in exported file");
+			}
+			
+			//Country
+			if (worksheet.getRow(LOMTConstant.SEVEN).getCell(LOMTConstant.ZERO).getStringCellValue().equalsIgnoreCase(ReportsConstant.COUNTRY)) {
+				if (worksheet.getRow(LOMTConstant.SEVEN).getCell(LOMTConstant.ONE).getStringCellValue() != null) {
+				} else {
+					logger.log(LogStatus.FAIL, "Country should not be null in exported file");
+				}
+			} else {
+				logger.log(LogStatus.FAIL, "Header : Country does not match in exported file");
+			}
+			
+			//Grade
+			if (worksheet.getRow(LOMTConstant.EIGHT).getCell(LOMTConstant.ZERO).getStringCellValue().equalsIgnoreCase(ReportsConstant.GRADE)) {
+				if (worksheet.getRow(LOMTConstant.EIGHT).getCell(LOMTConstant.ONE).getStringCellValue() != null) {
+				} else {
+					logger.log(LogStatus.FAIL, "Grade should not be null in exported file");
+				}
+			} else {
+				logger.log(LogStatus.FAIL, "Header : Grade does not match in exported file");
+			}
+			
+			//Content
+			if (worksheet.getRow(LOMTConstant.FIVE).getCell(LOMTConstant.EIGHT).getStringCellValue().equalsIgnoreCase(ReportsConstant.CONTENT)) {
+			} else {
+				logger.log(LogStatus.FAIL, "Header : Content does not match in exported file");
+			}
+			
+			//Program
+			if (worksheet.getRow(LOMTConstant.SIX).getCell(LOMTConstant.EIGHT).getStringCellValue().equalsIgnoreCase(ReportsConstant.PROGRAM)) {
+				if (worksheet.getRow(LOMTConstant.SIX).getCell(LOMTConstant.NINE).getStringCellValue() != null) {
+				} else {
+					logger.log(LogStatus.FAIL, "Program value should not be null in exported file");
+				}
+			} else {
+				logger.log(LogStatus.FAIL, "Header : Program does not match in exported file");
+			}
+			
+			//Course
+			if (worksheet.getRow(LOMTConstant.SEVEN).getCell(LOMTConstant.EIGHT).getStringCellValue().equalsIgnoreCase(ReportsConstant.COURSE)) {
+				if (worksheet.getRow(LOMTConstant.SEVEN).getCell(LOMTConstant.NINE).getStringCellValue() != null) {
+				} else {
+					logger.log(LogStatus.FAIL, "Course value should not be null in exported file");
+				}
+			} else {
+				logger.log(LogStatus.FAIL, "Header : Course does not match in exported file");
+			}
+			
+			//Product
+			if (worksheet.getRow(LOMTConstant.EIGHT).getCell(LOMTConstant.EIGHT).getStringCellValue().equalsIgnoreCase(ReportsConstant.PRODUCT)) {
+				if (worksheet.getRow(LOMTConstant.EIGHT).getCell(LOMTConstant.NINE).getStringCellValue() != null) {
+				} else {
+					logger.log(LogStatus.FAIL, "Product value should not be null in exported file");
+				}
+			} else {
+				logger.log(LogStatus.FAIL, "Header : Product does not match in exported file");
+			}
+			
+			//Geographic Area or Country
+			if (worksheet.getRow(LOMTConstant.NINE).getCell(LOMTConstant.EIGHT).getStringCellValue().equalsIgnoreCase(ReportsConstant.GEOGRAPHIC_AREA_OR__COUNTRY)) {
+			} else {
+				logger.log(LogStatus.FAIL, "Header : Geographic Area or Country does not match in exported file");
+			}
+			
+			//State or Region
+			if (worksheet.getRow(LOMTConstant.TEN).getCell(LOMTConstant.EIGHT).getStringCellValue().equalsIgnoreCase(ReportsConstant.STATE_OR_REGION)) {
+				if (worksheet.getRow(LOMTConstant.TEN).getCell(LOMTConstant.NINE).getStringCellValue() != null) {
+				} else {
+					logger.log(LogStatus.FAIL, "STATE_OR_REGION value should not be null in exported file");
+				}
+			} else {
+				logger.log(LogStatus.FAIL, "Header : STATE_OR_REGION does not match in exported file");
+			}
+
+			//Start Grade
+			if (worksheet.getRow(LOMTConstant.ELEVENTH).getCell(LOMTConstant.EIGHT).getStringCellValue().equalsIgnoreCase(ReportsConstant.START_GRADE)) {
+				if (worksheet.getRow(LOMTConstant.ELEVENTH).getCell(LOMTConstant.NINE).getStringCellValue() != null) {
+				} else {
+					logger.log(LogStatus.FAIL, "Start Grade value should not be null in exported file");
+				}
+			} else {
+				logger.log(LogStatus.FAIL, "Header : Start Grade does not match in exported file");
+			}
+			
+			//End Grade
+			if (worksheet.getRow(LOMTConstant.TWELEVE).getCell(LOMTConstant.EIGHT).getStringCellValue().equalsIgnoreCase(ReportsConstant.END_GRADE)) {
+				if (worksheet.getRow(LOMTConstant.TWELEVE).getCell(LOMTConstant.NINE).getStringCellValue() != null) {
+				} else {
+					logger.log(LogStatus.FAIL, "End Grade value should not be null in exported file");
+				}
+			} else {
+				logger.log(LogStatus.FAIL, "Header : End Grade does not match in exported file");
+			}
+			
+			//ISBN 10
+			if (worksheet.getRow(LOMTConstant.THIRTEEN).getCell(LOMTConstant.EIGHT).getStringCellValue().equalsIgnoreCase(ReportsConstant.ISBN10)) {
+				if (worksheet.getRow(LOMTConstant.THIRTEEN).getCell(LOMTConstant.NINE).getStringCellValue() != null) {
+				} else {
+					logger.log(LogStatus.FAIL, "ISBN 10 value should not be null in exported file");
+				}
+			} else {
+				logger.log(LogStatus.FAIL, "Header : ISBN 10 does not match in exported file");
+			}
+			
+			//ISBN 13
+			if (worksheet.getRow(LOMTConstant.FOURTEEN).getCell(LOMTConstant.EIGHT).getStringCellValue().equalsIgnoreCase(ReportsConstant.ISBN13)) {
+				if (worksheet.getRow(LOMTConstant.FOURTEEN).getCell(LOMTConstant.NINE).getStringCellValue() != null) {
+				} else {
+					logger.log(LogStatus.FAIL, "ISBN 13 value should not be null in exported file");
+				}
+			} else {
+				logger.log(LogStatus.FAIL, "Header : ISBN 13 does not match in exported file");
+			}
+			
+			//Type
+			if (worksheet.getRow(LOMTConstant.FIFTEEN).getCell(LOMTConstant.EIGHT).getStringCellValue().equalsIgnoreCase(ReportsConstant.TYPE)) {
+				if (worksheet.getRow(LOMTConstant.FIFTEEN).getCell(LOMTConstant.NINE).getStringCellValue() != null) {
+				} else {
+					logger.log(LogStatus.FAIL, "TYPE value should not be null in exported file");
+				}
+			} else {
+				logger.log(LogStatus.FAIL, "Header : TYPE does not match in exported file");
+			}
+
+			//Standards' Strands
+			if (worksheet.getRow(LOMTConstant.SEVENTEEN).getCell(LOMTConstant.ZERO).getStringCellValue().equalsIgnoreCase(ReportsConstant.STANDARDS_STRANDS)) {
+			} else {
+				logger.log(LogStatus.FAIL, "Header : Standards' Strands does not match in exported file");
+			}
+			
+			//Standards' Topics
+			if (worksheet.getRow(LOMTConstant.SEVENTEEN).getCell(LOMTConstant.ONE).getStringCellValue().equalsIgnoreCase(ReportsConstant.STANDARDS_TOPICS)) {
+			} else {
+				logger.log(LogStatus.FAIL, "Header : Standards' Topics does not match in exported file");
+			}
+			
+			//Standard Number
+			if (worksheet.getRow(LOMTConstant.SEVENTEEN).getCell(LOMTConstant.TWO).getStringCellValue().equalsIgnoreCase(ReportsConstant.STANDARDS_NUMBER)) {
+			} else {
+				logger.log(LogStatus.FAIL, "Header : Standard Number does not match in exported file");
+			}
+			
+			//AB GUID
+			if (worksheet.getRow(LOMTConstant.SEVENTEEN).getCell(LOMTConstant.THREE).getStringCellValue().equalsIgnoreCase(ReportsConstant.AB_GUIDE)) {
+			} else {
+				logger.log(LogStatus.FAIL, "Header : AB GUID does not match in exported file");
+			}
+			
+			//CORRELATION_SCORE
+			if (worksheet.getRow(LOMTConstant.SEVENTEEN).getCell(LOMTConstant.FOUR).getStringCellValue().equalsIgnoreCase(ReportsConstant.CORRELATION_SCORE)) {
+			} else {
+				logger.log(LogStatus.FAIL, "Header : Correlation Score does not match in exported file");
+			}
+			
+			//Strength
+			if (worksheet.getRow(LOMTConstant.SEVENTEEN).getCell(LOMTConstant.FIVE).getStringCellValue().equalsIgnoreCase(ReportsConstant.STRENGTH)) {
+			} else {
+				logger.log(LogStatus.FAIL, "Header : Strength does not match in exported file");
+			}
+			
+			//Peripheral Alignments
+			if (worksheet.getRow(LOMTConstant.SEVENTEEN).getCell(LOMTConstant.SIX).getStringCellValue().equalsIgnoreCase(ReportsConstant.PERIPHERAL_ALIGNMENTS)) {
+			} else {
+				logger.log(LogStatus.FAIL, "Header : Peripheral Alignments does not match in exported file");
+			}
+			
+			//Content Reference
+			if (worksheet.getRow(LOMTConstant.SEVENTEEN).getCell(LOMTConstant.EIGHT).getStringCellValue().equalsIgnoreCase(ReportsConstant.CONTENT_REFERENCE)) {
+			} else {
+				logger.log(LogStatus.FAIL, "Header : Content Reference does not match in exported file");
+			}
+			
+			//Page Start
+			if (worksheet.getRow(LOMTConstant.SEVENTEEN).getCell(LOMTConstant.NINE).getStringCellValue().equalsIgnoreCase(ReportsConstant.START_PAGE)) {
+			} else {
+				logger.log(LogStatus.FAIL, "Header : Page Start does not match in exported file");
+			}
+			
+			//Page End
+			if (worksheet.getRow(LOMTConstant.SEVENTEEN).getCell(LOMTConstant.TEN).getStringCellValue().equalsIgnoreCase(ReportsConstant.END_PAGE)) {
+			} else {
+				logger.log(LogStatus.FAIL, "Header : Page End does not match in exported file");
+			}
+			
+			//Correlation Score
+			if (worksheet.getRow(LOMTConstant.SEVENTEEN).getCell(LOMTConstant.ELEVENTH).getStringCellValue().equalsIgnoreCase(ReportsConstant.CORRELATION_SCORE)) {
+			} else {
+				logger.log(LogStatus.FAIL, "Header : Correlation Score does not match in exported file");
+			}
+			
+			//Strength
+			if (worksheet.getRow(LOMTConstant.SEVENTEEN).getCell(LOMTConstant.TWELEVE).getStringCellValue().equalsIgnoreCase(ReportsConstant.STRENGTH)) {
+			} else {
+				logger.log(LogStatus.FAIL, "Header : Strength does not match in exported file");
+			}
+			
+			//Peripheral Alignments
+			if (worksheet.getRow(LOMTConstant.SEVENTEEN).getCell(LOMTConstant.THIRTEEN).getStringCellValue().equalsIgnoreCase(ReportsConstant.PERIPHERAL_ALIGNMENTS)) {
+			} else {
+				logger.log(LogStatus.FAIL, "Header : Peripheral Alignments does not match in exported file");
+			}
+			
+		} catch (Exception e) {
+			logger.log(LogStatus.FAIL, "Unable to verify Headers in exported file");
+		}
+	}
+	
+	public Map<String, List<String>> getForwardDirectReportData(XSSFSheet worksheet, Map<String, List<String>> forwardIIRepMap) {
+		try {
+			List<String> curriculumStdList = new LinkedList<String>();
+			List<String> tocList = new LinkedList<String>();
+
+			Iterator<Row> rowIterator = worksheet.iterator();
+			while (rowIterator.hasNext()) {
+				Row row = rowIterator.next();
+				
+				//CS goalframework name
+				if (row.getRowNum() == 6) {
+					//adding Curriculum Standard and Intermediary for UI   
+					//verification
+					curriculumStdList.add(row.getCell(1).getStringCellValue());
+				}
+				//TOC goalframework name
+				if (row.getRowNum() == 8) {
+					tocList.add(row.getCell(9).getStringCellValue());
+				}
+
+				if (row.getRowNum() > 17) {  //18 row
+					if (!(row.getCell(1) == null)) {
+						curriculumStdList.add(row.getCell(1).getStringCellValue());
+					}
+					if (!(row.getCell(11) == null)) {
+						tocList.add(row.getCell(8).getStringCellValue());
+					}
+				}
+			}
+			forwardIIRepMap.put("CurriculumStandard", curriculumStdList);
+			forwardIIRepMap.put("Discipline", tocList);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return forwardIIRepMap;
+	}
+	
+	public void verifyForwardDirectReportData(XSSFSheet worksheet, ExtentTest logger) {
+		try {
+			int counter = 1;
+
+			Iterator<Row> rowIterator = worksheet.iterator();
+			//Verifying CS Correlation Score, Strength and Peripheral Alignments
+			while (rowIterator.hasNext()) {
+				Row row = rowIterator.next();
+				
+				if (row.getRowNum() > 18) {
+					if (row.getCell(1) != null) {
+						Map<String, List<String>> csMap = ReportsConstant.getForwardDirectCSTestData();
+						
+						List<String> cslist = csMap.get(String.valueOf(counter));
+						if (row.getCell(1).getStringCellValue().equalsIgnoreCase(cslist.get(0))) {
+						} else {
+							logger.log(LogStatus.FAIL, "CS: Standard Topics does not match with test data, Row num : "+row.getRowNum());
+						}
+						if (row.getCell(4).getStringCellValue().equalsIgnoreCase(cslist.get(1))) {
+						} else {
+							logger.log(LogStatus.FAIL, "CS: Correlation Score does not match with test data, Row num : "+row.getRowNum());
+						}
+						if (row.getCell(5).getStringCellValue().equalsIgnoreCase(cslist.get(2))) {
+						} else {
+							logger.log(LogStatus.FAIL, "CS: Strength does not match with test data, Row num : "+row.getRowNum());
+						}
+						if (row.getCell(6).getStringCellValue().equalsIgnoreCase(cslist.get(3))) {
+						} else {
+							logger.log(LogStatus.FAIL, "CS: Peripheral Alignments does not match with test data, Row num : "+row.getRowNum());
+						}
+						counter++;
+						cslist.clear();
+					}
+				}
+			}
+			counter = 1;
+			Iterator<Row> rowIteratorTOC = worksheet.iterator();
+			//Verifying TOC Correlation Score, Strength and Peripheral Alignments
+			while (rowIteratorTOC.hasNext()) {
+				Row row = rowIteratorTOC.next();
+				if (row.getRowNum() > 18) {
+					if (row.getCell(8) != null) {
+						Map<String, List<String>> csMap = ReportsConstant.getForwardDirectCSTestData();
+						List<String> cslist = csMap.get(String.valueOf(counter));
+						if (row.getCell(8).getStringCellValue().equalsIgnoreCase(cslist.get(0))) {
+						} else {
+							logger.log(LogStatus.FAIL, "TOC: Standard Topics does not match with test data, Row num : "+row.getRowNum());
+						}
+						if (row.getCell(11).getStringCellValue().equalsIgnoreCase(cslist.get(1))) {
+						} else {
+							logger.log(LogStatus.FAIL, "TOC: Correlation Score does not match with test data, Row num : "+row.getRowNum());
+						}
+						if (row.getCell(12).getStringCellValue().equalsIgnoreCase(cslist.get(2))) {
+						} else {
+							logger.log(LogStatus.FAIL, "TOC: Strength does not match with test data, Row num : "+row.getRowNum());
+						}
+						if (row.getCell(13).getStringCellValue().equalsIgnoreCase(cslist.get(3))) {
+						} else {
+							logger.log(LogStatus.FAIL, "TOC: Peripheral Alignments does not match with test data, Row num : "+row.getRowNum());
+						}
+						counter++;
+						cslist.clear();
+					}
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
 }

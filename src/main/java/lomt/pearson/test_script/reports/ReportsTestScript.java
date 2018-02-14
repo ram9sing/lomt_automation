@@ -332,6 +332,33 @@ public class ReportsTestScript {
 		reports.flush();
 	}
 	
+	@Test(priority = 1)
+	public void forwardDirectReport() {
+		logger = reports.startTest(ReportsConstant.FORWARD_DIRECT_REPORT+LOMTConstant.COMMA+LOMTConstant.EMPTY_SPACE+ReportsConstant.LOMT_1760);
+		
+		//Admin user		
+		String reportName = report.createAndDownloadReport(ReportsConstant.FORWARD_DIRECT_REPORT, ReportsConstant.INGESTED_STANDARD_YEAR,
+						 ReportsConstant.INGESTED_INTERMEDIARY, ReportsConstant.INGESTED_PRODUCT, logger);
+		
+		//String reportName = "Forward (Indirect) Intermediary Report-1267";
+		if(reportName != null) {
+			logger.log(LogStatus.PASS, "TC_LOMT-1760-01_Admin_User_School_Global_Report_Export_Download_Forward_Direct_Report"); 
+			logger.log(LogStatus.PASS, "TC_LOMT-1760-03_Admin_User_School_Global_Report_Export_Download_Forward_Direct_Report"); 
+			logger.log(LogStatus.PASS, "TC_LOMT-1760-05_Admin_User_School_Global_Report_Export_Download_Forward_Direct_Report"); 
+			
+			Map<String, List<String>> forwardIIRepMap = report.verifyExportedFile(ReportsConstant.FORWARD_DIRECT_REPORT, reportName, logger);
+			if (!forwardIIRepMap.isEmpty()) {
+				report.verifyCurriculumStandardDataUI(forwardIIRepMap, logger);
+				report.verifyIntermediaryDataUI(forwardIIRepMap, logger);
+			}
+		} else {
+			logger.log(LogStatus.FAIL, "TC_LOMT-1760-01_Admin_User_School_Global_Report_Export_Download_Forward_Direct_Report"); 
+		}
+		
+		reports.endTest(logger);
+		reports.flush();
+	}
+	
 	@Test(priority = 4)
 	public void tearDown() {
 		report.closeDriverInstance();
