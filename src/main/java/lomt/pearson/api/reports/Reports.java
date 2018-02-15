@@ -22,6 +22,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
+import org.apache.poi.xssf.usermodel.XSSFColor;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -54,9 +55,8 @@ import lomt.pearson.page_object.SchoolPOM;
 public class Reports extends BaseClass {
 
 	private String environment = LoadPropertiesFile.getPropertiesValues(LOMTConstant.LOMT_ENVIRONMENT);
-	// private String userName =
-	// LoadPropertiesFile.getPropertiesValues(LOMTConstant.USER_NAME);
-	private String userName = LoadPropertiesFile.getPropertiesValues(LOMTConstant.USER_NAME_TEST);
+	private String userName = LoadPropertiesFile.getPropertiesValues(LOMTConstant.USER_NAME);
+	//private String userName = LoadPropertiesFile.getPropertiesValues(LOMTConstant.USER_NAME_TEST);
 	private String pwd = LoadPropertiesFile.getPropertiesValues(LOMTConstant.PASSWORD);
 
 	private String learningUser = LoadPropertiesFile.getPropertiesValues(LOMTConstant.USER_NAME_LEARNING_USER);
@@ -2290,14 +2290,14 @@ public class Reports extends BaseClass {
 		}
 	}
 
-	public boolean searchAndExportReport(String reportName, String userName) {
+	public boolean searchAndExportReport(String reportName, String uName) {
 		JavascriptExecutor jse = (JavascriptExecutor) driver;
 		WebDriverWait wait = new WebDriverWait(driver, 120);
 		boolean flag = false;
 		try {
 			removeExistingFile();
 			commonPOM.getSchoolGlobalLOB().click();
-			if (userName.equalsIgnoreCase(learningEditor)) {
+			if (uName.equalsIgnoreCase(learningEditor) || uName.equalsIgnoreCase(userName)) {
 				reportsPOM.getReportsExportLink().click();
 			} else {
 				reportsPOM.getReportsExportLinkNonAdmin().click();
@@ -2666,7 +2666,7 @@ public class Reports extends BaseClass {
 			}
 			if (reportType.equalsIgnoreCase(ReportsConstant.GAP_ANALYSIS_REPORT)) {
 				verifyGapAnalysisReportHeaders(worksheet, reportName, logger, source, target);
-				//verifyGapAnalysisReportData(worksheet, reportName, logger);
+				verifyGapAnalysisReportData(worksheet, reportName, logger);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -3133,8 +3133,11 @@ public class Reports extends BaseClass {
 					logger.log(LogStatus.FAIL, "TC_LOMT-1840-Alignments Foreground colour does not match in exported file");
 				}
 				
-				if (worksheet.getRow(LOMTConstant.THREE).getCell(LOMTConstant.ONE).getStringCellValue().contains(ReportsConstant.CENTRAL)
-						|| worksheet.getRow(LOMTConstant.THREE).getCell(LOMTConstant.ONE).getStringCellValue().contains(ReportsConstant.PERIPHERAL)) {
+				if (worksheet.getRow(LOMTConstant.THREE).getCell(LOMTConstant.ONE).getStringCellValue().contains(ReportsConstant.EXACT)
+						&& worksheet.getRow(LOMTConstant.THREE).getCell(LOMTConstant.ONE).getStringCellValue().contains(ReportsConstant.RELATED)
+						&& worksheet.getRow(LOMTConstant.THREE).getCell(LOMTConstant.ONE).getStringCellValue().contains(ReportsConstant.BROAD)
+						&& worksheet.getRow(LOMTConstant.THREE).getCell(LOMTConstant.ONE).getStringCellValue().contains(ReportsConstant.CLOSE)
+						&& worksheet.getRow(LOMTConstant.THREE).getCell(LOMTConstant.ONE).getStringCellValue().contains(ReportsConstant.NARROW)) {
 				} else {
 					count++;
 					logger.log(LogStatus.FAIL, "TC_LOMT-1840-Alignments value(Central/Peripheral) does not match in exported file");
@@ -3558,6 +3561,519 @@ public class Reports extends BaseClass {
 			}
 		} catch (Exception e) {
 			logger.log(LogStatus.FAIL, "Unable to verify Headers in exported file");
+		}
+	}
+	
+	public void verifyGapAnalysisReportData(XSSFSheet worksheet, String reportName, ExtentTest logger) {
+		try {
+			Iterator<Row> rowItr = worksheet.iterator();
+			while (rowItr.hasNext()) {
+				Row row = rowItr.next();
+				if (row.getRowNum() == 18) {
+					//Color checking : RED
+					XSSFCellStyle style1 = (XSSFCellStyle) row.getCell(LOMTConstant.ZERO).getCellStyle();
+					short blackColourCode = style1.getFillForegroundColorColor().getIndexed();
+					if (blackColourCode == IndexedColors.RED.getIndex()) {
+					} else {
+						logger.log(LogStatus.FAIL, "TC_LOMT-1840 Foreground colour does not match in exported file at row : "+row.getRowNum());
+					}
+					
+					if (row.getCell(LOMTConstant.ZERO) != null && row.getCell(LOMTConstant.ZERO).getStringCellValue()
+							.equalsIgnoreCase(ReportsConstant.GARDE_12)) {
+					} else {
+						logger.log(LogStatus.FAIL, "TC_LOMT-1840 Gade doesn't match at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.ONE) != null && row.getCell(LOMTConstant.ONE).getStringCellValue()
+							.equalsIgnoreCase(ReportsConstant.SS_1)) {
+					} else {
+						logger.log(LogStatus.FAIL, "TC_LOMT-1840 Standards' Strands doesn't match at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.FOUR) != null) {
+					} else {
+						logger.log(LogStatus.FAIL, "TC_LOMT-1840 AB GUID doesn't blank : "+row.getRowNum());
+					}
+				} else if (row.getRowNum() == 19) {
+					//Color : LIGHT_ORANGE
+					XSSFCellStyle style1 = (XSSFCellStyle) row.getCell(LOMTConstant.ZERO).getCellStyle();
+					short blackColourCode = style1.getFillForegroundColorColor().getIndexed();
+					if (blackColourCode == IndexedColors.LIGHT_ORANGE.getIndex()) {
+					} else {
+						logger.log(LogStatus.FAIL, "TC_LOMT-1840 Foreground colour does not match in exported file at row : "+row.getRowNum());
+					}
+					
+					if (row.getCell(LOMTConstant.ZERO) != null && row.getCell(LOMTConstant.ZERO).getStringCellValue()
+							.equalsIgnoreCase(ReportsConstant.GARDE_12)) {
+					} else {
+						logger.log(LogStatus.FAIL, "TC_LOMT-1840 Gade value doesn't match at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.TWO) != null && row.getCell(LOMTConstant.TWO).getStringCellValue()
+							.equalsIgnoreCase(ReportsConstant.LEVEL_1)) { //Standards' Topics
+					} else {
+						logger.log(LogStatus.FAIL, "TC_LOMT-1840 Standards' Topics doesn't match at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.THREE) != null && row.getCell(LOMTConstant.THREE).getStringCellValue()
+							.equalsIgnoreCase(ReportsConstant.SN_1)) { //Standards' Number
+					} else {
+						logger.log(LogStatus.FAIL, "TC_LOMT-1840 Standards' Number doesn't match at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.FOUR) != null) { 
+					} else {
+						logger.log(LogStatus.FAIL, "TC_LOMT-1840 AB GUID can not be null at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.FIVE) != null && row.getCell(LOMTConstant.FIVE).getStringCellValue()
+							.equalsIgnoreCase(ReportsConstant.EXACT)) { 
+					} else {
+						logger.log(LogStatus.FAIL, "TC_LOMT-1840 Alignment Exact value doesn't match at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.SIX) != null && row.getCell(LOMTConstant.SIX).getStringCellValue()
+							.equalsIgnoreCase(ReportsConstant.COMMENT_1)) { 
+					} else {
+						logger.log(LogStatus.FAIL, "TC_LOMT-1840 Comment value doesn't match at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.EIGHT) != null && row.getCell(LOMTConstant.EIGHT).getStringCellValue()
+							.equalsIgnoreCase(ReportsConstant.GARDE_12)) { 
+					} else {
+						logger.log(LogStatus.FAIL, "TC_LOMT-1840 Grade value doesn't match at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.TEN) != null && row.getCell(LOMTConstant.TEN).getStringCellValue()
+							.equalsIgnoreCase(ReportsConstant.ST_1)) { //Target Standards' Topics
+					} else {
+						logger.log(LogStatus.FAIL, "TC_LOMT-1840 Target Standards' Topics value doesn't match at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.ELEVENTH) != null && row.getCell(LOMTConstant.ELEVENTH).getStringCellValue()
+							.equalsIgnoreCase(ReportsConstant.SN_1)) { //Target Standards' Number
+					} else {
+						logger.log(LogStatus.FAIL, "TC_LOMT-1840 Target Standards' Number value doesn't match at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.TWELEVE) != null) { 
+					} else {
+						logger.log(LogStatus.FAIL, "TC_LOMT-1840 Target AB GUID value doesn't match at row number : "+row.getRowNum());
+					}
+				} else if (row.getRowNum() == 20) {
+					//Color : 47
+					XSSFCellStyle style1 = (XSSFCellStyle) row.getCell(LOMTConstant.ZERO).getCellStyle();
+					short blackColourCode = style1.getFillForegroundColorColor().getIndexed();
+					if (blackColourCode == 47) {
+					} else {
+						logger.log(LogStatus.FAIL, "TC_LOMT-1840 Foreground colour does not match in exported file at row : "+row.getRowNum());
+					}
+					
+					if (row.getCell(LOMTConstant.ZERO) != null && row.getCell(LOMTConstant.ZERO).getStringCellValue()
+							.equalsIgnoreCase(ReportsConstant.GARDE_12)) {
+					} else {
+						logger.log(LogStatus.FAIL, "TC_LOMT-1840 Gade value doesn't match at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.TWO) != null && row.getCell(LOMTConstant.TWO).getStringCellValue()
+							.equalsIgnoreCase(ReportsConstant.LEVEL_2)) { //Standards' Topics
+					} else {
+						logger.log(LogStatus.FAIL, "TC_LOMT-1840 Standards' Topics doesn't match at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.FOUR) != null) { 
+					} else {
+						logger.log(LogStatus.FAIL, "TC_LOMT-1840 AB GUID can not be null at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.FIVE) != null && row.getCell(LOMTConstant.FIVE).getStringCellValue()
+							.equalsIgnoreCase(ReportsConstant.RELATED)) { 
+					} else {
+						logger.log(LogStatus.FAIL, "TC_LOMT-1840 Alignment Exact value doesn't match at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.EIGHT) != null && row.getCell(LOMTConstant.EIGHT).getStringCellValue()
+							.equalsIgnoreCase(ReportsConstant.GARDE_12)) { 
+					} else {
+						logger.log(LogStatus.FAIL, "TC_LOMT-1840 Grade value doesn't match at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.TEN) != null && row.getCell(LOMTConstant.TEN).getStringCellValue()
+							.equalsIgnoreCase(ReportsConstant.ST_2)) { //Target Standards' Topics
+					} else {
+						logger.log(LogStatus.FAIL, "TC_LOMT-1840 Target Standards' Topics value doesn't match at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.ELEVENTH) != null && row.getCell(LOMTConstant.ELEVENTH).getStringCellValue()
+							.equalsIgnoreCase(ReportsConstant.SL)) { //Target Standards' Number
+					} else {
+						logger.log(LogStatus.FAIL, "TC_LOMT-1840 Target Standards' Number value doesn't match at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.TWELEVE) != null) { 
+					} else {
+						logger.log(LogStatus.FAIL, "TC_LOMT-1840 Target AB GUID value doesn't match at row number : "+row.getRowNum());
+					}
+				} else if (row.getRowNum() == 21) {
+					//Color : LIGHT_YELLOW
+					XSSFCellStyle style1 = (XSSFCellStyle) row.getCell(LOMTConstant.ZERO).getCellStyle();
+					short blackColourCode = style1.getFillForegroundColorColor().getIndexed();
+					if (blackColourCode == IndexedColors.LIGHT_YELLOW.getIndex()) {
+					} else {
+						logger.log(LogStatus.FAIL, "TC_LOMT-1840 Foreground colour does not match in exported file at row : "+row.getRowNum());
+					}
+					
+					if (row.getCell(LOMTConstant.ZERO) != null && row.getCell(LOMTConstant.ZERO).getStringCellValue()
+							.equalsIgnoreCase(ReportsConstant.GARDE_12)) {
+					} else {
+						logger.log(LogStatus.FAIL, "TC_LOMT-1840 Gade value doesn't match at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.TWO) != null && row.getCell(LOMTConstant.TWO).getStringCellValue()
+							.equalsIgnoreCase(ReportsConstant.LEVEL_3)) { //Standards' Topics
+					} else {
+						logger.log(LogStatus.FAIL, "TC_LOMT-1840 Standards' Topics doesn't match at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.THREE) != null && row.getCell(LOMTConstant.THREE).getStringCellValue()
+							.equalsIgnoreCase(ReportsConstant.SN_2)) { //Standards' Number
+					} else {
+						logger.log(LogStatus.FAIL, "TC_LOMT-1840 Standards' Number doesn't match at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.FOUR) != null) { 
+					} else {
+						logger.log(LogStatus.FAIL, "TC_LOMT-1840 AB GUID can not be null at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.FIVE) != null && row.getCell(LOMTConstant.FIVE).getStringCellValue()
+							.equalsIgnoreCase(ReportsConstant.BROAD)) { 
+					} else {
+						logger.log(LogStatus.FAIL, "TC_LOMT-1840 Alignment Broad value doesn't match at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.EIGHT) != null && row.getCell(LOMTConstant.EIGHT).getStringCellValue()
+							.equalsIgnoreCase(ReportsConstant.GARDE_12)) { 
+					} else {
+						logger.log(LogStatus.FAIL, "TC_LOMT-1840 Grade value doesn't match at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.TEN) != null && row.getCell(LOMTConstant.TEN).getStringCellValue()
+							.equalsIgnoreCase(ReportsConstant.ST_3)) { //Target Standards' Topics
+					} else {
+						logger.log(LogStatus.FAIL, "TC_LOMT-1840 Target Standards' Topics value doesn't match at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.ELEVENTH) != null && row.getCell(LOMTConstant.ELEVENTH).getStringCellValue()
+							.equalsIgnoreCase(ReportsConstant.L)) { //Target Standards' Number
+					} else {
+						logger.log(LogStatus.FAIL, "TC_LOMT-1840 Target Standards' Number value doesn't match at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.TWELEVE) != null) { 
+					} else {
+						logger.log(LogStatus.FAIL, "TC_LOMT-1840 Target AB GUID value doesn't match at row number : "+row.getRowNum());
+					}
+				} else if (row.getRowNum() == 22) {
+					//Colour : Light Yellow
+					XSSFCellStyle style1 = (XSSFCellStyle) row.getCell(LOMTConstant.ZERO).getCellStyle();
+					short blackColourCode = style1.getFillForegroundColorColor().getIndexed();
+					if (blackColourCode == IndexedColors.LIGHT_YELLOW.getIndex()) {
+					} else {
+						logger.log(LogStatus.FAIL, "TC_LOMT-1840 Foreground colour does not match in exported file at row : "+row.getRowNum());
+					}
+					
+					if (row.getCell(LOMTConstant.ZERO) != null && row.getCell(LOMTConstant.ZERO).getStringCellValue()
+							.equalsIgnoreCase(ReportsConstant.GARDE_12)) {
+					} else {
+						logger.log(LogStatus.FAIL, "TC_LOMT-1840 Gade value doesn't match at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.TWO) != null && row.getCell(LOMTConstant.TWO).getStringCellValue()
+							.equalsIgnoreCase(ReportsConstant.LEVEL_4)) { //Standards' Topics
+					} else {
+						logger.log(LogStatus.FAIL, "TC_LOMT-1840 Standards' Topics doesn't match at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.THREE) != null && row.getCell(LOMTConstant.THREE).getStringCellValue()
+							.equalsIgnoreCase(ReportsConstant.SN_2)) { //Standards' Number
+					} else {
+						logger.log(LogStatus.FAIL, "TC_LOMT-1840 Standards' Number doesn't match at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.FOUR) != null) { 
+					} else {
+						logger.log(LogStatus.FAIL, "TC_LOMT-1840 AB GUID can not be null at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.FIVE) != null && row.getCell(LOMTConstant.FIVE).getStringCellValue()
+							.equalsIgnoreCase(ReportsConstant.CLOSE)) { 
+					} else {
+						logger.log(LogStatus.FAIL, "TC_LOMT-1840 Alignment Exact value doesn't match at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.EIGHT) != null && row.getCell(LOMTConstant.EIGHT).getStringCellValue()
+							.equalsIgnoreCase(ReportsConstant.GARDE_12)) { 
+					} else {
+						logger.log(LogStatus.FAIL, "TC_LOMT-1840 Grade value doesn't match at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.TEN) != null && row.getCell(LOMTConstant.TEN).getStringCellValue()
+							.equalsIgnoreCase(ReportsConstant.ST_4)) { //Target Standards' Topics
+					} else {
+						logger.log(LogStatus.FAIL, "TC_LOMT-1840 Target Standards' Topics value doesn't match at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.ELEVENTH) != null && row.getCell(LOMTConstant.ELEVENTH).getStringCellValue()
+							.equalsIgnoreCase(ReportsConstant.L)) { //Target Standards' Number
+					} else {
+						logger.log(LogStatus.FAIL, "TC_LOMT-1840 Target Standards' Number value doesn't match at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.TWELEVE) != null) { 
+					} else {
+						logger.log(LogStatus.FAIL, "TC_LOMT-1840 Target AB GUID value doesn't match at row number : "+row.getRowNum());
+					}
+				} else if (row.getRowNum() == 23) {
+					//Color : light yellow
+					XSSFCellStyle style1 = (XSSFCellStyle) row.getCell(LOMTConstant.ZERO).getCellStyle();
+					short blackColourCode = style1.getFillForegroundColorColor().getIndexed();
+					if (blackColourCode == IndexedColors.LIGHT_YELLOW.getIndex()) {
+					} else {
+						logger.log(LogStatus.FAIL, "TC_LOMT-1840 Foreground colour does not match in exported file at row : "+row.getRowNum());
+					}
+					
+					if (row.getCell(LOMTConstant.ZERO) != null && row.getCell(LOMTConstant.ZERO).getStringCellValue()
+							.equalsIgnoreCase(ReportsConstant.GARDE_12)) {
+					} else {
+						logger.log(LogStatus.FAIL, "TC_LOMT-1840 Gade value doesn't match at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.TWO) != null && row.getCell(LOMTConstant.TWO).getStringCellValue()
+							.equalsIgnoreCase(ReportsConstant.LEVEL_5)) { //Standards' Topics
+					} else {
+						logger.log(LogStatus.FAIL, "TC_LOMT-1840 Standards' Topics doesn't match at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.THREE) != null && row.getCell(LOMTConstant.THREE).getStringCellValue()
+							.equalsIgnoreCase(ReportsConstant.SN_2)) { //Standards' Number
+					} else {
+						logger.log(LogStatus.FAIL, "TC_LOMT-1840 Standards' Number doesn't match at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.FOUR) != null) { 
+					} else {
+						logger.log(LogStatus.FAIL, "TC_LOMT-1840 AB GUID can not be null at row number : "+row.getRowNum());
+					}
+				} else if (row.getRowNum() == 24) {
+					//No background color
+					XSSFCellStyle style1 = (XSSFCellStyle) row.getCell(LOMTConstant.ZERO).getCellStyle();
+					XSSFColor blackColourCode = style1.getFillForegroundColorColor();
+					if (blackColourCode == null) {
+					} else {
+						logger.log(LogStatus.FAIL, "TC_LOMT-1840 Foreground colour does not match in exported file at row : "+row.getRowNum());
+					}
+					
+					if (row.getCell(LOMTConstant.ZERO) != null && row.getCell(LOMTConstant.ZERO).getStringCellValue()
+							.equalsIgnoreCase(ReportsConstant.GARDE_12)) {
+					} else {
+						logger.log(LogStatus.FAIL, "TC_LOMT-1840 Gade value doesn't match at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.TWO) != null && row.getCell(LOMTConstant.TWO).getStringCellValue()
+							.equalsIgnoreCase(ReportsConstant.LEVEL_6)) { //Standards' Topics
+					} else {
+						logger.log(LogStatus.FAIL, "TC_LOMT-1840 Standards' Topics doesn't match at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.THREE) != null && row.getCell(LOMTConstant.THREE).getStringCellValue()
+							.equalsIgnoreCase(ReportsConstant.SN_2)) { //Standards' Number
+					} else {
+						logger.log(LogStatus.FAIL, "TC_LOMT-1840 Standards' Number doesn't match at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.FOUR) != null) { 
+					} else {
+						logger.log(LogStatus.FAIL, "TC_LOMT-1840 AB GUID can not be null at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.FIVE) != null && row.getCell(LOMTConstant.FIVE).getStringCellValue()
+							.equalsIgnoreCase(ReportsConstant.NARROW)) { 
+					} else {
+						logger.log(LogStatus.FAIL, "TC_LOMT-1840 Alignment Exact value doesn't match at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.SIX) != null && row.getCell(LOMTConstant.SIX).getStringCellValue()
+							.equalsIgnoreCase(ReportsConstant.COMMENT_2)) { 
+					} else {
+						logger.log(LogStatus.FAIL, "TC_LOMT-1840 Comment value doesn't match at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.EIGHT) != null && row.getCell(LOMTConstant.EIGHT).getStringCellValue()
+							.equalsIgnoreCase(ReportsConstant.GARDE_12)) { 
+					} else {
+						logger.log(LogStatus.FAIL, "TC_LOMT-1840 Grade value doesn't match at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.TEN) != null && row.getCell(LOMTConstant.TEN).getStringCellValue()
+							.equalsIgnoreCase(ReportsConstant.ST_5)) { //Target Standards' Topics
+					} else {
+						logger.log(LogStatus.FAIL, "TC_LOMT-1840 Target Standards' Topics value doesn't match at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.TWELEVE) != null) { 
+					} else {
+						logger.log(LogStatus.FAIL, "TC_LOMT-1840 Target AB GUID value doesn't match at row number : "+row.getRowNum());
+					}
+				} 
+				//########### Target Curriculum Standard ##########
+				else if (row.getRowNum() == 25) {
+					//Color checking : RED
+					XSSFCellStyle style1 = (XSSFCellStyle) row.getCell(LOMTConstant.ZERO).getCellStyle();
+					short blackColourCode = style1.getFillForegroundColorColor().getIndexed();
+					if (blackColourCode == IndexedColors.RED.getIndex()) {
+					} else {
+						logger.log(LogStatus.FAIL, "TC_LOMT-1840 Foreground colour does not match in exported file at row : "+row.getRowNum());
+					}
+					
+					if (row.getCell(LOMTConstant.ZERO) != null && row.getCell(LOMTConstant.ZERO).getStringCellValue()
+							.equalsIgnoreCase(ReportsConstant.GARDE_5)) {
+					} else {
+						logger.log(LogStatus.FAIL, "TC_LOMT-1840 Gade doesn't match at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.ONE) != null && row.getCell(LOMTConstant.ONE).getStringCellValue()
+							.equalsIgnoreCase(ReportsConstant.SS_2)) {
+					} else {
+						logger.log(LogStatus.FAIL, "TC_LOMT-1840 Standards' Strands doesn't match at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.FOUR) != null) {
+					} else {
+						logger.log(LogStatus.FAIL, "TC_LOMT-1840 AB GUID doesn't blank : "+row.getRowNum());
+					}
+				} else if (row.getRowNum() == 26) {
+					//Color : LIGHT_ORANGE
+					XSSFCellStyle style1 = (XSSFCellStyle) row.getCell(LOMTConstant.ZERO).getCellStyle();
+					short blackColourCode = style1.getFillForegroundColorColor().getIndexed();
+					if (blackColourCode == IndexedColors.LIGHT_ORANGE.getIndex()) {
+					} else {
+						logger.log(LogStatus.FAIL, "TC_LOMT-1840 Foreground colour does not match in exported file at row : "+row.getRowNum());
+					}
+					
+					if (row.getCell(LOMTConstant.ZERO) != null && row.getCell(LOMTConstant.ZERO).getStringCellValue()
+							.equalsIgnoreCase(ReportsConstant.GARDE_5)) {
+					} else {
+						logger.log(LogStatus.FAIL, "TC_LOMT-1840 Gade value doesn't match at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.TWO) != null && row.getCell(LOMTConstant.TWO).getStringCellValue()
+							.equalsIgnoreCase(ReportsConstant.LEVEL_1)) { //Standards' Topics
+					} else {
+						logger.log(LogStatus.FAIL, "TC_LOMT-1840 Standards' Topics doesn't match at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.THREE) != null && row.getCell(LOMTConstant.THREE).getStringCellValue()
+							.equalsIgnoreCase(ReportsConstant.SN_1)) { //Standards' Number
+					} else {
+						logger.log(LogStatus.FAIL, "TC_LOMT-1840 Standards' Number doesn't match at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.FOUR) != null) { 
+					} else {
+						logger.log(LogStatus.FAIL, "TC_LOMT-1840 AB GUID can not be null at row number : "+row.getRowNum());
+					}
+				} else if (row.getRowNum() == 27) {
+					//Color : LIGHT_ORANGE
+					XSSFCellStyle style1 = (XSSFCellStyle) row.getCell(LOMTConstant.ZERO).getCellStyle();
+					short blackColourCode = style1.getFillForegroundColorColor().getIndexed();
+					if (blackColourCode == 47) {
+					} else {
+						logger.log(LogStatus.FAIL, "TC_LOMT-1840 Foreground colour does not match in exported file at row : "+row.getRowNum());
+					}
+					
+					if (row.getCell(LOMTConstant.ZERO) != null && row.getCell(LOMTConstant.ZERO).getStringCellValue()
+							.equalsIgnoreCase(ReportsConstant.GARDE_5)) {
+					} else {
+						logger.log(LogStatus.FAIL, "TC_LOMT-1840 Gade value doesn't match at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.TWO) != null && row.getCell(LOMTConstant.TWO).getStringCellValue()
+							.equalsIgnoreCase(ReportsConstant.LEVEL_2)) { //Standards' Topics
+					} else {
+						logger.log(LogStatus.FAIL, "TC_LOMT-1840 Standards' Topics doesn't match at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.FOUR) != null) { 
+					} else {
+						logger.log(LogStatus.FAIL, "TC_LOMT-1840 AB GUID can not be null at row number : "+row.getRowNum());
+					}
+				} else if (row.getRowNum() == 28) {
+					//Color : LIGHT_YELLOW
+					XSSFCellStyle style1 = (XSSFCellStyle) row.getCell(LOMTConstant.ZERO).getCellStyle();
+					short blackColourCode = style1.getFillForegroundColorColor().getIndexed();
+					if (blackColourCode == IndexedColors.LIGHT_YELLOW.getIndex()) {
+					} else {
+						logger.log(LogStatus.FAIL, "TC_LOMT-1840 Foreground colour does not match in exported file at row : "+row.getRowNum());
+					}
+					
+					if (row.getCell(LOMTConstant.ZERO) != null && row.getCell(LOMTConstant.ZERO).getStringCellValue()
+							.equalsIgnoreCase(ReportsConstant.GARDE_5)) {
+					} else {
+						logger.log(LogStatus.FAIL, "TC_LOMT-1840 Gade value doesn't match at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.TWO) != null && row.getCell(LOMTConstant.TWO).getStringCellValue()
+							.equalsIgnoreCase(ReportsConstant.LEVEL_3)) { //Standards' Topics
+					} else {
+						logger.log(LogStatus.FAIL, "TC_LOMT-1840 Standards' Topics doesn't match at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.THREE) != null && row.getCell(LOMTConstant.THREE).getStringCellValue()
+							.equalsIgnoreCase(ReportsConstant.SN_2)) { //Standards' Number
+					} else {
+						logger.log(LogStatus.FAIL, "TC_LOMT-1840 Standards' Number doesn't match at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.FOUR) != null) { 
+					} else {
+						logger.log(LogStatus.FAIL, "TC_LOMT-1840 AB GUID can not be null at row number : "+row.getRowNum());
+					}
+				} else if (row.getRowNum() == 29) {
+					//Color : LIGHT_YELLOW
+					XSSFCellStyle style1 = (XSSFCellStyle) row.getCell(LOMTConstant.ZERO).getCellStyle();
+					short blackColourCode = style1.getFillForegroundColorColor().getIndexed();
+					if (blackColourCode == IndexedColors.LIGHT_YELLOW.getIndex()) {
+					} else {
+						logger.log(LogStatus.FAIL, "TC_LOMT-1840 Foreground colour does not match in exported file at row : "+row.getRowNum());
+					}
+					
+					if (row.getCell(LOMTConstant.ZERO) != null && row.getCell(LOMTConstant.ZERO).getStringCellValue()
+							.equalsIgnoreCase(ReportsConstant.GARDE_5)) {
+					} else {
+						logger.log(LogStatus.FAIL, "TC_LOMT-1840 Gade value doesn't match at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.TWO) != null && row.getCell(LOMTConstant.TWO).getStringCellValue()
+							.equalsIgnoreCase(ReportsConstant.LEVEL_4)) { //Standards' Topics
+					} else {
+						logger.log(LogStatus.FAIL, "TC_LOMT-1840 Standards' Topics doesn't match at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.THREE) != null && row.getCell(LOMTConstant.THREE).getStringCellValue()
+							.equalsIgnoreCase(ReportsConstant.SN_2)) { //Standards' Number
+					} else {
+						logger.log(LogStatus.FAIL, "TC_LOMT-1840 Standards' Number doesn't match at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.FOUR) != null) { 
+					} else {
+						logger.log(LogStatus.FAIL, "TC_LOMT-1840 AB GUID can not be null at row number : "+row.getRowNum());
+					}
+				} else if (row.getRowNum() == 30) {
+					//Color : LIGHT_YELLOW
+					XSSFCellStyle style1 = (XSSFCellStyle) row.getCell(LOMTConstant.ZERO).getCellStyle();
+					short blackColourCode = style1.getFillForegroundColorColor().getIndexed();
+					if (blackColourCode == IndexedColors.LIGHT_YELLOW.getIndex()) {
+					} else {
+						logger.log(LogStatus.FAIL, "TC_LOMT-1840 Foreground colour does not match in exported file at row : "+row.getRowNum());
+					}
+					
+					if (row.getCell(LOMTConstant.ZERO) != null && row.getCell(LOMTConstant.ZERO).getStringCellValue()
+							.equalsIgnoreCase(ReportsConstant.GARDE_5)) {
+					} else {
+						logger.log(LogStatus.FAIL, "TC_LOMT-1840 Gade value doesn't match at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.TWO) != null && row.getCell(LOMTConstant.TWO).getStringCellValue()
+							.equalsIgnoreCase(ReportsConstant.LEVEL_5)) { //Standards' Topics
+					} else {
+						logger.log(LogStatus.FAIL, "TC_LOMT-1840 Standards' Topics doesn't match at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.THREE) != null && row.getCell(LOMTConstant.THREE).getStringCellValue()
+							.equalsIgnoreCase(ReportsConstant.SN_2)) { //Standards' Number
+					} else {
+						logger.log(LogStatus.FAIL, "TC_LOMT-1840 Standards' Number doesn't match at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.FOUR) != null) { 
+					} else {
+						logger.log(LogStatus.FAIL, "TC_LOMT-1840 AB GUID can not be null at row number : "+row.getRowNum());
+					}
+				}  else if (row.getRowNum() == 31) {
+					//Color : LIGHT_GREEN
+					XSSFCellStyle style1 = (XSSFCellStyle) row.getCell(LOMTConstant.ZERO).getCellStyle();
+					short blackColourCode = style1.getFillForegroundColorColor().getIndexed();
+					if (blackColourCode == IndexedColors.LIGHT_GREEN.getIndex()) {
+					} else {
+						logger.log(LogStatus.FAIL, "TC_LOMT-1840 Foreground colour does not match in exported file at row : "+row.getRowNum());
+					}
+					
+					if (row.getCell(LOMTConstant.ZERO) != null && row.getCell(LOMTConstant.ZERO).getStringCellValue()
+							.equalsIgnoreCase(ReportsConstant.GARDE_5)) {
+					} else {
+						logger.log(LogStatus.FAIL, "TC_LOMT-1840 Gade value doesn't match at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.TWO) != null && row.getCell(LOMTConstant.TWO).getStringCellValue()
+							.equalsIgnoreCase(ReportsConstant.LEVEL_6)) { //Standards' Topics
+					} else {
+						logger.log(LogStatus.FAIL, "TC_LOMT-1840 Standards' Topics doesn't match at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.THREE) != null && row.getCell(LOMTConstant.THREE).getStringCellValue()
+							.equalsIgnoreCase(ReportsConstant.SN_2)) { //Standards' Number
+					} else {
+						logger.log(LogStatus.FAIL, "TC_LOMT-1840 Standards' Number doesn't match at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.FOUR) != null) { 
+					} else {
+						logger.log(LogStatus.FAIL, "TC_LOMT-1840 AB GUID can not be null at row number : "+row.getRowNum());
+					}
+				}  else if (row.getRowNum() == 32) {
+					
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 

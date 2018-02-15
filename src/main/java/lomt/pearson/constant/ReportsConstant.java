@@ -115,8 +115,8 @@ public class ReportsConstant {
 	public static String LOMT_1840 = "LOMT-1840";
 	public static String GAP_ANALYSIS_REPORT = "Gap Analysis Standard to Standard Report";
 	public static String CS_YEAR_PPE = "1669";	
-	public static String CS_SOURCE_YEAR_UAT = "Alabama Education Association Citizenship K-12 2015";
-	public static String CS_TARGET_YEAR_UAT = "Arizona Education Association Business Studies K-12 2014";
+	public static String CS_SOURCE_YEAR_UAT = "United States Business K-12 2015";
+	public static String CS_TARGET_YEAR_UAT = "United States Business Studies K-12 2014";
 	public static String COLOUR_KEY = "Colour Key";
 	public static String OVERVIEW_HEADING = "= Overview Heading"; 
 	public static String LEVEL_1_HEADING = "= Level 1 Heading";
@@ -126,8 +126,55 @@ public class ReportsConstant {
 	public static String ALIGNMENT = "Alignment";
 	public static String COMMENT = "Comment";
 	
+	//Test data 
+	
+	//Levels, Standards' Topics
+	public static String LEVEL_1 = "Reading";
+	public static String LEVEL_2 = "Text Types and Purposes - LEVEL 2.";
+	public static String LEVEL_3 = "Write arguments to support claims in an analysis of substantive topics or texts, using valid reasoning and relevant and sufficient evidence - LEVEL 3.";
+	public static String LEVEL_4 = "Reading LEVEL 4.";
+	public static String LEVEL_5 = "Reading LEVEL 5.";
+	public static String LEVEL_6 = "Reading LOWEST LEVEL";
+	
+	//Comments
+	public static String COMMENT_1 = "Gap Analysis";
+	public static String COMMENT_2 = "Lowest node alignment";
+	
+	//Standard Number
+	public static String SN_1 = "W";
+	public static String SN_2 = "W.1";
+	
+	//Standards' Strands
+	public static String SS_1 = "Automation Report Test-2";
+	public static String SS_2 = "Automation Report Test-3";
+	
+	//Gade
+	public static String GARDE_12 = "K-12";
+	public static String GARDE_5 = "K-5";
+	
+	//Alignment Types
+	public static String EXACT = "Exact";
+	public static String RELATED = "Related";
+	public static String BROAD = "Broad";
+	public static String CLOSE = "Close";
+	public static String NARROW = "Narrow";
+	
+	//Target Standards' Topics
+	public static String ST_1 = "TEST 1";
+	public static String ST_2 = "TEST 2";
+	public static String ST_3 = "TEST 3";
+	public static String ST_4 = "TEST 4";
+	public static String ST_5 = "Conventions of Standard English";
+	
+	//Target Standards' Number
+	public static String W = "W";
+	public static String SL = "SL";
+	public static String L = "L";
+	
+	//End Test data
+	
 	//This methods returns Standards' Topics, CS Correlation Score, Strength and Peripheral Alignments
-		public static Map<String, List<String>> getForwardDirectCSTestData() {
+	public static Map<String, List<String>> getForwardDirectCSTestData() {
 			Map<String, List<String>> map = new LinkedHashMap<String, List<String>>();
 			
 			List<String> list = new LinkedList<String>();

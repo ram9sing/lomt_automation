@@ -367,7 +367,7 @@ public class ReportsTestScript {
 		
 		String reportName = report.createAndDownloadReport(ReportsConstant.GAP_ANALYSIS_REPORT, ReportsConstant.CS_SOURCE_YEAR_UAT,
 				 null, ReportsConstant.CS_TARGET_YEAR_UAT, logger); 
-		//String reportName =  "Gap Analysis Standard to Standard Report-1290"; // UAT report
+		//String reportName =  "Gap Analysis Report: R J"; // UAT report
 		if (reportName != null) {
 			logger.log(LogStatus.PASS, "TC_LOMT-1840-01_For_SchoolGlobal_download_GAP_Analysis_StandardToStandard_Report_for_Admin"); 
 			report.verifyExportedFile(ReportsConstant.GAP_ANALYSIS_REPORT, reportName, logger, ReportsConstant.CS_SOURCE_YEAR_UAT,
@@ -376,8 +376,36 @@ public class ReportsTestScript {
 			logger.log(LogStatus.FAIL, "TC_LOMT-1840-01_For_SchoolGlobal_download_GAP_Analysis_StandardToStandard_Report_for_Admin"); 
 		}
 		
-		System.out.println("Gap Analysis report name : "+reportName);
+		//Coordinator User
+		report.logout();
+		String userNameCoordinator = report.loginLearningEditor();
+		boolean coordinatorReportFlag = report.searchAndExportReport(reportName, userNameCoordinator);
+		if (coordinatorReportFlag) {
+			logger.log(LogStatus.PASS,"TC_LOMT-1840-04_For_SchoolGlobal_download_GAP_Analysis_StandardToStandard_Report_For_Coordinator");
+		} else {
+			logger.log(LogStatus.FAIL,"TC_LOMT-1840-04_For_SchoolGlobal_download_GAP_Analysis_StandardToStandard_Report_For_Coordinator");
+		}
+
+		// SME User
+		report.logout();
 		
+		String userNameSME = report.loginLearingSME();
+		boolean smeReportFlag = report.searchAndExportReport(reportName, userNameSME);
+		if (smeReportFlag) {
+			logger.log(LogStatus.PASS,"TC_LOMT-1840-03_For_SchoolGlobal_download_GAP_Analysis_StandardToStandard_Report_for_SME");
+		} else {
+			logger.log(LogStatus.FAIL,"TC_LOMT-1840-03_For_SchoolGlobal_download_GAP_Analysis_StandardToStandard_Report_for_SME");
+		}
+
+		//BasicBrowser User
+		report.logout();
+		String userNameBasic = report.loginLearningUser();
+		boolean basicReportFlag = report.searchAndExportReport(reportName, userNameBasic);
+		if (basicReportFlag) {
+			logger.log(LogStatus.PASS,"TC_LOMT-1840-02_For_SchoolGlobal_download_GAP_Analysis_StandardToStandard_Report_for_basicUser");
+		} else {
+			logger.log(LogStatus.FAIL,"TC_LOMT-1840-02_For_SchoolGlobal_download_GAP_Analysis_StandardToStandard_Report_for_basicUser");
+		}
 		reports.endTest(logger);
 		reports.flush();
 	}
