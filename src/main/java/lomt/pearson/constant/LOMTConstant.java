@@ -201,10 +201,10 @@ public class LOMTConstant {
 	public static String ROW_NO_ERROR_DATA = "1";
 	public static String TYPE_ERROR = "Error";
 	
-	public static String DESCRIPTIVE_ID_MADATORY = "Descriptive ID column is mandatory in Row : 1";
-	public static String SYLLABUS_MANDATORY = "Syllabus column is mandatory in Row : 1";
-	public static String STATUS_MANDATORY = "Status column is mandatory in Row : 1";
-	public static String DESCRIPTOR_MANDATORY = "Descriptor column is mandatory in Row : 1";
+	public static String DESCRIPTIVE_ID_MADATORY = "Descriptive ID column is mandatory in Row : 2";
+	public static String SYLLABUS_MANDATORY = "Syllabus column is mandatory in Row : 2";
+	public static String STATUS_MANDATORY = "Status column is mandatory in Row : 2";
+	public static String DESCRIPTOR_MANDATORY = "Descriptor column is mandatory in Row : 2";
 	public static String COMMUNICATIVE_CATEGORIES_COUNT_NOT_MORETHAN_THREE = "Communicative Categories record set count should not be greater than 3.";
 	public static String GRAMMATICAL_CATEGORIES_COUNT_NOT_MORETHAN_THREE = "Grammatical Categories record set count should not be greater than 3.";
 	public static String BUSINESS_SKILLS_NOT_MORETHAN_THREE = "Business Skills record set count should not be greater than 3.";
