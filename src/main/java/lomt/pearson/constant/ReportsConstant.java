@@ -15,6 +15,7 @@ public class ReportsConstant {
 	public static String REVERSE_SHARED_INT_TEXT = "Reverse Shared Intermediary Report";
 	public static String REVERSE_DIRECT_TEXT = "Reverse Direct Report";
 	public static String REVERSE_TOC_STANDARD_VIA_INT_TEXT = "Reverse ToC to Standard via intermediary report";
+	public static String SUMMARY_TEXT = "Summary Report";
 	public static String INGESTED_PRODUCT = "Automation_Report_Verification_Product";
 	public static String INGESTED_INTERMEDIARY = "Psychology";
 	public static String INGESTED_STANDARD_YEAR = "2564";
@@ -102,6 +103,10 @@ public class ReportsConstant {
 	
 	//Reverse Shared Intermediary Report
 	public static String LOMT_1839 = "LOMT-1839";
+	
+	//Summary Report
+	public static String LOMT_1841 = "LOMT-1841";
+	public static String SUMMARY_REPORT = "Summary Report";
 	
 	//Reverse ToC to Standard via intermediary report
 	public static String LOMT_1837 = "LOMT-1837";
