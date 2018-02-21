@@ -107,6 +107,29 @@ public class ReportsConstant {
 	//Summary Report
 	public static String LOMT_1841 = "LOMT-1841";
 	public static String SUMMARY_REPORT = "Summary Report";
+	public static String MSUBJECT = "mSubject";
+	public static String CNAME = "cName";
+	public static String MYEAR = "mYear";
+	public static String MCOUNTRY = "mCountry";
+	public static String MCOUNTRYCODE = "mCountryCode";
+	public static String MLOCURI = "mLocUri";
+	public static String MSTANDARD = "mStandard";
+	public static String MCODE = "mCode";
+	public static String MLABEL = "mLabel";
+	public static String MMIN = "mMin";
+	public static String MMAX = "mMax";
+	public static String ATYPE = "aType";
+	public static String ASUBJECT = "aSubject";
+	public static String ANAME = "aName";
+	public static String AYEAR = "aYear";
+	public static String ACOUNTRY = "aCountry";
+	public static String ACOUNTRYCODE = "aCountryCode";
+	public static String ALOCURI = "aLocUri";
+	public static String ASTANDARD = "aStandard";
+	public static String ACODE = "aCode";
+	public static String ALABEL = "aLabel";
+	public static String AMIN = "aMin";
+	public static String AMAX = "aMax";
 	
 	//Reverse ToC to Standard via intermediary report
 	public static String LOMT_1837 = "LOMT-1837";
