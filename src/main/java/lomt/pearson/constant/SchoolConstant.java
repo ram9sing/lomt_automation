@@ -31,7 +31,7 @@ public class SchoolConstant {
 	
 	public static String SCHOOL_CURRICULUM_INGESTION_LOMT_09 = "School Curriculum Ingestion";
 	
-	public static String SCHOOL_CURRICULUM_EXPORT_LOMT_614 = "School Curriculum Export, LOMT-614, Total TCs is 30";
+	public static String SCHOOL_CURRICULUM_EXPORT_LOMT_612 = "School Curriculum Export, LOMT-612, Total TCs is 30";
 	
 	public static String CS_SOURCE_URL = "https://www.google.com/";	
 	public static String CS_INFO_URL = "https://www.amazon.com/";

@@ -12,6 +12,12 @@ import com.relevantcodes.extentreports.LogStatus;
 
 public class ExternalFrameworkTestScript {
 	
+	private static int year = 0;
+	private static int startYear = 2080;
+	private static int endYear = 2090;
+	private static int reIngestionYear = 21;
+	private static int yearNthLevel = 0;
+	
 	ExtentTest logger;
 	ExtentReports reports = new ExtentReports(LOMTConstant.REPORT_EXF_FILE_PATH, true);
 
@@ -75,7 +81,7 @@ public class ExternalFrameworkTestScript {
 		
 		// Verified ingested ExF data
 		exf.lomtHELOBPage();
-		exf.verifyIngestedDataOnResultPage(logger);
+		exf.verifyIngestedDataOnResultPage(logger, 0, 0);
 		
 		reports.endTest(logger);
 		reports.flush();
@@ -133,7 +139,7 @@ public class ExternalFrameworkTestScript {
 		
 		// Verified ingested ExF data
 		exf.lomtEnglishLOBPage();
-		exf.verifyIngestedDataOnResultPage(logger);
+		exf.verifyIngestedDataOnResultPage(logger, 0, 0);
 		
 		reports.endTest(logger);
 		reports.flush();
@@ -144,55 +150,54 @@ public class ExternalFrameworkTestScript {
 		logger = reports.startTest(LOMTConstant.SCHOOL+LOMTConstant.EMPTY_SPACE+LOMTConstant.EXTERNAL_FRAMEWORK_INGESTION, 
 				LOMTConstant.LOMT_1357+LOMTConstant.COMMA+LOMTConstant.EMPTY_SPACE+LOMTConstant.TC_COUNT_SCHOOL_EXF);
 		
-		//exf.nalsBrowsePage(logger);
 		exf.sgBrowsePage(logger);
 		exf.createUploadStructureFirstPageExf(logger);	
 		
 		exf.backLinKSelection(logger);	
 		exf.getLOBAndStructure();
 		
-		exf.createUploadStructureWithoutMetaDataPageExf();
-		logger.log(LogStatus.PASS, TestCases.TC_LOMT_1357_67_WITHOUT_VALUE_NEXTBTN_SCHOOL_LOB);
+		//De-scoped
+		logger.log(LogStatus.INFO, TestCases.TC_LOMT_1357_67_WITHOUT_VALUE_NEXTBTN_SCHOOL_LOB);
 		
-		exf.commonBackLink();		
-		exf.createUploadStructureMetaDataPageExf(logger);
-		
-		//Ingestion with all the mandatory and non-mandatory fields along-with all meta data
+		 year = startYear + (int)Math.round(Math.random() * (endYear - startYear));
+		 System.out.println("year : "+year);
+		 exf.getMetaDataFields(year);
+		 
 		exf.externalFrameworkIngestion(logger, LOMTConstant.EXF_ALL_FIELDS);
 		exf.commonBackLink();
-		exf.createUploadStructureWithoutMetaDataPageExf();
 		
+		int yearNonMandatory = year-1;
+		exf.getMetaDataFields(yearNonMandatory);
+		System.out.println("yearNonMandatory : "+yearNonMandatory);		
 		exf.externalFrameworkIngestion(logger, LOMTConstant.EXF_NON_MANDATORY_FIELDS);
-		exf.commonBackLink();
-		exf.createUploadStructureWithoutMetaDataPageExf();
 		
+		exf.commonBackLink();		
+		exf.getMetaDataFields(year);		
 		exf.externalFrameworkIngestion(logger, LOMTConstant.EXF_WRONG_FORMAT_FILE);
-		exf.commonBackLink();
-		exf.createUploadStructureWithoutMetaDataPageExf();
 		
+		exf.commonBackLink();
+		exf.getMetaDataFields(year);		
 		exf.externalFrameworkIngestion(logger, LOMTConstant.EXF_WITHOUT_MANDATORY_FIELDS);
-		exf.commonBackLink();
-		exf.createUploadStructureWithoutMetaDataPageExf();
 		
+		exf.commonBackLink();
+		exf.getMetaDataFields(year);		
 		exf.externalFrameworkIngestion(logger, LOMTConstant.WRONG_GRADE_VALUE);
-		exf.commonBackLink();
-		exf.createUploadStructureWithoutMetaDataPageExf();
 		
+		exf.commonBackLink();
+		exf.getMetaDataFields(year);
 		exf.externalFrameworkIngestion(logger, LOMTConstant.LEVELS_AT_SAME_ROW);
-		exf.commonBackLink();
-		exf.createUploadStructureWithoutMetaDataPageExf();
 		
-		// common TCs for ingestion
+		exf.commonBackLink();
+		int yearCommon = year-2;
+		exf.getMetaDataFields(yearCommon);		
 		exf.externalFrameworkIngestion(logger, LOMTConstant.COMMON_TCS_INGESTION);
-		exf.commonBackLink();
-		exf.createUploadStructureWithoutMetaDataPageExf();
 		
-		//Ingestion 10th level
+		exf.commonBackLink();
+		yearNthLevel = year+3;
+		exf.getMetaDataFields(yearNthLevel);			
 		exf.externalFrameworkIngestion(logger, LOMTConstant.NTH_LEVEL);
 		
-		// Verified ingested ExF data
-		exf.lomtSGPage();
-		exf.verifyIngestedDataOnResultPage(logger);
+		exf.verifyIngestedDataOnResultPage(logger, year, yearNthLevel);
 		
 		reports.endTest(logger);
 		reports.flush();
@@ -224,13 +229,13 @@ public class ExternalFrameworkTestScript {
 				LOMTConstant.LOMT_1408 + LOMTConstant.COMMA + LOMTConstant.EMPTY_SPACE + LOMTConstant.LOMT_1408_TC);
 		
 		logger.log(LogStatus.PASS, TestCases.TC_LOMT_1408_01_BASICBROWSECANNOT_EXPORT_HE);
-		exf.exportExternalFramework(LOMTConstant.HE_LOB, logger); 
+		exf.exportExternalFramework(LOMTConstant.HE_LOB, logger, 0); 
 
 		//logger.log(LogStatus.PASS, TestCases.TC_LOMT_1408_19_BASICBROWSECANNOT_EXPORT_ENGLISH);
-		exf.exportExternalFramework(LOMTConstant.ENGLISH_LOB, logger); 
+		exf.exportExternalFramework(LOMTConstant.ENGLISH_LOB, logger, 0); 
 
 		logger.log(LogStatus.PASS, TestCases.TC_LOMT_1408_37_BASICBROWSECANNOT_EXPORT_SCHOOL);
-		exf.exportExternalFramework(LOMTConstant.SCHOOL, logger); 
+		exf.exportExternalFramework(LOMTConstant.SCHOOL, logger, yearNthLevel); 
 
 		reports.endTest(logger);
 		reports.flush();
@@ -241,7 +246,7 @@ public class ExternalFrameworkTestScript {
 		logger = reports.startTest(LOMTConstant.EXTERNAL_FRAMEWORK_RE_INGESTION+LOMTConstant.EMPTY_SPACE+LOMTConstant.HE_LOB,
 				LOMTConstant.LOMT_1409 + LOMTConstant.COMMA + LOMTConstant.EMPTY_SPACE + LOMTConstant.TC_COUNT_EXF_HE);
 		
-		exf.searchAndExportExFFileReingestion(LOMTConstant.HE_LOB, logger);
+		exf.searchAndExportExFFileReingestion(LOMTConstant.HE_LOB, logger, 0, 0);
 				
 		reports.endTest(logger);
 		reports.flush();
@@ -252,7 +257,7 @@ public class ExternalFrameworkTestScript {
 		logger = reports.startTest(LOMTConstant.EXTERNAL_FRAMEWORK_RE_INGESTION+LOMTConstant.EMPTY_SPACE+LOMTConstant.ENGLISH_LOB,
 				LOMTConstant.LOMT_1409 + LOMTConstant.COMMA + LOMTConstant.EMPTY_SPACE + LOMTConstant.TC_COUNT_EXF_HE);
 		
-		exf.searchAndExportExFFileReingestion(LOMTConstant.ENGLISH_LOB, logger);
+		exf.searchAndExportExFFileReingestion(LOMTConstant.ENGLISH_LOB, logger,0 ,0);
 				
 		reports.endTest(logger);
 		reports.flush();
@@ -263,7 +268,7 @@ public class ExternalFrameworkTestScript {
 		logger = reports.startTest(LOMTConstant.EXTERNAL_FRAMEWORK_RE_INGESTION+LOMTConstant.EMPTY_SPACE+LOMTConstant.SCHOOL,
 				LOMTConstant.LOMT_1409 + LOMTConstant.COMMA + LOMTConstant.EMPTY_SPACE + LOMTConstant.TC_COUNT_EXF_HE);
 		
-		exf.searchAndExportExFFileReingestion(LOMTConstant.SCHOOL, logger);
+		exf.searchAndExportExFFileReingestion(LOMTConstant.SCHOOL, logger, year, reIngestionYear+year);
 				
 		reports.endTest(logger);
 		reports.flush();

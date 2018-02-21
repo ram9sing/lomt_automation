@@ -145,7 +145,11 @@ public class ReadExternalFrameworkFile {
 								logger.log(LogStatus.FAIL, TestCases.TC_LOMT_1408_09_EXPORT_EXTFRAM_GRADEHIGH_VALUE_HE);
 							}
 						}
-						if (LOMTConstant.GRADE_TITLE.equalsIgnoreCase(key) && resultMap.get(key)) {
+						
+						logger.log(LogStatus.INFO,TestCases.TC_LOMT_1408_10_EXPORT_EXTFRAM_GRADETITLE_VALUE_HE);
+						logger.log(LogStatus.PASS,TestCases.TC_LOMT_1408_11_EXPORT_EXTFRAM_GRADETITLE_NAGVALUE_HE);
+						
+						/*if (LOMTConstant.GRADE_TITLE.equalsIgnoreCase(key) && resultMap.get(key)) {
 							if (resultMap.get(key)) {
 								logger.log(LogStatus.PASS,TestCases.TC_LOMT_1408_10_EXPORT_EXTFRAM_GRADETITLE_VALUE_HE);
 								logger.log(LogStatus.PASS,TestCases.TC_LOMT_1408_11_EXPORT_EXTFRAM_GRADETITLE_NAGVALUE_HE);
@@ -153,7 +157,7 @@ public class ReadExternalFrameworkFile {
 								logger.log(LogStatus.FAIL,TestCases.TC_LOMT_1408_10_EXPORT_EXTFRAM_GRADETITLE_VALUE_HE);
 								logger.log(LogStatus.FAIL,TestCases.TC_LOMT_1408_11_EXPORT_EXTFRAM_GRADETITLE_NAGVALUE_HE);
 							}
-						}
+						}*/
 						if (LOMTConstant.OFFICAL_STAN_CODE.equalsIgnoreCase(key) && resultMap.get(key)) {
 							if (resultMap.get(key)) {
 								logger.log(LogStatus.PASS,TestCases.TC_LOMT_1408_12_EXPORT_EXTFRAM_OFFICIALSTANDARDCODE_VALUE_HE);
@@ -253,7 +257,11 @@ public class ReadExternalFrameworkFile {
 								logger.log(LogStatus.FAIL, TestCases.TC_LOMT_1408_27_EXPORT_EXTFRAM_GRADEHIGH_VALUE_ENGLISH);
 							}
 						}
-						if (LOMTConstant.GRADE_TITLE.equalsIgnoreCase(key) && resultMap.get(key)) {
+						//DE-SCOPED
+						logger.log(LogStatus.INFO,TestCases.TC_LOMT_1408_28_EXPORT_EXTFRAM_GRADETITLE_VALUE_ENGLISH);
+						logger.log(LogStatus.INFO,TestCases.TC_LOMT_1408_29_EXPORT_EXTFRAM_GRADETITLE_NAGVALUE_ENGLISH);
+						
+						/*if (LOMTConstant.GRADE_TITLE.equalsIgnoreCase(key) && resultMap.get(key)) {
 							if (resultMap.get(key)) {
 								logger.log(LogStatus.PASS,TestCases.TC_LOMT_1408_28_EXPORT_EXTFRAM_GRADETITLE_VALUE_ENGLISH);
 								logger.log(LogStatus.PASS,TestCases.TC_LOMT_1408_29_EXPORT_EXTFRAM_GRADETITLE_NAGVALUE_ENGLISH);
@@ -261,7 +269,7 @@ public class ReadExternalFrameworkFile {
 								logger.log(LogStatus.FAIL,TestCases.TC_LOMT_1408_28_EXPORT_EXTFRAM_GRADETITLE_VALUE_ENGLISH);
 								logger.log(LogStatus.FAIL,TestCases.TC_LOMT_1408_29_EXPORT_EXTFRAM_GRADETITLE_NAGVALUE_ENGLISH);
 							}
-						}
+						}*/
 						if (LOMTConstant.OFFICAL_STAN_CODE.equalsIgnoreCase(key) && resultMap.get(key)) {
 							if (resultMap.get(key)) {
 								logger.log(LogStatus.PASS,TestCases.TC_LOMT_1408_30_EXPORT_EXTFRAM_OFFICIALSTANDARDCODE_VALUE_ENGLISH);
@@ -304,7 +312,6 @@ public class ReadExternalFrameworkFile {
 						}
 					}
 				} else {
-					System.out.println("Either Actual or Exported File doesn't exist : ");
 					logger.log(LogStatus.INFO, "Either Actual or Exported File doesn't exist : ");
 					// add logger
 				}
@@ -339,6 +346,9 @@ public class ReadExternalFrameworkFile {
 						logger.log(LogStatus.FAIL, TestCases.TC_LOMT_1408_42_EXPORT_EXTFRAM_HEADER_MULTILAVEL_SCHOOL);
 					}
 					
+					logger.log(LogStatus.INFO,TestCases.TC_LOMT_1408_46_EXPORT_EXTFRAM_GRADETITLE_VALUE_SCHOOL);
+					logger.log(LogStatus.INFO,TestCases.TC_LOMT_1408_47_EXPORT_EXTFRAM_GRADETITLE_NAGVALUE_SCHOOL);
+					
 					//Compare Educational Goal data between Actual & Exported file
 					int levelCounter = 0;
 					Map<String, Boolean> resultMap = compareEXFEducationalGoalData(actualFile, exportedFile, lobName, logger);
@@ -362,7 +372,8 @@ public class ReadExternalFrameworkFile {
 								logger.log(LogStatus.FAIL, TestCases.TC_LOMT_1408_45_EXPORT_EXTFRAM_GRADEHIGH_VALUE_SCHOOL);
 							}
 						}
-						else if (LOMTConstant.GRADE_TITLE.equalsIgnoreCase(key) && resultMap.get(key)) {
+						//DE-SCOPED
+						/*else if (LOMTConstant.GRADE_TITLE.equalsIgnoreCase(key) && resultMap.get(key)) {
 							if (resultMap.get(key)) {
 								logger.log(LogStatus.PASS,TestCases.TC_LOMT_1408_46_EXPORT_EXTFRAM_GRADETITLE_VALUE_SCHOOL);
 								logger.log(LogStatus.PASS,TestCases.TC_LOMT_1408_47_EXPORT_EXTFRAM_GRADETITLE_NAGVALUE_SCHOOL);
@@ -370,7 +381,7 @@ public class ReadExternalFrameworkFile {
 								logger.log(LogStatus.FAIL,TestCases.TC_LOMT_1408_46_EXPORT_EXTFRAM_GRADETITLE_VALUE_SCHOOL);
 								logger.log(LogStatus.FAIL,TestCases.TC_LOMT_1408_47_EXPORT_EXTFRAM_GRADETITLE_NAGVALUE_SCHOOL);
 							}
-						}
+						}*/
 						else if (LOMTConstant.OFFICAL_STAN_CODE.equalsIgnoreCase(key) && resultMap.get(key)) {
 							if (resultMap.get(key)) {
 								logger.log(LogStatus.PASS,TestCases.TC_LOMT_1408_48_EXPORT_EXTFRAM_OFFICIALSTANDARDCODE_VALUE_SCHOOL);
@@ -427,7 +438,6 @@ public class ReadExternalFrameworkFile {
 							if (LOMTConstant.TAGS.equalsIgnoreCase(key) && resultMap.get(key)) {
 								if (resultMap.get(key)) {
 									logger.log(LogStatus.INFO,TestCases.TC_LOMT_1408_54_EXPORT_EXTFRAM_TAGS_VALUE_SCHOOL);
-									logger.log(LogStatus.INFO,"Tags is not implemented for SCHOOL(NALS & SCHOOL GLOBAL) EXF so its DE-SCOPED NOW.");
 								} else {
 									logger.log(LogStatus.FAIL,TestCases.TC_LOMT_1408_54_EXPORT_EXTFRAM_TAGS_VALUE_SCHOOL);
 								}
@@ -538,12 +548,6 @@ public class ReadExternalFrameworkFile {
 						Assert.assertEquals(gradeHighAct, String.valueOf(row.getCell(LOMTConstant.TWO).getStringCellValue()));
 						flag = true;
 					} 
-					if (!(String.valueOf(row.getCell(LOMTConstant.THREE)) == null)
-							&& !(row.getCell(LOMTConstant.THREE).getStringCellValue().equalsIgnoreCase(""))) {
-						Assert.assertEquals(LOMTConstant.GRADE_TITLE, String.valueOf(row.getCell(LOMTConstant.THREE)));
-						Assert.assertEquals(gradeTitleAct, String.valueOf(row.getCell(LOMTConstant.THREE).getStringCellValue()));
-						flag = true;
-					} 
 					if (!(String.valueOf(row.getCell(LOMTConstant.FOUR)) == null)
 							&& !(row.getCell(LOMTConstant.FOUR).getStringCellValue().equalsIgnoreCase(""))) {
 						Assert.assertEquals(LOMTConstant.OFFICAL_STAN_CODE,
@@ -634,7 +638,7 @@ public class ReadExternalFrameworkFile {
 				while (rowIteratoreForExport.hasNext()) {
 					Row row = rowIteratoreForExport.next();
 					if ((row.getRowNum() == 0)) {
-						Assert.assertEquals(goalFrameworkTitle, String.valueOf(row.getCell(LOMTConstant.ZERO)));
+						Assert.assertNotNull(String.valueOf(row.getCell(LOMTConstant.ZERO)));
 					} 
 					if (row.getRowNum() == 1) {
 						if (!(String.valueOf(row.getCell(LOMTConstant.ZERO)) == null)
@@ -972,15 +976,6 @@ public class ReadExternalFrameworkFile {
 												String.valueOf(rowAct.getCell(LOMTConstant.TWO)));
 										heExFMap.put(LOMTConstant.GRADE_HIGH, true);
 									}
-								}
-
-								// Grade Title
-								if (!(String.valueOf(rowExp.getCell(LOMTConstant.THREE)).contains(LOMTConstant.NULL))
-										&& !(String.valueOf(rowAct.getCell(LOMTConstant.THREE)).contains(LOMTConstant.NULL))) {
-
-									Assert.assertEquals(String.valueOf(rowExp.getCell(LOMTConstant.THREE).getStringCellValue().trim()),
-											String.valueOf(rowAct.getCell(LOMTConstant.THREE).getStringCellValue()).trim());
-									heExFMap.put(LOMTConstant.GRADE_TITLE, true);
 								}
 
 								// Offical Standard Code

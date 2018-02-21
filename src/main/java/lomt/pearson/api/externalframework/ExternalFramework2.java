@@ -28,6 +28,7 @@ import lomt.pearson.common.LoadPropertiesFile;
 import lomt.pearson.common.ValidationCheck;
 import lomt.pearson.constant.ExternalFrameworkTestData;
 import lomt.pearson.constant.LOMTConstant;
+import lomt.pearson.constant.SchoolConstant;
 import lomt.pearson.constant.TestCases;
 import lomt.pearson.page_object.CommonPOM;
 import lomt.pearson.page_object.EnglishPOM;
@@ -1450,6 +1451,8 @@ public class ExternalFramework2 extends BaseClass {
 				  } else {
 						logger.log(LogStatus.FAIL, LOMTConstant.INGESTION_SUCCESSFUL_NTH_LEVEL);
 					}
+					jse.executeScript("window.scrollBy(0,-500)");
+					commonPOM.getPearsonLogo();
 				} 
 			}
 		} catch (Exception e) {
@@ -1458,39 +1461,36 @@ public class ExternalFramework2 extends BaseClass {
 	}
 	
 	//TODO
-	public void verifyIngestedDataOnResultPage(ExtentTest logger) {
-
+	public void verifyIngestedDataOnResultPage(ExtentTest logger, int year, int yearNthLevel) {
+		JavascriptExecutor jse = (JavascriptExecutor) driver;
+		WebDriverWait wait = new WebDriverWait(driver, 180);
+		
 		if (currentLOB.equalsIgnoreCase(LOMTConstant.HE_LOB)) {
-			JavascriptExecutor jse = (JavascriptExecutor) driver;
-			
 			try {
 				System.out.println("currentLOB : "+currentLOB);
 				exfPOM.getExternalFrameworkStructureBrowseHE().click();
-				Thread.sleep(20000);
+				Thread.sleep(15000);
 
-				jse.executeScript("window.scrollBy(0,500)");
+				jse.executeScript("window.scrollBy(0,450)");
 				
 				//1st External Framework Title Search
 				hePom.getHeEnterSearchTerm().sendKeys(LOMTConstant.EXF_INGESTION_FILE_NAME_1);
-				Thread.sleep(1000);
 
 				Assert.assertTrue(hePom.getHeUpdateResultButton().isEnabled());
 				hePom.getHeUpdateResultButton().click();
 				
 				Thread.sleep(10000);
-				Assert.assertEquals(LOMTConstant.EXF_INGESTION_FILE_NAME_1, exfPOM.getSearchedEXFTitle().getText());
+				Assert.assertNotNull(exfPOM.getSearchedEXFTitle().getText());
 				
 				//2nd External Framework Title Search
 				hePom.getHeEnterSearchTerm().clear();
-				Thread.sleep(1000);
 				hePom.getHeEnterSearchTerm().sendKeys(LOMTConstant.INGESTION_FILE_10TH_LEVEL);
-				Thread.sleep(1000);
 
 				Assert.assertTrue(hePom.getHeUpdateResultButton().isEnabled());
 				hePom.getHeUpdateResultButton().click();
 				
 				Thread.sleep(10000);
-				Assert.assertEquals(LOMTConstant.INGESTION_FILE_10TH_LEVEL, exfPOM.getSearchedEXFTitle().getText());
+				Assert.assertNotNull(exfPOM.getSearchedEXFTitle().getText());
 				
 				logger.log(LogStatus.PASS, TestCases.TC_LOMT_1357_14_ADMIN_VERIFY_INGESTED_EXFRAM_UI_HE);
 				
@@ -1507,30 +1507,26 @@ public class ExternalFramework2 extends BaseClass {
 				exfPOM.getExternalFrameworkStructureEnglish().click();
 				Thread.sleep(20000);
 
-				JavascriptExecutor jse = (JavascriptExecutor) driver;
-				jse.executeScript("window.scrollBy(0,500)");
+				jse.executeScript("window.scrollBy(0,450)");
 				
 				//1st External Framework Title Search
 				hePom.getHeEnterSearchTerm().sendKeys(LOMTConstant.EXF_INGESTION_FILE_NAME_1);
-				Thread.sleep(1000);
 
 				Assert.assertTrue(hePom.getHeUpdateResultButton().isEnabled());
 				hePom.getHeUpdateResultButton().click();
 				
 				Thread.sleep(10000);
-				Assert.assertEquals(LOMTConstant.EXF_INGESTION_FILE_NAME_1, exfPOM.getSearchedEXFTitle().getText());
+				Assert.assertNotNull(exfPOM.getSearchedEXFTitle().getText());
 				
 				//2nd External Framework Title Search
 				hePom.getHeEnterSearchTerm().clear();
-				Thread.sleep(1000);
 				hePom.getHeEnterSearchTerm().sendKeys(LOMTConstant.INGESTION_FILE_10TH_LEVEL);
-				Thread.sleep(1000);
 
 				Assert.assertTrue(hePom.getHeUpdateResultButton().isEnabled());
 				hePom.getHeUpdateResultButton().click();
 				
 				Thread.sleep(10000);
-				Assert.assertEquals(LOMTConstant.INGESTION_FILE_10TH_LEVEL, exfPOM.getSearchedEXFTitle().getText());
+				Assert.assertNotNull(exfPOM.getSearchedEXFTitle().getText());
 				
 				logger.log(LogStatus.PASS, TestCases.TC_LOMT_1357_43_ADMIN_VERIFY_INGESTED_EXFRAM_UI_ENGLISH_LOB);
 				jse.executeScript("window.scrollBy(0,-500)");
@@ -1543,52 +1539,49 @@ public class ExternalFramework2 extends BaseClass {
 		} else {
 			// School
 			try {
-				exfPOM.getExternalFrameworkStructureBrowseHE().click();
-				Thread.sleep(20000);
+				int counter = 0; 
+				commonPOM.getSchoolGlobalLOB().click();
+				schoolPOM.getCurriculumSt().click();
+				wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+				//Thread.sleep(20000);
 
-				JavascriptExecutor jse = (JavascriptExecutor) driver;
-				jse.executeScript("window.scrollBy(0,500)");
+				schoolPOM.getEnterEnterSearch().sendKeys(String.valueOf(year));
 				
-				//1st External Framework Title Search
-				hePom.getHeEnterSearchTerm().sendKeys(LOMTConstant.EXF_INGESTION_FILE_NAME_1);
-				Thread.sleep(1000);
-
-				Assert.assertTrue(hePom.getHeUpdateResultButton().isEnabled());
-				hePom.getHeUpdateResultButton().click();
+				schoolPOM.getSchoolUpdateResultButton().click();
+				wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
 				
-				Thread.sleep(10000);
-				Assert.assertEquals(LOMTConstant.EXF_INGESTION_FILE_NAME_1, exfPOM.getSearchedEXFTitle().getText());
+				schoolPOM.getEnterEnterSearch().clear();
+				jse.executeScript("window.scrollBy(0,350)");
 				
-				//2nd External Framework Title Search
-				hePom.getHeEnterSearchTerm().clear();
-				Thread.sleep(1000);
-				hePom.getHeEnterSearchTerm().sendKeys(LOMTConstant.INGESTION_FILE_10TH_LEVEL);
-				Thread.sleep(1000);
-
-				Assert.assertTrue(hePom.getHeUpdateResultButton().isEnabled());
-				hePom.getHeUpdateResultButton().click();
+				if(schoolPOM.getResultFound().getText().contains("Showing")) {
+					Assert.assertNotNull(schoolPOM.getCurriculumGoalFramework().getText());
+				} else {
+					counter++;
+				}
+				jse.executeScript("window.scrollBy(0,-350)");
 				
-				Thread.sleep(10000);
-				Assert.assertEquals(LOMTConstant.INGESTION_FILE_10TH_LEVEL, exfPOM.getSearchedEXFTitle().getText());
+				//Nth level EXF search
+				schoolPOM.getEnterEnterSearch().sendKeys(String.valueOf(yearNthLevel));
 				
-				//3RD External Framework Title Search
-				hePom.getHeEnterSearchTerm().clear();
-				Thread.sleep(1000);
-				hePom.getHeEnterSearchTerm().sendKeys(LOMTConstant.INGESTION_NON_MAND);
-				Thread.sleep(1000);
-
-				Assert.assertTrue(hePom.getHeUpdateResultButton().isEnabled());
-				hePom.getHeUpdateResultButton().click();
+				schoolPOM.getSchoolUpdateResultButton().click();
+				wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
 				
-				Thread.sleep(10000);
-				Assert.assertEquals(LOMTConstant.INGESTION_NON_MAND, exfPOM.getSearchedEXFTitle().getText());
+				schoolPOM.getEnterEnterSearch().clear();
+				jse.executeScript("window.scrollBy(0,350)");
 				
-				logger.log(LogStatus.PASS, TestCases.TC_LOMT_1357_72_ADMIN_VERIFY_INGESTED_CURRSTANCUSTOM_UI_SCHOOL);
+				if(schoolPOM.getResultFound().getText().contains("Showing")) {
+					Assert.assertNotNull(schoolPOM.getCurriculumGoalFramework().getText());
+				} else {
+					counter++;
+				}
+				if (counter == 0) {
+					logger.log(LogStatus.PASS, TestCases.TC_LOMT_1357_72_ADMIN_VERIFY_INGESTED_CURRSTANCUSTOM_UI_SCHOOL);
+				} else {
+					logger.log(LogStatus.PASS, TestCases.TC_LOMT_1357_72_ADMIN_VERIFY_INGESTED_CURRSTANCUSTOM_UI_SCHOOL);
+				}
 				
-				jse.executeScript("window.scrollBy(0,-500)");
-				
+				jse.executeScript("window.scrollBy(0,-800)");				
 				commonPOM.getPearsonLogo().click();
-				Thread.sleep(1000);
 			} catch (Exception e) {
 				logger.log(LogStatus.FAIL, TestCases.TC_LOMT_1357_72_ADMIN_VERIFY_INGESTED_CURRSTANCUSTOM_UI_SCHOOL);
 			}
@@ -1685,13 +1678,6 @@ public class ExternalFramework2 extends BaseClass {
 						|| exfPOM.getErrorRowThree().getText().equalsIgnoreCase(LOMTConstant.GRADE_LOW_ROW_4)
 						|| exfPOM.getErrorRowFour().getText().equalsIgnoreCase(LOMTConstant.GRADE_LOW_ROW_4)
 						|| exfPOM.getErrorRowFive().getText().equalsIgnoreCase(LOMTConstant.GRADE_LOW_ROW_4) ) {
-					flag = true;
-				}
-				if (exfPOM.getErrorRowOne().getText().equalsIgnoreCase(LOMTConstant.GRADE_LOW_HIGH_ERROR_MESSAGE)
-						|| exfPOM.getErrorRowTwo().getText().equalsIgnoreCase(LOMTConstant.GRADE_LOW_HIGH_ERROR_MESSAGE)
-						|| exfPOM.getErrorRowThree().getText().equalsIgnoreCase(LOMTConstant.GRADE_LOW_HIGH_ERROR_MESSAGE)
-						|| exfPOM.getErrorRowFour().getText().equalsIgnoreCase(LOMTConstant.GRADE_LOW_HIGH_ERROR_MESSAGE)
-						|| exfPOM.getErrorRowFive().getText().equalsIgnoreCase(LOMTConstant.GRADE_LOW_HIGH_ERROR_MESSAGE) ) {
 					flag = true;
 				}
 			} catch (Exception e) {
@@ -1796,7 +1782,6 @@ public class ExternalFramework2 extends BaseClass {
 	public void lomtSGPage() {
 		try {
 			commonPOM.getSchoolGlobalLOB().click();
-			Thread.sleep(1000);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -1851,8 +1836,8 @@ public class ExternalFramework2 extends BaseClass {
 		}
 	}
 	
-	public void exportExternalFramework(String lobName, ExtentTest logger) {
-		
+	public void exportExternalFramework(String lobName, ExtentTest logger, int year) {
+		WebDriverWait wait = new WebDriverWait(driver, 60);
 		if (lobName.equalsIgnoreCase(LOMTConstant.HE_LOB)) {
 			try {
 				commonPOM.getHeLOB().click();
@@ -1980,31 +1965,23 @@ public class ExternalFramework2 extends BaseClass {
 			//School(NALS & School Global)
 			try {
 				commonPOM.getSchoolGlobalLOB().click();
-				exfPOM.getCurriculumStandardStructureBrowseSchool().click();
-				Thread.sleep(20000);
+				schoolPOM.getCurriculumSt().click();
+				wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
 				
 				JavascriptExecutor jse = (JavascriptExecutor) driver;
-				jse.executeScript("window.scrollBy(0,500)");
-				
+				jse.executeScript("window.scrollBy(0,450)");
 				readExternalFrameworkFile = new ReadExternalFrameworkFile();
-				
-				String goalframeworkName = readExternalFrameworkFile.getEXFGoalFrameworkNameExport(lobName);
-				
-				if (goalframeworkName != null && !goalframeworkName.isEmpty()) {
-					System.out.println("Goalframework name : " + goalframeworkName);
-
-					hePom.getHeEnterSearchTerm().sendKeys(goalframeworkName);
-					Thread.sleep(2000);
+				if (year !=0) {
+					hePom.getHeEnterSearchTerm().sendKeys(String.valueOf(year));
 
 					Assert.assertTrue(hePom.getHeUpdateResultButton().isEnabled());
 					hePom.getHeUpdateResultButton().click();
-					Thread.sleep(7000);
+					wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
 					
-					jse.executeScript("window.scrollBy(0,100)");
+					jse.executeScript("window.scrollBy(0,100)"); 
 					
 					Assert.assertTrue(exfPOM.getActionLink().isDisplayed());
 					schoolPOM.getAction().click();
-					Thread.sleep(2000);
 					logger.log(LogStatus.PASS, TestCases.TC_LOMT_1408_38_ADMIN_CO_ORDINATOR_SME_EXPORT_SCHOOL);
 					
 					// removing existing files from the download directory
@@ -2013,10 +1990,9 @@ public class ExternalFramework2 extends BaseClass {
 					Assert.assertTrue(hePom.getHeEXFExport().isDisplayed());
 					hePom.getHeEXFExport().click();
 					logger.log(LogStatus.PASS, TestCases.TC_LOMT_1408_39_ADMIN_CO_ORDINATOR_SME_EXPORT_CLICK_SCHOOL);
-
-					Thread.sleep(15000);
+					wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+					
 					hePom.getHeEnterSearchTerm().clear();
-					Thread.sleep(1000);
 					
 					// verifying file name
 					if (readExternalFrameworkFile.verifyEXFFileName()) {
@@ -2027,21 +2003,22 @@ public class ExternalFramework2 extends BaseClass {
 					
 					//Comparison between actual and exported file
 					readExternalFrameworkFile.compareAcutalAndExportedFile(LOMTConstant.SCHOOL, logger);
-					Thread.sleep(2000);
-					jse.executeScript("window.scrollBy(0,-500)");
+					jse.executeScript("window.scrollBy(0,-800)");
 					commonPOM.getPearsonLogo().click();
 				} else {
-					// add logger
-					System.out.println("School External Framework doesn't exist");
+					logger.log(LogStatus.FAIL, TestCases.TC_LOMT_1408_38_ADMIN_CO_ORDINATOR_SME_EXPORT_SCHOOL);
+					logger.log(LogStatus.FAIL, "TC_LOMT School External Framework doesn't found");
 				}
 			} catch (Exception e) {
+				logger.log(LogStatus.FAIL, TestCases.TC_LOMT_1408_38_ADMIN_CO_ORDINATOR_SME_EXPORT_SCHOOL);
+				logger.log(LogStatus.FAIL, "TC_LOMT School External Framework doesn't found");
 				e.printStackTrace();
 				return;
 			}
 		}
 	}
 	
-	public void searchAndExportExFFileReingestion(String lobName, ExtentTest logger) {
+	public void searchAndExportExFFileReingestion(String lobName, ExtentTest logger, int year, int reIngestionYear) {
 		if (lobName.equalsIgnoreCase(LOMTConstant.HE_LOB)) {
 			boolean flag = false;
 			int counter = 0;
@@ -2055,7 +2032,7 @@ public class ExternalFramework2 extends BaseClass {
 				}
 				
 				// Updating ExF Goal framework title, counter=0 
-				flag = reingestionEXF(lobName, goalframeworkName, counter, null);
+				flag = reingestionEXF(lobName, goalframeworkName, counter, null, 0);
 				if (flag) {
 					logger.log(LogStatus.PASS, TestCases.TC_LOMT_1409_01_RE_INGESTS_TITLE_HE);
 					
@@ -2067,7 +2044,7 @@ public class ExternalFramework2 extends BaseClass {
 				
 				// Updating  Grade low & high title, counter=1				
 				goalframeworkName = readExternalFrameworkFile.getExfGoalframeworkName();
-				flag = reingestionEXF(lobName, goalframeworkName, counter, null);
+				flag = reingestionEXF(lobName, goalframeworkName, counter, null, 0);
 				if (flag) {
 					logger.log(LogStatus.PASS, TestCases.TC_LOMT_1409_02_RE_INGESTS_TITLE_HE_VERIFY);
 					logger.log(LogStatus.PASS, TestCases.TC_LOMT_1409_03_RE_INGESTS_METADATAVALUE_HE);
@@ -2096,7 +2073,7 @@ public class ExternalFramework2 extends BaseClass {
 						+ LOMTConstant.EXPORTED_FILE_NAME_EXF + formatedDate + LOMTConstant.XLSX_EXTENSION);
 				
 				goalframeworkName = readExternalFrameworkFile.getGoalFrameworkEXF(exportedFilePath);
-				flag = reingestionEXF(lobName, goalframeworkName, counter, null);
+				flag = reingestionEXF(lobName, goalframeworkName, counter, null, 0);
 				if (flag) {
 					logger.log(LogStatus.PASS, TestCases.TC_LOMT_1409_05_RE_INGESTS_METADATAVALUEBLANK_HE); 
 					logger.log(LogStatus.PASS, TestCases.TC_LOMT_1409_11_RE_INGESTS_GRADETITLE_HE); 
@@ -2114,7 +2091,7 @@ public class ExternalFramework2 extends BaseClass {
 				counter++;
 				
 				// Official Standard Code, counter=3				
-				flag = reingestionEXF(lobName, goalframeworkName, counter, null);
+				flag = reingestionEXF(lobName, goalframeworkName, counter, null, 0);
 				if (flag) {
 					logger.log(LogStatus.PASS, TestCases.TC_LOMT_1409_15_RE_INGESTS_OFFICIAL_STANDARD_CODE_HE);
 				} else {
@@ -2124,7 +2101,7 @@ public class ExternalFramework2 extends BaseClass {
 				
 				boolean levelFlag = false;
 				// Level 1, counter=4				
-				flag = reingestionEXF(lobName, goalframeworkName, counter, null);
+				flag = reingestionEXF(lobName, goalframeworkName, counter, null, 0);
 				if (flag) {
 					levelFlag = true;
 				} else {
@@ -2134,7 +2111,7 @@ public class ExternalFramework2 extends BaseClass {
 				counter++;
 				
 				// Level 2, counter=5				
-				flag = reingestionEXF(lobName, goalframeworkName, counter, null);
+				flag = reingestionEXF(lobName, goalframeworkName, counter, null, 0);
 				if (flag) {
 					levelFlag = true;
 				} else {
@@ -2144,7 +2121,7 @@ public class ExternalFramework2 extends BaseClass {
 				counter++;
 				
 				// Lowest Level  counter=6				
-				reingestionEXF(lobName, goalframeworkName, counter, null);
+				reingestionEXF(lobName, goalframeworkName, counter, null, 0);
 				if (flag) {
 					levelFlag = true;
 				} else {
@@ -2159,7 +2136,7 @@ public class ExternalFramework2 extends BaseClass {
 				counter++;
 				
 				//validation check, mandatory filed check, counter=7	
-				flag = reingestionEXF(lobName, goalframeworkName, counter, LOMTConstant.EXF_WITHOUT_MANDATORY_FIELDS);
+				flag = reingestionEXF(lobName, goalframeworkName, counter, LOMTConstant.EXF_WITHOUT_MANDATORY_FIELDS, 0);
 				if (flag) {
 					logger.log(LogStatus.PASS, TestCases.TC_LOMT_1409_16_RE_INGESTS_LEVELS_HE);
 				} else {
@@ -2168,7 +2145,7 @@ public class ExternalFramework2 extends BaseClass {
 				counter++;
 				
 				//Wrong Grade validation check, counter=8
-				flag = reingestionEXF(lobName, goalframeworkName, counter, LOMTConstant.REINGESTION_WRONG_GRADE_SAME_LEVEL);
+				flag = reingestionEXF(lobName, goalframeworkName, counter, LOMTConstant.REINGESTION_WRONG_GRADE_SAME_LEVEL, 0);
 				if (flag) {
 					logger.log(LogStatus.PASS, TestCases.TC_LOMT_1409_08_RE_INGESTS_GRADELO_HI_WRONG_HE); 
 					logger.log(LogStatus.PASS, TestCases.TC_LOMT_1409_09_RE_INGESTS_SEQUENCECHANGEGRADEVALUE_HE); 
@@ -2185,7 +2162,7 @@ public class ExternalFramework2 extends BaseClass {
 				logger.log(LogStatus.INFO, "TC 20 is DE-SCOPED");
 				
 				//Addition of new rows, counter=9
-				flag = reingestionEXF(lobName, goalframeworkName, counter, null);
+				flag = reingestionEXF(lobName, goalframeworkName, counter, null, 0);
 				if (flag) {
 					logger.log(LogStatus.PASS, TestCases.TC_LOMT_1409_21_RE_INGESTS_NEWROW_HE); 
 					logger.log(LogStatus.PASS, TestCases.TC_LOMT_1409_23_RE_INGESTSAGAIN_HE);
@@ -2223,7 +2200,7 @@ public class ExternalFramework2 extends BaseClass {
 				}
 				
 				// Updating ExF Goal framework title, counter=0 
-				flag = reingestionEXF(lobName, goalframeworkName, counter, null);
+				flag = reingestionEXF(lobName, goalframeworkName, counter, null, 0);
 				if (flag) {
 					logger.log(LogStatus.PASS, TestCases.TC_LOMT_1409_25_RE_INGESTS_TITLE_ENGLISH);
 					
@@ -2235,7 +2212,7 @@ public class ExternalFramework2 extends BaseClass {
 				
 				// Updating  Grade low & high title, counter=1				
 				goalframeworkName = readExternalFrameworkFile.getExfGoalframeworkName();
-				flag = reingestionEXF(lobName, goalframeworkName, counter, null);
+				flag = reingestionEXF(lobName, goalframeworkName, counter, null, 0);
 				if (flag) {
 					logger.log(LogStatus.PASS, TestCases.TC_LOMT_1409_26_RE_INGESTS_TITLE_ENGLISH_VERIFY);  
 					logger.log(LogStatus.PASS, TestCases.TC_LOMT_1409_27_RE_INGESTS_METADATAVALUE_ENGLISH);
@@ -2263,7 +2240,7 @@ public class ExternalFramework2 extends BaseClass {
 						+ LOMTConstant.EXPORTED_FILE_NAME_EXF + formatedDate + LOMTConstant.XLSX_EXTENSION);
 				
 				goalframeworkName = readExternalFrameworkFile.getGoalFrameworkEXF(exportedFilePath);
-				flag = reingestionEXF(lobName, goalframeworkName, counter, null);
+				flag = reingestionEXF(lobName, goalframeworkName, counter, null, 0);
 				if (flag) {
 					logger.log(LogStatus.PASS, TestCases.TC_LOMT_1409_29_RE_INGESTS_METADATAVALUEBLANK_ENGLISH); 
 					logger.log(LogStatus.PASS, TestCases.TC_LOMT_1409_35_RE_INGESTS_GRADETITLE_ENGLISH); 
@@ -2281,7 +2258,7 @@ public class ExternalFramework2 extends BaseClass {
 				counter++;
 				
 				// Official Standard Code, counter=3				
-				flag = reingestionEXF(lobName, goalframeworkName, counter, null);
+				flag = reingestionEXF(lobName, goalframeworkName, counter, null, 0);
 				if (flag) {
 					logger.log(LogStatus.PASS, TestCases.TC_LOMT_1409_39_RE_INGESTS_OFFICIAL_STANDARD_CODE_ENGLISH);
 				} else {
@@ -2291,7 +2268,7 @@ public class ExternalFramework2 extends BaseClass {
 				
 				boolean levelFlag = false;
 				// Level 1, counter=4				
-				flag = reingestionEXF(lobName, goalframeworkName, counter, null);
+				flag = reingestionEXF(lobName, goalframeworkName, counter, null, 0);
 				if (flag) {
 					levelFlag = true;
 				} else {
@@ -2301,7 +2278,7 @@ public class ExternalFramework2 extends BaseClass {
 				counter++;
 				
 				// Level 2, counter=5				
-				flag = reingestionEXF(lobName, goalframeworkName, counter, null);
+				flag = reingestionEXF(lobName, goalframeworkName, counter, null, 0);
 				if (flag) {
 					levelFlag = true;
 				} else {
@@ -2311,7 +2288,7 @@ public class ExternalFramework2 extends BaseClass {
 				counter++;
 				
 				// Lowest Level  counter=6				
-				reingestionEXF(lobName, goalframeworkName, counter, null);
+				reingestionEXF(lobName, goalframeworkName, counter, null, 0);
 				if (flag) {
 					levelFlag = true;
 				} else {
@@ -2327,7 +2304,7 @@ public class ExternalFramework2 extends BaseClass {
 				counter++;
 				
 				//validation check, mandatory filed check, counter=7	
-				flag = reingestionEXF(lobName, goalframeworkName, counter, LOMTConstant.EXF_WITHOUT_MANDATORY_FIELDS);
+				flag = reingestionEXF(lobName, goalframeworkName, counter, LOMTConstant.EXF_WITHOUT_MANDATORY_FIELDS, 0);
 				if (flag) {
 					System.out.println("mandatory validation check is done : "+flag);
 				} else {
@@ -2336,7 +2313,7 @@ public class ExternalFramework2 extends BaseClass {
 				counter++;
 				
 				//Wrong Grade validation check, counter=8
-				flag = reingestionEXF(lobName, goalframeworkName, counter, LOMTConstant.REINGESTION_WRONG_GRADE_SAME_LEVEL);
+				flag = reingestionEXF(lobName, goalframeworkName, counter, LOMTConstant.REINGESTION_WRONG_GRADE_SAME_LEVEL, 0);
 				if (flag) {
 					logger.log(LogStatus.PASS, TestCases.TC_LOMT_1409_32_RE_INGESTS_GRADELO_HI_WRONG_ENGLISH); 
 					logger.log(LogStatus.PASS, TestCases.TC_LOMT_1409_33_RE_INGESTS_SEQUENCECHANGEGRADEVALUE_ENGLISH); 
@@ -2353,7 +2330,7 @@ public class ExternalFramework2 extends BaseClass {
 				logger.log(LogStatus.INFO, "TC 20 is DE-SCOPED");
 				
 				//Addition of new rows, counter=9
-				flag = reingestionEXF(lobName, goalframeworkName, counter, null);
+				flag = reingestionEXF(lobName, goalframeworkName, counter, null, 0);
 				if (flag) {
 					logger.log(LogStatus.PASS, TestCases.TC_LOMT_1409_45_RE_INGESTS_NEWROW_ENGLISH); 
 					logger.log(LogStatus.PASS, TestCases.TC_LOMT_1409_47_RE_INGESTSAGAIN_ENGLISH);
@@ -2381,29 +2358,25 @@ public class ExternalFramework2 extends BaseClass {
 		else {
 			boolean flag = false;
 			int counter = 0;
-			String goalframeworkName = null;
 			readExternalFrameworkFile = new ReadExternalFrameworkFile();
 			try {
-				goalframeworkName = readExternalFrameworkFile.getEXFGoalFrameworkName(lobName);
-				System.out.println("Goalframework name : " + goalframeworkName);
-				if (goalframeworkName == null) {
-					return;
-				}
 				
 				// Updating ExF Goal framework title, counter=0 
-				flag = reingestionEXF(lobName, goalframeworkName, counter, null);
+				/*flag = reingestionEXF(lobName, String.valueOf(year), counter, null);
 				if (flag) {
 					logger.log(LogStatus.PASS, TestCases.TC_LOMT_1409_49_RE_INGESTS_TITLE_SCHOOL);
 					
 				} else {
 					logger.log(LogStatus.FAIL, TestCases.TC_LOMT_1409_49_RE_INGESTS_TITLE_SCHOOL);
-				}
+				}*/
+				//Title value is generate based on meta data combination so we can not change as per changed implementation
+				//De-scoped,
+				logger.log(LogStatus.INFO, TestCases.TC_LOMT_1409_49_RE_INGESTS_TITLE_SCHOOL);
 				counter++;				
 				
 				
-				// Updating  Grade low & high title, counter=1				
-				goalframeworkName = readExternalFrameworkFile.getExfGoalframeworkName();
-				flag = reingestionEXF(lobName, goalframeworkName, counter, null);
+				//Updating  Grade low & high title, counter=1				
+				flag = reingestionEXF(lobName, String.valueOf(year), counter, null, reIngestionYear);
 				if (flag) {
 					logger.log(LogStatus.PASS, TestCases.TC_LOMT_1409_50_RE_INGESTS_TITLE_SCHOOL_VERIFY);
 					logger.log(LogStatus.PASS, TestCases.TC_LOMT_1409_51RE_INGESTS_METADATAVALUE_SCHOOL);
@@ -2423,16 +2396,21 @@ public class ExternalFramework2 extends BaseClass {
 				}
 				counter++;
 				
-				//Updating Grade Title, counter=2	
-				String date = new Date().toString();
+				//Updating Grade Title, counter=2	- DE-SCOPED
+				logger.log(LogStatus.INFO, TestCases.TC_LOMT_1409_53_RE_INGESTS_METADATAVALUEBLANK_SCHOOL); 
+				logger.log(LogStatus.INFO, TestCases.TC_LOMT_1409_59_RE_INGESTS_GRADETITLE_SCHOOL); 
+				logger.log(LogStatus.INFO, TestCases.TC_LOMT_1409_60_RE_INGESTS_GRADETITLEMAX_SCHOOL); 
+				logger.log(LogStatus.INFO, TestCases.TC_LOMT_1409_61_RE_INGESTS_GRADETITLESPLCHAR_ALPHANUC_SCHOOL);
+				logger.log(LogStatus.INFO, TestCases.TC_LOMT_1409_62_RE_INGESTS_GRADETITLE_BLANK_SCHOOL);
+				
+				/*String date = new Date().toString();
 				String[] CurrentDate= date.substring(4).split(" ");	 
 				String formatedDate = CurrentDate[1]+CurrentDate[0]+CurrentDate[4];
 				
 				File exportedFilePath  = new File(LOMTConstant.EXPORTED_FILE_PATH + LOMTConstant.EMPTY_STRING
 						+ LOMTConstant.EXPORTED_FILE_NAME_EXF + formatedDate + LOMTConstant.XLSX_EXTENSION);
 				
-				goalframeworkName = readExternalFrameworkFile.getGoalFrameworkEXF(exportedFilePath);
-				flag = reingestionEXF(lobName, goalframeworkName, counter, null);
+				flag = reingestionEXF(lobName, String.valueOf(year), counter, null, reIngestionYear);
 				if (flag) {
 					logger.log(LogStatus.PASS, TestCases.TC_LOMT_1409_53_RE_INGESTS_METADATAVALUEBLANK_SCHOOL); 
 					logger.log(LogStatus.PASS, TestCases.TC_LOMT_1409_59_RE_INGESTS_GRADETITLE_SCHOOL); 
@@ -2446,11 +2424,11 @@ public class ExternalFramework2 extends BaseClass {
 					logger.log(LogStatus.FAIL, TestCases.TC_LOMT_1409_61_RE_INGESTS_GRADETITLESPLCHAR_ALPHANUC_SCHOOL);
 					logger.log(LogStatus.FAIL, TestCases.TC_LOMT_1409_62_RE_INGESTS_GRADETITLE_BLANK_SCHOOL);
 					
-				}
+				}*/
 				counter++;
 				
-				// Official Standard Code, counter=3				
-				flag = reingestionEXF(lobName, goalframeworkName, counter, null);
+				//Official Standard Code, counter=3				
+				flag = reingestionEXF(lobName, String.valueOf(0), counter, null, reIngestionYear);
 				if (flag) {
 					logger.log(LogStatus.PASS, TestCases.TC_LOMT_1409_63_RE_INGESTS_OFFICIAL_STANDARD_CODE_SCHOOL);
 				} else {
@@ -2460,7 +2438,7 @@ public class ExternalFramework2 extends BaseClass {
 				
 				boolean levelFlag = false;
 				// Level 1, counter=4				
-				flag = reingestionEXF(lobName, goalframeworkName, counter, null);
+				flag = reingestionEXF(lobName, String.valueOf(0), counter, null, reIngestionYear);
 				if (flag) {
 					levelFlag = true;
 				} else {
@@ -2470,7 +2448,7 @@ public class ExternalFramework2 extends BaseClass {
 				counter++;
 				
 				// Level 2, counter=5				
-				flag = reingestionEXF(lobName, goalframeworkName, counter, null);
+				flag = reingestionEXF(lobName, String.valueOf(0), counter, null, reIngestionYear);
 				if (flag) {
 					levelFlag = true;
 				} else {
@@ -2480,7 +2458,7 @@ public class ExternalFramework2 extends BaseClass {
 				counter++;
 				
 				// Lowest Level  counter=6				
-				reingestionEXF(lobName, goalframeworkName, counter, null);
+				reingestionEXF(lobName, String.valueOf(0), counter, null, reIngestionYear);
 				if (flag) {
 					levelFlag = true;
 				} else {
@@ -2495,7 +2473,7 @@ public class ExternalFramework2 extends BaseClass {
 				counter++;
 				
 				//validation check, mandatory filed check, counter=7	
-				flag = reingestionEXF(lobName, goalframeworkName, counter, LOMTConstant.EXF_WITHOUT_MANDATORY_FIELDS);
+				flag = reingestionEXF(lobName, String.valueOf(0), counter, LOMTConstant.EXF_WITHOUT_MANDATORY_FIELDS, reIngestionYear);
 				if (flag) {
 					System.out.println("Mandatory field check validation passed");
 				} else {
@@ -2504,7 +2482,7 @@ public class ExternalFramework2 extends BaseClass {
 				counter++;
 				
 				//Wrong Grade validation check, counter=8
-				flag = reingestionEXF(lobName, goalframeworkName, counter, LOMTConstant.REINGESTION_WRONG_GRADE_SAME_LEVEL);
+				flag = reingestionEXF(lobName, String.valueOf(0), counter, LOMTConstant.REINGESTION_WRONG_GRADE_SAME_LEVEL, reIngestionYear);
 				if (flag) {
 					logger.log(LogStatus.PASS, TestCases.TC_LOMT_1409_56_RE_INGESTS_GRADELO_HI_WRONG_SCHOOL); 
 					logger.log(LogStatus.PASS, TestCases.TC_LOMT_1409_57_RE_INGESTS_SEQUENCECHANGEGRADEVALUE_SCHOOL); 
@@ -2516,12 +2494,11 @@ public class ExternalFramework2 extends BaseClass {
 				}
 				counter++;
 				
-				//Tag is de-scoped
+				//Tag is de-scoped : TODO(it has come now)
 				logger.log(LogStatus.INFO, TestCases.TC_LOMT_1409_68_RE_INGESTS_TAG_SCHOOL);
-				logger.log(LogStatus.INFO, "TC 20 is DE-SCOPED");
 				
 				//Addition of new rows, counter=9
-				flag = reingestionEXF(lobName, goalframeworkName, counter, null);
+				flag = reingestionEXF(lobName, String.valueOf(0), counter, null, reIngestionYear);
 				if (flag) {
 					logger.log(LogStatus.PASS, TestCases.TC_LOMT_1409_69_RE_INGESTS_NEWROW_SCHOOL); 
 					logger.log(LogStatus.PASS, TestCases.TC_LOMT_1409_71_RE_INGESTSAGAIN_SCHOOL);
@@ -2530,37 +2507,35 @@ public class ExternalFramework2 extends BaseClass {
 					logger.log(LogStatus.FAIL, TestCases.TC_LOMT_1409_71_RE_INGESTSAGAIN_SCHOOL);
 				}
 				counter++;
-				System.out.println("Addition of new Row is done");
 				
 				//Deletion of EXF parent/child : De-scoped
 				logger.log(LogStatus.INFO, TestCases.TC_LOMT_1409_70_RE_INGESTS_DELETEROW_SCHOOL);
 				logger.log(LogStatus.INFO, TestCases.TC_LOMT_1409_72_RE_INGESTS_URN_NOTINWORKSHEET_SCHOOL);
-				logger.log(LogStatus.INFO, "TC 22 & 24 is DE-SCOPED");
 				
 				Thread.sleep(2000);
 				ReadExternalFrameworkFile obj = new ReadExternalFrameworkFile();
 				//String goalframeworkNameExp = verifyDataInExportedFile(LOMTConstant.HE_LOB, obj);
-				verifyExFExportedFileOnUI(LOMTConstant.SCHOOL, obj, goalframeworkName);
+				verifyExFExportedFileOnUI(LOMTConstant.SCHOOL, obj, String.valueOf(reIngestionYear));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
 	}
 
-	private boolean reingestionEXF(String lobName, String goalframeworkName, int counter, String validationUseCase)
+	private boolean reingestionEXF(String lobName, String goalframeworkName, int counter, String validationUseCase, int reIngestionYear)
 			throws InterruptedException, IOException {
 		
 		boolean flag = false;
-		
+		ExternalFramework2 exf = null;
+		WebDriverWait wait = new WebDriverWait(driver, 120);
 		//HE 
 		if (lobName.equalsIgnoreCase(LOMTConstant.HE_LOB)) {
 			
 			Thread.sleep(2000);
 			commonPOM.getHeLOB().click();
 			exfPOM.getExternalFrameworkStructureBrowseHE().click();
-			//Thread.sleep(30000);
-			//wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
-			Thread.sleep(15000);
+			wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+			//Thread.sleep(15000);
 			
 			JavascriptExecutor jse = (JavascriptExecutor) driver;
 			jse.executeScript("window.scrollBy(0,450)");
@@ -2607,8 +2582,6 @@ public class ExternalFramework2 extends BaseClass {
 			jse.executeScript("window.scrollBy(0, 300)");
 			commonPOM.getNextButton().click();
 			Thread.sleep(2000);
-			
-			WebDriverWait wait = new WebDriverWait(driver, 120);
 			
 			commonPOM.getUploadFileLink().click();
 			//Thread.sleep(2000);
@@ -2659,8 +2632,8 @@ public class ExternalFramework2 extends BaseClass {
 			Thread.sleep(2000);
 			commonPOM.getEnglishLOB().click();
 			exfPOM.getExternalFrameworkStructureBrowseEnglish().click();
-			//Thread.sleep(30000);
-			Thread.sleep(20000);
+			wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+			//Thread.sleep(20000);
 			
 			JavascriptExecutor jse = (JavascriptExecutor) driver;
 			jse.executeScript("window.scrollBy(0,450)");
@@ -2705,8 +2678,6 @@ public class ExternalFramework2 extends BaseClass {
 			jse.executeScript("window.scrollBy(0, 300)");
 			commonPOM.getNextButton().click();
 			Thread.sleep(2000);
-			
-			WebDriverWait wait = new WebDriverWait(driver, 120);
 			
 			commonPOM.getUploadFileLink().click();
 			//Thread.sleep(2000);
@@ -2758,35 +2729,36 @@ public class ExternalFramework2 extends BaseClass {
 			Thread.sleep(2000);
 			commonPOM.getSchoolGlobalLOB().click();
 			exfPOM.getCurriculumStandardStructureBrowseSchool().click();
-			//Thread.sleep(30000);
-			Thread.sleep(20000);
+			wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+			//Thread.sleep(20000);
 			
 			JavascriptExecutor jse = (JavascriptExecutor) driver;
 			jse.executeScript("window.scrollBy(0,450)");
 			
-			hePom.getHeEnterSearchTerm().sendKeys(goalframeworkName);
-			Thread.sleep(2000);
+			if (Integer.valueOf(goalframeworkName) != 0) {
+				hePom.getHeEnterSearchTerm().sendKeys(goalframeworkName);
+			} else {
+				hePom.getHeEnterSearchTerm().sendKeys(String.valueOf(reIngestionYear));
+			}
+			
 
 			Assert.assertTrue(hePom.getHeUpdateResultButton().isEnabled());
 			hePom.getHeUpdateResultButton().click();
-			Thread.sleep(10000);
+			wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+			//Thread.sleep(10000);
 			
 			Assert.assertTrue(schoolPOM.getAction().isDisplayed());
 			schoolPOM.getAction().click();
-			Thread.sleep(2000);
+			//Thread.sleep(2000);
 			
 			// removing existing files from the download directory
 			readExternalFrameworkFile.removeExistingFile(); 
 			
-			Thread.sleep(2000);
 			Assert.assertTrue(hePom.getHeEXFExport().isDisplayed());
 			hePom.getHeEXFExport().click();
+			wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
 
-			//Thread.sleep(60000);
-			Thread.sleep(15000);
 			hePom.getHeEnterSearchTerm().clear();
-			//commonPOM.getPearsonLogo().click();
-			Thread.sleep(2000);
 			
 			jse.executeScript("window.scrollBy(0, -500)");
 			
@@ -2798,15 +2770,13 @@ public class ExternalFramework2 extends BaseClass {
 			commonPOM.getSchoolGlobalLOBRadioButton().click();
 			commonPOM.getSgEXFStructureRadioButton().click();
 			
-			jse.executeScript("window.scrollBy(0, 300)");
+			jse.executeScript("window.scrollBy(0, 250)");
 			commonPOM.getNextButtonFirst().click();
-			Thread.sleep(2000);
 			
-			jse.executeScript("window.scrollBy(0, 300)");
-			commonPOM.getNextButton().click();
-			Thread.sleep(2000);
-			
-			WebDriverWait wait = new WebDriverWait(driver, 120);
+			if (exf == null) {
+				exf = new ExternalFramework2();
+			}
+			exf.getMetaDataFieldsReingestion(Integer.valueOf(reIngestionYear), schoolPOM, commonPOM, jse);
 			
 			commonPOM.getUploadFileLink().click();
 			//Thread.sleep(2000);
@@ -3157,6 +3127,206 @@ public class ExternalFramework2 extends BaseClass {
 				commonPOM.getPearsonLogo().click();
 			}
 		}
+	}
+	
+	public boolean getMetaDataFields(int year) {
+		boolean flag = false;
+		
+		
+		JavascriptExecutor jse = (JavascriptExecutor) driver;
+		try {
+			Thread.sleep(4000);
+			//SUBJECT Selection
+			schoolPOM.getSubjectDropdown().click();
+			Thread.sleep(6000);
+			List<WebElement> subjectList = schoolPOM.getSubjectDropdownList();
+			int subjectLength = subjectList.size();
+			if (subjectLength > 0) {
+				for (int i = 0; i <= subjectLength; i++) {
+					WebElement element = subjectList.get(i);
+					if (element.getText()!= null) {
+						element.click();
+						flag = true;
+						break;
+					}
+				}
+			} else {
+				Assert.assertFalse((subjectLength == 0), LOMTConstant.SUBJECT+LOMTConstant.DROPDOWN_SIZE_NOT_ZERO);
+				return flag;
+			}
+			
+			//Country selection, as per JIRA: LOMT-1779
+			schoolPOM.getCountryDropdown().click();
+			Thread.sleep(6000);
+			List<WebElement> countryList = schoolPOM.getCountryDropdownList();
+			int countryLength = countryList.size();
+			if (countryLength > 0) {
+				for (int i = 0; i <= countryLength; i++) {
+					WebElement element = countryList.get(i);
+					if (element.getText().equalsIgnoreCase(SchoolConstant.UNITIED_STATES)) {
+						element.click();
+						flag = true;
+						break;
+					}
+				}
+			}
+			
+			//Authority Selection, pick authority name, 
+			schoolPOM.getAuthorityDropdown().click();
+			Thread.sleep(6000);
+			List<WebElement> authorityList = schoolPOM.getAuthorityDropdownList();
+			int aLength = authorityList.size();
+			if (aLength > 0) {
+				for (int i = 0; i <= aLength; i++) {
+					WebElement element = authorityList.get(i);
+					if (element.getText()!= null) {
+						element.click();
+						flag = true;
+						break;
+					}
+				}
+			} else {
+				Assert.assertFalse((subjectLength == 0), "Authority"+LOMTConstant.DROPDOWN_SIZE_NOT_ZERO);
+				return flag;
+			}
+			
+			//Curriculum Selection
+			schoolPOM.getCurriculumSetDropdown().click();
+			Thread.sleep(6000);
+			List<WebElement> curriculumSetList = schoolPOM.getCurriculumSetDropdownList();
+			int csLength = curriculumSetList.size();
+			if (csLength > 0) {
+				for (int i = 0; i <= csLength; i++) {
+					WebElement element = curriculumSetList.get(i);
+					if (element.getText()!= null) {
+						element.click();
+						flag = true;
+						break;
+					}
+				}
+			} else {
+				Assert.assertFalse((subjectLength == 0), "Curriculum Set"+LOMTConstant.DROPDOWN_SIZE_NOT_ZERO);
+				return flag;
+			}
+			
+			//Adopted Year Selection
+			schoolPOM.getAdoptedYear().sendKeys(String.valueOf(year));
+			
+			//Source URL
+			schoolPOM.getCsSourceURL().sendKeys(SchoolConstant.CS_SOURCE_URL);
+			
+			//Curriculum Info URL
+			schoolPOM.getCsInfoURL().sendKeys(SchoolConstant.CS_INFO_URL);
+			
+			jse.executeScript("window.scrollBy(0,500)");
+			
+			commonPOM.getNextButton().click();
+		} catch (Exception e) {
+			flag = false;
+			e.printStackTrace();
+		}
+		return flag;
+	}
+	
+	public boolean getMetaDataFieldsReingestion(int year, SchoolPOM schPOM, CommonPOM commPOM, JavascriptExecutor jse) {
+		boolean flag = false;
+		
+		try {
+			jse.executeScript("window.scrollBy(0, -100)");
+			Thread.sleep(4000);
+			//SUBJECT Selection
+			schPOM.getSubjectDropdown().click();
+			Thread.sleep(6000);
+			List<WebElement> subjectList = schPOM.getSubjectDropdownList();
+			int subjectLength = subjectList.size();
+			if (subjectLength > 0) {
+				for (int i = 0; i <= subjectLength; i++) {
+					WebElement element = subjectList.get(i);
+					if (element.getText().equalsIgnoreCase("Citizenship")) {
+						element.click();
+						flag = true;
+						break;
+					}
+				}
+			} else {
+				Assert.assertFalse((subjectLength == 0), LOMTConstant.SUBJECT+LOMTConstant.DROPDOWN_SIZE_NOT_ZERO);
+				return flag;
+			}
+			
+			//Country selection, as per JIRA: LOMT-1779
+			schPOM.getCountryDropdown().click();
+			Thread.sleep(6000);
+			List<WebElement> countryList = schPOM.getCountryDropdownList();
+			int countryLength = countryList.size();
+			if (countryLength > 0) {
+				for (int i = 0; i <= countryLength; i++) {
+					WebElement element = countryList.get(i);
+					if (element.getText().equalsIgnoreCase("Australia")) {
+						element.click();
+						flag = true;
+						break;
+					}
+				}
+			} else {
+				Assert.assertFalse((countryLength == 0), "Country"+LOMTConstant.DROPDOWN_SIZE_NOT_ZERO);
+				return flag;
+			}
+			
+			//Authority Selection, pick authority name, 
+			schPOM.getAuthorityDropdown().click();
+			Thread.sleep(6000);
+			List<WebElement> authorityList = schPOM.getAuthorityDropdownList();
+			int aLength = authorityList.size();
+			if (aLength > 0) {
+				for (int i = 0; i <= aLength; i++) {
+					WebElement element = authorityList.get(i);
+					if (element.getText()!= null) {
+						element.click();
+						flag = true;
+						break;
+					}
+				}
+			} else {
+				Assert.assertFalse((subjectLength == 0), "Authority"+LOMTConstant.DROPDOWN_SIZE_NOT_ZERO);
+				return flag;
+			}
+			
+			//Curriculum Selection
+			schPOM.getCurriculumSetDropdown().click();
+			Thread.sleep(6000);
+			List<WebElement> curriculumSetList = schPOM.getCurriculumSetDropdownList();
+			int csLength = curriculumSetList.size();
+			if (csLength > 0) {
+				for (int i = 0; i <= csLength; i++) {
+					WebElement element = curriculumSetList.get(i);
+					if (element.getText()!= null) {
+						element.click();
+						flag = true;
+						break;
+					}
+				}
+			} else {
+				Assert.assertFalse((subjectLength == 0), "Curriculum Set"+LOMTConstant.DROPDOWN_SIZE_NOT_ZERO);
+				return flag;
+			}
+			
+			//Adopted Year Selection
+			schPOM.getAdoptedYear().sendKeys(String.valueOf(year));
+			
+			//Source URL
+			schPOM.getCsSourceURL().sendKeys(SchoolConstant.CS_SOURCE_URL);
+			
+			//Curriculum Info URL
+			schPOM.getCsInfoURL().sendKeys(SchoolConstant.CS_INFO_URL);
+			
+			jse.executeScript("window.scrollBy(0,500)");
+			
+			commPOM.getNextButton().click();
+		} catch (Exception e) {
+			flag = false;
+			e.printStackTrace();
+		}
+		return flag;
 	}
 	
 	public void closeDriverInstance() {
