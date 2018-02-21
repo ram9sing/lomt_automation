@@ -417,24 +417,13 @@ public class ReportsTestScript {
 					+ LOMTConstant.EMPTY_SPACE + ReportsConstant.LOMT_1841);
 			// Admin user
 			String reportName = report.createAndDownloadReport(ReportsConstant.SUMMARY_REPORT, ReportsConstant.INGESTED_STANDARD_YEAR,
-					 null, ReportsConstant.INGESTED_PRODUCT, logger);
+					 null, ReportsConstant.INGESTED_STANDARD_YEAR, logger);
 			if (!reportName.isEmpty()) {
 				logger.log(LogStatus.PASS, TestCases.TC_LOMT_1761_01_DOWNLOAD_REPORT_ADMIN);
-				Map<String, List<String>> productCSRepMap = report.verifyReport(reportName,logger);
-					if (!productCSRepMap.isEmpty()) {
-						logger.log(LogStatus.PASS, TestCases.TC_LOMT_1761_05_CORRELATION_VERIFY);
-						boolean verifyFlag1 = report.verifyProductDataUI(productCSRepMap, logger);
-						boolean verifyFlag2 = report.verifyCurriculumStandardDataUI(productCSRepMap, logger);
-							if (verifyFlag1 && verifyFlag2) {
-								logger.log(LogStatus.PASS, TestCases.TC_LOMT_1761_06_REPORT_VERIFY);
-								logger.log(LogStatus.PASS, TestCases.TC_LOMT_1761_07_REPORT_VERIFY_BASIC);
-							} else {
-							logger.log(LogStatus.FAIL, TestCases.TC_LOMT_1761_06_REPORT_VERIFY);
-						}
-					}
-					} else {
-					logger.log(LogStatus.FAIL, TestCases.TC_LOMT_1761_01_DOWNLOAD_REPORT_ADMIN);
-				}
+				report.verifyExportedFile(ReportsConstant.SUMMARY_REPORT, reportName, logger, ReportsConstant.CS_SOURCE_YEAR_UAT,
+						ReportsConstant.CS_TARGET_YEAR_UAT);
+				
+				
 
 				report.logout();
 				userName = report.loginLearningEditor();
@@ -472,7 +461,7 @@ public class ReportsTestScript {
 				report.login();
 
 				reports.endTest(logger);
-				reports.flush();
+				reports.flush();}
 			}
 	
 	@Test(priority = 2)

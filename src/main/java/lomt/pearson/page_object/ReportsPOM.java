@@ -94,6 +94,9 @@ public class ReportsPOM {
 	@FindBy(xpath = "//div[@id='lomtAppId']/div/div/div[2]/div/div[2]/div[5]/div[1]/span")
 	private WebElement gapAnalysisReport;
 	
+	@FindBy(xpath = "//div[@id='lomtAppId']/div/div/div[2]/div/div[2]/div[10]/div[1]/span")
+	private WebElement summaryReport;
+	
 	@FindBy(xpath = "//div[@id='report-target-container']/div[2]/div/div[2]/div[2]/div/div/div[2]/div/span[1]")
 	private WebElement csTargetBtn;
 	
@@ -216,6 +219,10 @@ public class ReportsPOM {
 
 	public WebElement getGapAnalysisReport() {
 		return gapAnalysisReport;
+	}
+	
+	public WebElement getSummaryReport() {
+		return summaryReport;
 	}
 
 	public WebElement getCsTargetBtn() {
