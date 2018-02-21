@@ -154,6 +154,56 @@ public class ReportsConstant {
 	public static String ALIGNMENT = "Alignment";
 	public static String COMMENT = "Comment";
 	
+	//Forward Shared Intermediary Report
+	public static String FOWARD_SHARED_INTERMEDIARY_REPORT = "Forward Shared Intermediary Report";
+	public static String LOMT_1838 = "LOMT-1838";
+	public static String TOC_NAME = "Feldman_Product_TOC_20thFeb_ReportTestData";
+	public static String DISCIPLINE_NAME = "Business";
+	public static String STND_STRANDS = "Automation Report Test";
+	
+	public static String TWO_BY_TWO = "2/2";
+	public static String STRENGTH_COMPLETE ="COMPLETE";
+	public static String ZERO_BY_ZERO = "0/0";
+	public static String NO_CORRELATION ="NO CORRELATION";
+	public static String ZERO_BY_ONE = "0/1";
+	public static String STRENGTH_WEAK ="WEAK";
+	
+	public static String THREE_BY_FOUR = "3/4";
+	public static String STRENGTH_STRONG ="STRONG";
+	public static String THREE_BY_THREE = "3/3";
+	
+	public static String ONE_BY_TWO = "1/2";
+	public static String STRENGTH_AVERAGE = "AVERAGE";
+	
+	public static String ONE_BY_ONE = "1/1";
+	
+	public static String ELA_CP_1 = "ELA.CP.1 - Cognitive process exercised is analyzing Updated.";
+	public static String ELA_CP_2 = "ELA.CP.2 - Cognitive process exercised is analyzing Updated.";
+	
+	public static String TOC_TEST_DATA_1 = "Unit One: Getting Ready to Write";
+	public static String PAGE_START_4 = "4";
+	public static String PAGE_START_6 = "6";
+	
+	public static String CS_LEVEL_1 = "Text Types and Purposes";
+	public static String CS_LEVEL_2 = "Write arguments to support claims in an analysis of substantive topics or texts, using valid reasoning and relevant and sufficient evidence.";
+	public static String CS_LEVEL_3 = "Comprehension and Collaboration";
+	public static String CS_LEVEL_4 = "Prepare for and participate effectively in a range of conversations and collaborations with diverse partners, building on others’ ideas and expressing their own clearly and persuasively.";
+	public static String CS_LEVEL_5 = "Demonstrate command of the conventions of standard English grammar and usage when writing or speaking.";
+	public static String CS_LEVEL_6 = "Abc";
+	
+	public static String UNMET_1 = "ELA.CP.5 -Cognitive process exercised is categorization Updated.";
+	public static String UNMET_2 = "ELA.CP.9 - Cognitive process exercised is decision-making Updated.";
+	public static String UNMET_3 = "ELA.CP.22 - Cognitive process exercised is analyzing Updated.";
+	
+	public static String MET_1 = "ELA.CP.6 - Cognitive process exercised is causation Updated.";
+	public static String MET_2 = "ELA.CP.8 - Cognitive process exercised is creating Updated.";
+	public static String MET_3 = "ELA.CP.7 - Cognitive process exercised is classification Updated.";
+	public static String MET_4 = "ELA.CP.21 - Cognitive process exercised is decision-making Updated.";
+	
+	public static String TOC_1 = "Sitting position for writing";
+	public static String TOC_2 = "Right-handed position for writing";
+	public static String TOC_3 = "Prewriting: Left-to-right progression";
+	public static String COMPONENT_ALIGNMENT = "Common Alignment";
 	//Test data 
 	
 	//Levels, Standards' Topics
@@ -170,6 +220,7 @@ public class ReportsConstant {
 	
 	//Standard Number
 	public static String SN_1 = "W";
+	public static String W_1 = "W.1";
 	public static String SN_2 = "W.1";
 	
 	//Standards' Strands
@@ -197,7 +248,9 @@ public class ReportsConstant {
 	//Target Standards' Number
 	public static String W = "W";
 	public static String SL = "SL";
+	public static String SL_1 = "SL.1";
 	public static String L = "L";
+	public static String L_1 = "L.1";
 	
 	//End Test data
 	
