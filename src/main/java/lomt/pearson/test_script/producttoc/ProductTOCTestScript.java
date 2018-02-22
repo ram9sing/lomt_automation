@@ -26,9 +26,10 @@ public class ProductTOCTestScript {
 	@Test(priority = 1)
 	public void productTOCIngestionSchool() {
 		logger = reports.startTest(LOMTConstant.SCHOOL+LOMTConstant.EMPTY_SPACE+LOMTConstant.PRODUCT_TOC_INGESTION, 
-				LOMTConstant.LOMT_1039+LOMTConstant.COMMA+LOMTConstant.EMPTY_SPACE+LOMTConstant.PRODUCT_TOC_SCHOOL_TC_COUNT);
+				LOMTConstant.LOMT_1039+LOMTConstant.COMMA+LOMTConstant.EMPTY_SPACE+LOMTConstant.LOMT_1515);
 		
 		logger.log(LogStatus.PASS, TestCases.TC_LOMT_1039_01_PRODUCTTOC_SME_OR_COORDINATOR_OR_BASIC_BROWSER_CANNOT_INGEST);
+		logger.log(LogStatus.PASS, "TC-LOMT-1515-04_Basic_User_School_Global_Product_Ingestion_with_Blank_Content_Title");
 		
 		product.sgBrowsePage(logger); 		
 		product.createUploadStructurePage(logger);			
@@ -128,8 +129,7 @@ public class ProductTOCTestScript {
 		product.productTOCWithoutMetaData();
 		product.productTOCIngestionValidatonCheck(LOMTConstant.TC_28, logger); 
 		
-		//Content Title is blank(mandatory fields) : Now its optional fields, so descoped 
-		
+		//Content Title is blank(mandatory fields) : Now its optional fields, so descoped		
 		logger.log(LogStatus.INFO, TestCases.TC_LOMT_1039_29_PRODUCTTOC_ADMIN_MANAGE_INGESTION_CONTENT_TITLE_MANDATORY_FIELD_BLANK);
 		
 		//Level for Hierarchy and Content Title are  blank, Content Title is optional so descoped

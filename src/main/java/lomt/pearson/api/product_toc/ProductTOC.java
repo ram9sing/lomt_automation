@@ -651,10 +651,12 @@ public class ProductTOC extends BaseClass {
 						logger.log(LogStatus.PASS, TestCases.TC_LOMT_1040_09_PRODUCTTOC_ADMIN_VERIFY_INGEST_SUCESS_MESSAGE_ON_THE_CREATE_OR_UPLOAD_A_STRUCTURE_PAGE);
 						logger.log(LogStatus.PASS, TestCases.TC_LOMT_1040_10_PRODUCTTOC_ADMIN_VERIFY_DONE_BUTTON_ON_THE_CREATE_OR_UPLOAD_A_STRUCTURE_PAGE);
 						logger.log(LogStatus.PASS, TestCases.TC_LOMT_1040_11_PRODUCTTOC_ADMIN_INGEST_PRODUCTTOC_PROGRAMTITLE_BLANK_COURSETITLE_BLANK_PRODUCTTITLE_VALUE_NO_ALIGN);
+						logger.log(LogStatus.PASS, "TC-LOMT-1515-02_Admin_User_HE_Product_Ingestion_with_Blank_Content_Title");
 					} else {
 						logger.log(LogStatus.FAIL, TestCases.TC_LOMT_1040_09_PRODUCTTOC_ADMIN_VERIFY_INGEST_SUCESS_MESSAGE_ON_THE_CREATE_OR_UPLOAD_A_STRUCTURE_PAGE);
 						logger.log(LogStatus.FAIL, TestCases.TC_LOMT_1040_10_PRODUCTTOC_ADMIN_VERIFY_DONE_BUTTON_ON_THE_CREATE_OR_UPLOAD_A_STRUCTURE_PAGE);
 						logger.log(LogStatus.FAIL, TestCases.TC_LOMT_1040_11_PRODUCTTOC_ADMIN_INGEST_PRODUCTTOC_PROGRAMTITLE_BLANK_COURSETITLE_BLANK_PRODUCTTITLE_VALUE_NO_ALIGN);
+						logger.log(LogStatus.FAIL, "TC-LOMT-1515-02_Admin_User_HE_Product_Ingestion_with_Blank_Content_Title");
 						jse.executeScript("window.scrollBy(0,-500)");
 						commonPOM.getBackLinkFirst().click();
 					}
@@ -826,11 +828,13 @@ public class ProductTOC extends BaseClass {
 						logger.log(LogStatus.PASS, "TC-LOMT-1041-11_ProductTOC_Admin_Ingest_ProductTOC_ProgramTitle(blank)_CourseTitle(blank)_ProductTitle(value)_No_align");
 						logger.log(LogStatus.PASS, "TC-LOMT-1041-09_ProductTOC_Admin_Verify_Ingest_Sucess_Message on the  Create or upload a structure page");
 						logger.log(LogStatus.PASS, "TC-LOMT-1041-10_ProductTOC_Admin_Verify_DONE_button on the  Create or upload a structure page");
+						logger.log(LogStatus.PASS, "TC-LOMT-1515-03_Admin_User_English_Product_Ingestion_with_Blank_Content_Title");
 						jse.executeScript("window.scrollBy(0,-500)");
 					} else {
 						logger.log(LogStatus.FAIL, "TC-LOMT-1041-11_ProductTOC_Admin_Ingest_ProductTOC_ProgramTitle(blank)_CourseTitle(blank)_ProductTitle(value)_No_align");
 						logger.log(LogStatus.FAIL, "TC-LOMT-1041-09_ProductTOC_Admin_Verify_Ingest_Sucess_Message on the  Create or upload a structure page");
 						logger.log(LogStatus.FAIL, "TC-LOMT-1041-10_ProductTOC_Admin_Verify_DONE_button on the  Create or upload a structure page");
+						logger.log(LogStatus.FAIL, "TC-LOMT-1515-03_Admin_User_English_Product_Ingestion_with_Blank_Content_Title");
 						jse.executeScript("window.scrollBy(0,-500)");
 						commonPOM.getBackLinkFirst().click();
 						Thread.sleep(1000);
@@ -1011,10 +1015,12 @@ public class ProductTOC extends BaseClass {
 						logger.log(LogStatus.PASS, TestCases.TC_LOMT_1039_09_ADMIN_VERIFY_INGEST_SUCESS_MESSAGE_ON_THE_CREATE_OR_UPLOAD_STRUCTURE_PAGE);
 						logger.log(LogStatus.PASS, TestCases.TC_LOMT_1039_10_ADMIN_VERIFY_DONE_BUTTON_ON_THE_CREATE_OR_UPLOAD_STRUCTURE_PAGE);
 						logger.log(LogStatus.PASS, TestCases.TC_LOMT_1039_11_PRODUCTTOC_ADMIN_INGEST_PRODUCTTOC_PROGRAMTITLE_BLANK_COURSETITLE_BLANK_PRODUCTTITLE_VALUE_NO_ALIGN);
+						logger.log(LogStatus.PASS, "TC-LOMT-1515-01_Admin_User_School_Global_Product_Ingestion_with_Blank_Content_Title");
 					} else {
 						logger.log(LogStatus.FAIL, TestCases.TC_LOMT_1039_09_ADMIN_VERIFY_INGEST_SUCESS_MESSAGE_ON_THE_CREATE_OR_UPLOAD_STRUCTURE_PAGE);
 						logger.log(LogStatus.PASS, TestCases.TC_LOMT_1039_10_ADMIN_VERIFY_DONE_BUTTON_ON_THE_CREATE_OR_UPLOAD_STRUCTURE_PAGE);
 						logger.log(LogStatus.FAIL, TestCases.TC_LOMT_1039_11_PRODUCTTOC_ADMIN_INGEST_PRODUCTTOC_PROGRAMTITLE_BLANK_COURSETITLE_BLANK_PRODUCTTITLE_VALUE_NO_ALIGN);
+						logger.log(LogStatus.FAIL, "TC-LOMT-1515-01_Admin_User_School_Global_Product_Ingestion_with_Blank_Content_Title");
 						
 						jse.executeScript("window.scrollBy(0,-500)");
 						commonPOM.getBackLinkFirst().click();
