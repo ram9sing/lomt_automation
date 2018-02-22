@@ -146,15 +146,6 @@ public class ProductTOCTestScript {
 		product.productTOCWithoutMetaData();
 		product.productTOCIngestionValidatonCheck(LOMTConstant.TC_33, logger);  
 		
-		//product.getSchoolBrowsePage();
-		
-		// verify ingested data
-		//product.verifyProductTOCIngestedDataOnResultPage(LOMTConstant.SCHOOL, LOMTConstant.PRODUCT_TOC_XLS_FILE_PATH_1, logger);
-		//product.verifyProductTOCIngestedDataOnResultPage(LOMTConstant.SCHOOL, LOMTConstant.PRODUCT_TOC_XLS_FILE_PATH_2, logger);
-		//product.verifyProductTOCIngestedDataOnResultPage(LOMTConstant.SCHOOL, LOMTConstant.PRODUCT_TOC_XLS_FILE_PATH_3, logger);
-		//product.verifyProductTOCIngestedDataOnResultPage(LOMTConstant.SCHOOL, LOMTConstant.PRODUCT_TOC_XLS_FILE_PATH_4, logger);
-		//product.verifyProductTOCIngestedDataOnResultPage(LOMTConstant.SCHOOL, LOMTConstant.PRODUCT_TOC_XLS_FILE_PATH_5, logger);
-		
 		product.getHomePage();
 		
 		reports.endTest(logger);
@@ -165,7 +156,7 @@ public class ProductTOCTestScript {
 	@Test(priority = 2)
 	public void productTOCIngestionEnglish() {
 		logger = reports.startTest(LOMTConstant.ENGLISH_LOB + LOMTConstant.EMPTY_SPACE+ LOMTConstant.PRODUCT_TOC_INGESTION,
-				LOMTConstant.LOMT_1040 + LOMTConstant.COMMA+ LOMTConstant.EMPTY_SPACE+ LOMTConstant.ENGLISH_TC_COUNT_PRODUCT_TOC);
+				LOMTConstant.LOMT_1040 + LOMTConstant.COMMA+ LOMTConstant.EMPTY_SPACE+ LOMTConstant.LOMT_1515);
 
 		logger.log(LogStatus.PASS, TestCases.TC_LOMT_1040_01_PRODUCTTOC_SME_OR_COORDINATOR_OR_BASIC_BROWSER_CANNOT_INGEST);
 
@@ -228,8 +219,7 @@ public class ProductTOCTestScript {
 	@Test(priority = 3)
 	public void productTOCIngestionHigherEducation() {
 		logger = reports.startTest(LOMTConstant.HE_LOB + LOMTConstant.EMPTY_SPACE + LOMTConstant.PRODUCT_TOC_INGESTION,
-				LOMTConstant.LOMT_1041 + LOMTConstant.COMMA + LOMTConstant.EMPTY_SPACE
-						+ LOMTConstant.HE_TC_COUNT_PRODUCT_TOC);
+				LOMTConstant.LOMT_1041 + LOMTConstant.COMMA + LOMTConstant.EMPTY_SPACE+ LOMTConstant.LOMT_1515);
 
 		logger.log(LogStatus.PASS, "TC-LOMT-1041-01_ProductTOC_SME or Coordinator or Basic Browser cannot ingest");
 		logger.log(LogStatus.PASS, "TC-LOMT-1041-01_ProductTOC_SME or Coordinator or Basic Browser cannot ingest");
