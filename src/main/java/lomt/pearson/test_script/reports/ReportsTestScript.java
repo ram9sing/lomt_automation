@@ -414,56 +414,47 @@ public class ReportsTestScript {
 	//@Test(priority = 1)
 	@Ignore
 	public void summmaryReport() throws Exception {
-			logger = reports.startTest(ReportsConstant.SUMMARY_TEXT + LOMTConstant.COMMA
-					+ LOMTConstant.EMPTY_SPACE + ReportsConstant.LOMT_1841);
-			// Admin user
-			String reportName = report.createAndDownloadReport(ReportsConstant.SUMMARY_REPORT, ReportsConstant.INGESTED_STANDARD_YEAR,
-					 null, ReportsConstant.INGESTED_STANDARD_YEAR, logger);
-			if (!reportName.isEmpty()) {
-				logger.log(LogStatus.PASS, TestCases.TC_LOMT_1761_01_DOWNLOAD_REPORT_ADMIN);
-				report.verifyExportedFile(ReportsConstant.SUMMARY_REPORT, reportName, logger, ReportsConstant.CS_SOURCE_YEAR_UAT, null,
-						ReportsConstant.CS_TARGET_YEAR_UAT);
-				
-				
-
-				report.logout();
-				userName = report.loginLearningEditor();
-				boolean coordinatorReportFlag = report.searchAndExportReport(reportName,userName);
-				if (coordinatorReportFlag) {
-					logger.log(LogStatus.PASS, TestCases.TC_LOMT_1761_03_DOWNLOAD_REPORT_COORDINATOR);
-				} else {
-					logger.log(LogStatus.FAIL, TestCases.TC_LOMT_1761_03_DOWNLOAD_REPORT_COORDINATOR);
-				}
-
-				// SME User
-				report.logout();
-				userName = report.loginLearingSME();
-				boolean smeReportFlag = report.searchAndExportReport(reportName,userName);
-				if (smeReportFlag) {
-					logger.log(LogStatus.PASS, TestCases.TC_LOMT_1761_02_DOWNLOAD_REPORT_SME);
-				} else {
-					logger.log(LogStatus.FAIL, TestCases.TC_LOMT_1761_02_DOWNLOAD_REPORT_SME);
-				}
-
-				// Basic User
-				report.logout();
-				userName = report.loginLearningUser();
-				boolean basicReportFlag = report.searchAndExportReport(reportName,userName);
-				if (basicReportFlag) {
-					logger.log(LogStatus.PASS, TestCases.TC_LOMT_1761_04_DOWNLOAD_REPORT_BASIC);
-				} else {
-					logger.log(LogStatus.FAIL, TestCases.TC_LOMT_1761_04_DOWNLOAD_REPORT_BASIC);
-				}
-				
-				logger.log(LogStatus.INFO, TestCases.TC_LOMT_1761_08_SCAPI_URL_VERIFY);
-				logger.log(LogStatus.INFO, TestCases.TC_LOMT_1761_09_SCAPI_DATA_VERIFY);
-				//Login with Admin user again for next report
-				report.logout();
-				report.login();
-
-				reports.endTest(logger);
-				reports.flush();}
+		logger = reports.startTest(ReportsConstant.SUMMARY_TEXT + LOMTConstant.COMMA
+				+ LOMTConstant.EMPTY_SPACE + ReportsConstant.LOMT_1841);
+		// Admin user
+		String reportName = report.createAndDownloadReport(ReportsConstant.SUMMARY_REPORT, ReportsConstant.CS_SOURCE_YEAR_UAT,
+				 null, ReportsConstant.CS_TARGET_YEAR_UAT, logger);
+		if (!reportName.isEmpty()) {
+			logger.log(LogStatus.PASS, "TC_LOMT-1841-01_All_User_Reports&Exports_download_Summary Report");
+			report.verifyExportedFile(ReportsConstant.SUMMARY_REPORT, reportName, logger, ReportsConstant.CS_SOURCE_YEAR_UAT,
+					null,ReportsConstant.CS_TARGET_YEAR_UAT);
+			
+			//Coordinator User
+			report.logout();
+			userName = report.loginLearningEditor();
+			boolean coordinatorReportFlag = report.searchAndExportReport(reportName,userName);
+			if (!coordinatorReportFlag) {
+				logger.log(LogStatus.FAIL, "TC_LOMT-1841-01_All_User_Reports&Exports_download_Summary Report");
 			}
+
+			// SME User
+			report.logout();
+			userName = report.loginLearingSME();
+			boolean smeReportFlag = report.searchAndExportReport(reportName,userName);
+			if (!smeReportFlag) {
+				logger.log(LogStatus.FAIL, "TC_LOMT-1841-01_All_User_Reports&Exports_download_Summary Report");
+			}
+
+			// Basic User
+			report.logout();
+			userName = report.loginLearningUser();
+			boolean basicReportFlag = report.searchAndExportReport(reportName,userName);
+			if (!basicReportFlag) {
+				logger.log(LogStatus.FAIL, "TC_LOMT-1841-01_All_User_Reports&Exports_download_Summary Report");
+			}
+			
+			//Login with Admin user again for next report
+			report.logout();
+			report.login();
+
+			reports.endTest(logger);
+			reports.flush();}
+		}
 	
 	@Test(priority = 1)
 	public void forwardSharedIntermediaryReport() {
