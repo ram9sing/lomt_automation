@@ -492,31 +492,39 @@ public class ReportsTestScript {
 		report.logout();
 		String userNameCoordinator = report.loginLearningEditor();
 		boolean coordinatorReportFlag = report.searchAndExportReport(reportName, userNameCoordinator);
-		if (coordinatorReportFlag) {
-			logger.log(LogStatus.PASS,"TC_LOMT-1840-04_For_SchoolGlobal_download_GAP_Analysis_StandardToStandard_Report_For_Coordinator");
-		} else {
-			logger.log(LogStatus.FAIL,"TC_LOMT-1840-04_For_SchoolGlobal_download_GAP_Analysis_StandardToStandard_Report_For_Coordinator");
-		}
 		
 		// SME User
-		report.logout();
-		
+		report.logout();		
 		String userNameSME = report.loginLearingSME();
 		boolean smeReportFlag = report.searchAndExportReport(reportName, userNameSME);
-		if (smeReportFlag) {
-			logger.log(LogStatus.PASS,"TC_LOMT-1840-03_For_SchoolGlobal_download_GAP_Analysis_StandardToStandard_Report_for_SME");
-		} else {
-			logger.log(LogStatus.FAIL,"TC_LOMT-1840-03_For_SchoolGlobal_download_GAP_Analysis_StandardToStandard_Report_for_SME");
-		}
 		
 		//BasicBrowser User
 		report.logout();
 		String userNameBasic = report.loginLearningUser();
 		boolean basicReportFlag = report.searchAndExportReport(reportName, userNameBasic);
-		if (basicReportFlag) {
-			logger.log(LogStatus.PASS,"TC_LOMT-1840-02_For_SchoolGlobal_download_GAP_Analysis_StandardToStandard_Report_for_basicUser");
+		
+		if (coordinatorReportFlag && smeReportFlag && basicReportFlag) {
+			logger.log(LogStatus.PASS,"TC_LOMT-1838-02_Basic_SME_Coordinator_User_School_Global_Report_Export_Download_Forward_Direct_Report");
+			logger.log(LogStatus.PASS,"TC_LOMT-1838-04_Basic_SME_Coordinator_User_School_Global_Report_Export_Download_Forward_Direct_Report");
+			logger.log(LogStatus.PASS,"TC_LOMT-1838-06_Basic_SME_Coordinator_User_School_Global_Report_Export_Download_Forward_Direct_Report");
+			logger.log(LogStatus.PASS,"TC_LOMT-1838-08_Basic_SME_Coordinator_User_School_Global_Report_Export_Download_Forward_Direct_Report");
+			logger.log(LogStatus.PASS,"TC_LOMT-1838-10_Basic_SME_Coordinator_User_School_Global_Report_Export_Download_Forward_Direct_Report");
+			logger.log(LogStatus.PASS,"TC_LOMT-1838-12_Basic_SME_Coordinator_User_School_Global_Report_Export_Download_Forward_Direct_Report");
+			logger.log(LogStatus.PASS,"TC_LOMT-1838-12_Basic_SME_Coordinator_User_School_Global_Report_Export_Download_Forward_Direct_Report");
+			logger.log(LogStatus.PASS,"TC_LOMT-1838-14_Basic_SME_Cooedinator_User_School_Global_Report_Export_Download_Forward_Direct_Report");
+			logger.log(LogStatus.PASS,"TC_LOMT-1838-16_Basic_SME_Coordinator_User_School_Global_Report_Export_Download_Forward_Direct_Report");
+			logger.log(LogStatus.PASS,"TC_LOMT-1838-18_Basic_SME_User_School_Global_Report_Export_Download_Forward_Direct_Report");
 		} else {
-			logger.log(LogStatus.FAIL,"TC_LOMT-1840-02_For_SchoolGlobal_download_GAP_Analysis_StandardToStandard_Report_for_basicUser");
+			logger.log(LogStatus.FAIL,"TC_LOMT-1838-02_Basic_SME_Coordinator_User_School_Global_Report_Export_Download_Forward_Direct_Report");
+			logger.log(LogStatus.FAIL,"TC_LOMT-1838-04_Basic_SME_Coordinator_User_School_Global_Report_Export_Download_Forward_Direct_Report");
+			logger.log(LogStatus.FAIL,"TC_LOMT-1838-06_Basic_SME_Coordinator_User_School_Global_Report_Export_Download_Forward_Direct_Report");
+			logger.log(LogStatus.FAIL,"TC_LOMT-1838-08_Basic_SME_Coordinator_User_School_Global_Report_Export_Download_Forward_Direct_Report");
+			logger.log(LogStatus.FAIL,"TC_LOMT-1838-10_Basic_SME_Coordinator_User_School_Global_Report_Export_Download_Forward_Direct_Report");
+			logger.log(LogStatus.FAIL,"TC_LOMT-1838-12_Basic_SME_Coordinator_User_School_Global_Report_Export_Download_Forward_Direct_Report");
+			logger.log(LogStatus.FAIL,"TC_LOMT-1838-12_Basic_SME_Coordinator_User_School_Global_Report_Export_Download_Forward_Direct_Report");
+			logger.log(LogStatus.FAIL,"TC_LOMT-1838-14_Basic_SME_Cooedinator_User_School_Global_Report_Export_Download_Forward_Direct_Report");
+			logger.log(LogStatus.FAIL,"TC_LOMT-1838-16_Basic_SME_Coordinator_User_School_Global_Report_Export_Download_Forward_Direct_Report");
+			logger.log(LogStatus.FAIL,"TC_LOMT-1838-18_Basic_SME_User_School_Global_Report_Export_Download_Forward_Direct_Report");
 		}
 		
 		reports.endTest(logger);

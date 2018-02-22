@@ -4937,16 +4937,15 @@ public class Reports extends BaseClass {
 						logger.log(LogStatus.FAIL, "TC_LOMT-1838 Strength(CS) doesn't match at row number at row number : "+row.getRowNum());
 					}
 				}
-				
-				if (count == 0) {
-					logger.log(LogStatus.PASS, "TC_LOMT-1838-09_Admin_User_School_Global_Report_Export_Download_Forward_Direct_Report");
-					logger.log(LogStatus.PASS, "TC_LOMT-1838-11_Admin_User_School_Global_Report_Export_Download_Forward_Direct_Report");
-					logger.log(LogStatus.PASS, "TC_LOMT-1838-17_Admin_User_School_Global_Report_Export_Download_Forward_Direct_Report");
-				} else {
-					logger.log(LogStatus.FAIL, "TC_LOMT-1838-09_Admin_User_School_Global_Report_Export_Download_Forward_Direct_Report");
-					logger.log(LogStatus.FAIL, "TC_LOMT-1838-11_Admin_User_School_Global_Report_Export_Download_Forward_Direct_Report");
-					logger.log(LogStatus.FAIL, "TC_LOMT-1838-17_Admin_User_School_Global_Report_Export_Download_Forward_Direct_Report");
-				}
+			}
+			if (count == 0) {
+				logger.log(LogStatus.PASS, "TC_LOMT-1838-09_Admin_User_School_Global_Report_Export_Download_Forward_Direct_Report");
+				logger.log(LogStatus.PASS, "TC_LOMT-1838-11_Admin_User_School_Global_Report_Export_Download_Forward_Direct_Report");
+				logger.log(LogStatus.PASS, "TC_LOMT-1838-17_Admin_User_School_Global_Report_Export_Download_Forward_Direct_Report");
+			} else {
+				logger.log(LogStatus.FAIL, "TC_LOMT-1838-09_Admin_User_School_Global_Report_Export_Download_Forward_Direct_Report");
+				logger.log(LogStatus.FAIL, "TC_LOMT-1838-11_Admin_User_School_Global_Report_Export_Download_Forward_Direct_Report");
+				logger.log(LogStatus.FAIL, "TC_LOMT-1838-17_Admin_User_School_Global_Report_Export_Download_Forward_Direct_Report");
 			}
 		} catch (Exception e) {
 			logger.log(LogStatus.FAIL, "TC_LOMT-1838 Error occured during data verification : ");
