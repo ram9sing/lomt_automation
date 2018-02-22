@@ -469,16 +469,13 @@ public class ReportsTestScript {
 	public void forwardSharedIntermediaryReport() {
 		logger = reports.startTest(ReportsConstant.FOWARD_SHARED_INTERMEDIARY_REPORT+LOMTConstant.COMMA+LOMTConstant.EMPTY_SPACE+ReportsConstant.LOMT_1838);
 		
-		logger.log(LogStatus.PASS, "TC_LOMT-1838-01_Admin_User_School_Global_Report_Export_Download_Forward_Direct_Report"); // user navigate to report edit page
-		logger.log(LogStatus.PASS, "TC_LOMT-1838-03_Admin_User_School_Global_Report_Export_Download_Forward_Direct_Report"); // user selects download option and it starts immediatly
-		logger.log(LogStatus.PASS, "TC_LOMT-1838-05_Admin_User_School_Global_Report_Export_Download_Forward_Direct_Report"); // download starts immediatly (done)
-		
-		// Admin user, todo
-		/*String reportName = report.createAndDownloadReport(ReportsConstant.FOWARD_SHARED_INTERMEDIARY_REPORT,
-				ReportsConstant.INGESTED_STANDARD_YEAR, null, ReportsConstant.INGESTED_PRODUCT, logger);*/
-		String reportName = "Forward Shared Intermediary Report-finalTestdata";
+		// Admin user 
+		String reportName = report.createAndDownloadReport(ReportsConstant.FOWARD_SHARED_INTERMEDIARY_REPORT,
+				ReportsConstant.CS_TARGET_YEAR_UAT, ReportsConstant.DISCIPLINE_NAME, ReportsConstant.TOC_NAME, logger);
 		if (!reportName.isEmpty()) {
-			// todo - add logger 
+			logger.log(LogStatus.PASS, "TC_LOMT-1838-03_Admin_User_School_Global_Report_Export_Download_Forward_Direct_Report"); 
+			logger.log(LogStatus.PASS, "TC_LOMT-1838-05_Admin_User_School_Global_Report_Export_Download_Forward_Direct_Report"); 
+			
 			report.verifyExportedFile(ReportsConstant.FOWARD_SHARED_INTERMEDIARY_REPORT, reportName, logger,
 					ReportsConstant.CS_TARGET_YEAR_UAT, ReportsConstant.DISCIPLINE_NAME, ReportsConstant.TOC_NAME);
 		} else {

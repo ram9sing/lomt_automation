@@ -1735,7 +1735,7 @@ public class Reports extends BaseClass {
 		JavascriptExecutor jse = (JavascriptExecutor) driver;
 		String reportName = null;
 		try {
-			reportName = createAndDownloadReport(reportType, source, pivot, target, wait, jse);
+			reportName = createAndDownloadReport(reportType, source, pivot, target, wait, jse, logger);
 		} catch (Exception e) {
 			logger.log(LogStatus.FAIL, "Forward Indirect Intermediary Report either Creation or download is failed");
 			return reportName;
@@ -1744,7 +1744,7 @@ public class Reports extends BaseClass {
 	}
 
 	public String createAndDownloadReport(String reportType, String source, String pivot, String target,
-			WebDriverWait wait, JavascriptExecutor jse) throws IOException, InterruptedException {
+			WebDriverWait wait, JavascriptExecutor jse, ExtentTest logger) throws IOException, InterruptedException {
 		String reportName = null;
 		commonPOM.getSchoolGlobalLOB().click();
 		schoolPOM.getCurriculumSt().click();
@@ -1838,6 +1838,30 @@ public class Reports extends BaseClass {
 			wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
 			
 			reportName = ReportsConstant.SUMMARY_TEXT + "-"+ String.valueOf(1300 + (int) Math.round(Math.random() * (1000 - 1100)));
+		}
+		if (reportType.equalsIgnoreCase(ReportsConstant.FOWARD_SHARED_INTERMEDIARY_REPORT)) {
+			jse.executeScript("window.scrollBy(0, 500)");
+			reportsPOM.getForwardSharedIntermediaryReport().click();
+			wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+			
+			clickIngestedIntermediaryDiscipline(pivot);
+			reportsPOM.getSchoolModelWindowNextButton().click();
+			wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+			Thread.sleep(3000);
+			
+			productTocPOM.getEnterSearchTerm().sendKeys(target);
+			productTocPOM.getUpdateResultButton().click();
+			wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+			
+			jse.executeScript("window.scrollBy(0,400)");
+			reportsPOM.getSelectTarget().click();
+			wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+			
+			reportsPOM.getSchoolModelWindowNextButton().click();
+			wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+			
+			reportName = ReportsConstant.FOWARD_SHARED_INTERMEDIARY_REPORT + "-"+ String.valueOf(1300 + (int) Math.round(Math.random() * (1000 - 1100)));
+			logger.log(LogStatus.PASS, "TC_LOMT-1838-01_Admin_User_School_Global_Report_Export_Download_Forward_Direct_Report"); 
 		}
 		
 		System.out.println(reportType+ " : "+reportName);

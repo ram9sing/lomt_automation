@@ -100,6 +100,9 @@ public class ReportsPOM {
 	@FindBy(xpath = "//div[@id='report-target-container']/div[2]/div/div[2]/div[2]/div/div/div[2]/div/span[1]")
 	private WebElement csTargetBtn;
 	
+	@FindBy(xpath = "//div[@id='lomtAppId']/div/div/div[2]/div/div[2]/div[7]/div[1]/span")
+	private WebElement forwardSharedIntermediaryReport;
+	
 	public ReportsPOM(WebDriver driver) {
 		this.driver = driver;
 		PageFactory.initElements(driver, this);
@@ -227,6 +230,10 @@ public class ReportsPOM {
 
 	public WebElement getCsTargetBtn() {
 		return csTargetBtn;
+	}
+
+	public WebElement getForwardSharedIntermediaryReport() {
+		return forwardSharedIntermediaryReport;
 	}
 
 }
