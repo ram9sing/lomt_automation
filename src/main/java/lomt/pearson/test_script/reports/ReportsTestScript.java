@@ -501,7 +501,6 @@ public class ReportsTestScript {
 			logger.log(LogStatus.PASS,"TC_LOMT-1838-08_Basic_SME_Coordinator_User_School_Global_Report_Export_Download_Forward_Direct_Report");
 			logger.log(LogStatus.PASS,"TC_LOMT-1838-10_Basic_SME_Coordinator_User_School_Global_Report_Export_Download_Forward_Direct_Report");
 			logger.log(LogStatus.PASS,"TC_LOMT-1838-12_Basic_SME_Coordinator_User_School_Global_Report_Export_Download_Forward_Direct_Report");
-			logger.log(LogStatus.PASS,"TC_LOMT-1838-12_Basic_SME_Coordinator_User_School_Global_Report_Export_Download_Forward_Direct_Report");
 			logger.log(LogStatus.PASS,"TC_LOMT-1838-14_Basic_SME_Cooedinator_User_School_Global_Report_Export_Download_Forward_Direct_Report");
 			logger.log(LogStatus.PASS,"TC_LOMT-1838-16_Basic_SME_Coordinator_User_School_Global_Report_Export_Download_Forward_Direct_Report");
 			logger.log(LogStatus.PASS,"TC_LOMT-1838-18_Basic_SME_User_School_Global_Report_Export_Download_Forward_Direct_Report");
@@ -511,7 +510,6 @@ public class ReportsTestScript {
 			logger.log(LogStatus.FAIL,"TC_LOMT-1838-06_Basic_SME_Coordinator_User_School_Global_Report_Export_Download_Forward_Direct_Report");
 			logger.log(LogStatus.FAIL,"TC_LOMT-1838-08_Basic_SME_Coordinator_User_School_Global_Report_Export_Download_Forward_Direct_Report");
 			logger.log(LogStatus.FAIL,"TC_LOMT-1838-10_Basic_SME_Coordinator_User_School_Global_Report_Export_Download_Forward_Direct_Report");
-			logger.log(LogStatus.FAIL,"TC_LOMT-1838-12_Basic_SME_Coordinator_User_School_Global_Report_Export_Download_Forward_Direct_Report");
 			logger.log(LogStatus.FAIL,"TC_LOMT-1838-12_Basic_SME_Coordinator_User_School_Global_Report_Export_Download_Forward_Direct_Report");
 			logger.log(LogStatus.FAIL,"TC_LOMT-1838-14_Basic_SME_Cooedinator_User_School_Global_Report_Export_Download_Forward_Direct_Report");
 			logger.log(LogStatus.FAIL,"TC_LOMT-1838-16_Basic_SME_Coordinator_User_School_Global_Report_Export_Download_Forward_Direct_Report");
