@@ -34,7 +34,7 @@ public class EnglishGSETestScript {
 				LOMTConstant.LOMT_1008+LOMTConstant.COMMA+LOMTConstant.EMPTY_SPACE+
 				LOMTConstant.LOMT_1448+LOMTConstant.COMMA+LOMTConstant.EMPTY_SPACE+
 				"LOMT-458"+LOMTConstant.COMMA+LOMTConstant.EMPTY_SPACE+
-				"LOMT-1154"+LOMTConstant.COMMA+LOMTConstant.EMPTY_SPACE+"LOMT-968");
+				"LOMT-1154"+LOMTConstant.COMMA+LOMTConstant.EMPTY_SPACE+"LOMT-968"+LOMTConstant.COMMA+LOMTConstant.EMPTY_SPACE+"LOMT-1197");
 		
 		logger.log(LogStatus.PASS, "TC-LOMT-11-01_SME or Coordinator or Basic Browser cannot ingest");
 		
@@ -106,7 +106,7 @@ public class EnglishGSETestScript {
 	
 	@Test(priority = 2)
 	public void englishGSEEducationalGoalExport() throws Exception {
-		logger = reports.startTest("English GSE Export", "LOMT-253, LOMT-1154");
+		logger = reports.startTest("English GSE Export", "LOMT-253, LOMT-1154, LOMT-1197");
 		
 		gseIngestion.gseEducationalGoalFrameworkExport(logger);
 		

@@ -715,6 +715,8 @@ public class EnglishGSE extends BaseClass {
 					logger.log(LogStatus.PASS, "LOMT-1154-04 v1.2.4_GSE_Export");
 					logger.log(LogStatus.PASS, "LOMT-1154-05 v1.2.4_GSE_Export");
 					logger.log(LogStatus.PASS, "LOMT-1154-06 v1.2.5_GSE_Export");
+					logger.log(LogStatus.PASS, "LOMT v1.2.4_LOMT-1197-03_GSE_Export");
+					logger.log(LogStatus.PASS, "LOMT v1.2.4_LOMT-1197-04_GSE_Export");
 				} else {
 					logger.log(LogStatus.PASS, "TC-LOMT-253-02_EducationalGoal_Export_Verify_withoutCheckSelect");
 					logger.log(LogStatus.PASS, "TC-LOMT-253-03_EducationalGoal_Export");
@@ -726,6 +728,8 @@ public class EnglishGSE extends BaseClass {
 					logger.log(LogStatus.FAIL, "LOMT-1154-04 v1.2.4_GSE_Export");
 					logger.log(LogStatus.FAIL, "LOMT-1154-05 v1.2.4_GSE_Export");
 					logger.log(LogStatus.FAIL, "LOMT-1154-06 v1.2.5_GSE_Export");
+					logger.log(LogStatus.FAIL, "LOMT v1.2.4_LOMT-1197-03_GSE_Export");
+					logger.log(LogStatus.FAIL, "LOMT v1.2.4_LOMT-1197-04_GSE_Export");
 					
 					logger.log(LogStatus.FAIL, "DUPLICATE DESCRIPTIVE ID FOUND GSE SPREADSHEET");
 				}
@@ -779,6 +783,9 @@ public class EnglishGSE extends BaseClass {
 			logger.log(LogStatus.PASS, "TC-LOMT-968-03__English_GSE_Reingestion_goalFramework_Admin_role");
 			logger.log(LogStatus.PASS, "TC-LOMT-968-04__English_GSE_Browse_goalFramework_Admin_role");
 			logger.log(LogStatus.PASS, "TC-LOMT-968-05__English_GSE_Edit_goalFramework_Admin_role");
+			
+			logger.log(LogStatus.PASS, "LOMT v1.2.4_LOMT-1197-01_GSE_Ingest");
+			logger.log(LogStatus.PASS, "LOMT v1.2.4_LOMT-1197-02_GSE_Ingest");
 		} else {
 			logger.log(LogStatus.FAIL, TestCases.TC_LOMT_1488_06_ADMIN_VERIFY_REINGEST_SUCESS_MESSAGE_ON_THE_CREATE_OR_UPLOAD_A_STRUCTURE_PAGE_ACADEMIC_SKILLS_VALUE);
 			
@@ -816,6 +823,9 @@ public class EnglishGSE extends BaseClass {
 			logger.log(LogStatus.FAIL, "TC-LOMT-968-03__English_GSE_Reingestion_goalFramework_Admin_role");
 			logger.log(LogStatus.FAIL, "TC-LOMT-968-04__English_GSE_Browse_goalFramework_Admin_role");
 			logger.log(LogStatus.FAIL, "TC-LOMT-968-05__English_GSE_Edit_goalFramework_Admin_role");
+			
+			logger.log(LogStatus.FAIL, "LOMT v1.2.4_LOMT-1197-01_GSE_Ingest");
+			logger.log(LogStatus.FAIL, "LOMT v1.2.4_LOMT-1197-02_GSE_Ingest");
 		}
 	}
 	
