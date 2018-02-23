@@ -831,14 +831,14 @@ public class ReadExternalFrameworkFile {
 									}
 								}
 
-								// Grade Title
-								if (!(String.valueOf(rowExp.getCell(LOMTConstant.THREE)).contains("null"))
+								// Grade Title - descoped
+								/*if (!(String.valueOf(rowExp.getCell(LOMTConstant.THREE)).contains("null"))
 										&& !(String.valueOf(rowAct.getCell(LOMTConstant.THREE)).contains("null"))) {
 
 									Assert.assertEquals(String.valueOf(rowExp.getCell(LOMTConstant.THREE).getStringCellValue().trim()),
 											String.valueOf(rowAct.getCell(LOMTConstant.THREE).getStringCellValue()).trim());
 									heExFMap.put(LOMTConstant.GRADE_TITLE, true);
-								}
+								}*/
 
 								// Offical Standard Code
 								if (!(String.valueOf(rowExp.getCell(LOMTConstant.FOUR)).contains("null"))

@@ -1841,7 +1841,8 @@ public class ExternalFramework2 extends BaseClass {
 			try {
 				commonPOM.getHeLOB().click();
 				exfPOM.getExternalFrameworkStructureBrowseHE().click();
-				Thread.sleep(20000);
+				wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+				Thread.sleep(7000);
 				
 				JavascriptExecutor jse = (JavascriptExecutor) driver;
 				jse.executeScript("window.scrollBy(0,500)");
@@ -1903,7 +1904,8 @@ public class ExternalFramework2 extends BaseClass {
 			try {
 				commonPOM.getEnglishLOB().click();
 				exfPOM.getExternalFrameworkStructureBrowseEnglish().click();
-				Thread.sleep(20000);
+				wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+				Thread.sleep(7000);
 				
 				JavascriptExecutor jse = (JavascriptExecutor) driver;
 				jse.executeScript("window.scrollBy(0,500)");
@@ -1966,6 +1968,7 @@ public class ExternalFramework2 extends BaseClass {
 				commonPOM.getSchoolGlobalLOB().click();
 				schoolPOM.getCurriculumSt().click();
 				wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+				Thread.sleep(7000);
 				
 				JavascriptExecutor jse = (JavascriptExecutor) driver;
 				jse.executeScript("window.scrollBy(0,450)");
@@ -2534,7 +2537,7 @@ public class ExternalFramework2 extends BaseClass {
 			commonPOM.getHeLOB().click();
 			exfPOM.getExternalFrameworkStructureBrowseHE().click();
 			wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
-			//Thread.sleep(15000);
+			Thread.sleep(5000);
 			
 			JavascriptExecutor jse = (JavascriptExecutor) driver;
 			jse.executeScript("window.scrollBy(0,450)");
@@ -2544,8 +2547,7 @@ public class ExternalFramework2 extends BaseClass {
 
 			Assert.assertTrue(hePom.getHeUpdateResultButton().isEnabled());
 			hePom.getHeUpdateResultButton().click();
-			Thread.sleep(10000);
-			//Thread.sleep(10000);
+			wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
 			
 			Assert.assertTrue(schoolPOM.getAction().isDisplayed());
 			schoolPOM.getAction().click();
@@ -2554,15 +2556,11 @@ public class ExternalFramework2 extends BaseClass {
 			// removing existing files from the download directory
 			readExternalFrameworkFile.removeExistingFile(); 
 			
-			Thread.sleep(2000);
 			Assert.assertTrue(hePom.getHeEXFExport().isDisplayed());
 			hePom.getHeEXFExport().click();
-
-			//Thread.sleep(60000);
-			Thread.sleep(20000);
+			wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+			
 			hePom.getHeEnterSearchTerm().clear();
-			//commonPOM.getPearsonLogo().click();
-			Thread.sleep(1000);
 			
 			jse.executeScript("window.scrollBy(0, -500)");
 			
@@ -2632,7 +2630,7 @@ public class ExternalFramework2 extends BaseClass {
 			commonPOM.getEnglishLOB().click();
 			exfPOM.getExternalFrameworkStructureBrowseEnglish().click();
 			wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
-			//Thread.sleep(20000);
+			Thread.sleep(5000);
 			
 			JavascriptExecutor jse = (JavascriptExecutor) driver;
 			jse.executeScript("window.scrollBy(0,450)");
@@ -2642,7 +2640,7 @@ public class ExternalFramework2 extends BaseClass {
 
 			Assert.assertTrue(hePom.getHeUpdateResultButton().isEnabled());
 			hePom.getHeUpdateResultButton().click();
-			Thread.sleep(10000);
+			wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
 			
 			Assert.assertTrue(schoolPOM.getAction().isDisplayed());
 			schoolPOM.getAction().click();
@@ -2654,12 +2652,9 @@ public class ExternalFramework2 extends BaseClass {
 			Thread.sleep(2000);
 			Assert.assertTrue(hePom.getHeEXFExport().isDisplayed());
 			hePom.getHeEXFExport().click();
-
-			//Thread.sleep(60000);
-			Thread.sleep(15000);
+			wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+			
 			hePom.getHeEnterSearchTerm().clear();
-			//commonPOM.getPearsonLogo().click();
-			Thread.sleep(2000);
 			
 			jse.executeScript("window.scrollBy(0, -500)");
 			
@@ -2729,7 +2724,7 @@ public class ExternalFramework2 extends BaseClass {
 			commonPOM.getSchoolGlobalLOB().click();
 			exfPOM.getCurriculumStandardStructureBrowseSchool().click();
 			wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
-			//Thread.sleep(20000);
+			Thread.sleep(5000);
 			
 			JavascriptExecutor jse = (JavascriptExecutor) driver;
 			jse.executeScript("window.scrollBy(0,450)");
@@ -2744,11 +2739,10 @@ public class ExternalFramework2 extends BaseClass {
 			Assert.assertTrue(hePom.getHeUpdateResultButton().isEnabled());
 			hePom.getHeUpdateResultButton().click();
 			wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
-			//Thread.sleep(10000);
 			
 			Assert.assertTrue(schoolPOM.getAction().isDisplayed());
 			schoolPOM.getAction().click();
-			//Thread.sleep(2000);
+			Thread.sleep(1000);
 			
 			// removing existing files from the download directory
 			readExternalFrameworkFile.removeExistingFile(); 
@@ -2756,7 +2750,7 @@ public class ExternalFramework2 extends BaseClass {
 			Assert.assertTrue(hePom.getHeEXFExport().isDisplayed());
 			hePom.getHeEXFExport().click();
 			wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
-
+			
 			hePom.getHeEnterSearchTerm().clear();
 			
 			jse.executeScript("window.scrollBy(0, -500)");

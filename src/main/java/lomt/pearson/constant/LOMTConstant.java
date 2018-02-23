@@ -322,6 +322,7 @@ public class LOMTConstant {
 	public static String LOMT_1040 = "LOMT-1040";
 	public static String LOMT_1041 = "LOMT-1041";
 	public static String LOMT_1515 = "LOMT-1515";
+	public static String LOMT_684 = "LOMT-684";
 	public static String EMPTY_SPACE = " ";
 	public static String TC_COUNT_PRODUCT_TOC = "Total 38 TCs";
 	public static String PRODUCT_TOC_SCHOOL_TC_COUNT = "Total 33 TCs";

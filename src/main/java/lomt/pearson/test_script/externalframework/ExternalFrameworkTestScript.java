@@ -13,9 +13,9 @@ import com.relevantcodes.extentreports.LogStatus;
 public class ExternalFrameworkTestScript {
 	
 	private static int year = 0;
-	private static int startYear = 2080;
-	private static int endYear = 2090;
-	private static int reIngestionYear = 21;
+	private static int startYear = 2060;
+	private static int endYear = 2070;
+	private static int reIngestionYear = 41;
 	private static int yearNthLevel = 0;
 	
 	ExtentTest logger;
@@ -207,7 +207,7 @@ public class ExternalFrameworkTestScript {
 	public void metaDataExternalFramework() {
 		logger = reports.startTest(LOMTConstant.META_DATA+LOMTConstant.EMPTY_SPACE+LOMTConstant.EXTERNAL_FRAMEWORK_INGESTION, 
 				LOMTConstant.LOMT_1358+LOMTConstant.COMMA+LOMTConstant.EMPTY_SPACE+" TC count is 26");
-		//School
+		
 		exf.metaDataExternalFramework(logger);
 		
 		reports.endTest(logger);
@@ -231,7 +231,7 @@ public class ExternalFrameworkTestScript {
 		logger.log(LogStatus.PASS, TestCases.TC_LOMT_1408_01_BASICBROWSECANNOT_EXPORT_HE);
 		exf.exportExternalFramework(LOMTConstant.HE_LOB, logger, 0); 
 
-		//logger.log(LogStatus.PASS, TestCases.TC_LOMT_1408_19_BASICBROWSECANNOT_EXPORT_ENGLISH);
+		logger.log(LogStatus.PASS, TestCases.TC_LOMT_1408_19_BASICBROWSECANNOT_EXPORT_ENGLISH);
 		exf.exportExternalFramework(LOMTConstant.ENGLISH_LOB, logger, 0); 
 
 		logger.log(LogStatus.PASS, TestCases.TC_LOMT_1408_37_BASICBROWSECANNOT_EXPORT_SCHOOL);
@@ -247,8 +247,7 @@ public class ExternalFrameworkTestScript {
 				LOMTConstant.LOMT_1409 + LOMTConstant.COMMA + LOMTConstant.EMPTY_SPACE + LOMTConstant.TC_COUNT_EXF_HE);
 		
 		exf.searchAndExportExFFileReingestion(LOMTConstant.HE_LOB, logger, 0, 0);
-				
-		reports.endTest(logger);
+						reports.endTest(logger);
 		reports.flush();
 	}
 	
