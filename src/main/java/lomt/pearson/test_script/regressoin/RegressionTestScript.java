@@ -1156,7 +1156,7 @@ public class RegressionTestScript {
 	
 	@Test(priority = 28)
 	public void exportSchoolCurriculum() {
-		logger = reports.startTest(SchoolConstant.SCHOOL_CURRICULUM_EXPORT_LOMT_614);
+		logger = reports.startTest(SchoolConstant.SCHOOL_CURRICULUM_EXPORT_LOMT_612);
 		
 		logger.log(LogStatus.INFO, "NALS is wired off : De-scoped");
 		logger.log(LogStatus.INFO, "TC-LOMT-612_01_Verify_Export_Option_In_Actions_For_CurriculumStandard_SchoolNA");

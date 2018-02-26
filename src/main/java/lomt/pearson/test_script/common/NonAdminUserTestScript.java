@@ -1,5 +1,6 @@
 package lomt.pearson.test_script.common;
 
+import org.junit.Ignore;
 import org.testng.annotations.Test;
 
 import com.relevantcodes.extentreports.ExtentReports;
@@ -28,12 +29,12 @@ public class NonAdminUserTestScript {
 	@Test(priority = 1)
 	public void previousOptionIngestionFailed() throws Exception {
 		logger = reports.startTest("LOMT-1584, TCs is 24");
+		Thread.sleep(4000);
+		nonAdminUser.englishPreviousAndBackOptionVerification(logger);
 		
-		common.englishPreviousAndBackOptionVerification(logger);
+		nonAdminUser.hePreviousAndBackOptionVerification(logger);
 		
-		common.hePreviousAndBackOptionVerification(logger);
-		
-		common.schoolGlobalPreviousAndBackOptionVerification(logger);
+		nonAdminUser.schoolGlobalPreviousAndBackOptionVerification(logger);
 		
 		//NALS is wired off
 		logger.log(LogStatus.INFO, "TC_LOMT-1584-10_Admin_User_NALS_Curriculum_Standard(ab.xml)_Ingestion_Select_Previous"+ " Wired off"); 
@@ -47,7 +48,8 @@ public class NonAdminUserTestScript {
 		//reports.flush();
 	}
 	
-	@Test(priority = 2)
+	//@Test(priority = 2)
+	@Ignore
 	public void exportAndBrowseUserRoles() throws Exception {
 		logger = reports.startTest("English LOB, LearningUser, LearingSME & LearningEditor "+
 									"LOMT-968, "+ "LOMT-1408, "+"LOMT-1044");
@@ -153,7 +155,7 @@ public class NonAdminUserTestScript {
 			logger.log(LogStatus.PASS, "TC-LOMT-968-11_English_GSE_Basic_Export_option");
 			logger.log(LogStatus.PASS, "TC-LOMT-968-12_English_GSE_Basic_Export_goalFramework_Restricted_access");
 		} else {
-			logger.log(LogStatus.PASS, "TC-LOMT-968-08_English_GSE_Basic_Browse_edit_Verify");
+			logger.log(LogStatus.FAIL, "TC-LOMT-968-08_English_GSE_Basic_Browse_edit_Verify");
 			logger.log(LogStatus.FAIL, "TC-LOMT-968-09_English_GSE_Basic_Browse_goalFramework");
 			logger.log(LogStatus.FAIL, "TC-LOMT-968-10_English_GSE_Basic_Browse_goalFramework_status");
 			logger.log(LogStatus.FAIL, "TC-LOMT-968-11_English_GSE_Basic_Export_option");

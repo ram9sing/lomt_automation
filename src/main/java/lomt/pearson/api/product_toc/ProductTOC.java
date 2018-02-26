@@ -2509,7 +2509,7 @@ public class ProductTOC extends BaseClass {
 			commonPOM.getNextButtonFirst().click();
 			Thread.sleep(2000);
 			
-			hePom.getLearningTitleInputText().sendKeys("domain_model_qapairs_9feb_automation");
+			hePom.getLearningTitleInputText().sendKeys("HE_ppe_25Feb");
 			Thread.sleep(4000);
 			
 			//DOMAIN SELECTION

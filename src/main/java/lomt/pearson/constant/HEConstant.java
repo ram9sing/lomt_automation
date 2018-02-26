@@ -46,7 +46,6 @@ public class HEConstant {
 		map.put("LO 8.3", "Assess the influences on health in middle adulthood.");
 		map.put("LO 8.4", "Evaluate cognitive development in middle adulthood.");
 		map.put("LO 8.5", "Evaluate memory development in middle adulthood.");
-		
 		map.put("EO 8.1.3", "Explain sensory function during middle adulthood.");
 		map.put("EO 8.2.3", "Describe the dilemma of hormone replacement therapy for women.");
 		map.put("EO 8.3.2", "Explain the impact of stress on health.");
