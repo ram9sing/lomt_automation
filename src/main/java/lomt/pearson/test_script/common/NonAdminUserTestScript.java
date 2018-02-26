@@ -45,16 +45,14 @@ public class NonAdminUserTestScript {
 		logger.log(LogStatus.INFO, "TC_LOMT-1584-24_Admin_User_NALS_Intermediaries_Ingestion_Select_Back"+ " Wired off"); 
 		
 		reports.endTest(logger);
-		//reports.flush();
+		reports.flush();
 	}
 	
-	//@Test(priority = 2)
-	@Ignore
+	@Test(priority = 2)
 	public void exportAndBrowseUserRoles() throws Exception {
 		logger = reports.startTest("English LOB, LearningUser, LearingSME & LearningEditor "+
 									"LOMT-968, "+ "LOMT-1408, "+"LOMT-1044");
 		nonAdminUser.logout();
-		
 		//###### Basic user #########
 		String learningUser = nonAdminUser.loginLearningUser(); 
 		//for basic user Manage Ingestion link does not appear so we can not apply assertion
@@ -142,7 +140,7 @@ public class NonAdminUserTestScript {
 			logger.log(LogStatus.FAIL, "School Intermediary export and browse is successful with loggedin user : "+learningUser);
 		}
 		
-		//####### SME user #########
+		/*//####### SME user #########
 		nonAdminUser.logout();
 		String smeUser = nonAdminUser.loginLearingSME();
 		
@@ -310,7 +308,7 @@ public class NonAdminUserTestScript {
 			logger.log(LogStatus.PASS, "School Intermediary export and browse is successful with loggedin user : "+editorUser);
 		} else {
 			logger.log(LogStatus.FAIL, "School Intermediary export and browse is successful with loggedin user : "+editorUser);
-		}
+		}*/
 		
 		reports.endTest(logger);
 		reports.flush();

@@ -419,6 +419,7 @@ public class NonAdminUserBrowseExport extends BaseClass {
 			commonPOM.getHeLOB().click();
 			hePom.getEoStructure().click();
 			wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+			Thread.sleep(3000);
 			jse.executeScript("window.scrollBy(0,300)");
 			
 			if (commonPOM.getShowingGFText().getText().contains("Showing")) {
@@ -426,16 +427,17 @@ public class NonAdminUserBrowseExport extends BaseClass {
 				schoolPOM.getAction().click();
 				commonPOM.getCommonExportButton().click();
 				wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+				Thread.sleep(15000);
 				
 				hePom.getHegoalframework().click();
 				wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
 				flag = true;
 				
-				jse.executeScript("window.scrollBy(0,-1000)");
+				jse.executeScript("window.scrollBy(0,-1500)");
 				commonPOM.getPearsonLogo().click();
 			} else {
 				logger.log(LogStatus.FAIL, "No results found on HE Educational Objetive browse page, logged user : " + userName);
-				jse.executeScript("window.scrollBy(0,-1000)");
+				jse.executeScript("window.scrollBy(0,-1500)");
 				commonPOM.getPearsonLogo().click();
 				flag = false;
 				return flag;
@@ -805,7 +807,7 @@ public class NonAdminUserBrowseExport extends BaseClass {
 			
 			//DOMAIN SELECTION
 			hePom.getDomainNameDropDown().click();
-			Thread.sleep(4000);
+			Thread.sleep(15000);
 			List<WebElement> domainList = hePom.getDomainList();
 			int domainLength = domainList.size();
 			if (domainLength > 0) {
@@ -900,8 +902,8 @@ public class NonAdminUserBrowseExport extends BaseClass {
 			jse.executeScript("window.scrollBy(0,500)");
 			
 			commonPOM.getNextButtonFirst().click(); 
-			
-			Thread.sleep(4000);
+			jse.executeScript("window.scrollBy(0,-500)");
+			Thread.sleep(15000);
 			//SUBJECT Selection
 			schoolPOM.getSubjectDropdown().click();
 			Thread.sleep(6000);
@@ -919,6 +921,22 @@ public class NonAdminUserBrowseExport extends BaseClass {
 				Assert.assertFalse((subjectLength == 0), LOMTConstant.SUBJECT+LOMTConstant.DROPDOWN_SIZE_NOT_ZERO);
 			}
 			
+			//Country selection, as per JIRA: LOMT-1779
+			schoolPOM.getCountryDropdown().click();
+			Thread.sleep(6000);
+			List<WebElement> countryList = schoolPOM.getCountryDropdownList();
+			int countryLength = countryList.size();
+			if (countryLength > 0) {
+				for (int i = 0; i <= countryLength; i++) {
+					WebElement element = countryList.get(i);
+					if (element.getText().equalsIgnoreCase(SchoolConstant.UNITIED_STATES)) {
+						element.click();
+						break;
+					}
+				}
+			}else {
+				Assert.assertFalse((subjectLength == 0), LOMTConstant.SUBJECT+LOMTConstant.DROPDOWN_SIZE_NOT_ZERO);
+			}
 			//Authority Selection, pick authority name, 
 			schoolPOM.getAuthorityDropdown().click();
 			Thread.sleep(6000);
@@ -999,8 +1017,82 @@ public class NonAdminUserBrowseExport extends BaseClass {
 			commonPOM.getSgEXFStructureRadioButton().click();
 			jse.executeScript("window.scrollBy(0,500)");
 			
-			commonPOM.getNextButtonFirst().click(); 
+			commonPOM.getNextButtonFirst().click();
+			jse.executeScript("window.scrollBy(0,-500)");
+			Thread.sleep(15000);
+			//SUBJECT Selection
+			schoolPOM.getSubjectDropdown().click();
+			Thread.sleep(6000);
+			subjectList = schoolPOM.getSubjectDropdownList();
+			subjectLength = subjectList.size();
+			if (subjectLength > 0) {
+				for (int i = 0; i <= subjectLength; i++) {
+					WebElement element = subjectList.get(i);
+					if (element.getText()!= null) {
+						element.click();
+						break;
+					}
+				}
+			} else {
+				Assert.assertFalse((subjectLength == 0), LOMTConstant.SUBJECT+LOMTConstant.DROPDOWN_SIZE_NOT_ZERO);
+			}
 			
+			//Country selection, as per JIRA: LOMT-1779
+			schoolPOM.getCountryDropdown().click();
+			Thread.sleep(6000);
+			countryList = schoolPOM.getCountryDropdownList();
+			countryLength = countryList.size();
+			if (countryLength > 0) {
+				for (int i = 0; i <= countryLength; i++) {
+					WebElement element = countryList.get(i);
+					if (element.getText().equalsIgnoreCase(SchoolConstant.UNITIED_STATES)) {
+						element.click();
+						break;
+					}
+				}
+			}else {
+				Assert.assertFalse((subjectLength == 0), LOMTConstant.SUBJECT+LOMTConstant.DROPDOWN_SIZE_NOT_ZERO);
+			}
+			//Authority Selection, pick authority name, 
+			schoolPOM.getAuthorityDropdown().click();
+			Thread.sleep(6000);
+			authorityList = schoolPOM.getAuthorityDropdownList();
+			aLength = authorityList.size();
+			if (aLength > 0) {
+				for (int i = 0; i <= aLength; i++) {
+					WebElement element = authorityList.get(i);
+					if (element.getText()!= null) {
+						element.click();
+						break;
+					}
+				}
+			} else {
+				Assert.assertFalse((subjectLength == 0), "Authority"+LOMTConstant.DROPDOWN_SIZE_NOT_ZERO);
+			}
+			
+			//Curriculum Selection
+			schoolPOM.getCurriculumSetDropdown().click();
+			Thread.sleep(6000);
+			curriculumSetList = schoolPOM.getCurriculumSetDropdownList();
+			csLength = curriculumSetList.size();
+			if (csLength > 0) {
+				for (int i = 0; i <= csLength; i++) {
+					WebElement element = curriculumSetList.get(i);
+					if (element.getText()!= null) {
+						element.click();
+						break;
+					}
+				}
+			} else {
+				Assert.assertFalse((subjectLength == 0), "Curriculum Set"+LOMTConstant.DROPDOWN_SIZE_NOT_ZERO);
+			}
+			
+			//Adopted Year Selection
+			schoolPOM.getAdoptedYear().sendKeys("2017");
+			
+			jse.executeScript("window.scrollBy(0,500)");
+			
+			commonPOM.getNextButton().click();
 			jse.executeScript("window.scrollBy(0,500)");
 			commonPOM.getNextButton().click();
 			
