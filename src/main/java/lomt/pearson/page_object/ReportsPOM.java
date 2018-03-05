@@ -235,5 +235,5 @@ public class ReportsPOM {
 	public WebElement getForwardSharedIntermediaryReport() {
 		return forwardSharedIntermediaryReport;
 	}
-
+	
 }

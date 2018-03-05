@@ -456,7 +456,8 @@ public class ReportsTestScript {
 			reports.flush();}
 		}
 	
-	@Test(priority = 1)
+	//@Test(priority = 1)
+	@Ignore
 	public void forwardSharedIntermediaryReport() {
 		logger = reports.startTest(ReportsConstant.FOWARD_SHARED_INTERMEDIARY_REPORT+LOMTConstant.COMMA+LOMTConstant.EMPTY_SPACE+ReportsConstant.LOMT_1838);
 		
@@ -514,6 +515,62 @@ public class ReportsTestScript {
 			logger.log(LogStatus.FAIL,"TC_LOMT-1838-14_Basic_SME_Cooedinator_User_School_Global_Report_Export_Download_Forward_Direct_Report");
 			logger.log(LogStatus.FAIL,"TC_LOMT-1838-16_Basic_SME_Coordinator_User_School_Global_Report_Export_Download_Forward_Direct_Report");
 			logger.log(LogStatus.FAIL,"TC_LOMT-1838-18_Basic_SME_User_School_Global_Report_Export_Download_Forward_Direct_Report");
+		}
+		
+		reports.endTest(logger);
+		reports.flush();
+	}
+	
+	@Test(priority = 1)
+	public void standardTocIntermediaryReport() {
+		logger = reports.startTest(ReportsConstant.STANDARD_TOC_INTERMEDIARY_REPORT+LOMTConstant.COMMA+LOMTConstant.EMPTY_SPACE+ReportsConstant.LOMT_1836);
+		
+		// Admin user 
+		String reportName = report.createAndDownloadReport(ReportsConstant.STANDARD_TOC_INTERMEDIARY_REPORT,
+				ReportsConstant.CS_SOURCE_UAT, ReportsConstant.INTERMEDIARY_NAME, ReportsConstant.FIRST_TOC_NAME, ReportsConstant.SECOND_TOC_NAME, logger);
+		if (!reportName.isEmpty()) {
+			logger.log(LogStatus.PASS, "TC-LOMT-1836-01_ADMIN_User_SchoolGlobal_ReportsAndExports_StandardToToC ViaIntermediaryReport"); 
+			logger.log(LogStatus.PASS, "TC-LOMT-1836-07_Admin_User_SchoolGlobal_ReportsAndExports_StandardToToC ViaIntermediaryReport"); 
+			
+			report.verifyExportedFile(ReportsConstant.STANDARD_TOC_INTERMEDIARY_REPORT, reportName, logger,
+					ReportsConstant.CS_SOURCE_UAT, ReportsConstant.INTERMEDIARY_NAME, ReportsConstant.FIRST_TOC_NAME, ReportsConstant.SECOND_TOC_NAME);
+					
+			
+		} else {
+			logger.log(LogStatus.FAIL, "TC-LOMT-1836-01_ADMIN_User_SchoolGlobal_ReportsAndExports_StandardToToC ViaIntermediaryReport");
+			logger.log(LogStatus.FAIL, "TC-LOMT-1836-07_Admin_User_SchoolGlobal_ReportsAndExports_StandardToToC ViaIntermediaryReport");
+			
+		}
+		
+		//Coordinator User
+		report.logout();
+		String userNameCoordinator = report.loginLearningEditor();
+		boolean coordinatorReportFlag = report.searchAndExportReport(reportName, userNameCoordinator);
+				
+		// SME User
+		report.logout();		
+		String userNameSME = report.loginLearingSME();
+		boolean smeReportFlag = report.searchAndExportReport(reportName, userNameSME);
+				
+		//BasicBrowser User
+		report.logout();
+		String userNameBasic = report.loginLearningUser();
+		boolean basicReportFlag = report.searchAndExportReport(reportName, userNameBasic);
+		
+		if (coordinatorReportFlag && smeReportFlag && basicReportFlag) {
+			logger.log(LogStatus.PASS,"TC-LOMT-1836-02_SME_User_SchoolGlobal_ReportsAndExports_StandardToToC ViaIntermediaryReport");
+			logger.log(LogStatus.PASS,"TC-LOMT-1836-03_Coordinator_User_SchoolGlobal_ReportsAndExports_StandardToToC ViaIntermediaryReport");
+			logger.log(LogStatus.PASS,"TC-LOMT-1836-04_BasicBrowser_User_SchoolGlobal_ReportsAndExports_StandardToToC ViaIntermediaryReport");
+			logger.log(LogStatus.PASS,"TC-LOMT-1836-08_SME_User_SchoolGlobal_ReportsAndExports_StandardToToC ViaIntermediaryReport");
+			logger.log(LogStatus.PASS,"TC-LOMT-1836-09_Coordinator_User_SchoolGlobal_ReportsAndExports_StandardToToC ViaIntermediaryReport");
+			logger.log(LogStatus.PASS,"TC-LOMT-1836-10_BasicBrowser_User_SchoolGlobal_ReportsAndExports_StandardToToC ViaIntermediaryReport");
+		} else {
+			logger.log(LogStatus.FAIL,"TC-LOMT-1836-02_SME_User_SchoolGlobal_ReportsAndExports_StandardToToC ViaIntermediaryReport");
+			logger.log(LogStatus.FAIL,"TC-LOMT-1836-03_Coordinator_User_SchoolGlobal_ReportsAndExports_StandardToToC ViaIntermediaryReport");
+			logger.log(LogStatus.FAIL,"TC-LOMT-1836-04_BasicBrowser_User_SchoolGlobal_ReportsAndExports_StandardToToC ViaIntermediaryReport");
+			logger.log(LogStatus.FAIL,"TC-LOMT-1836-08_SME_User_SchoolGlobal_ReportsAndExports_StandardToToC ViaIntermediaryReport");
+			logger.log(LogStatus.FAIL,"TC-LOMT-1836-09_Coordinator_User_SchoolGlobal_ReportsAndExports_StandardToToC ViaIntermediaryReport");
+			logger.log(LogStatus.FAIL,"TC-LOMT-1836-10_BasicBrowser_User_SchoolGlobal_ReportsAndExports_StandardToToC ViaIntermediaryReport");
 		}
 		
 		reports.endTest(logger);

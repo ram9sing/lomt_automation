@@ -154,6 +154,33 @@ public class ReportsConstant {
 	public static String ALIGNMENT = "Alignment";
 	public static String COMMENT = "Comment";
 	
+	//Standard to TOC via Intermediary Report
+	public static String STANDARD_TOC_INTERMEDIARY_REPORT = "Standard to TOC via Intermediary Report";
+	public static String LOMT_1836 = "LOMT-1836";
+	public static String CS_SOURCE_UAT = "England Accounting K-12 1398";
+	public static String FIRST_TOC_NAME = "Test_Standard_1";
+	public static String SECOND_TOC_NAME = "Test_Standard2";
+	public static String INTERMEDIARY_NAME = "Leisure and Tourism";
+	public static String CONTENT1 = "Content 1";
+	public static String CONTENT2 = "Content 2";
+	public static String TOC_CONTENT1 = "Content1";
+	public static String TOC_CONTENT2 = "Content2";
+	public static String TWO_BY_FOUR = "2/4";
+	public static String PERIPHERAL_ALIGNMENTS_BY_ONE = "1";
+	public static String PERIPHERAL_ALIGNMENTS_BY_TWO = "2";
+	public static String PRODUCT_TOC_TEST_DATA_1 = "Product Test 1";
+	public static String PRODUCT_TOC_TEST_DATA_2 = "Product Test 2";
+	public static String PRODUCT_TOC_TEST_DATA_3 = "Product Test 3";
+	public static String PRODUCT_TOC_TEST_DATA_5 = "Product Test 5";
+	public static String PRODUCT_TOC_LEVEL_DATA_1 = "Product Level 1";
+	public static String PRODUCT_TOC_LEVEL_DATA_2 = "Product Level 2";
+	public static String PRODUCT_TOC_LEVEL_DATA_3 = "Product Level 3";
+	public static String PRODUCT_TOC_LEVEL_DATA_5 = "Product Level 5";
+	public static String PAGE_START_1 = "1";
+	public static String PAGE_END_3 = "3";
+	public static String PAGE_END_5 = "5";
+	public static String PAGE_END_6 = "6";
+	
 	//Forward Shared Intermediary Report
 	public static String FOWARD_SHARED_INTERMEDIARY_REPORT = "Forward Shared Intermediary Report";
 	public static String LOMT_1838 = "LOMT-1838";
@@ -190,6 +217,7 @@ public class ReportsConstant {
 	public static String CS_LEVEL_4 = "Prepare for and participate effectively in a range of conversations and collaborations with diverse partners, building on others’ ideas and expressing their own clearly and persuasively.";
 	public static String CS_LEVEL_5 = "Demonstrate command of the conventions of standard English grammar and usage when writing or speaking.";
 	public static String CS_LEVEL_6 = "Abc";
+	public static String CS_LEVEL_7 = "Conventions of Standard English";
 	
 	public static String UNMET_1 = "ELA.CP.5 -Cognitive process exercised is categorization Updated.";
 	public static String UNMET_2 = "ELA.CP.9 - Cognitive process exercised is decision-making Updated.";

@@ -1737,9 +1737,109 @@ public class Reports extends BaseClass {
 		try {
 			reportName = createAndDownloadReport(reportType, source, pivot, target, wait, jse, logger);
 		} catch (Exception e) {
-			logger.log(LogStatus.FAIL, "Forward Indirect Intermediary Report either Creation or download is failed");
+			logger.log(LogStatus.FAIL, reportType + " Report either Creation or download is failed");
 			return reportName;
 		}
+		return reportName;
+	}
+	
+	public String createAndDownloadReport(String reportType, String source, String pivot, String target, String target2,
+			ExtentTest logger) {
+		WebDriverWait wait = new WebDriverWait(driver, 120);
+		JavascriptExecutor jse = (JavascriptExecutor) driver;
+		String reportName = null;
+		try {
+			reportName = createAndDownloadReport(reportType, source, pivot, target, target2, wait, jse, logger);
+		} catch (Exception e) {
+			logger.log(LogStatus.FAIL, reportType + " Report either Creation or download is failed");
+			return reportName;
+		}
+		return reportName;
+	}
+	
+	public String createAndDownloadReport(String reportType, String source, String pivot, String target, String target2,
+			WebDriverWait wait, JavascriptExecutor jse, ExtentTest logger) throws IOException, InterruptedException {
+		String reportName = null;
+		commonPOM.getSchoolGlobalLOB().click();
+		schoolPOM.getCurriculumSt().click();
+		wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+
+		schoolPOM.getEnterEnterSearch().sendKeys(source);
+
+		schoolPOM.getSchoolUpdateResultButton().click();
+		wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+		jse.executeScript("window.scrollBy(0, 300)");
+
+		schoolPOM.getAction().click();
+		reportsPOM.getSchoolCreateReportLink().click();
+		wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+
+		// Model window is appears, click on next button
+		reportsPOM.getSchoolModelWindowNextButton().click();
+		wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+
+		//Selection of report based on coming Report Type
+		if (reportType.equalsIgnoreCase(ReportsConstant.STANDARD_TOC_INTERMEDIARY_REPORT)) {
+			jse.executeScript("window.scrollBy(0, 500)");
+			reportsPOM.getStandardToCIntermediaryReport().click();
+			wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+			
+			clickIngestedIntermediaryDiscipline(pivot);
+			
+			reportsPOM.getSchoolModelWindowNextButton().click();
+			wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+						
+			productTocPOM.getEnterSearchTerm().sendKeys(target);
+			productTocPOM.getUpdateResultButton().click();
+			wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+			
+			jse.executeScript("window.scrollBy(0,400)");
+			reportsPOM.getSelectTarget().click();
+			wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+			Thread.sleep(3000);
+			reportsPOM.getSchoolModelWindowNextButton().click();
+			wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+			
+			productTocPOM.getEnterSearchTerm().clear();
+			productTocPOM.getEnterSearchTerm().sendKeys(target2);
+			productTocPOM.getUpdateResultButton().click();
+			wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+			
+			jse.executeScript("window.scrollBy(0,400)");
+			reportsPOM.getSelectTarget().click();
+			wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+			
+			reportsPOM.getSchoolModelWindowNextButton().click();
+			wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+			
+			reportName = ReportsConstant.STANDARD_TOC_INTERMEDIARY_REPORT + "-"+ String.valueOf(1300 + (int) Math.round(Math.random() * (1000 - 1100)));
+		}
+		
+		System.out.println(reportType+ " : "+reportName);
+
+		reportsPOM.getReportName().clear();
+		reportsPOM.getReportName().sendKeys(reportName);
+
+		jse.executeScript("window.scrollBy(0,500)");
+		reportsPOM.getRunReport().click();
+		wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+
+		jse.executeScript("window.scrollBy(0,-300)");
+		reportsPOM.getEnterSearchTerm().sendKeys(reportName);
+		reportsPOM.getUpdateResult().click();
+		wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+
+		if (reportsPOM.getRepotCountText().getText().contains("Showing")) {
+			removeExistingFile();
+
+			jse.executeScript("window.scrollBy(0,300)");
+			reportsPOM.getReportActionLink().click();
+			reportsPOM.getReportExportButton().click();
+			wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+			jse.executeScript("window.scrollBy(0,-500)");
+			commonPOM.getPearsonLogo().click();
+		}
+
 		return reportName;
 	}
 
@@ -5445,5 +5545,1593 @@ public class Reports extends BaseClass {
 		}
 	}
 	
+	public Map<String, List<String>> verifyExportedFile(String reportType, String reportName, ExtentTest logger, String source, String pivot, String target, String target2) {
+		Map<String, List<String>> forwardIIRepMap = new LinkedHashMap<String, List<String>>();
+		InputStream inputStream = null;
+		XSSFWorkbook workbook = null;
+		XSSFSheet worksheet = null;
+		try {
+			String fileName = getFileFromDirectory(LOMTConstant.EXPORTED_FILE_PATH);
+			File forwardIIReportExpFile = new File(LOMTConstant.EXPORTED_FILE_PATH + fileName);
+			
+			inputStream =  new FileInputStream(forwardIIReportExpFile);
+			workbook = new XSSFWorkbook(inputStream);
+			worksheet = workbook.getSheetAt(0);
+			
+			if (reportType.equalsIgnoreCase(ReportsConstant.FORWARD_INDIRECT_INTERMEDIARY_REPORT)) {
+				verifyForwardIIReportHeaders(worksheet, reportName, logger);
+				getCurriculumStandardAndIntermediaryDataFromExportedSheet(worksheet, forwardIIRepMap);
+			} 
+			if (reportType.equalsIgnoreCase(ReportsConstant.FORWARD_DIRECT_REPORT)) {
+				verifyForwardDirectReportHeaders(worksheet, reportName, logger);
+				//preparing CS and TOC list for UI verification
+				//Verifying CS and TOC Correlation Score, Strength and Peripheral Alignments data
+				getForwardDirectReportData(worksheet, forwardIIRepMap); 
+				verifyForwardDirectReportData(worksheet, logger);
+			}
+			if (reportType.equalsIgnoreCase(ReportsConstant.GAP_ANALYSIS_REPORT)) {
+				verifyGapAnalysisReportHeaders(worksheet, reportName, logger, source, target);
+				verifyGapAnalysisReportData(worksheet, reportName, logger);
+			}
+			if (reportType.equalsIgnoreCase(ReportsConstant.SUMMARY_REPORT)) {
+				verifySummaryReportHeaders(worksheet, reportName, logger, source, target);
+				verifySummaryReportData(worksheet, reportName, logger);
+			}
+			if (reportType.equalsIgnoreCase(ReportsConstant.FOWARD_SHARED_INTERMEDIARY_REPORT)) {
+				verifyForwardSharedIntermediaryReportHeaders(worksheet, reportName, logger, source, pivot, target);
+				verifyForwardSharedIntermediaryReportData(worksheet, reportName, logger);
+			}
+			if (reportType.equalsIgnoreCase(ReportsConstant.STANDARD_TOC_INTERMEDIARY_REPORT)) {
+				verifyStandardTocIntermediaryReportHeaders(worksheet, reportName, logger, source, pivot, target, target2);
+				verifyStandardTocIntermediaryReportData(worksheet, reportName, logger);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return forwardIIRepMap;
+	}
+	
+	public void verifyStandardTocIntermediaryReportHeaders(XSSFSheet worksheet, String reportName, ExtentTest logger, String source, String pivot, String target, String target2) {
+		try {
+			int count = 0;
+			//Title
+			if (worksheet.getRow(LOMTConstant.ZERO).getCell(LOMTConstant.ZERO).getStringCellValue().trim().equalsIgnoreCase(ReportsConstant.TITLE)) {
+				if (worksheet.getRow(LOMTConstant.ZERO).getCell(LOMTConstant.ONE).getStringCellValue() != null
+						&& worksheet.getRow(LOMTConstant.ZERO).getCell(LOMTConstant.ONE).getStringCellValue().equalsIgnoreCase(reportName)) {
+				} else {
+					count++;
+					logger.log(LogStatus.FAIL, "TC_LOMT-1836-Title value does not match in exported file");
+				}
+			} else {
+				count++;
+				logger.log(LogStatus.FAIL, "TC_LOMT-1836-Title header does not match in exported file");
+			}
+			//User
+			if (worksheet.getRow(LOMTConstant.ONE).getCell(LOMTConstant.ZERO).getStringCellValue().trim().equalsIgnoreCase(ReportsConstant.USER.trim())) {
+				if (worksheet.getRow(LOMTConstant.ONE).getCell(LOMTConstant.ONE).getStringCellValue()
+						.equalsIgnoreCase(ReportsConstant.ADMIN_USER_COMMON)
+						|| worksheet.getRow(LOMTConstant.ONE).getCell(LOMTConstant.ONE).getStringCellValue()
+								.equalsIgnoreCase(ReportsConstant.ADMIN_USER_PPE)
+						|| worksheet.getRow(LOMTConstant.ONE).getCell(LOMTConstant.ONE).getStringCellValue()
+								.equalsIgnoreCase(ReportsConstant.LEARNING_USER_PPE)
+						|| worksheet.getRow(LOMTConstant.ONE).getCell(LOMTConstant.ONE).getStringCellValue()
+								.equalsIgnoreCase(ReportsConstant.SME_USER)
+						|| worksheet.getRow(LOMTConstant.ONE).getCell(LOMTConstant.ONE).getStringCellValue()
+								.equalsIgnoreCase(ReportsConstant.EDITOR_USER)) {
+				} else {
+					count++;
+					logger.log(LogStatus.FAIL, "TC_LOMT-1836-User name does not match in exported file");
+				}
+			} else {
+				count++;
+				logger.log(LogStatus.FAIL, "TC_LOMT-1836-User headers does not match in exported file");
+			}
+
+			//Date of generation
+			if (worksheet.getRow(LOMTConstant.TWO).getCell(LOMTConstant.ZERO).getStringCellValue().trim().equalsIgnoreCase(ReportsConstant.DATE_TIME_GENERATION.trim())) {
+				if (isValidFormat(worksheet.getRow(LOMTConstant.TWO).getCell(LOMTConstant.ONE).getStringCellValue().trim())) {
+				} else {
+					count++;
+					logger.log(LogStatus.FAIL, "TC_LOMT-1836-Date of generation format does not match in exported file");
+				}
+			} else {
+				count++;
+				logger.log(LogStatus.FAIL, "TC_LOMT-1840-1836 of generation header does not match in exported file");
+			}
+
+			//Alignments 
+			if (worksheet.getRow(LOMTConstant.THREE).getCell(LOMTConstant.ZERO).getStringCellValue().trim().equalsIgnoreCase(ReportsConstant.ALIGNMENTS)) {
+				if (worksheet.getRow(LOMTConstant.THREE).getCell(LOMTConstant.ONE).getStringCellValue().contains(ReportsConstant.CENTRAL)
+						&& worksheet.getRow(LOMTConstant.THREE).getCell(LOMTConstant.ONE).getStringCellValue().contains(ReportsConstant.PERIPHERAL)) {
+				} else {
+					count++;
+					logger.log(LogStatus.FAIL, "TC_LOMT-1836-Alignments value(Central/Peripheral) does not match in exported file");
+				}
+			} else {
+				count++;
+				logger.log(LogStatus.FAIL, "TC_LOMT-1836-Alignments header does not match in exported file");
+			}
+
+			//Standard - Left side
+			if (worksheet.getRow(LOMTConstant.FIVE).getCell(LOMTConstant.ZERO).getStringCellValue().trim().equalsIgnoreCase(ReportsConstant.STANDARD)) {
+			} else {
+				count++;
+				logger.log(LogStatus.FAIL, "TC_LOMT-1836-Standard header does not match in exported file");
+			}
+			
+		    //Content1 - Right side
+			if (worksheet.getRow(LOMTConstant.FIVE).getCell(LOMTConstant.ELEVENTH).getStringCellValue().trim().equalsIgnoreCase(ReportsConstant.TOC_CONTENT1)) {
+			} else {
+				count++;
+				logger.log(LogStatus.FAIL, "TC_LOMT-1836-Content1 header does not match in exported file");
+			}
+			
+			//Content2 - Right side
+			if (worksheet.getRow(LOMTConstant.FIVE).getCell(LOMTConstant.EIGHTEEN).getStringCellValue().trim().equalsIgnoreCase(ReportsConstant.TOC_CONTENT2)) {
+			} else {
+				count++;
+				logger.log(LogStatus.FAIL, "TC_LOMT-1836-Content2 header does not match in exported file");
+			}
+
+			//Title - Left side
+			if (worksheet.getRow(LOMTConstant.SIX).getCell(LOMTConstant.ZERO).getStringCellValue().trim().equalsIgnoreCase(ReportsConstant.TITLE)) {
+				if (worksheet.getRow(LOMTConstant.SIX).getCell(LOMTConstant.ONE).getStringCellValue() != null &&
+						worksheet.getRow(LOMTConstant.SIX).getCell(LOMTConstant.ONE).getStringCellValue().equalsIgnoreCase(source)) {
+				} else {
+					count++;
+					logger.log(LogStatus.FAIL, "TC_LOMT-1836-Title of Curriculum Standard should not be null in exported file");
+				}
+			} else {
+				count++;
+				logger.log(LogStatus.FAIL, "TC_LOMT-1836-Title header does not match in exported file");
+			}
+			
+			//Program1 right side
+			if (worksheet.getRow(LOMTConstant.SIX).getCell(LOMTConstant.ELEVENTH).getStringCellValue().trim().equalsIgnoreCase(ReportsConstant.PROGRAM)) {
+				if (worksheet.getRow(LOMTConstant.SIX).getCell(LOMTConstant.TWELEVE).getStringCellValue() != null) {
+				} else {
+					count++;
+					logger.log(LogStatus.FAIL, "TC_LOMT-1836-Program1(toc) should not be null in exported file");
+				}
+			} else {
+				count++;
+				logger.log(LogStatus.FAIL, "TC_LOMT-1836-Program1(toc) header does not match in exported file");
+			}
+			
+			//Program2 right side
+			if (worksheet.getRow(LOMTConstant.SIX).getCell(LOMTConstant.EIGHTEEN).getStringCellValue().trim().equalsIgnoreCase(ReportsConstant.PROGRAM)) {
+				if (worksheet.getRow(LOMTConstant.SIX).getCell(LOMTConstant.NINETEEN).getStringCellValue() != null) {
+				} else {
+					count++;
+					logger.log(LogStatus.FAIL, "TC_LOMT-1836-Program2(toc) should not be null in exported file");
+				}
+			} else {
+				count++;
+				logger.log(LogStatus.FAIL, "TC_LOMT-1836-Program2(toc) header does not match in exported file");
+			}
+
+			// Country - Left side
+			if (worksheet.getRow(LOMTConstant.SEVEN).getCell(LOMTConstant.ZERO).getStringCellValue().equalsIgnoreCase(ReportsConstant.COUNTRY)) {
+				if (worksheet.getRow(LOMTConstant.SEVEN).getCell(LOMTConstant.ONE).getStringCellValue() != null) {
+				} else {
+					count++;
+					logger.log(LogStatus.FAIL, "TC_LOMT-1836-Country should not be null in exported file");
+				}
+			} else {
+				count++;
+				logger.log(LogStatus.FAIL, "TC_LOMT-1836-Country header does not match in exported file");
+			}
+			
+			//Course1 - right side
+			if (worksheet.getRow(LOMTConstant.SEVEN).getCell(LOMTConstant.ELEVENTH).getStringCellValue().equalsIgnoreCase(ReportsConstant.COURSE)) {
+				if (worksheet.getRow(LOMTConstant.SEVEN).getCell(LOMTConstant.TWELEVE).getStringCellValue() != null) {
+				} else {
+					count++;
+					logger.log(LogStatus.FAIL, "TC_LOMT-1836-Course1 should not be null in exported file");
+				}
+			} else {
+				count++;
+				logger.log(LogStatus.FAIL, "TC_LOMT-1836-Course1 header does not match in exported file");
+			}
+			
+			//Course2 - right side
+			if (worksheet.getRow(LOMTConstant.SEVEN).getCell(LOMTConstant.EIGHTEEN).getStringCellValue().equalsIgnoreCase(ReportsConstant.COURSE)) {
+				if (worksheet.getRow(LOMTConstant.SEVEN).getCell(LOMTConstant.NINETEEN).getStringCellValue() != null) {
+				} else {
+					count++;
+					logger.log(LogStatus.FAIL, "TC_LOMT-1836-Course2 should not be null in exported file");
+				}
+			} else {
+				count++;
+				logger.log(LogStatus.FAIL, "TC_LOMT-1836-Course2 header does not match in exported file");
+			}
+
+			//Grade - left side
+			if (worksheet.getRow(LOMTConstant.EIGHT).getCell(LOMTConstant.ZERO).getStringCellValue().equalsIgnoreCase(ReportsConstant.GRADE)) {
+				if (worksheet.getRow(LOMTConstant.EIGHT).getCell(LOMTConstant.ONE).getStringCellValue() != null) {
+				} else {
+					count++;
+					logger.log(LogStatus.FAIL, "TC_LOMT-1836-Grade(Source) should not be null in exported file");
+				}
+			} else {
+				count++;
+				logger.log(LogStatus.FAIL, "TC_LOMT-1836-Grade header(Source) does not match in exported file");
+			}
+			
+			//Product title1 - Right side
+			if (worksheet.getRow(LOMTConstant.EIGHT).getCell(LOMTConstant.ELEVENTH).getStringCellValue().equalsIgnoreCase(ReportsConstant.PRODUCT)) {
+				if (worksheet.getRow(LOMTConstant.EIGHT).getCell(LOMTConstant.TWELEVE).getStringCellValue() != null 
+				&& worksheet.getRow(LOMTConstant.EIGHT).getCell(LOMTConstant.TWELEVE).getStringCellValue().equalsIgnoreCase(target2)) {
+				} else {
+					count++;
+					logger.log(LogStatus.FAIL, "TC_LOMT-1836-ProductTitle1(toc) should not be null in exported file");
+				}
+			} else {
+				count++;
+				logger.log(LogStatus.FAIL, "TC_LOMT-1836-ProductTitle1(toc) header does not match in exported file");
+			}
+			
+			//Product title2 - Right side
+			if (worksheet.getRow(LOMTConstant.EIGHT).getCell(LOMTConstant.EIGHTEEN).getStringCellValue().equalsIgnoreCase(ReportsConstant.PRODUCT)) {
+				if (worksheet.getRow(LOMTConstant.EIGHT).getCell(LOMTConstant.NINETEEN).getStringCellValue() != null 
+				&& worksheet.getRow(LOMTConstant.EIGHT).getCell(LOMTConstant.NINETEEN).getStringCellValue().equalsIgnoreCase(target)) {
+				} else {
+					count++;
+					logger.log(LogStatus.FAIL, "TC_LOMT-1836-ProductTite2(toc) should not be null in exported file");
+				}
+			} else {
+				count++;
+				logger.log(LogStatus.FAIL, "TC_LOMT-1836-ProductTitle2(toc) header does not match in exported file");
+			}
+			
+			//Geographic Area or Country-1 - right side
+			if (worksheet.getRow(LOMTConstant.NINE).getCell(LOMTConstant.ELEVENTH).getStringCellValue().equalsIgnoreCase(ReportsConstant.GEOGRAPHIC_AREA_OR__COUNTRY)) {
+			} else {
+				count++;
+				logger.log(LogStatus.FAIL, "TC_LOMT-1836-Geographic Area or Country-1(toc) header does not match in exported file");
+			}
+			
+			//Geographic Area or Country-2 - right side
+			if (worksheet.getRow(LOMTConstant.NINE).getCell(LOMTConstant.EIGHTEEN).getStringCellValue().equalsIgnoreCase(ReportsConstant.GEOGRAPHIC_AREA_OR__COUNTRY)) {
+			} else {
+				count++;
+				logger.log(LogStatus.FAIL, "TC_LOMT-1836-Geographic Area or Country-2(toc) header does not match in exported file");
+			}
+			
+			//STATE_OR_REGION_1
+			if (worksheet.getRow(LOMTConstant.TEN).getCell(LOMTConstant.ELEVENTH).getStringCellValue()
+					.equalsIgnoreCase(ReportsConstant.STATE_OR_REGION)) {
+				if (worksheet.getRow(LOMTConstant.TEN).getCell(LOMTConstant.TWELEVE).getStringCellValue() != null) {
+				} else {
+					count++;
+					logger.log(LogStatus.FAIL, "TC_LOMT-1836-STATE_OR_REGION_1(toc) should not be null in exported file");
+				}
+			} else {
+				count++;
+				logger.log(LogStatus.FAIL, "TC_LOMT-1836-STATE_OR_REGION_1(toc) header does not match in exported file");
+			}
+			
+			//STATE_OR_REGION_2
+			if (worksheet.getRow(LOMTConstant.TEN).getCell(LOMTConstant.EIGHTEEN).getStringCellValue()
+					.equalsIgnoreCase(ReportsConstant.STATE_OR_REGION)) {
+				if (worksheet.getRow(LOMTConstant.TEN).getCell(LOMTConstant.NINETEEN).getStringCellValue() != null) {
+				} else {
+					count++;
+					logger.log(LogStatus.FAIL, "TC_LOMT-1836-STATE_OR_REGION_2(toc) should not be null in exported file");
+				}
+			} else {
+				count++;
+				logger.log(LogStatus.FAIL, "TC_LOMT-1836-STATE_OR_REGION_2(toc) header does not match in exported file");
+			}
+			
+			//Start Grade-1, ROW=11, COL=11, VAL ROW NUM=11, COL=12
+			if (worksheet.getRow(LOMTConstant.ELEVENTH).getCell(LOMTConstant.ELEVENTH).getStringCellValue().equalsIgnoreCase(ReportsConstant.START_GRADE)) {
+				if (worksheet.getRow(LOMTConstant.ELEVENTH).getCell(LOMTConstant.TWELEVE).getStringCellValue() != null) {
+				} else {
+					count++;
+					logger.log(LogStatus.FAIL, "TC_LOMT-1836-Start Grade-1(toc) should not be null in exported file");
+				}
+			} else {
+				count++;
+				logger.log(LogStatus.FAIL, "TC_LOMT-1836-Start Grade-1(toc) header does not match in exported file");
+			}
+			
+			//Start Grade-2, ROW=11, COL=18, VAL ROW NUM=11, COL=19
+			if (worksheet.getRow(LOMTConstant.ELEVENTH).getCell(LOMTConstant.EIGHTEEN).getStringCellValue().equalsIgnoreCase(ReportsConstant.START_GRADE)) {
+				if (worksheet.getRow(LOMTConstant.ELEVENTH).getCell(LOMTConstant.NINETEEN).getStringCellValue() != null) {
+				} else {
+					count++;
+					logger.log(LogStatus.FAIL, "TC_LOMT-1836-Start Grade-2(toc) should not be null in exported file");
+				}
+			} else {
+				count++;
+				logger.log(LogStatus.FAIL, "TC_LOMT-1836-Start Grade-2(toc) header does not match in exported file");
+			}
+			
+			//End Grade-1
+			if (worksheet.getRow(LOMTConstant.TWELEVE).getCell(LOMTConstant.ELEVENTH).getStringCellValue().equalsIgnoreCase(ReportsConstant.END_GRADE)) {
+				if (worksheet.getRow(LOMTConstant.TWELEVE).getCell(LOMTConstant.TWELEVE).getStringCellValue() != null) {
+				} else {
+					count++;
+					logger.log(LogStatus.FAIL, "TC_LOMT-1836-End Grade-1(toc) should not be null in exported file");
+				}
+			} else {
+				count++;
+				logger.log(LogStatus.FAIL, "TC_LOMT-1836-End Grade-1(toc) header does not match in exported file");
+			}
+			
+			//End Grade-2
+			if (worksheet.getRow(LOMTConstant.TWELEVE).getCell(LOMTConstant.EIGHTEEN).getStringCellValue().equalsIgnoreCase(ReportsConstant.END_GRADE)) {
+				if (worksheet.getRow(LOMTConstant.TWELEVE).getCell(LOMTConstant.NINETEEN).getStringCellValue() != null) {
+				} else {
+					count++;
+					logger.log(LogStatus.FAIL, "TC_LOMT-1836-End Grade-2(toc) should not be null in exported file");
+				}
+			} else {
+				count++;
+				logger.log(LogStatus.FAIL, "TC_LOMT-1836-End Grade-2(toc) header does not match in exported file");
+			}
+			
+			//ISBN 10-1
+			if (worksheet.getRow(LOMTConstant.THIRTEEN).getCell(LOMTConstant.ELEVENTH).getStringCellValue().equalsIgnoreCase(ReportsConstant.ISBN10)) {
+				if (worksheet.getRow(LOMTConstant.THIRTEEN).getCell(LOMTConstant.TWELEVE).getStringCellValue() != null) {
+				} else {
+					count++;
+					logger.log(LogStatus.FAIL, "TC_LOMT-1836-ISBN10-1(toc) should not be null in exported file");
+				}
+			} else {
+				count++;
+				logger.log(LogStatus.FAIL, "TC_LOMT-1836-ISBN10-1(toc) header does not match in exported file");
+			}
+			
+			//ISBN 10-2
+			if (worksheet.getRow(LOMTConstant.THIRTEEN).getCell(LOMTConstant.EIGHTEEN).getStringCellValue().equalsIgnoreCase(ReportsConstant.ISBN10)) {
+				if (worksheet.getRow(LOMTConstant.THIRTEEN).getCell(LOMTConstant.NINETEEN).getStringCellValue() != null) {
+				} else {
+					count++;
+					logger.log(LogStatus.FAIL, "TC_LOMT-1836-ISBN10-2(toc) should not be null in exported file");
+				}
+			} else {
+				count++;
+				logger.log(LogStatus.FAIL, "TC_LOMT-1836-ISBN10-2(toc) header does not match in exported file");
+			}
+			//ISBN13-1
+			if (worksheet.getRow(LOMTConstant.FOURTEEN).getCell(LOMTConstant.ELEVENTH).getStringCellValue().equalsIgnoreCase(ReportsConstant.ISBN13)) {
+				if (worksheet.getRow(LOMTConstant.FOURTEEN).getCell(LOMTConstant.TWELEVE).getStringCellValue() != null) {
+				} else {
+					count++;
+					logger.log(LogStatus.FAIL, "TC_LOMT-1836-ISBN13-1(toc) should not be null in exported file");
+				}
+			} else {
+				count++;
+				logger.log(LogStatus.FAIL, "TC_LOMT-1836-ISBN13-1(toc) header does not match in exported file");
+			}
+			
+			//ISBN13-2
+			if (worksheet.getRow(LOMTConstant.FOURTEEN).getCell(LOMTConstant.EIGHTEEN).getStringCellValue().equalsIgnoreCase(ReportsConstant.ISBN13)) {
+				if (worksheet.getRow(LOMTConstant.FOURTEEN).getCell(LOMTConstant.NINETEEN).getStringCellValue() != null) {
+				} else {
+					count++;
+					logger.log(LogStatus.FAIL, "TC_LOMT-1836-ISBN13-2(toc) should not be null in exported file");
+				}
+			} else {
+				count++;
+				logger.log(LogStatus.FAIL, "TC_LOMT-1836-ISBN13-2(toc) header does not match in exported file");
+			}
+			
+			//TYPE-1
+			if (worksheet.getRow(LOMTConstant.FIFTEEN).getCell(LOMTConstant.ELEVENTH).getStringCellValue().equalsIgnoreCase(ReportsConstant.TYPE)) {
+				if (worksheet.getRow(LOMTConstant.FIFTEEN).getCell(LOMTConstant.TWELEVE).getStringCellValue() != null) {
+				} else {
+					count++;
+					logger.log(LogStatus.FAIL, "TC_LOMT-1836-TYPE-1(toc) should not be null in exported file");
+				}
+			} else {
+				count++;
+				logger.log(LogStatus.FAIL, "TC_LOMT-1836-TYPE-1(toc) header does not match in exported file");
+			}
+			
+			//TYPE-2
+			if (worksheet.getRow(LOMTConstant.FIFTEEN).getCell(LOMTConstant.EIGHTEEN).getStringCellValue().equalsIgnoreCase(ReportsConstant.TYPE)) {
+				if (worksheet.getRow(LOMTConstant.FIFTEEN).getCell(LOMTConstant.NINETEEN).getStringCellValue() != null) {
+				} else {
+					count++;
+					logger.log(LogStatus.FAIL, "TC_LOMT-1836-TYPE-2(toc) should not be null in exported file");
+				}
+			} else {
+				count++;
+				logger.log(LogStatus.FAIL, "TC_LOMT-1836-TYPE-2(toc) header does not match in exported file");
+			}
+			
+			//Standards' Strands
+			if (worksheet.getRow(LOMTConstant.EIGHTEEN).getCell(LOMTConstant.ZERO).getStringCellValue().equalsIgnoreCase(ReportsConstant.STANDARDS_STRANDS)) {
+			} else {
+				count++;
+				logger.log(LogStatus.FAIL, "TC_LOMT-1836-Standards' Strands Heading header does not match in exported file");
+			}
+			//Standards' Topics
+			if (worksheet.getRow(LOMTConstant.EIGHTEEN).getCell(LOMTConstant.ONE).getStringCellValue().equalsIgnoreCase(ReportsConstant.STANDARDS_TOPICS)) {
+			} else {
+				count++;
+				logger.log(LogStatus.FAIL, "TC_LOMT-1836-Standards' Topics Heading header does not match in exported file");
+			}
+			
+			//Standard Number
+			if (worksheet.getRow(LOMTConstant.EIGHTEEN).getCell(LOMTConstant.TWO).getStringCellValue().equalsIgnoreCase(ReportsConstant.STANDARDS_NUMBER)) {
+			} else {
+				count++;
+				logger.log(LogStatus.FAIL, "TC_LOMT-1836-Standards' Number Heading header does not match in exported file");
+			}
+			//AB GUID
+			if (worksheet.getRow(LOMTConstant.EIGHTEEN).getCell(LOMTConstant.THREE).getStringCellValue().equalsIgnoreCase(ReportsConstant.AB_GUIDE)) {
+			} else {
+				count++;
+				logger.log(LogStatus.FAIL, "TC_LOMT-1836-AB GUID Heading header does not match in exported file");
+			}
+			//Correlation Score - Content-1
+			if (worksheet.getRow(LOMTConstant.SEVENTEEN).getCell(LOMTConstant.FOUR).getStringCellValue().equalsIgnoreCase(ReportsConstant.CONTENT1)) { 
+				if(worksheet.getRow(LOMTConstant.EIGHTEEN).getCell(LOMTConstant.FOUR).getStringCellValue().equalsIgnoreCase(ReportsConstant.CORRELATION_SCORE)) {
+			    } else {
+				count++;
+				logger.log(LogStatus.FAIL, "TC_LOMT-1836-Correlation Score for Content-1 Heading header does not match in exported file/CS");
+			    }
+			} else {
+				count++;
+				logger.log(LogStatus.FAIL, "TC_LOMT-1836-Correlation Score - Content-1 Heading header does not match in exported file/CS");
+				}
+			//Strength - Content-1
+			if (worksheet.getRow(LOMTConstant.EIGHTEEN).getCell(LOMTConstant.FIVE).getStringCellValue().equalsIgnoreCase(ReportsConstant.STRENGTH)) {
+			} else {
+				count++;
+				logger.log(LogStatus.FAIL, "TC_LOMT-1836-Strength - Content-1 Heading header does not match in exported file");
+			}
+			//Peripheral Alignments - Content-1
+			if (worksheet.getRow(LOMTConstant.EIGHTEEN).getCell(LOMTConstant.SIX).getStringCellValue().equalsIgnoreCase(ReportsConstant.PERIPHERAL_ALIGNMENTS)) {
+			} else {
+				count++;
+				logger.log(LogStatus.FAIL, "TC_LOMT-1836-Peripheral Alignments - Content-1 Heading header does not match in exported file");
+			}
+			
+			//Correlation Score - Content-2
+			if (worksheet.getRow(LOMTConstant.SEVENTEEN).getCell(LOMTConstant.SEVEN).getStringCellValue().equalsIgnoreCase(ReportsConstant.CONTENT2)) { 
+				if(worksheet.getRow(LOMTConstant.EIGHTEEN).getCell(LOMTConstant.SEVEN).getStringCellValue().equalsIgnoreCase(ReportsConstant.CORRELATION_SCORE)) {
+				} else {
+				count++;
+				logger.log(LogStatus.FAIL, "TC_LOMT-1836-Correlation Score for Content-2 Heading header does not match in exported file/CS");
+				}
+			} else {
+				count++;
+				logger.log(LogStatus.FAIL, "TC_LOMT-1836-Correlation Score - Content-2 Heading header does not match in exported file/CS");
+			}
+			//Strength - Content-2
+			if (worksheet.getRow(LOMTConstant.EIGHTEEN).getCell(LOMTConstant.EIGHT).getStringCellValue().equalsIgnoreCase(ReportsConstant.STRENGTH)) {
+			} else {
+				count++;
+				logger.log(LogStatus.FAIL, "TC_LOMT-1836-Strength - Content-2 Heading header does not match in exported file");
+			}
+			//Peripheral Alignments - Content-2
+			if (worksheet.getRow(LOMTConstant.EIGHTEEN).getCell(LOMTConstant.NINE).getStringCellValue().equalsIgnoreCase(ReportsConstant.PERIPHERAL_ALIGNMENTS)) {
+			} else {
+				count++;
+				logger.log(LogStatus.FAIL, "TC_LOMT-1836-Peripheral Alignments - Content-2 Heading header does not match in exported file");
+			}
+			
+			//Content Reference - Content-1
+			if (worksheet.getRow(LOMTConstant.SEVENTEEN).getCell(LOMTConstant.ELEVENTH).getStringCellValue().equalsIgnoreCase(ReportsConstant.CONTENT1)) {
+				if(worksheet.getRow(LOMTConstant.EIGHTEEN).getCell(LOMTConstant.ELEVENTH).getStringCellValue().equalsIgnoreCase(ReportsConstant.CONTENT_REFERENCE)) {
+				} else {
+				count++;
+				logger.log(LogStatus.FAIL, "TC_LOMT-1836-Content Reference for Content-1 Heading header does not match in exported file/T1");
+			    }
+			} else {
+				count++;
+				logger.log(LogStatus.FAIL, "TC_LOMT-1836-Content Reference - Content-1 Heading header does not match in exported file/T1");
+			}
+			//Page Start - Content-1
+			if (worksheet.getRow(LOMTConstant.EIGHTEEN).getCell(LOMTConstant.TWELEVE).getStringCellValue().equalsIgnoreCase(ReportsConstant.START_PAGE)) {
+			} else {
+				count++;
+				logger.log(LogStatus.FAIL, "TC_LOMT-1836-Page Start - Content-1 Heading header does not match in exported file");
+			}
+			//Page End - Content-1
+			if (worksheet.getRow(LOMTConstant.EIGHTEEN).getCell(LOMTConstant.THIRTEEN).getStringCellValue().equalsIgnoreCase(ReportsConstant.END_PAGE)) {
+			} else {
+				count++;
+				logger.log(LogStatus.FAIL, "TC_LOMT-1836-Page End - Content-1 Heading header does not match in exported file");
+			}
+			//Correlation Score - Content-1
+			if (worksheet.getRow(LOMTConstant.EIGHTEEN).getCell(LOMTConstant.FOURTEEN).getStringCellValue().equalsIgnoreCase(ReportsConstant.CORRELATION_SCORE)) {
+				System.out.println("true");
+			} else {
+				count++;
+				logger.log(LogStatus.FAIL, "TC_LOMT-1836-Correlation Score - Content-1 Heading header does not match in exported file");
+			}
+			//Strength - Content-1
+			if (worksheet.getRow(LOMTConstant.EIGHTEEN).getCell(LOMTConstant.FIFTEEN).getStringCellValue().equalsIgnoreCase(ReportsConstant.STRENGTH)) {
+			} else {
+				count++;
+				logger.log(LogStatus.FAIL, "TC_LOMT-1836-Strength - Content-1 Heading header does not match in exported file");
+			}
+			//Peripheral Alignments - Content-1
+			if (worksheet.getRow(LOMTConstant.EIGHTEEN).getCell(LOMTConstant.SIXTEEN).getStringCellValue().equalsIgnoreCase(ReportsConstant.PERIPHERAL_ALIGNMENTS)) {
+			} else {
+				count++;
+				logger.log(LogStatus.FAIL, "TC_LOMT-1836-Peripheral Alignments - Content-1 Heading header does not match in exported file");
+			}
+			
+			//Content Reference - Content-2
+			if (worksheet.getRow(LOMTConstant.SEVENTEEN).getCell(LOMTConstant.EIGHTEEN).getStringCellValue().equalsIgnoreCase(ReportsConstant.CONTENT2)) {
+				if(worksheet.getRow(LOMTConstant.EIGHTEEN).getCell(LOMTConstant.EIGHTEEN).getStringCellValue().equalsIgnoreCase(ReportsConstant.CONTENT_REFERENCE)) {
+				} else {
+				count++;
+				logger.log(LogStatus.FAIL, "TC_LOMT-1836-Content Reference for Content-2 Heading header does not match in exported file/T2");
+				}
+			} else {
+				count++;
+				logger.log(LogStatus.FAIL, "TC_LOMT-1836-Content Reference - Content-2 Heading header does not match in exported file/T2");
+			}
+			//Page Start - Content-2
+			if (worksheet.getRow(LOMTConstant.EIGHTEEN).getCell(LOMTConstant.NINETEEN).getStringCellValue().equalsIgnoreCase(ReportsConstant.START_PAGE)) {
+			} else {
+				count++;
+				logger.log(LogStatus.FAIL, "TC_LOMT-1836-Page Start - Content-2 Heading header does not match in exported file");
+			}
+			//Page End - Content-2
+			if (worksheet.getRow(LOMTConstant.EIGHTEEN).getCell(LOMTConstant.TWENTY).getStringCellValue().equalsIgnoreCase(ReportsConstant.END_PAGE)) {
+			} else {
+				count++;
+				logger.log(LogStatus.FAIL, "TC_LOMT-1836-Page End - Content-2 Heading header does not match in exported file");
+			}
+			//Correlation Score - Content-2
+			if (worksheet.getRow(LOMTConstant.EIGHTEEN).getCell(LOMTConstant.TWENTY_ONE).getStringCellValue().equalsIgnoreCase(ReportsConstant.CORRELATION_SCORE)) {
+				System.out.println("true");
+			} else {
+				count++;
+				logger.log(LogStatus.FAIL, "TC_LOMT-1836-Correlation Score - Content-2 Heading header does not match in exported file");
+			}
+			//Strength - Content-2
+			if (worksheet.getRow(LOMTConstant.EIGHTEEN).getCell(LOMTConstant.TWENTY_TWO).getStringCellValue().equalsIgnoreCase(ReportsConstant.STRENGTH)) {
+			} else {
+				count++;
+				logger.log(LogStatus.FAIL, "TC_LOMT-1836-Strength - Content-2 Heading header does not match in exported file");
+			}
+			//Peripheral Alignments - Content-2
+			if (worksheet.getRow(LOMTConstant.EIGHTEEN).getCell(LOMTConstant.TWENTY_THREE).getStringCellValue().equalsIgnoreCase(ReportsConstant.PERIPHERAL_ALIGNMENTS)) {
+			} else {
+				count++;
+				logger.log(LogStatus.FAIL, "TC_LOMT-1836-Peripheral Alignments - Content-2 Heading header does not match in exported file");
+			}
+			
+			if (count == 0) {
+				logger.log(LogStatus.PASS, "TC-LOMT-1836-05A_SchoolGlobal_ReportsAndExports_StandardToToC ViaIntermediaryReport_Content1Section_Headers");
+				logger.log(LogStatus.PASS, "TC-LOMT-1836-06A_SchoolGlobal_ReportsAndExports_StandardToToC ViaIntermediaryReport_Content2Section_Headers");
+			} else {
+				logger.log(LogStatus.FAIL, "TC-LOMT-1836-05A_SchoolGlobal_ReportsAndExports_StandardToToC ViaIntermediaryReport_Content1Section_Headers");
+				logger.log(LogStatus.FAIL, "TC-LOMT-1836-06A_SchoolGlobal_ReportsAndExports_StandardToToC ViaIntermediaryReport_Content2Section_Headers");
+			}
+		} catch (Exception e) {
+			logger.log(LogStatus.FAIL, "TC_LOMT-1836 Error occured during data verification : ");
+			e.printStackTrace();
+		}
+	}
+	
+	public void verifyStandardTocIntermediaryReportData(XSSFSheet worksheet, String reportName, ExtentTest logger) {
+		try {
+			int count = 0;
+			Iterator<Row> rowItr = worksheet.iterator();
+			while (rowItr.hasNext()) {
+				Row row = rowItr.next();
+				//Standards' Strands
+				if (row.getRowNum() == 19) {
+					if (row.getCell(LOMTConstant.ZERO) != null && row.getCell(LOMTConstant.ZERO).getStringCellValue().equalsIgnoreCase(ReportsConstant.STND_STRANDS)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Standards' Strands doesn't match at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.THREE) != null) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 AB GUID should not be null at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.FOUR) != null) {
+					} else {
+						count++; 
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Correlation Score for Content 1 should not be null at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.SEVEN) != null) {
+					} else {
+						count++; 
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Correlation Score for Content 2 should not be null at row number : "+row.getRowNum());
+					}
+				}
+				
+				else if (row.getRowNum() == 20) {
+					if (row.getCell(LOMTConstant.ONE) != null && row.getCell(LOMTConstant.ONE).getStringCellValue().equalsIgnoreCase(ReportsConstant.ST_1)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Standards' Topics doesn't match at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.TWO) != null && row.getCell(LOMTConstant.TWO).getStringCellValue().equalsIgnoreCase(ReportsConstant.W)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Standards' Number doesn't match at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.THREE) != null) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 AB GUID should not be null at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.FOUR) != null && row.getCell(LOMTConstant.FOUR).getStringCellValue().equalsIgnoreCase(ReportsConstant.THREE_BY_THREE)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Correlation Score for Content 1 doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.FIVE) != null && row.getCell(LOMTConstant.FIVE).getStringCellValue().equalsIgnoreCase(ReportsConstant.STRENGTH_COMPLETE)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Strength doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.SIX) != null && row.getCell(LOMTConstant.SIX).getStringCellValue().equalsIgnoreCase(ReportsConstant.PERIPHERAL_ALIGNMENTS_BY_ONE)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Peripheral Alignments value doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.SEVEN) != null && row.getCell(LOMTConstant.SEVEN).getStringCellValue().equalsIgnoreCase(ReportsConstant.THREE_BY_THREE)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Correlation Score for Content 2 doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.EIGHT) != null && row.getCell(LOMTConstant.EIGHT).getStringCellValue().equalsIgnoreCase(ReportsConstant.STRENGTH_COMPLETE)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Strength doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.NINE) != null && row.getCell(LOMTConstant.NINE).getStringCellValue().equalsIgnoreCase(ReportsConstant.PERIPHERAL_ALIGNMENTS_BY_ONE)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Peripheral Alignments value doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.ELEVENTH) != null && 
+							row.getCell(LOMTConstant.ELEVENTH).getStringCellValue().contains(ReportsConstant.PRODUCT_TOC_TEST_DATA_3)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Content Reference(TOC description) doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.TWELEVE) != null && 
+							row.getCell(LOMTConstant.TWELEVE).getStringCellValue().contains(ReportsConstant.PAGE_START_1)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Page Start doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.THIRTEEN) != null && 
+							row.getCell(LOMTConstant.THIRTEEN).getStringCellValue().contains(ReportsConstant.PAGE_END_6)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Page End doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.FOURTEEN) != null && 
+							row.getCell(LOMTConstant.FOURTEEN).getStringCellValue().contains(ReportsConstant.TWO_BY_FOUR)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Correlation Score(TOC) doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.FIFTEEN) != null && 
+							row.getCell(LOMTConstant.FIFTEEN).getStringCellValue().contains(ReportsConstant.STRENGTH_AVERAGE)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Strength(TOC) doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.EIGHTEEN) != null && 
+							row.getCell(LOMTConstant.EIGHTEEN).getStringCellValue().contains(ReportsConstant.PRODUCT_TOC_LEVEL_DATA_1)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Content Reference(TOC description) doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.NINETEEN) != null && 
+							row.getCell(LOMTConstant.NINETEEN).getStringCellValue().contains(ReportsConstant.PAGE_START_1)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Page Start doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.TWENTY) != null && 
+							row.getCell(LOMTConstant.TWENTY).getStringCellValue().contains(ReportsConstant.PAGE_END_3)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Page End doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.TWENTY_ONE) != null && 
+							row.getCell(LOMTConstant.TWENTY_ONE).getStringCellValue().contains(ReportsConstant.ONE_BY_ONE)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Correlation Score(TOC) doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.TWENTY_TWO) != null && 
+							row.getCell(LOMTConstant.TWENTY_TWO).getStringCellValue().contains(ReportsConstant.STRENGTH_COMPLETE)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Strength(TOC) doesn't match at row number at row number : "+row.getRowNum());
+					}
+				} 
+				
+				else if (row.getRowNum() == 21) {
+					if (row.getCell(LOMTConstant.ELEVENTH) != null && 
+							row.getCell(LOMTConstant.ELEVENTH).getStringCellValue().contains(ReportsConstant.PRODUCT_TOC_TEST_DATA_2)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Content Reference(TOC description) doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.TWELEVE) != null && 
+							row.getCell(LOMTConstant.TWELEVE).getStringCellValue().contains(ReportsConstant.PAGE_START_4)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Page Start doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.THIRTEEN) != null && 
+							row.getCell(LOMTConstant.THIRTEEN).getStringCellValue().contains(ReportsConstant.PAGE_END_6)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Page End doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.FOURTEEN) != null && 
+							row.getCell(LOMTConstant.FOURTEEN).getStringCellValue().contains(ReportsConstant.THREE_BY_FOUR)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Correlation Score(TOC) doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.FIFTEEN) != null && 
+							row.getCell(LOMTConstant.FIFTEEN).getStringCellValue().contains(ReportsConstant.STRENGTH_STRONG)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Strength(TOC) doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.EIGHTEEN) != null && 
+							row.getCell(LOMTConstant.EIGHTEEN).getStringCellValue().contains(ReportsConstant.PRODUCT_TOC_LEVEL_DATA_2)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Content Reference(TOC description) doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.NINETEEN) != null && 
+							row.getCell(LOMTConstant.NINETEEN).getStringCellValue().contains(ReportsConstant.PAGE_START_4)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Page Start doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.TWENTY) != null && 
+							row.getCell(LOMTConstant.TWENTY).getStringCellValue().contains(ReportsConstant.PAGE_END_6)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Page End doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.TWENTY_ONE) != null && 
+							row.getCell(LOMTConstant.TWENTY_ONE).getStringCellValue().contains(ReportsConstant.THREE_BY_FOUR)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Correlation Score(TOC) doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.TWENTY_TWO) != null && 
+							row.getCell(LOMTConstant.TWENTY_TWO).getStringCellValue().contains(ReportsConstant.STRENGTH_STRONG)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Strength(TOC) doesn't match at row number at row number : "+row.getRowNum());
+					}
+				}
+				
+				else if (row.getRowNum() == 22) {
+					if (row.getCell(LOMTConstant.ELEVENTH) != null && 
+							row.getCell(LOMTConstant.ELEVENTH).getStringCellValue().contains(ReportsConstant.PRODUCT_TOC_TEST_DATA_1)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Content Reference(TOC description) doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.TWELEVE) != null && 
+							row.getCell(LOMTConstant.TWELEVE).getStringCellValue().contains(ReportsConstant.PAGE_START_1)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Page Start doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.THIRTEEN) != null && 
+							row.getCell(LOMTConstant.THIRTEEN).getStringCellValue().contains(ReportsConstant.PAGE_END_3)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Page End doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.FOURTEEN) != null && 
+							row.getCell(LOMTConstant.FOURTEEN).getStringCellValue().contains(ReportsConstant.ONE_BY_ONE)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Correlation Score(TOC) doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.FIFTEEN) != null && 
+							row.getCell(LOMTConstant.FIFTEEN).getStringCellValue().contains(ReportsConstant.STRENGTH_COMPLETE)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Strength(TOC) doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.EIGHTEEN) != null && 
+							row.getCell(LOMTConstant.EIGHTEEN).getStringCellValue().contains(ReportsConstant.PRODUCT_TOC_LEVEL_DATA_3)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Content Reference(TOC description) doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.NINETEEN) != null && 
+							row.getCell(LOMTConstant.NINETEEN).getStringCellValue().contains(ReportsConstant.PAGE_START_1)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Page Start doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.TWENTY) != null && 
+							row.getCell(LOMTConstant.TWENTY).getStringCellValue().contains(ReportsConstant.PAGE_END_6)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Page End doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.TWENTY_ONE) != null && 
+							row.getCell(LOMTConstant.TWENTY_ONE).getStringCellValue().contains(ReportsConstant.TWO_BY_FOUR)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Correlation Score(TOC) doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.TWENTY_TWO) != null && 
+							row.getCell(LOMTConstant.TWENTY_TWO).getStringCellValue().contains(ReportsConstant.STRENGTH_AVERAGE)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Strength(TOC) doesn't match at row number at row number : "+row.getRowNum());
+					}
+				}
+				
+				else if (row.getRowNum() == 23) {
+					if (row.getCell(LOMTConstant.ELEVENTH) != null && 
+							row.getCell(LOMTConstant.ELEVENTH).getStringCellValue().contains(ReportsConstant.PRODUCT_TOC_TEST_DATA_5)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Content Reference(TOC description) doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.TWELEVE) != null && 
+							row.getCell(LOMTConstant.TWELEVE).getStringCellValue().contains(ReportsConstant.PAGE_START_4)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Page Start doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.THIRTEEN) != null && 
+							row.getCell(LOMTConstant.THIRTEEN).getStringCellValue().contains(ReportsConstant.PAGE_END_5)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Page End doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.FOURTEEN) != null && 
+							row.getCell(LOMTConstant.FOURTEEN).getStringCellValue().contains(ReportsConstant.ZERO_BY_ZERO)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Correlation Score(TOC) doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.FIFTEEN) != null && 
+							row.getCell(LOMTConstant.FIFTEEN).getStringCellValue().contains(ReportsConstant.NO_CORRELATION)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Strength(TOC) doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.SIXTEEN) != null && 
+							row.getCell(LOMTConstant.SIXTEEN).getStringCellValue().contains(ReportsConstant.PERIPHERAL_ALIGNMENTS_BY_TWO)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Peripheral_Alignments doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.EIGHTEEN) != null && 
+							row.getCell(LOMTConstant.EIGHTEEN).getStringCellValue().contains(ReportsConstant.PRODUCT_TOC_LEVEL_DATA_5)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Content Reference(TOC description) doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.NINETEEN) != null && 
+							row.getCell(LOMTConstant.NINETEEN).getStringCellValue().contains(ReportsConstant.PAGE_START_4)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Page Start doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.TWENTY) != null && 
+							row.getCell(LOMTConstant.TWENTY).getStringCellValue().contains(ReportsConstant.PAGE_END_5)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Page End doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.TWENTY_ONE) != null && 
+							row.getCell(LOMTConstant.TWENTY_ONE).getStringCellValue().contains(ReportsConstant.ZERO_BY_ZERO)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Correlation Score(TOC) doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.TWENTY_TWO) != null && 
+							row.getCell(LOMTConstant.TWENTY_TWO).getStringCellValue().contains(ReportsConstant.NO_CORRELATION)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Strength(TOC) doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.TWENTY_THREE) != null && 
+							row.getCell(LOMTConstant.TWENTY_THREE).getStringCellValue().contains(ReportsConstant.PERIPHERAL_ALIGNMENTS_BY_TWO)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Peripheral_Alignments doesn't match at row number at row number : "+row.getRowNum());
+					}
+				}
+				
+				else if (row.getRowNum() == 24) { //Alignment 
+					if (row.getCell(LOMTConstant.ONE) != null && row.getCell(LOMTConstant.ONE).getStringCellValue().contains(ReportsConstant.CS_LEVEL_1)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Standards' Topics(CS) doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.THREE) != null) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 AB GUID(CS) can't be null at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.FOUR) != null && row.getCell(LOMTConstant.FOUR).getStringCellValue().contains(ReportsConstant.ZERO_BY_ZERO)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Correlation Score(CS) doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.FIVE) != null && row.getCell(LOMTConstant.FIVE).getStringCellValue().contains(ReportsConstant.NO_CORRELATION)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Strength(CS) doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.SEVEN) != null && row.getCell(LOMTConstant.SEVEN).getStringCellValue().contains(ReportsConstant.ZERO_BY_ZERO)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Correlation Score(CS) doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.EIGHT) != null && row.getCell(LOMTConstant.EIGHT).getStringCellValue().contains(ReportsConstant.NO_CORRELATION)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Strength(CS) doesn't match at row number at row number : "+row.getRowNum());
+					}
+				}
+				
+				else if (row.getRowNum() == 25) {
+					if (row.getCell(LOMTConstant.ONE) != null && row.getCell(LOMTConstant.ONE).getStringCellValue().contains(ReportsConstant.CS_LEVEL_2)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Standards' Topics(CS) doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.TWO) != null && row.getCell(LOMTConstant.TWO).getStringCellValue().contains(ReportsConstant.W_1)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Standard Number(CS) doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.THREE) != null) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 AB GUID(CS) can't be null at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.FOUR) != null && row.getCell(LOMTConstant.FOUR).getStringCellValue().contains(ReportsConstant.ZERO_BY_ZERO)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Correlation Score(CS) doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.FIVE) != null && row.getCell(LOMTConstant.FIVE).getStringCellValue().contains(ReportsConstant.NO_CORRELATION)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Strength(CS) doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.SEVEN) != null && row.getCell(LOMTConstant.SEVEN).getStringCellValue().contains(ReportsConstant.ZERO_BY_ZERO)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Correlation Score(CS) doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.EIGHT) != null && row.getCell(LOMTConstant.EIGHT).getStringCellValue().contains(ReportsConstant.NO_CORRELATION)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Strength(CS) doesn't match at row number at row number : "+row.getRowNum());
+					}
+				}
+				
+				else if (row.getRowNum() == 26) { // Alignment 
+					if (row.getCell(LOMTConstant.ONE) != null && row.getCell(LOMTConstant.ONE).getStringCellValue().contains(ReportsConstant.ST_2)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Standards' Topics(CS) doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.TWO) != null && row.getCell(LOMTConstant.TWO).getStringCellValue().contains(ReportsConstant.SL)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Standard Number(CS) doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.THREE) != null) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 AB GUID(CS) can't be null at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.FOUR) != null && row.getCell(LOMTConstant.FOUR).getStringCellValue().contains(ReportsConstant.TWO_BY_TWO)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Correlation Score(CS) doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.FIVE) != null && row.getCell(LOMTConstant.FIVE).getStringCellValue().contains(ReportsConstant.STRENGTH_COMPLETE)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Strength(CS) doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.SIX) != null && row.getCell(LOMTConstant.SIX).getStringCellValue().equalsIgnoreCase(ReportsConstant.PERIPHERAL_ALIGNMENTS_BY_ONE)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Peripheral Alignments value doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.SEVEN) != null && row.getCell(LOMTConstant.SEVEN).getStringCellValue().equalsIgnoreCase(ReportsConstant.TWO_BY_TWO)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Correlation Score for Content 2 doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.EIGHT) != null && row.getCell(LOMTConstant.EIGHT).getStringCellValue().equalsIgnoreCase(ReportsConstant.STRENGTH_COMPLETE)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Strength doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.NINE) != null && row.getCell(LOMTConstant.NINE).getStringCellValue().equalsIgnoreCase(ReportsConstant.PERIPHERAL_ALIGNMENTS_BY_ONE)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Peripheral Alignments value doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.ELEVENTH) != null && 
+							row.getCell(LOMTConstant.ELEVENTH).getStringCellValue().contains(ReportsConstant.PRODUCT_TOC_TEST_DATA_2)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Content Reference(TOC description) doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.TWELEVE) != null && 
+							row.getCell(LOMTConstant.TWELEVE).getStringCellValue().contains(ReportsConstant.PAGE_START_4)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Page Start doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.THIRTEEN) != null && 
+							row.getCell(LOMTConstant.THIRTEEN).getStringCellValue().contains(ReportsConstant.PAGE_END_6)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Page End doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.FOURTEEN) != null && 
+							row.getCell(LOMTConstant.FOURTEEN).getStringCellValue().contains(ReportsConstant.THREE_BY_FOUR)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Correlation Score(TOC) doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.FIFTEEN) != null && 
+							row.getCell(LOMTConstant.FIFTEEN).getStringCellValue().contains(ReportsConstant.STRENGTH_STRONG)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Strength(TOC) doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.EIGHTEEN) != null && 
+							row.getCell(LOMTConstant.EIGHTEEN).getStringCellValue().contains(ReportsConstant.PRODUCT_TOC_LEVEL_DATA_2)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Content Reference(TOC description) doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.NINETEEN) != null && 
+							row.getCell(LOMTConstant.NINETEEN).getStringCellValue().contains(ReportsConstant.PAGE_START_4)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Page Start doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.TWENTY) != null && 
+							row.getCell(LOMTConstant.TWENTY).getStringCellValue().contains(ReportsConstant.PAGE_END_6)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Page End doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.TWENTY_ONE) != null && 
+							row.getCell(LOMTConstant.TWENTY_ONE).getStringCellValue().contains(ReportsConstant.THREE_BY_FOUR)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Correlation Score(TOC) doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.TWENTY_TWO) != null && 
+							row.getCell(LOMTConstant.TWENTY_TWO).getStringCellValue().contains(ReportsConstant.STRENGTH_STRONG)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Strength(TOC) doesn't match at row number at row number : "+row.getRowNum());
+					}
+				}
+				
+				else if (row.getRowNum() == 27) { 
+					if (row.getCell(LOMTConstant.ELEVENTH) != null && 
+							row.getCell(LOMTConstant.ELEVENTH).getStringCellValue().contains(ReportsConstant.PRODUCT_TOC_TEST_DATA_3)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Content Reference(TOC description) doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.TWELEVE) != null && 
+							row.getCell(LOMTConstant.TWELEVE).getStringCellValue().contains(ReportsConstant.PAGE_START_1)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Page Start doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.THIRTEEN) != null && 
+							row.getCell(LOMTConstant.THIRTEEN).getStringCellValue().contains(ReportsConstant.PAGE_END_6)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Page End doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.FOURTEEN) != null && 
+							row.getCell(LOMTConstant.FOURTEEN).getStringCellValue().contains(ReportsConstant.TWO_BY_FOUR)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Correlation Score(TOC) doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.FIFTEEN) != null && 
+							row.getCell(LOMTConstant.FIFTEEN).getStringCellValue().contains(ReportsConstant.STRENGTH_AVERAGE)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Strength(TOC) doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.EIGHTEEN) != null && 
+							row.getCell(LOMTConstant.EIGHTEEN).getStringCellValue().contains(ReportsConstant.PRODUCT_TOC_LEVEL_DATA_3)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Content Reference(TOC description) doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.NINETEEN) != null && 
+							row.getCell(LOMTConstant.NINETEEN).getStringCellValue().contains(ReportsConstant.PAGE_START_1)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Page Start doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.TWENTY) != null && 
+							row.getCell(LOMTConstant.TWENTY).getStringCellValue().contains(ReportsConstant.PAGE_END_6)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Page End doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.TWENTY_ONE) != null && 
+							row.getCell(LOMTConstant.TWENTY_ONE).getStringCellValue().contains(ReportsConstant.TWO_BY_FOUR)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Correlation Score(TOC) doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.TWENTY_TWO) != null && 
+							row.getCell(LOMTConstant.TWENTY_TWO).getStringCellValue().contains(ReportsConstant.STRENGTH_AVERAGE)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Strength(TOC) doesn't match at row number at row number : "+row.getRowNum());
+					}
+				}
+				
+				else if (row.getRowNum() == 28) { 
+					if (row.getCell(LOMTConstant.ELEVENTH) != null && 
+							row.getCell(LOMTConstant.ELEVENTH).getStringCellValue().contains(ReportsConstant.PRODUCT_TOC_TEST_DATA_5)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Content Reference(TOC description) doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.TWELEVE) != null && 
+							row.getCell(LOMTConstant.TWELEVE).getStringCellValue().contains(ReportsConstant.PAGE_START_4)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Page Start doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.THIRTEEN) != null && 
+							row.getCell(LOMTConstant.THIRTEEN).getStringCellValue().contains(ReportsConstant.PAGE_END_5)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Page End doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.FOURTEEN) != null && 
+							row.getCell(LOMTConstant.FOURTEEN).getStringCellValue().contains(ReportsConstant.ZERO_BY_ZERO)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Correlation Score(TOC) doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.FIFTEEN) != null && 
+							row.getCell(LOMTConstant.FIFTEEN).getStringCellValue().contains(ReportsConstant.NO_CORRELATION)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Strength(TOC) doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.SIXTEEN) != null && 
+							row.getCell(LOMTConstant.SIXTEEN).getStringCellValue().contains(ReportsConstant.PERIPHERAL_ALIGNMENTS_BY_TWO)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Peripheral_Alignments doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.EIGHTEEN) != null && 
+							row.getCell(LOMTConstant.EIGHTEEN).getStringCellValue().contains(ReportsConstant.PRODUCT_TOC_LEVEL_DATA_5)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Content Reference(TOC description) doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.NINETEEN) != null && 
+							row.getCell(LOMTConstant.NINETEEN).getStringCellValue().contains(ReportsConstant.PAGE_START_4)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Page Start doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.TWENTY) != null && 
+							row.getCell(LOMTConstant.TWENTY).getStringCellValue().contains(ReportsConstant.PAGE_END_5)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Page End doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.TWENTY_ONE) != null && 
+							row.getCell(LOMTConstant.TWENTY_ONE).getStringCellValue().contains(ReportsConstant.ZERO_BY_ZERO)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Correlation Score(TOC) doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.TWENTY_TWO) != null && 
+							row.getCell(LOMTConstant.TWENTY_TWO).getStringCellValue().contains(ReportsConstant.NO_CORRELATION)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Strength(TOC) doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.TWENTY_THREE) != null && 
+							row.getCell(LOMTConstant.TWENTY_THREE).getStringCellValue().contains(ReportsConstant.PERIPHERAL_ALIGNMENTS_BY_TWO)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Peripheral_Alignments doesn't match at row number at row number : "+row.getRowNum());
+					}
+				}
+				
+				else if (row.getRowNum() == 29) { 
+					if (row.getCell(LOMTConstant.ONE) != null && row.getCell(LOMTConstant.ONE).getStringCellValue().contains(ReportsConstant.CS_LEVEL_3)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Standards' Topics(CS) doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.THREE) != null) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 AB GUID(CS) can't be null at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.FOUR) != null && row.getCell(LOMTConstant.FOUR).getStringCellValue().contains(ReportsConstant.ZERO_BY_ZERO)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Correlation Score(CS) doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.FIVE) != null && row.getCell(LOMTConstant.FIVE).getStringCellValue().contains(ReportsConstant.NO_CORRELATION)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Strength(CS) doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.SEVEN) != null && row.getCell(LOMTConstant.SEVEN).getStringCellValue().equalsIgnoreCase(ReportsConstant.ZERO_BY_ZERO)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Correlation Score for Content 2 doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.EIGHT) != null && row.getCell(LOMTConstant.EIGHT).getStringCellValue().equalsIgnoreCase(ReportsConstant.NO_CORRELATION)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Strength doesn't match at row number at row number : "+row.getRowNum());
+					}
+				}
+				
+				else if (row.getRowNum() == 30) {  //Alignment 
+					if (row.getCell(LOMTConstant.ONE) != null && row.getCell(LOMTConstant.ONE).getStringCellValue().contains(ReportsConstant.CS_LEVEL_4)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Standards' Topics(CS) doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.TWO) != null && row.getCell(LOMTConstant.TWO).getStringCellValue().contains(ReportsConstant.SL_1)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Standard Number(CS) doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.THREE) != null) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 AB GUID(CS) can't be null at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.FOUR) != null && row.getCell(LOMTConstant.FOUR).getStringCellValue().contains(ReportsConstant.ZERO_BY_ZERO)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Correlation Score(CS) doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.FIVE) != null && row.getCell(LOMTConstant.FIVE).getStringCellValue().contains(ReportsConstant.NO_CORRELATION)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Strength(CS) doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.SEVEN) != null && row.getCell(LOMTConstant.SEVEN).getStringCellValue().equalsIgnoreCase(ReportsConstant.ZERO_BY_ZERO)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Correlation Score for Content 2 doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.EIGHT) != null && row.getCell(LOMTConstant.EIGHT).getStringCellValue().equalsIgnoreCase(ReportsConstant.NO_CORRELATION)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Strength doesn't match at row number at row number : "+row.getRowNum());
+					}
+					
+				}
+				
+				else if (row.getRowNum() == 31) {  
+					if (row.getCell(LOMTConstant.ONE) != null && row.getCell(LOMTConstant.ONE).getStringCellValue().contains(ReportsConstant.ST_3)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Standards' Topics(CS) doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.TWO) != null && row.getCell(LOMTConstant.TWO).getStringCellValue().contains(ReportsConstant.L)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Standard Number(CS) doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.THREE) != null) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 AB GUID(CS) can't be null at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.FOUR) != null && row.getCell(LOMTConstant.FOUR).getStringCellValue().contains(ReportsConstant.ONE_BY_ONE)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Correlation Score(CS) doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.FIVE) != null && row.getCell(LOMTConstant.FIVE).getStringCellValue().contains(ReportsConstant.STRENGTH_COMPLETE)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Strength(CS) doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.SEVEN) != null && row.getCell(LOMTConstant.SEVEN).getStringCellValue().contains(ReportsConstant.ONE_BY_ONE)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Correlation Score(CS) doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.EIGHT) != null && row.getCell(LOMTConstant.EIGHT).getStringCellValue().contains(ReportsConstant.STRENGTH_COMPLETE)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Strength(CS) doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.ELEVENTH) != null && 
+							row.getCell(LOMTConstant.ELEVENTH).getStringCellValue().contains(ReportsConstant.PRODUCT_TOC_TEST_DATA_2)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Content Reference(TOC description) doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.TWELEVE) != null && 
+							row.getCell(LOMTConstant.TWELEVE).getStringCellValue().contains(ReportsConstant.PAGE_START_4)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Page Start doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.THIRTEEN) != null && 
+							row.getCell(LOMTConstant.THIRTEEN).getStringCellValue().contains(ReportsConstant.PAGE_END_6)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Page End doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.FOURTEEN) != null && 
+							row.getCell(LOMTConstant.FOURTEEN).getStringCellValue().contains(ReportsConstant.THREE_BY_FOUR)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Correlation Score(TOC) doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.FIFTEEN) != null && 
+							row.getCell(LOMTConstant.FIFTEEN).getStringCellValue().contains(ReportsConstant.STRENGTH_STRONG)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Strength(TOC) doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.EIGHTEEN) != null && 
+							row.getCell(LOMTConstant.EIGHTEEN).getStringCellValue().contains(ReportsConstant.PRODUCT_TOC_LEVEL_DATA_2)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Content Reference(TOC description) doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.NINETEEN) != null && 
+							row.getCell(LOMTConstant.NINETEEN).getStringCellValue().contains(ReportsConstant.PAGE_START_4)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Page Start doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.TWENTY) != null && 
+							row.getCell(LOMTConstant.TWENTY).getStringCellValue().contains(ReportsConstant.PAGE_END_6)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Page End doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.TWENTY_ONE) != null && 
+							row.getCell(LOMTConstant.TWENTY_ONE).getStringCellValue().contains(ReportsConstant.THREE_BY_FOUR)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Correlation Score(TOC) doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.TWENTY_TWO) != null && 
+							row.getCell(LOMTConstant.TWENTY_TWO).getStringCellValue().contains(ReportsConstant.STRENGTH_STRONG)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Strength(TOC) doesn't match at row number at row number : "+row.getRowNum());
+					}
+				}
+				
+				else if (row.getRowNum() == 32) {  
+					if (row.getCell(LOMTConstant.ONE) != null && row.getCell(LOMTConstant.ONE).getStringCellValue().contains(ReportsConstant.CS_LEVEL_7)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Standards' Topics(CS) doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.THREE) != null) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 AB GUID(CS) can't be null at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.FOUR) != null && row.getCell(LOMTConstant.FOUR).getStringCellValue().contains(ReportsConstant.ZERO_BY_ZERO)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Correlation Score(CS) doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.FIVE) != null && row.getCell(LOMTConstant.FIVE).getStringCellValue().contains(ReportsConstant.NO_CORRELATION)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Strength(CS) doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.SEVEN) != null && row.getCell(LOMTConstant.SEVEN).getStringCellValue().contains(ReportsConstant.ZERO_BY_ZERO)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Correlation Score(CS) doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.EIGHT) != null && row.getCell(LOMTConstant.EIGHT).getStringCellValue().contains(ReportsConstant.NO_CORRELATION)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Strength(CS) doesn't match at row number at row number : "+row.getRowNum());
+					}
+				}
+				
+				else if (row.getRowNum() == 33) {  
+					if (row.getCell(LOMTConstant.ONE) != null && row.getCell(LOMTConstant.ONE).getStringCellValue().contains(ReportsConstant.CS_LEVEL_5)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Standards' Topics(CS) doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.TWO) != null && row.getCell(LOMTConstant.TWO).getStringCellValue().contains(ReportsConstant.L_1)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Standard Number(CS) doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.THREE) != null) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 AB GUID(CS) can't be null at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.FOUR) != null && row.getCell(LOMTConstant.FOUR).getStringCellValue().contains(ReportsConstant.ZERO_BY_ZERO)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Correlation Score(CS) doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.FIVE) != null && row.getCell(LOMTConstant.FIVE).getStringCellValue().contains(ReportsConstant.NO_CORRELATION)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Strength(CS) doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.SEVEN) != null && row.getCell(LOMTConstant.SEVEN).getStringCellValue().contains(ReportsConstant.ZERO_BY_ZERO)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Correlation Score(CS) doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.EIGHT) != null && row.getCell(LOMTConstant.EIGHT).getStringCellValue().contains(ReportsConstant.NO_CORRELATION)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Strength(CS) doesn't match at row number at row number : "+row.getRowNum());
+					}
+				}
+				
+				else if (row.getRowNum() == 34) {  
+					if (row.getCell(LOMTConstant.ONE) != null && row.getCell(LOMTConstant.ONE).getStringCellValue().contains(ReportsConstant.ST_4)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Standards' Topics(CS) doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.TWO) != null && row.getCell(LOMTConstant.TWO).getStringCellValue().contains(ReportsConstant.L)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Standard Number(CS) doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.THREE) != null) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 AB GUID(CS) can't be null at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.FOUR) != null && row.getCell(LOMTConstant.FOUR).getStringCellValue().contains(ReportsConstant.ZERO_BY_ZERO)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Correlation Score(CS) doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.FIVE) != null && row.getCell(LOMTConstant.FIVE).getStringCellValue().contains(ReportsConstant.NO_CORRELATION)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Strength(CS) doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.SEVEN) != null && row.getCell(LOMTConstant.SEVEN).getStringCellValue().contains(ReportsConstant.ZERO_BY_ZERO)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Correlation Score(CS) doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.EIGHT) != null && row.getCell(LOMTConstant.EIGHT).getStringCellValue().contains(ReportsConstant.NO_CORRELATION)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Strength(CS) doesn't match at row number at row number : "+row.getRowNum());
+					}
+				}
+				
+				else if (row.getRowNum() == 35) {  
+					if (row.getCell(LOMTConstant.ONE) != null && row.getCell(LOMTConstant.ONE).getStringCellValue().contains(ReportsConstant.CS_LEVEL_7)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Standards' Topics(CS) doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.THREE) != null) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 AB GUID(CS) can't be null at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.FOUR) != null && row.getCell(LOMTConstant.FOUR).getStringCellValue().contains(ReportsConstant.ZERO_BY_ZERO)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Correlation Score(CS) doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.FIVE) != null && row.getCell(LOMTConstant.FIVE).getStringCellValue().contains(ReportsConstant.NO_CORRELATION)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Strength(CS) doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.SEVEN) != null && row.getCell(LOMTConstant.SEVEN).getStringCellValue().contains(ReportsConstant.ZERO_BY_ZERO)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Correlation Score(CS) doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.EIGHT) != null && row.getCell(LOMTConstant.EIGHT).getStringCellValue().contains(ReportsConstant.NO_CORRELATION)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Strength(CS) doesn't match at row number at row number : "+row.getRowNum());
+					}
+				}
+				
+				else if (row.getRowNum() == 36) {  
+					if (row.getCell(LOMTConstant.ONE) != null && row.getCell(LOMTConstant.ONE).getStringCellValue().contains(ReportsConstant.CS_LEVEL_6)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Standards' Topics(CS) doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.TWO) != null && row.getCell(LOMTConstant.TWO).getStringCellValue().contains(ReportsConstant.L_1)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Standard Number(CS) doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.THREE) != null) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 AB GUID(CS) can't be null at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.FOUR) != null && row.getCell(LOMTConstant.FOUR).getStringCellValue().contains(ReportsConstant.ZERO_BY_ZERO)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Correlation Score(CS) doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.FIVE) != null && row.getCell(LOMTConstant.FIVE).getStringCellValue().contains(ReportsConstant.NO_CORRELATION)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Strength(CS) doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.SEVEN) != null && row.getCell(LOMTConstant.SEVEN).getStringCellValue().contains(ReportsConstant.ZERO_BY_ZERO)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Correlation Score(CS) doesn't match at row number at row number : "+row.getRowNum());
+					}
+					if (row.getCell(LOMTConstant.EIGHT) != null && row.getCell(LOMTConstant.EIGHT).getStringCellValue().contains(ReportsConstant.NO_CORRELATION)) {
+					} else {
+						count++;
+						logger.log(LogStatus.FAIL, "TC_LOMT-1836 Strength(CS) doesn't match at row number at row number : "+row.getRowNum());
+					}
+				}
+			}
+			if (count == 0) {
+				logger.log(LogStatus.PASS, "TC-LOMT-1836-05B_SchoolGlobal_ReportsAndExports_StandardToToC ViaIntermediaryReport_Content1Section_Data");
+				logger.log(LogStatus.PASS, "TC-LOMT-1836-06B_SchoolGlobal_ReportsAndExports_StandardToToC ViaIntermediaryReport_Content2Section_Data");
+			} else {
+				logger.log(LogStatus.FAIL, "TC-LOMT-1836-05B_SchoolGlobal_ReportsAndExports_StandardToToC ViaIntermediaryReport_Content1Section_Data");
+				logger.log(LogStatus.FAIL, "TC-LOMT-1836-06B_SchoolGlobal_ReportsAndExports_StandardToToC ViaIntermediaryReport_Content2Section_Data");
+			}
+		} catch (Exception e) {
+			logger.log(LogStatus.FAIL, "TC_LOMT-1836 Error occured during data verification : ");
+			e.printStackTrace();
+		}
+	}
 
 }
