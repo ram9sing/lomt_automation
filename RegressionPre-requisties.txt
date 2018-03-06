@@ -1,20 +1,7 @@
 Product TOC 
 
 HE PRODUCT TOC ALIGNMENT ###
-
-1) Change Product title value at given path - 
-D:\Users\ram.sin\git_selenium\lomt_automation\src\main\java\lomt\pearson\fileupload\highereducation\producttoc\alignment_case
-
-	like - HE_EducationalObjective_12Test12345678
-
-2) ProductTOC class-> line 2559 (hePom.getLearningTitleInputText().sendKeys("HE_Test_C1");)
-    change value inside sendKeys() method and above two point value should be same
-	
-		like - HE_EducationalObjective_12Test12345678
-	
-3) Value should be same as per point 1 & 2 at given location 
-D:\Users\ram.sin\git_selenium\lomt_automation\src\main\java\lomt\pearson\fileupload\highereducation\producttoc\validation\ProductTocAlignCode-Validation.xlsx file	
-like - HE_EducationalObjective_12Test12345678
+1) In alignment case HE ingestion goalframework name and alignment specific toc file product title name should be same
 
 
 ENGLISH PRODUCT TOC ALIGNMENT ###

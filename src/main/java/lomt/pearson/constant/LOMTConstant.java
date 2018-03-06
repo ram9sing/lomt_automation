@@ -235,6 +235,10 @@ public class LOMTConstant {
 	public static String PRODUCT_TOC_XLS_FILE_PATH_5 = System.getProperty("user.dir")+ "\\src\\main\\java\\lomt\\pearson\\fileupload\\nals_school_global\\producttoc\\igestion_usecase_13\\Product_TOC_Ingestion_NonMandFields.xlsx";
 	
 	public static String P_TOC_XLS_PATH_ALIGN_GOAL_URN = System.getProperty("user.dir")+ "\\src\\main\\java\\lomt\\pearson\\fileupload\\nals_school_global\\producttoc\\igestion_usecase_8\\Product_TOC_School_GoalURN-8.xlsx";
+	public static String HE_TOC_ALIGN = System.getProperty("user.dir")+ "\\src\\main\\java\\lomt\\pearson\\fileupload\\highereducation\\producttoc\\alignment_case\\ProductTocAlignCode.xlsx";
+	//public static String HE_TOC_USECASE_2 = System.getProperty("user.dir")+ "\\src\\main\\java\\lomt\\pearson\\fileupload\\nals_school_global\\producttoc\\igestion_usecase_2\\Product_TOC_Ingestion_NoAlignUsecase-2.xlsx";
+	public static String HE_TOC_ALIGNMNET = "HE_DomainModel";
+	public static String HYPHEN = "_";
 	
 	public static String _TEMPLATE = "_Template";
 	public static String DATE_FORMAT_EXF = "ddMMMyyyy";

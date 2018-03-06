@@ -4,9 +4,12 @@ import static org.testng.Assert.assertEquals;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.poi.ss.usermodel.Cell;
@@ -187,11 +190,6 @@ public class ProductTOC extends BaseClass {
 			commonPOM.getSchoolGlobalLOB().click();
 			Thread.sleep(2000);
 			
-			/*Assert.assertEquals(commonPOM.getWelcomeTitle().getText(), LOMTConstant.WELCOME_TITLE);
-			Assert.assertTrue(sgPom.getSgBanner().isDisplayed());
-			Assert.assertTrue(nalsPom.getCurriculumStandardLink().isDisplayed());
-			Assert.assertTrue(nalsPom.getProductLink().isDisplayed());
-			Assert.assertTrue(nalsPom.getIntermediariesLink().isDisplayed());*/
 			if (commonPOM.getManageIngestion().getText().contains(LOMTConstant.MANGE_INGESTION)) {
 				
 				logger.log(LogStatus.PASS, TestCases.TC_LOMT_1039_02_ADMIN_VERIFY_MANAGE_INGESTION);
@@ -224,7 +222,6 @@ public class ProductTOC extends BaseClass {
 				Assert.assertTrue(commonPOM.getEnglishLOBRadioButton().isDisplayed());
 				Assert.assertTrue(commonPOM.getHeLOBRadioButton().isDisplayed());
 				Assert.assertTrue(commonPOM.getSchoolGlobalLOBRadioButton().isDisplayed());
-				//Assert.assertTrue(commonPOM.getNalsLOBRadioButton().isDisplayed());
 				
 				//Structure
 				Assert.assertTrue(commonPOM.getSelectStructureTitle().isDisplayed());
@@ -1364,7 +1361,6 @@ public class ProductTOC extends BaseClass {
 			JavascriptExecutor jse = (JavascriptExecutor) driver;
 			jse.executeScript("window.scrollBy(0,-1000)");
 			commonPOM.getPearsonLogo().click();
-			Thread.sleep(1000);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -1605,15 +1601,160 @@ public class ProductTOC extends BaseClass {
 		return flag;
 	}
 	
-	public void verifyProductTOCIngestedDataOnResultPage(String lobName, String filePath, ExtentTest logger) {
+	public void verifyProductTOCIngestedDataOnResultPage(String lobName, ExtentTest logger) {
+		JavascriptExecutor jse = (JavascriptExecutor) driver;
+		WebDriverWait wait = new WebDriverWait(driver, 120);
+		ReadProductTOCFile readProductTOCFile = new ReadProductTOCFile();
+
 		if (lobName.equalsIgnoreCase(LOMTConstant.HE_LOB)) {
-			
+			try {
+				File ingestionFilePath = new File(LOMTConstant.SCHOOL_PRODUCT_TOC_XLSX_FILE_PATH_UC2);
+				String productTitleName = readProductTOCFile.readGoalframeworkName(ingestionFilePath);
+
+				commonPOM.getHeLOB().click();
+				commonPOM.getHeProductTOCStructure().click();
+				wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+				Thread.sleep(5000); 
+				// sometime due to application slowness LOADER cross the give time, that's why applied sleep
+
+				productTocPOM.getTocHEenterSearchTerm().sendKeys(productTitleName);
+				productTocPOM.getTocUpdateResultButton().click();
+				wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+
+				jse.executeScript("window.scrollBy(0,400)");
+
+				if (schoolPOM.getResultFound().getText().contains("Showing")) { // get text message is common for HE and school
+					productTocPOM.getTocFirstGF().click();
+					wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+
+					for (String toc : ProductTocPOM.getTOCList()) {
+						productTocPOM.getInnerEnterSearchTerm().sendKeys(toc);
+						productTocPOM.getTocInnerUpdateBtn().click();
+						//Thread.sleep(7000);
+						wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+
+						List<WebElement> webElement = schoolPOM.getParentChildList();
+						if (!webElement.isEmpty()) {
+							Iterator<WebElement> itr = webElement.iterator();
+							while (itr.hasNext()) {
+								WebElement childStructureElement = itr.next();
+								String structureName = childStructureElement.getText();
+								if (structureName.contains(toc)) {
+								} else {
+									logger.log(LogStatus.FAIL, "HE TOC Context Definition's does not found : " + toc);
+								}
+							}
+							productTocPOM.getInnerEnterSearchTerm().clear();
+						}
+					}
+				} else {
+					logger.log(LogStatus.FAIL, "HE TOC goalframework does not found");
+				}
+				jse.executeScript("window.scrollBy(0,-1000)");
+				commonPOM.getPearsonLogo().click();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		} else if (lobName.equalsIgnoreCase(LOMTConstant.ENGLISH_LOB)) {
-			
+			try {
+				File ingestionFilePath = new File(LOMTConstant.SCHOOL_PRODUCT_TOC_XLSX_FILE_PATH_UC2);
+				String productTitleName = readProductTOCFile.readGoalframeworkName(ingestionFilePath);
+
+				commonPOM.getEnglishLOB().click();
+				commonPOM.getEnglishProductTOCStructure().click();
+				wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+				Thread.sleep(5000); 
+				//Sometime due to application slowness LOADER cross the give time, that'swhy applied sleep
+
+				productTocPOM.getTocEnglishEenterSearchTerm().sendKeys(productTitleName);
+				productTocPOM.getTocEnglishUpdateResultButton().click();
+				wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+
+				jse.executeScript("window.scrollBy(0,400)");
+
+				if (schoolPOM.getResultFound().getText().contains("Showing")) { // get text message is common for HE and school
+					productTocPOM.getTocFirstGF().click();
+					wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+
+					for (String toc : ProductTocPOM.getTOCList()) {
+						productTocPOM.getInnerEnterSearchTermEnglishTOC().sendKeys(toc);
+						productTocPOM.getTocInnerUpdateBtnEnglish().click();
+						//Thread.sleep(7000);
+						wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+
+						List<WebElement> webElement = schoolPOM.getParentChildList();
+						if (!webElement.isEmpty()) {
+							Iterator<WebElement> itr = webElement.iterator();
+							while (itr.hasNext()) {
+								WebElement childStructureElement = itr.next();
+								String structureName = childStructureElement.getText();
+								if (structureName.contains(toc)) {
+								} else {
+									logger.log(LogStatus.FAIL, "English TOC Context Definition's does not found : " + toc);
+								}
+							}
+							productTocPOM.getInnerEnterSearchTermEnglishTOC().clear();
+						}
+					}
+				} else {
+					logger.log(LogStatus.FAIL, "English TOC goalframework does not found");
+				}
+				jse.executeScript("window.scrollBy(0,-1000)");
+				commonPOM.getPearsonLogo().click();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		} else {
-			//SCHOOL
-			String productTitleName = getProductTitleName(filePath);
-			searchIngestedProductTitle(productTitleName, logger);
+			// SCHOOL
+			try {
+				File ingestionFilePath = new File(LOMTConstant.SCHOOL_PRODUCT_TOC_XLSX_FILE_PATH_UC2);
+				String productTitleName = readProductTOCFile.readGoalframeworkName(ingestionFilePath);
+
+				commonPOM.getSchoolGlobalLOB().click();
+				commonPOM.getSchoolProductTOCStructure().click();
+				wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+				Thread.sleep(5000); 
+				//Sometime due to application slowness LOADER cross the give time, that'swhy applied sleep
+
+				productTocPOM.getEnterSearchTerm().sendKeys(productTitleName);
+				productTocPOM.getUpdateResultButton().click();
+				wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+
+				jse.executeScript("window.scrollBy(0,400)");
+
+				if (schoolPOM.getResultFound().getText().contains("Showing")) { // get text message is common for HE and school
+					productTocPOM.getTocFirstGF().click();
+					wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+
+					for (String toc : ProductTocPOM.getTOCList()) {
+						productTocPOM.getInnerEnterSearchTermSchoolTOC().sendKeys(toc);
+						productTocPOM.getTocInnerUpdateBtnSchool().click();
+						//Thread.sleep(7000);
+						wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+
+						List<WebElement> webElement = schoolPOM.getParentChildList();
+						if (!webElement.isEmpty()) {
+							Iterator<WebElement> itr = webElement.iterator();
+							while (itr.hasNext()) {
+								WebElement childStructureElement = itr.next();
+								String structureName = childStructureElement.getText();
+								if (structureName.contains(toc)) {
+								} else {
+									logger.log(LogStatus.FAIL, "School TOC Context Definition's does not found : " + toc);
+								}
+							}
+							productTocPOM.getInnerEnterSearchTermSchoolTOC().clear();
+						}
+					}
+				} else {
+					logger.log(LogStatus.FAIL, "School TOC goalframework does not found");
+				}
+				jse.executeScript("window.scrollBy(0,-1000)");
+				commonPOM.getPearsonLogo().click();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		
 		}
 	}
 	
@@ -1642,32 +1783,6 @@ public class ProductTOC extends BaseClass {
 			}
 		}
 		return productTitleName;
-	}
-	
-	public void searchIngestedProductTitle(String productTitleName, ExtentTest logger){
-		try {
-			JavascriptExecutor jse = (JavascriptExecutor) driver;
-			productTocPOM.getEnterSearchTerm().sendKeys(productTitleName);
-			Assert.assertTrue(exfPOM.getUpdateResultButton().isEnabled());
-			productTocPOM.getUpdateResultButton().click();
-			
-			Thread.sleep(10000);
-			jse.executeScript("window.scrollBy(0,400)");
-			if (exfPOM.getSearchedEXFTitle()!= null && exfPOM.getSearchedEXFTitle().getText() != null) {
-				if (productTitleName.equalsIgnoreCase(exfPOM.getSearchedEXFTitle().getText())) {
-					System.out.println("School Product TOC found in search result");
-				} else {
-					//logger.log(LogStatus.INFO, "School Product TOC not found in search result");
-					System.out.println("School Product TOC not found in search result");
-				}
-			} else {
-				//logger.log(LogStatus.INFO, "School Product TOC not found in search result");
-				System.out.println("School Product TOC not found in search result");
-			}
-			exfPOM.getEnterSearchTerm().clear();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 	}
 	
 	public void getSchoolBrowsePage() {
@@ -2509,7 +2624,12 @@ public class ProductTOC extends BaseClass {
 			commonPOM.getNextButtonFirst().click();
 			Thread.sleep(2000);
 			
-			hePom.getLearningTitleInputText().sendKeys("HE_ppe_25Feb");
+			String goalframeworkName = LOMTConstant.HE_TOC_ALIGNMNET+LOMTConstant.HYPHEN+new Random().nextInt(5000);
+			System.out.println(goalframeworkName);
+			File sourceFile = new File(LOMTConstant.HE_TOC_ALIGN);
+			updateHETOCProductTilte(sourceFile, goalframeworkName);
+					
+			hePom.getLearningTitleInputText().sendKeys(goalframeworkName);
 			Thread.sleep(4000);
 			
 			//DOMAIN SELECTION
@@ -2520,7 +2640,6 @@ public class ProductTOC extends BaseClass {
 			if (domainLength > 0) {
 				for (int i = 0; i <= domainLength; i++) {
 					WebElement element = domainList.get(i);
-					// TODO : apply assertion for all the fields
 					if (element.getText() != null) {
 						element.click();
 						break;
@@ -2553,7 +2672,6 @@ public class ProductTOC extends BaseClass {
 			hePom.getNextButton().click();
 			Thread.sleep(2000);
 			
-			//File upload logic 
 			commonPOM.getUploadFileLink().click();
 			
 			Runtime.getRuntime().exec(LOMTConstant.HE_TOC_INGEST_FILE_PATH);
@@ -2993,6 +3111,26 @@ public class ProductTOC extends BaseClass {
 			return flag;
 		}
 		return flag;
+	}
+	
+	public void updateHETOCProductTilte(File file, String productTitleName) throws IOException {
+		FileInputStream isFile = null;
+		FileOutputStream osFile = null;
+		XSSFWorkbook workbook = null;
+		XSSFSheet worksheet = null;
+		Cell cell = null;
+		
+		isFile =  new FileInputStream(file);
+		workbook = new XSSFWorkbook(isFile);
+		worksheet = workbook.getSheetAt(0);
+		cell = worksheet.getRow(LOMTConstant.TWO).getCell(LOMTConstant.ONE);
+		cell.setCellValue(productTitleName);
+		isFile.close();
+		//update is done
+		
+		osFile =new FileOutputStream(file);
+		workbook.write(osFile); //writing changes
+		osFile.close();
 	}
 
 	public void closeDriverInstance() {

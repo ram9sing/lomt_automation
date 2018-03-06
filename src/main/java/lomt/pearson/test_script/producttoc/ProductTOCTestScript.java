@@ -4,6 +4,7 @@ import lomt.pearson.api.product_toc.ProductTOC;
 import lomt.pearson.constant.LOMTConstant;
 import lomt.pearson.constant.TestCases;
 
+import org.junit.Ignore;
 import org.testng.annotations.Test;
 
 import com.relevantcodes.extentreports.ExtentReports;
@@ -147,6 +148,7 @@ public class ProductTOCTestScript {
 		product.productTOCIngestionValidatonCheck(LOMTConstant.TC_33, logger);  
 		
 		product.getHomePage();
+		product.verifyProductTOCIngestedDataOnResultPage(LOMTConstant.SCHOOL, logger);
 		
 		reports.endTest(logger);
 		reports.flush();
@@ -210,6 +212,7 @@ public class ProductTOCTestScript {
 		product.productTOCIngestion(LOMTConstant.TC_VALIDATION_CHECK_22_23, logger); 
 		
 		product.getHomePage();
+		product.verifyProductTOCIngestedDataOnResultPage(LOMTConstant.ENGLISH_LOB, logger);
 
 		reports.endTest(logger);
 		reports.flush();
@@ -245,16 +248,15 @@ public class ProductTOCTestScript {
 		
 		//HE Ingestion for Alignment
 		boolean alginFlag = product.ingestHEForAlignment();
-		System.out.println("##### HE Ingestion successful ##### : "+alginFlag);
 		if (alginFlag) {
 			product.getHELOBAndStructure();
 			product.productTOCWithoutMetaData();
 			product.productTOCIngestion(LOMTConstant.TC_17, logger);
 		} else {
-			logger.log(LogStatus.INFO, "HE Product TOC alignment is blocked due to HE ingestion failed"); 
 			logger.log(LogStatus.FAIL, "TC-LOMT-1041-16_ProductTOC_Admin_Ingest_ProductTOC_AlignmentCode(has value)_Alignment");
 		}
-		product.getHomePage();
+		product.getHomePage();		
+		product.verifyProductTOCIngestedDataOnResultPage(LOMTConstant.HE_LOB, logger);
 
 		reports.endTest(logger);
 		reports.flush();
