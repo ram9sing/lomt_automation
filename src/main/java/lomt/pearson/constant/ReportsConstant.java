@@ -8,6 +8,15 @@ import java.util.Map;
 
 public class ReportsConstant {
 	
+	//Variables that need to be changed manually
+	public static String INGESTED_PRODUCT = "Test_Standard_1";
+	public static String INGESTED_INTERMEDIARY = "Leisure and Tourism";
+	public static String INGESTED_STANDARD_YEAR = "England Accounting K-12 1398";
+	//Forward Shared Intermediary Report
+	public static String TOC_NAME = "Feldman_Product_TOC_20thFeb_ReportTestData";
+	public static String DISCIPLINE_NAME = "Business";
+	public static String STND_STRANDS = "Automation Report Test";
+	
 	public static String INDIRECT_TEXT = "Indirect";
 	public static String FORWARD_INDIRECT_INT_REPORT_FILE_NAME = "Forward (Indirect) Intermediary Report";
 	public static String PRODUCT_TOC_INT_REPORT_FILE_NAME = "Automation Report";
@@ -16,9 +25,6 @@ public class ReportsConstant {
 	public static String REVERSE_DIRECT_TEXT = "Reverse Direct Report";
 	public static String REVERSE_TOC_STANDARD_VIA_INT_TEXT = "Reverse ToC to Standard via intermediary report";
 	public static String SUMMARY_TEXT = "Summary Report";
-	public static String INGESTED_PRODUCT = "Automation_Report_Verification_Product";
-	public static String INGESTED_INTERMEDIARY = "Psychology";
-	public static String INGESTED_STANDARD_YEAR = "2564";
 	
 	//Forward Indirect Intermediary Report
 	public static String TITLE = "Title";
@@ -91,10 +97,6 @@ public class ReportsConstant {
 	//Forward Indirect Intermediary Report
 	public static String LOMT_1758 = "LOMT-1758";
 	public static String FORWARD_INDIRECT_INTERMEDIARY_REPORT = "Forward Indirect Intermediary Report";
-	
-	//Reports Test data - prerequisites : PPE
-	public static String CS_GOALFRAMEWORK_NAME_PPE = "Australian Curriculum, Assessment and Reporting Authority Art and Design K-12 2564";
-	public static String INGESTED_INTERMEDIARY_PPE = "Information and Communication Technology";
 	
 	//Reverse Direct Report
 	public static String LOMT_1761 = "LOMT-1761";
@@ -184,9 +186,6 @@ public class ReportsConstant {
 	//Forward Shared Intermediary Report
 	public static String FOWARD_SHARED_INTERMEDIARY_REPORT = "Forward Shared Intermediary Report";
 	public static String LOMT_1838 = "LOMT-1838";
-	public static String TOC_NAME = "Feldman_Product_TOC_20thFeb_ReportTestData";
-	public static String DISCIPLINE_NAME = "Business";
-	public static String STND_STRANDS = "Automation Report Test";
 	
 	public static String TWO_BY_TWO = "2/2";
 	public static String STRENGTH_COMPLETE ="COMPLETE";

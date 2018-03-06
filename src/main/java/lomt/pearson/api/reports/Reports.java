@@ -686,7 +686,7 @@ public class Reports extends BaseClass {
 					.equalsIgnoreCase(ReportsConstant.GEOGRAPHIC_AREA_OR_COUNTRY)) {
 				if (worksheet.getRow(LOMTConstant.NINE).getCell(LOMTConstant.ONE) != null) {
 				} else {
-					logger.log(LogStatus.FAIL, "Geographic Area or Country is null/empty in exported file");
+					logger.log(LogStatus.INFO, "Geographic Area or Country is null/empty in exported file");
 				}
 			} else {
 				logger.log(LogStatus.FAIL, "Header : Geographic Area or Country does not match in exported file");
@@ -1009,7 +1009,7 @@ public class Reports extends BaseClass {
 					.equalsIgnoreCase(ReportsConstant.GEOGRAPHIC_AREA_OR_COUNTRY)) {
 				if (worksheet.getRow(LOMTConstant.NINE).getCell(LOMTConstant.ONE) != null) {
 				} else {
-					logger.log(LogStatus.FAIL, "Geographic Area or Country is null/empty in exported file");
+					logger.log(LogStatus.INFO, "Geographic Area or Country is null/empty in exported file");
 				}
 			} else {
 				logger.log(LogStatus.FAIL, "Header : Geographic Area or Country does not match in exported file");
@@ -1487,14 +1487,14 @@ public class Reports extends BaseClass {
 			} else if (reportType.equalsIgnoreCase(ReportsConstant.REVERSE_TOC_STANDARD_VIA_INT_TEXT)) {
 				reportsPOM.getReverseToCStandardintermediaryReport().click();
 			}
-			//Thread.sleep(6000);
 			wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+			Thread.sleep(3000);
 			// pivot select and click
 			clickIngestedIntermediaryDiscipline(pivot);
 			reportsPOM.getSchoolModelWindowNextButton().click();
 			// Thread.sleep(2000);
 			wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
-			Thread.sleep(3000);
+			//Thread.sleep(3000);
 			if (!reportType.equalsIgnoreCase(ReportsConstant.PRODUCT_INT_TEXT)) {
 				jse.executeScript("window.scrollBy(0,-250)");
 				schoolPOM.getEnterEnterSearch().sendKeys(ReportsConstant.INGESTED_STANDARD_YEAR);
@@ -1509,7 +1509,7 @@ public class Reports extends BaseClass {
 				wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
 			}
 
-			reportName = reportType + String.valueOf(13000 + (int) Math.round(Math.random() * (1400 - 1300)));
+			reportName = reportType + " -" + String.valueOf(13000 + (int) Math.round(Math.random() * (1400 - 1300)));
 
 			reportsPOM.getReportName().clear();
 			reportsPOM.getReportName().sendKeys(reportName);
@@ -1518,7 +1518,7 @@ public class Reports extends BaseClass {
 			reportsPOM.getRunReport().click();
 			wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
 
-			Thread.sleep(20000);
+			Thread.sleep(10000);
 			jse.executeScript("window.scrollBy(0,-200)");
 			reportsPOM.getUpdateResult().click();
 			wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
@@ -1526,7 +1526,7 @@ public class Reports extends BaseClass {
 			reportsPOM.getEnterSearchTerm().sendKeys(reportName);
 			reportsPOM.getUpdateResult().click();
 			wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
-			Thread.sleep(2000);
+			//Thread.sleep(2000);
 			if (reportsPOM.getRepotCountText().getText().contains("Showing")) {
 				removeExistingFile();
 
@@ -1854,7 +1854,7 @@ public class Reports extends BaseClass {
 
 		schoolPOM.getSchoolUpdateResultButton().click();
 		wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
-		jse.executeScript("window.scrollBy(0, 300)");
+		jse.executeScript("window.scrollBy(0, 350)");
 
 		schoolPOM.getAction().click();
 		reportsPOM.getSchoolCreateReportLink().click();
@@ -1866,7 +1866,7 @@ public class Reports extends BaseClass {
 
 		//Selection of report based on coming Report Type
 		if (reportType.equalsIgnoreCase(ReportsConstant.FORWARD_INDIRECT_INTERMEDIARY_REPORT)) {
-			jse.executeScript("window.scrollBy(0, 400)");
+			jse.executeScript("window.scrollBy(0, 600)");
 			reportsPOM.getForwardIndirectIntermediaryReport().click();
 			wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
 			
@@ -2284,7 +2284,7 @@ public class Reports extends BaseClass {
 				}
 				// verifying topics
 				for (String csTopics : csList) {
-					if (!csTopics.equalsIgnoreCase(ReportsConstant.CS_GOALFRAMEWORK_NAME_PPE)) {
+					if (!csTopics.equalsIgnoreCase(ReportsConstant.INGESTED_STANDARD_YEAR)) {
 						schoolPOM.getInnerEnterSearch().sendKeys(csTopics);
 						schoolPOM.getSchoolInnerUpdateResultButton().click();
 						Thread.sleep(4000);
@@ -2336,7 +2336,7 @@ public class Reports extends BaseClass {
 				}
 
 				for (String dis : disList) {
-					if (!dis.equalsIgnoreCase(ReportsConstant.INGESTED_INTERMEDIARY_PPE)) {
+					if (!dis.equalsIgnoreCase(ReportsConstant.INGESTED_INTERMEDIARY)) {
 						List<WebElement> webElement = intermediaryPOM.getIntermediaryGFList();
 						intermediaryPOM.getEnterSearchTerm().sendKeys(dis);
 						intermediaryPOM.getUpdateResultButton().click();
@@ -2554,10 +2554,10 @@ public class Reports extends BaseClass {
 			if (worksheet.getRow(LOMTConstant.SIX).getCell(LOMTConstant.EIGHT).getStringCellValue().trim()
 					.equalsIgnoreCase(ReportsConstant.TITLE)) {
 				if (worksheet.getRow(LOMTConstant.SIX).getCell(LOMTConstant.NINE).getStringCellValue().trim().
-						equalsIgnoreCase(ReportsConstant.CS_GOALFRAMEWORK_NAME_PPE)) {
+						equalsIgnoreCase(ReportsConstant.INGESTED_STANDARD_YEAR)) {
 				} else {
 					logger.log(LogStatus.FAIL, "Curriculum Standard Title should be: "
-							+ ReportsConstant.CS_GOALFRAMEWORK_NAME_PPE + "but is : "
+							+ ReportsConstant.INGESTED_STANDARD_YEAR + "but is : "
 							+ worksheet.getRow(LOMTConstant.SIX).getCell(LOMTConstant.NINE).getStringCellValue().trim());
 				}
 			} else {
@@ -2614,7 +2614,7 @@ public class Reports extends BaseClass {
 					.equalsIgnoreCase(ReportsConstant.GEOGRAPHIC_AREA_OR_COUNTRY)) {
 				if (worksheet.getRow(LOMTConstant.NINE).getCell(LOMTConstant.ONE) != null) {
 				} else {
-					logger.log(LogStatus.FAIL, "Geographic Area or Country is null/empty in exported file");
+					logger.log(LogStatus.INFO, "Geographic Area or Country is null/empty in exported file");
 				}
 			} else {
 				logger.log(LogStatus.FAIL, "Header : Geographic Area or Country does not match in exported file");
@@ -5558,33 +5558,8 @@ public class Reports extends BaseClass {
 			workbook = new XSSFWorkbook(inputStream);
 			worksheet = workbook.getSheetAt(0);
 			
-			if (reportType.equalsIgnoreCase(ReportsConstant.FORWARD_INDIRECT_INTERMEDIARY_REPORT)) {
-				verifyForwardIIReportHeaders(worksheet, reportName, logger);
-				getCurriculumStandardAndIntermediaryDataFromExportedSheet(worksheet, forwardIIRepMap);
-			} 
-			if (reportType.equalsIgnoreCase(ReportsConstant.FORWARD_DIRECT_REPORT)) {
-				verifyForwardDirectReportHeaders(worksheet, reportName, logger);
-				//preparing CS and TOC list for UI verification
-				//Verifying CS and TOC Correlation Score, Strength and Peripheral Alignments data
-				getForwardDirectReportData(worksheet, forwardIIRepMap); 
-				verifyForwardDirectReportData(worksheet, logger);
-			}
-			if (reportType.equalsIgnoreCase(ReportsConstant.GAP_ANALYSIS_REPORT)) {
-				verifyGapAnalysisReportHeaders(worksheet, reportName, logger, source, target);
-				verifyGapAnalysisReportData(worksheet, reportName, logger);
-			}
-			if (reportType.equalsIgnoreCase(ReportsConstant.SUMMARY_REPORT)) {
-				verifySummaryReportHeaders(worksheet, reportName, logger, source, target);
-				verifySummaryReportData(worksheet, reportName, logger);
-			}
-			if (reportType.equalsIgnoreCase(ReportsConstant.FOWARD_SHARED_INTERMEDIARY_REPORT)) {
-				verifyForwardSharedIntermediaryReportHeaders(worksheet, reportName, logger, source, pivot, target);
-				verifyForwardSharedIntermediaryReportData(worksheet, reportName, logger);
-			}
-			if (reportType.equalsIgnoreCase(ReportsConstant.STANDARD_TOC_INTERMEDIARY_REPORT)) {
-				verifyStandardTocIntermediaryReportHeaders(worksheet, reportName, logger, source, pivot, target, target2);
-				verifyStandardTocIntermediaryReportData(worksheet, reportName, logger);
-			}
+			verifyStandardTocIntermediaryReportHeaders(worksheet, reportName, logger, source, pivot, target, target2);
+			verifyStandardTocIntermediaryReportData(worksheet, reportName, logger);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

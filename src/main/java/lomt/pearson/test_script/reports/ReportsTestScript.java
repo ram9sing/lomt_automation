@@ -3,20 +3,16 @@ package lomt.pearson.test_script.reports;
 import java.util.List;
 import java.util.Map;
 import org.junit.Ignore;
-
 import org.testng.annotations.Test;
-
 import com.relevantcodes.extentreports.ExtentReports;
 import com.relevantcodes.extentreports.ExtentTest;
 import com.relevantcodes.extentreports.LogStatus;
-
 import lomt.pearson.api.reports.Reports;
 import lomt.pearson.constant.LOMTConstant;
 import lomt.pearson.constant.ReportsConstant;
 import lomt.pearson.constant.TestCases;
 
 public class ReportsTestScript {
-
 	ExtentTest logger;
 	ExtentReports reports = new ExtentReports(LOMTConstant.REPORT_FILE_PATH, true);
 	String userName = null;
@@ -28,7 +24,7 @@ public class ReportsTestScript {
 		report.login();
 	}
 
-	// @Test(priority = 1)
+	//@Test(priority = 1)
 	@Ignore
 	public void forwardIndirectIntermediaryReport() throws Exception {
 		logger = reports.startTest(ReportsConstant.FORWARD_INDIRECT_INTERMEDIARY_REPORT + LOMTConstant.COMMA
@@ -36,7 +32,7 @@ public class ReportsTestScript {
 
 		// Admin user
 		String reportName = report.createAndDownloadReport(ReportsConstant.FORWARD_INDIRECT_INTERMEDIARY_REPORT,
-				ReportsConstant.CS_GOALFRAMEWORK_NAME_PPE, ReportsConstant.INGESTED_INTERMEDIARY_PPE, null, logger);
+				ReportsConstant.INGESTED_STANDARD_YEAR, ReportsConstant.INGESTED_INTERMEDIARY, null, logger);
 		if (reportName != null) {
 			Map<String, List<String>> forwardIIRepMap = report
 					.verifiedForwardIndirectIntermediaryReportsExportedFile(reportName, logger);
@@ -53,7 +49,7 @@ public class ReportsTestScript {
 
 		// Coordinator User
 		report.logout();
-		report.loginLearningEditor();
+		userName = report.loginLearningEditor();
 		boolean coordinatorReportFlag = report.searchAndExportReport(reportName, userName);
 		if (coordinatorReportFlag) {
 			logger.log(LogStatus.PASS,
@@ -65,7 +61,7 @@ public class ReportsTestScript {
 
 		// SME User
 		report.logout();
-		report.loginLearingSME();
+		userName = report.loginLearingSME();
 		boolean smeReportFlag = report.searchAndExportReport(reportName, userName);
 		if (smeReportFlag) {
 			logger.log(LogStatus.PASS,
@@ -77,7 +73,7 @@ public class ReportsTestScript {
 
 		// BasicBrowser User
 		report.logout();
-		report.loginLearningUser();
+		userName = report.loginLearningUser();
 		boolean basicReportFlag = report.searchAndExportReport(reportName, userName);
 		if (basicReportFlag) {
 			logger.log(LogStatus.PASS,
@@ -91,7 +87,7 @@ public class ReportsTestScript {
 		reports.flush();
 	}
 
-	// @Test(priority = 2)
+	//@Test(priority = 2)
 	@Ignore
 	public void productToCIntermediaryReport() throws Exception {
 		logger = reports.startTest("Product (ToC) Intermediary Report, LOMT-1762");
@@ -121,21 +117,20 @@ public class ReportsTestScript {
 			return;
 		}
 		// BasicBrowser User
-				report.logout();
-				report.loginLearningUser();
-				boolean basicReportFlag = report.searchAndExportReport(reportName, userName);
-				if (basicReportFlag) {
-					logger.log(LogStatus.PASS, TestCases.TC_LOMT_1762_02_BASIC_USER_DOWNLOAD_REPORT);
-				} else {
-					logger.log(LogStatus.FAIL, TestCases.TC_LOMT_1762_02_BASIC_USER_DOWNLOAD_REPORT);
-				}
+			report.logout();
+			userName = 	report.loginLearningUser();
+			boolean basicReportFlag = report.searchAndExportReport(reportName, userName);
+			if (basicReportFlag) {
+				logger.log(LogStatus.PASS, TestCases.TC_LOMT_1762_02_BASIC_USER_DOWNLOAD_REPORT);
+			} else {
+				logger.log(LogStatus.FAIL, TestCases.TC_LOMT_1762_02_BASIC_USER_DOWNLOAD_REPORT);
+			}
 
 		reports.endTest(logger);
 		reports.flush();
 	}
 
-	//@Test(priority = 1)
-	@Ignore
+	@Test(priority = 1)
 	public void reverseSharedIntermediaryReport() throws Exception {
 		logger = reports.startTest(ReportsConstant.REVERSE_SHARED_INT_TEXT + LOMTConstant.COMMA
 				+ LOMTConstant.EMPTY_SPACE + ReportsConstant.LOMT_1839);
@@ -521,7 +516,8 @@ public class ReportsTestScript {
 		reports.flush();
 	}
 	
-	@Test(priority = 1)
+	//@Test(priority = 1)
+	@Ignore
 	public void standardTocIntermediaryReport() {
 		logger = reports.startTest(ReportsConstant.STANDARD_TOC_INTERMEDIARY_REPORT+LOMTConstant.COMMA+LOMTConstant.EMPTY_SPACE+ReportsConstant.LOMT_1836);
 		
