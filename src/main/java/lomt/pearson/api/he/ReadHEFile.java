@@ -316,7 +316,8 @@ public class ReadHEFile {
 			workbook = new XSSFWorkbook(isFile);
 			worksheet = workbook.getSheetAt(0);
 			
-			worksheet.removeRow(worksheet.getRow(41));
+			//worksheet.removeRow(worksheet.getRow(41));
+			worksheet.removeRow(worksheet.getRow(36));
 			
 			isFile.close();
 			
@@ -330,20 +331,21 @@ public class ReadHEFile {
 			worksheet1 = workbook1.getSheetAt(1);
 			
 			// udpate question, answer, assertions, hint
-			cell1 = worksheet1.getRow(31).createCell(5);
-			cell1.setCellValue(HEConstant.NEW_QUESTION_ADDED);
+			cell1 = worksheet1.getRow(27).createCell(5);
+			cell1.setCellValue(HEConstant.NEW_QUESTION_ADDED.trim());
 			
-			cell1 = worksheet1.getRow(31).createCell(6);
-			cell1.setCellValue(HEConstant.NEW_ANSWER_ADDED);
+			cell1 = worksheet1.getRow(27).createCell(6);
+			cell1.setCellValue(HEConstant.NEW_ANSWER_ADDED.trim());
 			
-			cell1 = worksheet1.getRow(31).createCell(7);
-			cell1.setCellValue(HEConstant.NEW_ASSERTION_ADDED);
+			cell1 = worksheet1.getRow(27).createCell(7);
+			cell1.setCellValue(HEConstant.NEW_ASSERTION_ADDED.trim());
 			
-			cell1 = worksheet1.getRow(31).createCell(8);
-			cell1.setCellValue(HEConstant.NEW_HINT_ADDED);
+			cell1 = worksheet1.getRow(27).createCell(8);
+			cell1.setCellValue(HEConstant.NEW_HINT_ADDED.trim());
 			
 			//row deleted
-			worksheet1.removeRow(worksheet1.getRow(33));
+			//worksheet1.removeRow(worksheet1.getRow(33));
+			worksheet1.removeRow(worksheet1.getRow(28));
 			
 			isFile1.close();
 			

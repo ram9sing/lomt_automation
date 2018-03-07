@@ -860,10 +860,6 @@ public class HigherEducation extends BaseClass {
 		}
 	}
 	
-	public void copyAndUpdateEOAndQAPairsData(String goalframeworkName) {
-		
-	}
-	
 	public void heReingestion(ExtentTest logger, String heGoalframeworkName) {
 		boolean flag = false;
 		int counter = 0;
@@ -934,12 +930,15 @@ public class HigherEducation extends BaseClass {
 				logger.log(LogStatus.FAIL, "TC-LOMT-815-22_Delete_Domain_value");	
 				logger.log(LogStatus.FAIL, "TC-LOMT-815-23_Delete_value_Q&A_Pair_value");
 			}
-			//counter++;
-			
-			//Verify data UI 
-			logger.log(LogStatus.PASS, "TC-LOMT-815-16_Verify_URN_LO or EO_Q&A_Pair");			
-			logger.log(LogStatus.PASS, "TC-LOMT-815_25_Re-export_And _ee-ingestion");
-			logger.log(LogStatus.PASS, "TC-LOMT-815_24_Re-export_after Re-ingestion");
+			if (flag) {
+				logger.log(LogStatus.PASS, "TC-LOMT-815-16_Verify_URN_LO or EO_Q&A_Pair");			
+				logger.log(LogStatus.PASS, "TC-LOMT-815_25_Re-export_And _ee-ingestion");
+				logger.log(LogStatus.PASS, "TC-LOMT-815_24_Re-export_after Re-ingestion");
+			} else {
+				logger.log(LogStatus.FAIL, "TC-LOMT-815-16_Verify_URN_LO or EO_Q&A_Pair");			
+				logger.log(LogStatus.FAIL, "TC-LOMT-815_25_Re-export_And _ee-ingestion");
+				logger.log(LogStatus.FAIL, "TC-LOMT-815_24_Re-export_after Re-ingestion");
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
