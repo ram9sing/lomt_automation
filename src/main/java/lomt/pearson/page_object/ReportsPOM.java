@@ -49,7 +49,7 @@ public class ReportsPOM {
 	@FindBy(xpath = "//div[@class='modal-footer']/button")
 	private WebElement schoolModelWindowNextButton;
 	
-	@FindBy(xpath = "//div[@class='report-utility-container']/div[6]/div[1]")
+	@FindBy(xpath = "//div[@class='report-utility-container']/div[9]/div[1]")
 	private WebElement forwardIndirectIntermediaryReport;
 	
 	@FindBy(xpath = "//*[@id='lomtAppId']/div/div/div[2]/div/div[2]/div[1]/div[1]/span")
