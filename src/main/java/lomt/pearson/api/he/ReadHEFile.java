@@ -316,7 +316,6 @@ public class ReadHEFile {
 			workbook = new XSSFWorkbook(isFile);
 			worksheet = workbook.getSheetAt(0);
 			
-			//worksheet.removeRow(worksheet.getRow(41));
 			worksheet.removeRow(worksheet.getRow(36));
 			
 			isFile.close();
@@ -344,7 +343,6 @@ public class ReadHEFile {
 			cell1.setCellValue(HEConstant.NEW_HINT_ADDED.trim());
 			
 			//row deleted
-			//worksheet1.removeRow(worksheet1.getRow(33));
 			worksheet1.removeRow(worksheet1.getRow(28));
 			
 			isFile1.close();
