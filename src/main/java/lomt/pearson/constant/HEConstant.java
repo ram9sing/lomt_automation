@@ -42,15 +42,14 @@ public class HEConstant {
 	public static Map<String, String> getLOAndEOData() {
 		Map<String, String> map = new LinkedHashMap<String, String>();
 		map.put("LO 8.1", "Analyze physical development in middle adulthood.");
-		map.put("LO 8.2", "Evaluate the changes in sexuality during middle adulthood.");
+		map.put("LO82", "Evaluate the changes in sexuality during middle adulthood.");
 		map.put("LO 8.3", "Assess the influences on health in middle adulthood.");
 		map.put("LO 8.4", "Evaluate cognitive development in middle adulthood.");
-		map.put("LO 8.5", "Evaluate memory development in middle adulthood.");
 		map.put("EO 8.1.3", "Explain sensory function during middle adulthood.");
-		map.put("EO 8.2.3", "Describe the dilemma of hormone replacement therapy for women.");
-		map.put("EO 8.3.2", "Explain the impact of stress on health.");
-		map.put("EO 8.4.1", "Describe the changing state of intelligence in adulthood.");
-		map.put("EO 8.5.3", "Explain the influence of schemas in memory processes.");
+		map.put("EO821", "Describe the dilemma of hormone replacement therapy for women.");
+		map.put("EO 8.2.5", "Explain the impact of stress on health.");
+		map.put("EO 8.3.4", "Describe the changing state of intelligence in adulthood.");
+		map.put("EO 8.4.1", "Explain the influence of schemas in memory processes.");
 		
 		return map;
 	}

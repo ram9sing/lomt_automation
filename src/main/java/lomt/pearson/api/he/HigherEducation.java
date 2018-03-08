@@ -165,7 +165,7 @@ public class HigherEducation extends BaseClass {
 			Assert.assertEquals(hePom.getObjectiveHierarchySetName().getText(), LOMTConstant.OBJECT_HIERARCHY_SET);
 			
 			hePom.getLearningTitleInputText().sendKeys(heGoalframeworkName);
-			Thread.sleep(1000);
+			Thread.sleep(7000);
 			
 			//DOMAIN SELECTION
 			hePom.getDomainNameDropDown().click();
@@ -230,7 +230,7 @@ public class HigherEducation extends BaseClass {
 			Assert.assertEquals(hePom.getObjectiveHierarchySetName().getText(), LOMTConstant.OBJECT_HIERARCHY_SET);
 			
 			hePom.getLearningTitleInputText().sendKeys(heGoalframeworkName);
-			Thread.sleep(1000);
+			Thread.sleep(7000);
 			
 			//DOMAIN SELECTION
 			hePom.getDomainNameDropDown().click();
@@ -450,7 +450,6 @@ public class HigherEducation extends BaseClass {
 
 			hePom.getHeUpdateResultButton().click();
 			wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
-			//Thread.sleep(15000);
 
 			jse.executeScript("window.scrollBy(0,600)");
 
@@ -472,10 +471,13 @@ public class HigherEducation extends BaseClass {
 				
 				File eoExportFile = new File(LOMTConstant.EXPORTED_FILE_PATH + exportedFileName);
 				verifyEOData(logger, ingestionFile, eoExportFile);
-				//verifyQAPairsData(logger);
 				logger.log(LogStatus.PASS, "TC-LOMT-613-03_Export_Functionality");
 				jse.executeScript("window.scrollBy(0,-1000)");
 				commonPOM.getPearsonLogo().click();
+			} else {
+				logger.log(LogStatus.FAIL, "TC-LOMT-613-01_Export_Available");
+				logger.log(LogStatus.FAIL, "TC-LOMT-613-02_Export_Functionality");
+				logger.log(LogStatus.FAIL, "TC-LOMT-613-03_Export_Functionality");
 			}
 		} catch (Exception e) {
 			logger.log(LogStatus.FAIL, "Unable to verify HE Educational Objective exported file data");
@@ -659,6 +661,7 @@ public class HigherEducation extends BaseClass {
 
 		InputStream isExported = null;
 		XSSFWorkbook workbookExported = null;
+		int counter = 1;
 		try {
 			isIngestion = new FileInputStream(ingestedFile); //Ingestion File 
 			workbookIngestion = new XSSFWorkbook(isIngestion);
@@ -673,161 +676,251 @@ public class HigherEducation extends BaseClass {
 			while (rowIteratoreExport.hasNext()) {
 				Row rowExp = rowIteratoreExport.next();
 				while (rowIteratoreIngestion.hasNext()) {
-					Row rowIngest = rowIteratoreIngestion.next();
-					
-					if (rowExp.getRowNum()>11 && rowIngest.getRowNum()>11) {
-						//NEW Learning Objective #
-						if (!String.valueOf(rowExp.getCell(5)).contains("null") && !String.valueOf(rowIngest.getCell(5)).contains("null")) {
-							if (rowExp.getCell(5).getStringCellValue().equalsIgnoreCase(rowIngest.getCell(5).getStringCellValue())) {
+					if (counter <= 2) {
+						Row rowIngest = rowIteratoreIngestion.next();
+						
+						if (rowExp.getRowNum()>11 && rowIngest.getRowNum()>11) {
+							//NEW Learning Objective #
+							if (!String.valueOf(rowExp.getCell(5)).contains("null") && !String.valueOf(rowIngest.getCell(5)).contains("null")) {
+								if (rowExp.getCell(5).getStringCellValue().equalsIgnoreCase(rowIngest.getCell(5).getStringCellValue())) {
+								} else {
+									logger.log(LogStatus.FAIL, "HE Educational Objective data is not matched at row : "+rowExp.getRowNum());
+								}
+							} 
+							//Analyze physical development in middle adulthood.
+							if (!String.valueOf(rowExp.getCell(6)).contains("null") && !String.valueOf(rowIngest.getCell(6)).contains("null")) {
+								if (rowExp.getCell(6).getStringCellValue().equalsIgnoreCase(rowIngest.getCell(6).getStringCellValue())) {
+								} else {
+									logger.log(LogStatus.FAIL, "HE Educational Objective data is not matched at row : "+rowExp.getRowNum());
+								}
+							} 
+							//NEW Enabling Objective #
+							if (!String.valueOf(rowExp.getCell(7)).contains("null") && !String.valueOf(rowIngest.getCell(7)).contains("null")) {
+								if (rowExp.getCell(7).getStringCellValue().equalsIgnoreCase(rowIngest.getCell(7).getStringCellValue())) {
+								} else {
+									logger.log(LogStatus.FAIL, "HE Educational Objective data is not matched at row : "+rowExp.getRowNum());
+								}
+							} 
+							//NEW Enabling Objectives
+							if (!String.valueOf(rowExp.getCell(8)).contains("null") && !String.valueOf(rowIngest.getCell(8)).contains("null")) {
+								if (rowExp.getCell(8).getStringCellValue().equalsIgnoreCase(rowIngest.getCell(8).getStringCellValue())) {
+								} else {
+									logger.log(LogStatus.FAIL, "HE Educational Objective data is not matched at row : "+rowExp.getRowNum());
+								}
+							} 
+							//NEW LO/EO Prerequisites (Include only LO/EO #)
+							if (!String.valueOf(rowExp.getCell(9)).contains("null") && !String.valueOf(rowIngest.getCell(9)).contains("null")) {
+								if (rowExp.getCell(9).getStringCellValue().equalsIgnoreCase(rowIngest.getCell(9).getStringCellValue())) {
+								} else {
+									logger.log(LogStatus.FAIL, "HE Educational Objective data is not matched at row : "+rowExp.getRowNum());
+								}
+							} 
+							//Identified as a Key Concept (Y/N)
+							if (!String.valueOf(rowExp.getCell(10)).contains("null") && !String.valueOf(rowIngest.getCell(10)).contains("null")) {
+								if (rowExp.getCell(10).getStringCellValue().equalsIgnoreCase(rowIngest.getCell(10).getStringCellValue())) {
+								} else {
+									logger.log(LogStatus.FAIL, "HE Educational Objective data is not matched at row : "+rowExp.getRowNum());
+								}
+							} 
+							
+							//Identified as a Most Difficult Concept (Y/N)
+							if (!String.valueOf(rowExp.getCell(11)).contains("null") && !String.valueOf(rowIngest.getCell(11)).contains("null")) {
+								if (rowExp.getCell(11).getStringCellValue().equalsIgnoreCase(rowIngest.getCell(11).getStringCellValue())) {
+								} else {
+									logger.log(LogStatus.FAIL, "HE Educational Objective data is not matched at row : "+rowExp.getRowNum());
+								}
+							} 
+							
+							//Identified as a Concept Subject to Misconception (Y/N)
+							if (!String.valueOf(rowExp.getCell(12)).contains("null") && !String.valueOf(rowIngest.getCell(12)).contains("null")) {
+								if (rowExp.getCell(12).getStringCellValue().equalsIgnoreCase(rowIngest.getCell(12).getStringCellValue())) {
+								} else {
+									logger.log(LogStatus.FAIL, "HE Educational Objective data is not matched at row : "+rowExp.getRowNum());
+								}
+							} 
+							
+							//Misconception Descriptive Statement 1
+							if (!String.valueOf(rowExp.getCell(13)).contains("null")) {
+								if (rowExp.getCell(13).getStringCellValue().equalsIgnoreCase(rowIngest.getCell(13).getStringCellValue())
+										|| rowExp.getCell(13).getStringCellValue().equalsIgnoreCase(rowIngest.getCell(16).getStringCellValue())
+										|| rowExp.getCell(13).getStringCellValue().equalsIgnoreCase(rowIngest.getCell(19).getStringCellValue())) {
+								} else {
+									logger.log(LogStatus.FAIL, "HE Misconception Descriptive Statement 1 data is not matched at row : " + rowExp.getRowNum());
+								}
 							} else {
-								logger.log(LogStatus.FAIL, "HE Educational Objective data is not matched at row : "+rowExp.getRowNum());
+								logger.log(LogStatus.FAIL, "HE Misconception Descriptive Statement 1 can not be null at row : " + rowExp.getRowNum());
 							}
-						} 
-						//Analyze physical development in middle adulthood.
-						if (!String.valueOf(rowExp.getCell(6)).contains("null") && !String.valueOf(rowIngest.getCell(6)).contains("null")) {
-							if (rowExp.getCell(6).getStringCellValue().equalsIgnoreCase(rowIngest.getCell(6).getStringCellValue())) {
+							
+							//Misconception Feedback 1
+							if (!String.valueOf(rowExp.getCell(14)).contains("null")) {
+								if (rowExp.getCell(14).getStringCellValue().equalsIgnoreCase(rowIngest.getCell(14).getStringCellValue())
+										|| rowExp.getCell(14).getStringCellValue().equalsIgnoreCase(rowIngest.getCell(17).getStringCellValue())
+										|| rowExp.getCell(14).getStringCellValue().equalsIgnoreCase(rowIngest.getCell(20).getStringCellValue())) {
+								} else {
+									logger.log(LogStatus.FAIL, "HE Misconception Feedback 1 data is not matched at row : " + rowExp.getRowNum());
+								}
 							} else {
-								logger.log(LogStatus.FAIL, "HE Educational Objective data is not matched at row : "+rowExp.getRowNum());
+								logger.log(LogStatus.FAIL, "HE Misconception Feedback 1 can not be null at row : " + rowExp.getRowNum());
 							}
-						} 
-						//NEW Enabling Objective #
-						if (!String.valueOf(rowExp.getCell(7)).contains("null") && !String.valueOf(rowIngest.getCell(7)).contains("null")) {
-							if (rowExp.getCell(7).getStringCellValue().equalsIgnoreCase(rowIngest.getCell(7).getStringCellValue())) {
+							
+							//Misconception Assertion(s) 1
+							if (!String.valueOf(rowExp.getCell(15)).contains("null")) {
+								if (rowExp.getCell(15).getStringCellValue().equalsIgnoreCase(rowIngest.getCell(15).getStringCellValue())
+										|| rowExp.getCell(15).getStringCellValue().equalsIgnoreCase(rowIngest.getCell(18).getStringCellValue())
+										|| rowExp.getCell(15).getStringCellValue().equalsIgnoreCase(rowIngest.getCell(21).getStringCellValue())) {
+								} else {
+									logger.log(LogStatus.FAIL, "HE Misconception Assertion(s) 1 data is not matched at row : " + rowExp.getRowNum());
+								}
 							} else {
-								logger.log(LogStatus.FAIL, "HE Educational Objective data is not matched at row : "+rowExp.getRowNum());
+								logger.log(LogStatus.FAIL, "HE Misconception Assertion(s) 1 can not be null at row : " + rowExp.getRowNum());
 							}
-						} 
-						//NEW Enabling Objectives
-						if (!String.valueOf(rowExp.getCell(8)).contains("null") && !String.valueOf(rowIngest.getCell(8)).contains("null")) {
-							if (rowExp.getCell(8).getStringCellValue().equalsIgnoreCase(rowIngest.getCell(8).getStringCellValue())) {
+							
+							
+							//Misconception Descriptive Statement 2
+							if (!String.valueOf(rowExp.getCell(16)).contains("null")) {
+								if (rowExp.getCell(16).getStringCellValue().equalsIgnoreCase(rowIngest.getCell(16).getStringCellValue())
+										|| rowExp.getCell(16).getStringCellValue().equalsIgnoreCase(rowIngest.getCell(13).getStringCellValue())
+										|| rowExp.getCell(16).getStringCellValue().equalsIgnoreCase(rowIngest.getCell(19).getStringCellValue())) {
+								} else {
+									logger.log(LogStatus.FAIL, "HE Misconception Descriptive Statement 2 data is not matched at row : " + rowExp.getRowNum());
+								}
 							} else {
-								logger.log(LogStatus.FAIL, "HE Educational Objective data is not matched at row : "+rowExp.getRowNum());
+								logger.log(LogStatus.FAIL, "HE Misconception Descriptive Statement 2 can not be null at row : " + rowExp.getRowNum());
 							}
-						} 
-						//NEW LO/EO Prerequisites (Include only LO/EO #)
-						if (!String.valueOf(rowExp.getCell(9)).contains("null") && !String.valueOf(rowIngest.getCell(9)).contains("null")) {
-							if (rowExp.getCell(9).getStringCellValue().equalsIgnoreCase(rowIngest.getCell(9).getStringCellValue())) {
+							
+							//Misconception Feedback 2
+							if (!String.valueOf(rowExp.getCell(17)).contains("null")) {
+								if (rowExp.getCell(17).getStringCellValue().equalsIgnoreCase(rowIngest.getCell(17).getStringCellValue())
+										|| rowExp.getCell(17).getStringCellValue().equalsIgnoreCase(rowIngest.getCell(14).getStringCellValue())
+										|| rowExp.getCell(17).getStringCellValue().equalsIgnoreCase(rowIngest.getCell(20).getStringCellValue())) {
+								} else {
+									logger.log(LogStatus.FAIL, "HE Misconception Feedback 2 data is not matched at row : " + rowExp.getRowNum());
+								}
 							} else {
-								logger.log(LogStatus.FAIL, "HE Educational Objective data is not matched at row : "+rowExp.getRowNum());
+								logger.log(LogStatus.FAIL, "HE Misconception Feedback 2 can not be null at row : " + rowExp.getRowNum());
 							}
-						} 
-						//Identified as a Key Concept (Y/N)
-						if (!String.valueOf(rowExp.getCell(10)).contains("null") && !String.valueOf(rowIngest.getCell(10)).contains("null")) {
-							if (rowExp.getCell(10).getStringCellValue().equalsIgnoreCase(rowIngest.getCell(10).getStringCellValue())) {
+							
+							//Misconception Assertion(s) 2
+							if (!String.valueOf(rowExp.getCell(18)).contains("null")) {
+								if (rowExp.getCell(18).getStringCellValue().equalsIgnoreCase(rowIngest.getCell(18).getStringCellValue())
+										|| rowExp.getCell(18).getStringCellValue().equalsIgnoreCase(rowIngest.getCell(15).getStringCellValue())
+										|| rowExp.getCell(18).getStringCellValue().equalsIgnoreCase(rowIngest.getCell(21).getStringCellValue())) {
+								} else {
+									logger.log(LogStatus.FAIL, "HE Misconception Assertion(s) 2 data is not matched at row : " + rowExp.getRowNum());
+								}
 							} else {
-								logger.log(LogStatus.FAIL, "HE Educational Objective data is not matched at row : "+rowExp.getRowNum());
+								logger.log(LogStatus.FAIL, "HE Misconception Assertion(s) 2 can not be null at row : " + rowExp.getRowNum());
 							}
-						} 
-						
-						//Identified as a Most Difficult Concept (Y/N)
-						if (!String.valueOf(rowExp.getCell(11)).contains("null") && !String.valueOf(rowIngest.getCell(11)).contains("null")) {
-							if (rowExp.getCell(11).getStringCellValue().equalsIgnoreCase(rowIngest.getCell(11).getStringCellValue())) {
+							
+							
+							//Misconception Descriptive Statement 3
+							if (!String.valueOf(rowExp.getCell(19)).contains("null")) {
+								if (rowExp.getCell(19).getStringCellValue().equalsIgnoreCase(rowIngest.getCell(19).getStringCellValue())
+										|| rowExp.getCell(19).getStringCellValue().equalsIgnoreCase(rowIngest.getCell(13).getStringCellValue())
+										|| rowExp.getCell(19).getStringCellValue().equalsIgnoreCase(rowIngest.getCell(16).getStringCellValue())) {
+								} else {
+									logger.log(LogStatus.FAIL, "HE Misconception Descriptive Statement 3 data is not matched at row : " + rowExp.getRowNum());
+								}
 							} else {
-								logger.log(LogStatus.FAIL, "HE Educational Objective data is not matched at row : "+rowExp.getRowNum());
+								logger.log(LogStatus.FAIL, "HE Misconception Descriptive Statement 3 can not be null at row : " + rowExp.getRowNum());
 							}
-						} 
-						
-						//Identified as a Concept Subject to Misconception (Y/N)
-						if (!String.valueOf(rowExp.getCell(12)).contains("null") && !String.valueOf(rowIngest.getCell(12)).contains("null")) {
-							if (rowExp.getCell(12).getStringCellValue().equalsIgnoreCase(rowIngest.getCell(12).getStringCellValue())) {
+							
+							//Misconception Feedback 3
+							if (!String.valueOf(rowExp.getCell(20)).contains("null")) {
+								if (rowExp.getCell(20).getStringCellValue().equalsIgnoreCase(rowIngest.getCell(20).getStringCellValue())
+										|| rowExp.getCell(20).getStringCellValue().equalsIgnoreCase(rowIngest.getCell(14).getStringCellValue())
+										|| rowExp.getCell(20).getStringCellValue().equalsIgnoreCase(rowIngest.getCell(17).getStringCellValue())) {
+								} else {
+									logger.log(LogStatus.FAIL, "HE Misconception Feedback 2 data is not matched at row : " + rowExp.getRowNum());
+								}
 							} else {
-								logger.log(LogStatus.FAIL, "HE Educational Objective data is not matched at row : "+rowExp.getRowNum());
+								logger.log(LogStatus.FAIL, "HE Misconception Feedback 2 can not be null at row : " + rowExp.getRowNum());
 							}
-						} 
-						
-						/*//Misconception Descriptive Statement 1
-						if (rowExp.getCell(13).getStringCellValue().equalsIgnoreCase(rowIngest.getCell(13).getStringCellValue()) ) {
+							
+							//Misconception Assertion(s) 3
+							if (!String.valueOf(rowExp.getCell(21)).contains("null")) {
+								if (rowExp.getCell(21).getStringCellValue().equalsIgnoreCase(rowIngest.getCell(21).getStringCellValue())
+										|| rowExp.getCell(21).getStringCellValue().equalsIgnoreCase(rowIngest.getCell(15).getStringCellValue())
+										|| rowExp.getCell(21).getStringCellValue().equalsIgnoreCase(rowIngest.getCell(18).getStringCellValue())) {
+								} else {
+									logger.log(LogStatus.FAIL, "HE Misconception Assertion(s) 2 data is not matched at row : " + rowExp.getRowNum());
+								}
+							} else {
+								logger.log(LogStatus.FAIL, "HE Misconception Assertion(s) 2 can not be null at row : " + rowExp.getRowNum());
+							}
+							//Domain
+							if (!String.valueOf(rowExp.getCell(22)).contains("null")) {
+								if (rowExp.getCell(22).getStringCellValue().equalsIgnoreCase(rowIngest.getCell(22).getStringCellValue()) ) {
+								} else {
+									logger.log(LogStatus.FAIL, "HE Domain data is not matched at row : "+rowExp.getRowNum()); 
+								}
+							} else {
+								logger.log(LogStatus.FAIL, "HE Domain data can not be null  at row : "+rowExp.getRowNum()); 
+							}
+							
+							//Blooms Cognitive Process Dimensions
+							if (!String.valueOf(rowExp.getCell(23)).contains("null")) {
+								if (rowExp.getCell(23).getStringCellValue().trim().contains("Analyze")
+										&& rowExp.getCell(23).getStringCellValue().trim().contains("Remember")
+										&& rowExp.getCell(23).getStringCellValue().trim().contains("Apply") 
+										&& rowExp.getCell(23).getStringCellValue().trim().contains("Create")) {
+								} else {
+									logger.log(LogStatus.FAIL, "HE Blooms Cognitive Process Dimensions data is not matched at row : "+rowExp.getRowNum());
+								}
+							} else {
+								logger.log(LogStatus.FAIL, "HE Blooms Cognitive Process Dimensions data can not be null  at row : "+rowExp.getRowNum()); 
+							}
+							
+							//Blooms Knowledge Dimensions
+							if (!String.valueOf(rowExp.getCell(24)).contains("null")) {  
+								if (rowExp.getCell(24).getStringCellValue().contains("Metacognitive")
+										&& rowExp.getCell(24).getStringCellValue().contains("Factual")
+										&& rowExp.getCell(24).getStringCellValue().contains("Conceptual")
+										&& rowExp.getCell(24).getStringCellValue().contains("Procedural")) {
+								} else {
+									logger.log(LogStatus.FAIL, "HE Blooms Knowledge Dimensions data is not matched at row : "+rowExp.getRowNum());
+								}
+							} else {
+								logger.log(LogStatus.FAIL, "HE Blooms Knowledge Dimensions data can not be null  at row : "+rowExp.getRowNum());
+							}
+							
+							//Webb's Depth of Knowledge Cognitive Complexity Dimension
+							if (!String.valueOf(rowExp.getCell(25)).contains("null")) {  
+								if (rowExp.getCell(25).getStringCellValue().contains("Extended thinking")
+										&& rowExp.getCell(25).getStringCellValue().contains("Recall and reproduction")
+										&& rowExp.getCell(25).getStringCellValue().contains("Short term strategic thinking")
+										&& rowExp.getCell(25).getStringCellValue().contains("Skills and Concepts")) {
+								} else {
+									logger.log(LogStatus.FAIL, "HE Webb's Depth of Knowledge Cognitive Complexity Dimension data is not matched at row : "+rowExp.getRowNum());
+								}
+							} else {
+								logger.log(LogStatus.FAIL, "HE Webb's Depth of Knowledge Cognitive Complexity Dimension data can not be null  at row : "+rowExp.getRowNum());
+							}
+							
+							//Proficiency
+							if (!String.valueOf(rowExp.getCell(26)).contains("null")) {
+								if (rowExp.getCell(26).getStringCellValue().equalsIgnoreCase(rowIngest.getCell(26).getStringCellValue()) ) {
+								} else {
+									logger.log(LogStatus.FAIL, "HE Proficiency data is not matched at row : "+rowExp.getRowNum());
+								}
+							} else {
+								logger.log(LogStatus.FAIL, "HE Proficiency data can not be null  at row : "+rowExp.getRowNum());
+							}
+							
+							//URN 
+							if (!String.valueOf(rowExp.getCell(27)).contains("null")) {
+							} else {
+								logger.log(LogStatus.FAIL, "HE URN data can not be null  at row : "+rowExp.getRowNum());
+							}
+							//break;
 						} else {
-							//logger.log(LogStatus.FAIL, "HE Educational Objective data is not matched at row : "+rowExp.getRowNum());
+							break;
 						}
-						
-						//Misconception Feedback 1
-						if (rowExp.getCell(14).getStringCellValue().equalsIgnoreCase(rowIngest.getCell(14).getStringCellValue()) ) {
-						} else {
-							//logger.log(LogStatus.FAIL, "HE Educational Objective data is not matched at row : "+rowExp.getRowNum());
-						}
-						
-						//Misconception Assertion(s) 1
-						if (rowExp.getCell(15).getStringCellValue().equalsIgnoreCase(rowIngest.getCell(15).getStringCellValue()) ) {
-						} else {
-							//logger.log(LogStatus.FAIL, "HE Educational Objective data is not matched at row : "+rowExp.getRowNum());
-						}
-						
-						//Misconception Descriptive Statement 2
-						if (rowExp.getCell(16).getStringCellValue().equalsIgnoreCase(rowIngest.getCell(16).getStringCellValue()) ) {
-						} else {
-							//logger.log(LogStatus.FAIL, "HE Educational Objective data is not matched at row : "+rowExp.getRowNum());
-						}
-						
-						//Misconception Feedback 2
-						if (rowExp.getCell(17).getStringCellValue().equalsIgnoreCase(rowIngest.getCell(17).getStringCellValue()) ) {
-						} else {
-							//logger.log(LogStatus.FAIL, "HE Educational Objective data is not matched at row : "+rowExp.getRowNum());
-						}
-						
-						//Misconception Assertion(s) 2
-						if (rowExp.getCell(18).getStringCellValue().equalsIgnoreCase(rowIngest.getCell(18).getStringCellValue()) ) {
-						} else {
-							//logger.log(LogStatus.FAIL, "HE Educational Objective data is not matched at row : "+rowExp.getRowNum());
-						}
-						
-						//Misconception Descriptive Statement 3
-						if (rowExp.getCell(19).getStringCellValue().equalsIgnoreCase(rowIngest.getCell(19).getStringCellValue()) ) {
-						} else {
-							//logger.log(LogStatus.FAIL, "HE Educational Objective data is not matched at row : "+rowExp.getRowNum());
-						}
-						
-						//Misconception Feedback 3
-						if (rowExp.getCell(20).getStringCellValue().equalsIgnoreCase(rowIngest.getCell(20).getStringCellValue()) ) {
-						} else {
-							//logger.log(LogStatus.FAIL, "HE Educational Objective data is not matched at row : "+rowExp.getRowNum());
-						}
-						
-						//Misconception Assertion(s) 3
-						if (rowExp.getCell(21).getStringCellValue().equalsIgnoreCase(rowIngest.getCell(21).getStringCellValue()) ) {
-						} else {
-							//logger.log(LogStatus.FAIL, "HE Educational Objective data is not matched at row : "+rowExp.getRowNum());
-						}
-						
-						//Domain
-						if (rowExp.getCell(22).getStringCellValue().equalsIgnoreCase(rowIngest.getCell(22).getStringCellValue()) ) {
-						} else {
-							//logger.log(LogStatus.FAIL, "HE Educational Objective data is not matched at row : "+rowExp.getRowNum());
-						}
-						
-						//Blooms Cognitive Process Dimensions
-						if (rowExp.getCell(23).getStringCellValue().equalsIgnoreCase(rowIngest.getCell(23).getStringCellValue()) ) {
-						} else {
-							//logger.log(LogStatus.FAIL, "HE Educational Objective data is not matched at row : "+rowExp.getRowNum());
-						}
-						
-						//Blooms Knowledge Dimensions
-						if (rowExp.getCell(24).getStringCellValue().equalsIgnoreCase(rowIngest.getCell(24).getStringCellValue()) ) {
-						} else {
-							//logger.log(LogStatus.FAIL, "HE Educational Objective data is not matched at row : "+rowExp.getRowNum());
-						}
-						
-						//Webb's Depth of Knowledge Cognitive Complexity Dimension
-						if (rowExp.getCell(25).getStringCellValue().equalsIgnoreCase(rowIngest.getCell(25).getStringCellValue()) ) {
-						} else {
-							//logger.log(LogStatus.FAIL, "HE Educational Objective data is not matched at row : "+rowExp.getRowNum());
-						}
-						
-						//Proficiency
-						if (rowExp.getCell(26).getStringCellValue().equalsIgnoreCase(rowIngest.getCell(26).getStringCellValue()) ) {
-						} else {
-							//logger.log(LogStatus.FAIL, "HE Educational Objective data is not matched at row : "+rowExp.getRowNum());
-						}
-						
-						//URN
-						if (rowExp.getCell(27).getStringCellValue().equalsIgnoreCase(rowIngest.getCell(27).getStringCellValue()) ) {
-						} else {
-							//logger.log(LogStatus.FAIL, "HE Educational Objective data is not matched at row : "+rowExp.getRowNum());
-						}*/
-						break;
+						counter++;
 					} else {
-						break;
+						return;
 					}
+					break;
 				}
 			}
 			
@@ -917,7 +1010,7 @@ public class HigherEducation extends BaseClass {
 			
 			//Delete LO/EO, counter = 2
 			flag = reingestionHE(null, counter, logger, updateGoalframework);
-			if (flag) {
+			if (!flag) {
 				logger.log(LogStatus.PASS, "TC-LOMT-815-17_Update_Question and Ans_Q&A_Pair");
 				logger.log(LogStatus.PASS, "TC-LOMT-815-18_Update_Assertion_Q&A_Pair");	
 				logger.log(LogStatus.PASS, "TC-LOMT-815-19_Update_Hint_Q&A_Pair");	
@@ -930,7 +1023,7 @@ public class HigherEducation extends BaseClass {
 				logger.log(LogStatus.FAIL, "TC-LOMT-815-22_Delete_Domain_value");	
 				logger.log(LogStatus.FAIL, "TC-LOMT-815-23_Delete_value_Q&A_Pair_value");
 			}
-			if (flag) {
+			if (!flag) {
 				logger.log(LogStatus.PASS, "TC-LOMT-815-16_Verify_URN_LO or EO_Q&A_Pair");			
 				logger.log(LogStatus.PASS, "TC-LOMT-815_25_Re-export_And _ee-ingestion");
 				logger.log(LogStatus.PASS, "TC-LOMT-815_24_Re-export_after Re-ingestion");
@@ -952,8 +1045,8 @@ public class HigherEducation extends BaseClass {
 		try {
 			commonPOM.getHeLOB().click();
 			hePom.getEoStructure().click();
-			//wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
-			Thread.sleep(15000);
+			wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+			//Thread.sleep(10000);
 			
 			if (goalframework == null) {
 				hePom.getHeEnterSearchTerm().sendKeys(updateGoalframework);
@@ -964,8 +1057,8 @@ public class HigherEducation extends BaseClass {
 			jse.executeScript("window.scrollBy(0,100)");
 			Thread.sleep(1000);
 			hePom.getHeUpdateResultButton().click();
-			//wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
-			Thread.sleep(10000);
+			wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+			//Thread.sleep(10000);
 			
 			jse.executeScript("window.scrollBy(0,400)");
 			
@@ -977,13 +1070,13 @@ public class HigherEducation extends BaseClass {
 				assertTrue(hePom.getHeExport().isDisplayed());
 				
 				hePom.getHeExport().click();
-				//wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
-				Thread.sleep(20000);
+				wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+				//Thread.sleep(10000);
 				
 				readHEFile.updateHEFExportedFileData(counter);
 				
 				hePom.getHeEnterSearchTerm().clear();
-				jse.executeScript("window.scrollBy(0, -800)");
+				jse.executeScript("window.scrollBy(0, -1000)");
 				Thread.sleep(1000);
 				commonPOM.getPearsonLogo().click();
 				// go for ingestion
