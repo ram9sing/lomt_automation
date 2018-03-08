@@ -43,8 +43,7 @@ import lomt.pearson.page_object.SchoolPOM;
 public class School extends BaseClass {
 	
 	private String environment = LoadPropertiesFile.getPropertiesValues(LOMTConstant.LOMT_ENVIRONMENT);
-	//private String userName = LoadPropertiesFile.getPropertiesValues(LOMTConstant.USER_NAME);  //PPE admin user
-	private String userName = LoadPropertiesFile.getPropertiesValues(LOMTConstant.USER_NAME_TEST);
+	private String userName = LoadPropertiesFile.getPropertiesValues(LOMTConstant.USER_NAME);  
 	private String pwd = LoadPropertiesFile.getPropertiesValues(LOMTConstant.PASSWORD);
 	
 	private WebDriver driver;
@@ -448,7 +447,6 @@ public class School extends BaseClass {
 						schoolPOM.getInnerEnterSearch().sendKeys(data);
 						
 						schoolPOM.getSchoolInnerUpdateResultButton().click();				
-						//Thread.sleep(10000);
 						wait1.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
 						List<WebElement> webElement  =  schoolPOM.getParentChildList();
 						if (!webElement.isEmpty()) {
@@ -567,8 +565,8 @@ public class School extends BaseClass {
 		try {
 			commonPOM.getSchoolGlobalLOB().click();
 			schoolPOM.getCurriculumSt().click();
-			//Thread.sleep(15000);
 			wait1.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+			Thread.sleep(5000);
 			
 			jse.executeScript("window.scrollBy(0,100)");
 			
@@ -576,7 +574,6 @@ public class School extends BaseClass {
 			Thread.sleep(1000);
 			
 			schoolPOM.getSchoolUpdateResultButton().click();				
-			//Thread.sleep(10000);
 			wait1.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
 			
 			jse.executeScript("window.scrollBy(0,300)");
@@ -589,6 +586,7 @@ public class School extends BaseClass {
 				
 				schoolPOM.getExport().click();
 				wait1.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+				Thread.sleep(5000);
 				logger.log(LogStatus.PASS, "TC-LOMT-612_17_Verify_Export_CurriculumStandard_To_ExcelFile_SchoolGlobal");
 				if (fileSize.equalsIgnoreCase("small")) {
 					verifiedExportedFile(logger, fileSize);
@@ -596,7 +594,7 @@ public class School extends BaseClass {
 					verifiedExportedFile(logger, fileSize);
 				}
 				
-				jse.executeScript("window.scrollBy(0,-800)");
+				jse.executeScript("window.scrollBy(0,-1000)");
 				commonPOM.getPearsonLogo().click();
 			} else {
 				logger.log(LogStatus.FAIL, "Goalframework is not found using Enter search term option");
@@ -1127,6 +1125,7 @@ public class School extends BaseClass {
 			if(schoolPOM.getResultFound().getText().contains("Showing")) {
 				schoolPOM.getCurriculumGoalFramework().click();
 				wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+				Thread.sleep(5000);
 				jse.executeScript("window.scrollBy(0,300)");
 				
 				//Compare Grades description
