@@ -113,18 +113,6 @@ public class EnglishGSETestScript {
 		reports.endTest(logger);
 		reports.flush();
 	}
-	
-	//manages ingestion xpath is not visible
-	/*@Test(priority = 2)
-	public void gseIngestionWithBasicBrowserRole() throws InterruptedException {
-		gseIngestion.logout();
-		gseIngestion.loginNonAdminRole();
-		logger = reports.startTest("GSEIngestionProcess", "Validate the ingestion porcess.");
-		gseIngestion.englishGSEBrowsePageForNonAdminUser();
-		gseIngestion.loginNonAdminRole();
-		logger.log(LogStatus.INFO, "Manage Ingestion Link is disabled for non-admin user");
-		logger.log(LogStatus.INFO, "Non-admin user cann't ingest GSE file");
-	}*/
 
 	@Test(priority = 3)
 	public void tearDown() throws InterruptedException {

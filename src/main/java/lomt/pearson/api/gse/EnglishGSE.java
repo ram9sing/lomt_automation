@@ -696,6 +696,7 @@ public class EnglishGSE extends BaseClass {
 			
 			commonPOM.getExportButton().click();
 			wait1.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+			Thread.sleep(60000);
 			
 			String date = new Date().toString();
 			String[] CurrentDate= date.substring(4).split(" ");	 
@@ -703,39 +704,38 @@ public class EnglishGSE extends BaseClass {
 			
 			File exportedFile = new File(LOMTConstant.EXPORTED_FILE_PATH + LOMTConstant.EMPTY_STRING + LOMTConstant.EXPORTED_FILE_NAME + formatedDate + LOMTConstant.XLSX_EXTENSION);
 			if (exportedFile.isFile() && exportedFile.exists()) {
+				logger.log(LogStatus.PASS, "TC-LOMT-253-02_EducationalGoal_Export_Verify_withoutCheckSelect");
+				logger.log(LogStatus.PASS, "TC-LOMT-253-03_EducationalGoal_Export");
+				logger.log(LogStatus.PASS, "TC-LOMT-253-04_GSE_EducationalGoal_Export_VerifyTab");
+				logger.log(LogStatus.PASS, "TC-LOMT-253-05_GSE__Educational_Export_VerifyDataTab_Heading");
+				logger.log(LogStatus.PASS, "TC-LOMT-253-05_GSE_Educational_Export_VerifyDataTab_Values");
+				
+				logger.log(LogStatus.PASS, "LOMT-1154-03 v1.2.5_GSE_Export");
+				logger.log(LogStatus.PASS, "LOMT-1154-04 v1.2.4_GSE_Export");
+				logger.log(LogStatus.PASS, "LOMT-1154-05 v1.2.4_GSE_Export");
+				logger.log(LogStatus.PASS, "LOMT-1154-06 v1.2.5_GSE_Export");
+				logger.log(LogStatus.PASS, "LOMT v1.2.4_LOMT-1197-03_GSE_Export");
+				logger.log(LogStatus.PASS, "LOMT v1.2.4_LOMT-1197-04_GSE_Export");				
 				boolean flag = gseHealper.findDuplicateRecords(exportedFile);
-				if(true/*flag*/) {
-					logger.log(LogStatus.PASS, "TC-LOMT-253-02_EducationalGoal_Export_Verify_withoutCheckSelect");
-					logger.log(LogStatus.PASS, "TC-LOMT-253-03_EducationalGoal_Export");
-					logger.log(LogStatus.PASS, "TC-LOMT-253-04_GSE_EducationalGoal_Export_VerifyTab");
-					logger.log(LogStatus.PASS, "TC-LOMT-253-05_GSE__Educational_Export_VerifyDataTab_Heading");
-					logger.log(LogStatus.PASS, "TC-LOMT-253-05_GSE_Educational_Export_VerifyDataTab_Values");
-					
-					logger.log(LogStatus.PASS, "LOMT-1154-03 v1.2.5_GSE_Export");
-					logger.log(LogStatus.PASS, "LOMT-1154-04 v1.2.4_GSE_Export");
-					logger.log(LogStatus.PASS, "LOMT-1154-05 v1.2.4_GSE_Export");
-					logger.log(LogStatus.PASS, "LOMT-1154-06 v1.2.5_GSE_Export");
-					logger.log(LogStatus.PASS, "LOMT v1.2.4_LOMT-1197-03_GSE_Export");
-					logger.log(LogStatus.PASS, "LOMT v1.2.4_LOMT-1197-04_GSE_Export");
+				if (flag) {
 				} else {
-					logger.log(LogStatus.PASS, "TC-LOMT-253-02_EducationalGoal_Export_Verify_withoutCheckSelect");
-					logger.log(LogStatus.PASS, "TC-LOMT-253-03_EducationalGoal_Export");
-					logger.log(LogStatus.PASS, "TC-LOMT-253-04_GSE_EducationalGoal_Export_VerifyTab");
-					logger.log(LogStatus.PASS, "TC-LOMT-253-05_GSE__Educational_Export_VerifyDataTab_Heading");
-					logger.log(LogStatus.PASS, "TC-LOMT-253-05_GSE_Educational_Export_VerifyDataTab_Values");
-					
-					logger.log(LogStatus.FAIL, "LOMT-1154-03 v1.2.5_GSE_Export");
-					logger.log(LogStatus.FAIL, "LOMT-1154-04 v1.2.4_GSE_Export");
-					logger.log(LogStatus.FAIL, "LOMT-1154-05 v1.2.4_GSE_Export");
-					logger.log(LogStatus.FAIL, "LOMT-1154-06 v1.2.5_GSE_Export");
-					logger.log(LogStatus.FAIL, "LOMT v1.2.4_LOMT-1197-03_GSE_Export");
-					logger.log(LogStatus.FAIL, "LOMT v1.2.4_LOMT-1197-04_GSE_Export");
-					
 					logger.log(LogStatus.FAIL, "DUPLICATE DESCRIPTIVE ID FOUND GSE SPREADSHEET");
 				}
+			} else {
+				logger.log(LogStatus.FAIL, "TC-LOMT-253-02_EducationalGoal_Export_Verify_withoutCheckSelect");
+				logger.log(LogStatus.FAIL, "TC-LOMT-253-03_EducationalGoal_Export");
+				logger.log(LogStatus.FAIL, "TC-LOMT-253-04_GSE_EducationalGoal_Export_VerifyTab");
+				logger.log(LogStatus.FAIL, "TC-LOMT-253-05_GSE__Educational_Export_VerifyDataTab_Heading");
+				logger.log(LogStatus.FAIL, "TC-LOMT-253-05_GSE_Educational_Export_VerifyDataTab_Values");
 				
+				logger.log(LogStatus.FAIL, "LOMT-1154-03 v1.2.5_GSE_Export");
+				logger.log(LogStatus.FAIL, "LOMT-1154-04 v1.2.4_GSE_Export");
+				logger.log(LogStatus.FAIL, "LOMT-1154-05 v1.2.4_GSE_Export");
+				logger.log(LogStatus.FAIL, "LOMT-1154-06 v1.2.5_GSE_Export");
+				logger.log(LogStatus.FAIL, "LOMT v1.2.4_LOMT-1197-03_GSE_Export");
+				logger.log(LogStatus.FAIL, "LOMT v1.2.4_LOMT-1197-04_GSE_Export");
 			}
-			jse.executeScript("window.scrollBy(0,-800)");
+			jse.executeScript("window.scrollBy(0,-1000)");
 			commonPOM.getPearsonLogo().click();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -865,6 +865,7 @@ public class EnglishGSE extends BaseClass {
 			
 			commonPOM.getExportButton().click();
 			wait1.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+			Thread.sleep(60000);
 						
 			jse.executeScript("window.scrollBy(0,-800)");
 			commonPOM.getPearsonLogo().click();
