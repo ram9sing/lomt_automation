@@ -29,8 +29,7 @@ public class IntermediaryTestScript {
 	@Test(priority = 1)
 	public void intermediarIngestionSchollGlobal() throws Exception {
 		logger = reports.startTest(SchoolConstant.LOMT_10_TC+LOMTConstant.COMMA+LOMTConstant.EMPTY_SPACE+"LOMT-458");
-		
-		List<String> disciplineList = intermediary.getIngestedIntermediaryDiscipline();
+		List<String> disciplineList = intermediary.getIngestedIntermediaryDiscipline(logger);
 		String disciplineName = intermediary.getDisciplineForIngestion(disciplineList);
 		System.out.println("disciplineName ######### "+disciplineName);
 		
@@ -44,7 +43,7 @@ public class IntermediaryTestScript {
 		boolean flagBrose = intermediary.createUploadStructurePage1();
 		if (flagBrose) {
 		} else {
-			logger.log(LogStatus.PASS, "Unable to seclect Intermediary Discipline");
+			logger.log(LogStatus.PASS, "Unable to select Intermediary Discipline");
 			return;
 		}
 		intermediary.createUploadStructurePageWithCorrectIntermediaryFile(disciplineName, logger);

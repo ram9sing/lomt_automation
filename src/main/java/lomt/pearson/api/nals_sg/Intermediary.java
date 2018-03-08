@@ -428,7 +428,8 @@ public class Intermediary extends BaseClass {
 		}
 	}
 	
-	public List<String> getIngestedIntermediaryDiscipline() {
+	public List<String> getIngestedIntermediaryDiscipline(ExtentTest logger) {
+		int counter = 0;
 		List<String> intermediaryList = new LinkedList<String>();
 		
 		JavascriptExecutor jse = (JavascriptExecutor) driver;
@@ -468,9 +469,20 @@ public class Intermediary extends BaseClass {
 					WebElement childStructureElement = 	itr.next();
 					String discipline = childStructureElement.getText();
 					//System.out.println("Intermediary ingested discipline : "+structureName);
-					int i = discipline.indexOf("\n");
-					int j = discipline.lastIndexOf("\n");
-					intermediaryList.add(discipline.substring(i, j).trim());
+					if (discipline.contains("IntermediarySpreadsheetImport")) {
+						int i = discipline.indexOf("\n");
+						int j = discipline.lastIndexOf("\n");
+						//System.out.println("Intermediary : "+ discipline.substring(i, j).trim());
+						intermediaryList.add(discipline.substring(i, j).trim());
+						} else {
+						counter++;
+						int i = discipline.indexOf("\n");
+						//System.out.println("Intermediary : "+ discipline.substring(0, i).trim());
+						intermediaryList.add(discipline.substring(0, i).trim());
+						}					
+				}
+				if(counter>0){
+					logger.log(LogStatus.FAIL, "Import type not displayed for "+counter+" Intermediaries");
 				}
 			} else {
 				//do simple ingestion
@@ -612,6 +624,7 @@ public class Intermediary extends BaseClass {
 			for (String discipline : availableDisList) {
 				if (!disciplineList.contains(discipline.trim())) {
 					disciplineName = discipline;
+					break;
 				}
 				/*for (String ingestedDis : disciplineList) {
 					if (ingestedDis.trim().equalsIgnoreCase(discipline.trim())) {
