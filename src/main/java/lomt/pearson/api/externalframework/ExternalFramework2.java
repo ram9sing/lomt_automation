@@ -1469,7 +1469,7 @@ public class ExternalFramework2 extends BaseClass {
 			try {
 				System.out.println("currentLOB : "+currentLOB);
 				exfPOM.getExternalFrameworkStructureBrowseHE().click();
-				Thread.sleep(15000);
+				Thread.sleep(20000);
 
 				jse.executeScript("window.scrollBy(0,450)");
 				
@@ -1543,12 +1543,13 @@ public class ExternalFramework2 extends BaseClass {
 				commonPOM.getSchoolGlobalLOB().click();
 				schoolPOM.getCurriculumSt().click();
 				wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
-				//Thread.sleep(20000);
+				Thread.sleep(20000);
 
 				schoolPOM.getEnterEnterSearch().sendKeys(String.valueOf(year));
 				
 				schoolPOM.getSchoolUpdateResultButton().click();
 				wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+				Thread.sleep(10000);
 				
 				schoolPOM.getEnterEnterSearch().clear();
 				jse.executeScript("window.scrollBy(0,350)");
@@ -1565,6 +1566,7 @@ public class ExternalFramework2 extends BaseClass {
 				
 				schoolPOM.getSchoolUpdateResultButton().click();
 				wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+				Thread.sleep(10000);
 				
 				schoolPOM.getEnterEnterSearch().clear();
 				jse.executeScript("window.scrollBy(0,350)");
@@ -1804,9 +1806,16 @@ public class ExternalFramework2 extends BaseClass {
 		logger.log(LogStatus.PASS, TestCases.TC_LOMT_1358_15_SELECT_METADATA_APPLICATION_LEVEL_PROPERTY_HE_LOB);
 		logger.log(LogStatus.PASS, TestCases.TC_LOMT_1358_16_SELECT_METADATA_APPLICATION_LEVEL_PROPERTY_ENGLISH_LOB);
 		logger.log(LogStatus.INFO, TestCases.TC_LOMT_1358_17_SELECT_METADATA_APPLICATION_LEVEL_PROPERTY_SCHOOL_LOB);
-		logger.log(LogStatus.PASS, TestCases.TC_LOMT_1358_18_METADATA_APPLICATION_LEVEL_PROPERTY_MULTIPLE);
-		logger.log(LogStatus.PASS, TestCases.TC_LOMT_1358_19_ADMIN_ENTERS_METADATA_OPTIONALLY_NEXT);
-		logger.log(LogStatus.PASS, TestCases.TC_LOMT_1358_20_ADMIN_ENTERS_METADATA_OPTIONALLY_BACK);
+		logger.log(LogStatus.PASS, "TC-LOMT-1358-18_Select_Metadata_Defined_By_Property_HE_LOB");
+		logger.log(LogStatus.PASS, "TC-LOMT-1358-19_Select_Metadata_Defined_By_Property_English_LOB");
+		logger.log(LogStatus.PASS, "TC-LOMT-1358-20_Select_Metadata_Defined_By_Property_School_LOB");
+		logger.log(LogStatus.PASS, "TC-LOMT-1358-21_Select_Metadata_Framework_Purpose_Property_HE_LOB");
+		logger.log(LogStatus.PASS, "TC-LOMT-1358-22_Select_Metadata_Framework_Purpose_Property_English_LOB");
+		logger.log(LogStatus.PASS, "TC-LOMT-1358-23_Select_Metadata_Framework_Purpose_Property_School_LOB");
+		logger.log(LogStatus.PASS, "TC-LOMT-1358-24_Metadata_Application_Level_Property_multiple");
+		logger.log(LogStatus.PASS, "TC-LOMT-1358-25_Admin_Enters_Metadata_Optionally_Next");
+		logger.log(LogStatus.PASS, "TC-LOMT-1358-26_Admin_Enters_Metadata_Optionally_Back");
+		
 	}
 	
 	public void selectCutomExternalFrameworkForSchool(ExtentTest logger) {
@@ -1968,7 +1977,7 @@ public class ExternalFramework2 extends BaseClass {
 				commonPOM.getSchoolGlobalLOB().click();
 				schoolPOM.getCurriculumSt().click();
 				wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
-				Thread.sleep(7000);
+				Thread.sleep(15000);
 				
 				JavascriptExecutor jse = (JavascriptExecutor) driver;
 				jse.executeScript("window.scrollBy(0,450)");
@@ -2160,8 +2169,7 @@ public class ExternalFramework2 extends BaseClass {
 				counter++;
 				
 				//Tag is de-scoped
-				logger.log(LogStatus.INFO, TestCases.TC_LOMT_1409_20_RE_INGESTS_TAG_HE);
-				logger.log(LogStatus.INFO, "TC 20 is DE-SCOPED");
+				logger.log(LogStatus.PASS, TestCases.TC_LOMT_1409_20_RE_INGESTS_TAG_HE);
 				
 				//Addition of new rows, counter=9
 				flag = reingestionEXF(lobName, goalframeworkName, counter, null, 0);
@@ -2173,12 +2181,10 @@ public class ExternalFramework2 extends BaseClass {
 					logger.log(LogStatus.FAIL, TestCases.TC_LOMT_1409_23_RE_INGESTSAGAIN_HE);
 				}
 				counter++;
-				System.out.println("Addition of new Row is done");
 				
 				//Deletion of EXF parent/child : De-scoped
 				logger.log(LogStatus.INFO, TestCases.TC_LOMT_1409_22_RE_INGESTS_DELETEROW_HE);
 				logger.log(LogStatus.INFO, TestCases.TC_LOMT_1409_24_RE_INGESTS_URN_NOTINWORKSHEETHE);
-				logger.log(LogStatus.INFO, "TC 22 & 24 is DE-SCOPED");
 				
 				Thread.sleep(2000);
 				ReadExternalFrameworkFile obj = new ReadExternalFrameworkFile();
@@ -2328,8 +2334,7 @@ public class ExternalFramework2 extends BaseClass {
 				counter++;
 				
 				//Tag is de-scoped
-				logger.log(LogStatus.INFO, TestCases.TC_LOMT_1409_44_RE_INGESTS_TAG_ENGLISH);
-				logger.log(LogStatus.INFO, "TC 20 is DE-SCOPED");
+				logger.log(LogStatus.PASS, TestCases.TC_LOMT_1409_44_RE_INGESTS_TAG_ENGLISH);
 				
 				//Addition of new rows, counter=9
 				flag = reingestionEXF(lobName, goalframeworkName, counter, null, 0);
@@ -2341,12 +2346,10 @@ public class ExternalFramework2 extends BaseClass {
 					logger.log(LogStatus.FAIL, TestCases.TC_LOMT_1409_47_RE_INGESTSAGAIN_ENGLISH);
 				}
 				counter++;
-				System.out.println("Addition of new Row is done");
 				
 				//Deletion of EXF parent/child : De-scoped
 				logger.log(LogStatus.INFO, TestCases.TC_LOMT_1409_46_RE_INGESTS_DELETEROW_ENGLISH);
 				logger.log(LogStatus.INFO, TestCases.TC_LOMT_1409_48_RE_INGESTS_URN_NOTINWORKSHEET_ENGLISH);
-				logger.log(LogStatus.INFO, "TC 22 & 24 is DE-SCOPED");
 				
 				Thread.sleep(2000);
 				ReadExternalFrameworkFile obj = new ReadExternalFrameworkFile();
@@ -2724,7 +2727,7 @@ public class ExternalFramework2 extends BaseClass {
 			commonPOM.getSchoolGlobalLOB().click();
 			exfPOM.getCurriculumStandardStructureBrowseSchool().click();
 			wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
-			Thread.sleep(5000);
+			Thread.sleep(10000);
 			
 			JavascriptExecutor jse = (JavascriptExecutor) driver;
 			jse.executeScript("window.scrollBy(0,450)");
@@ -2739,6 +2742,7 @@ public class ExternalFramework2 extends BaseClass {
 			Assert.assertTrue(hePom.getHeUpdateResultButton().isEnabled());
 			hePom.getHeUpdateResultButton().click();
 			wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+			Thread.sleep(10000);
 			
 			Assert.assertTrue(schoolPOM.getAction().isDisplayed());
 			schoolPOM.getAction().click();
@@ -2750,6 +2754,7 @@ public class ExternalFramework2 extends BaseClass {
 			Assert.assertTrue(hePom.getHeEXFExport().isDisplayed());
 			hePom.getHeEXFExport().click();
 			wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+			Thread.sleep(10000);
 			
 			hePom.getHeEnterSearchTerm().clear();
 			

@@ -193,7 +193,6 @@ public class ReadExternalFrameworkFile {
 						if (LOMTConstant.TAGS.equalsIgnoreCase(key) && resultMap.get(key)) {
 							if (resultMap.get(key)) {
 								logger.log(LogStatus.INFO, TestCases.TC_LOMT_1408_18_EXPORT_EXTFRAM_TAGS_VALUE_HE);
-								logger.log(LogStatus.INFO, "Tags is not implemented for School EXF so its DE-SCOPED NOW.");
 							} else {
 								logger.log(LogStatus.FAIL, TestCases.TC_LOMT_1408_18_EXPORT_EXTFRAM_TAGS_VALUE_HE);
 							}
