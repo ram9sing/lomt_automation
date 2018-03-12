@@ -571,12 +571,12 @@ public class School extends BaseClass {
 			jse.executeScript("window.scrollBy(0,100)");
 			
 			schoolPOM.getEnterEnterSearch().sendKeys(String.valueOf(year));
-			Thread.sleep(1000);
+			Thread.sleep(2000);
 			
 			schoolPOM.getSchoolUpdateResultButton().click();				
 			wait1.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
 			
-			jse.executeScript("window.scrollBy(0,300)");
+			jse.executeScript("window.scrollBy(0,400)");
 			if(schoolPOM.getResultFound().getText().contains("Showing")) {
 				removeExistingFile();
 				schoolPOM.getAction().click();
@@ -593,11 +593,11 @@ public class School extends BaseClass {
 				} else {
 					verifiedExportedFile(logger, fileSize);
 				}
-				
 				jse.executeScript("window.scrollBy(0,-1000)");
 				commonPOM.getPearsonLogo().click();
 			} else {
-				logger.log(LogStatus.FAIL, "Goalframework is not found using Enter search term option");
+				logger.log(LogStatus.FAIL, "TC-LOMT-612_16_Verify_Export_Option_In_Actions_For_CurriculumStandard_SchoolGlobal");
+				logger.log(LogStatus.FAIL, "TC-LOMT-612_17_Verify_Export_CurriculumStandard_To_ExcelFile_SchoolGlobal");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -736,7 +736,7 @@ public class School extends BaseClass {
 					Assert.assertNotNull(worksheet1.getRow(LOMTConstant.TWO).getCell(LOMTConstant.ZERO).getStringCellValue());// URN
 					Assert.assertEquals(worksheet1.getRow(LOMTConstant.TWO).getCell(LOMTConstant.ONE).getStringCellValue(), "K"); //Grade Low
 					Assert.assertEquals(worksheet1.getRow(LOMTConstant.TWO).getCell(LOMTConstant.TWO).getStringCellValue(), "12"); //Grade High
-					Assert.assertEquals(worksheet1.getRow(LOMTConstant.TWO).getCell(LOMTConstant.THREE).getStringCellValue(), "K-12"); //Grade Title
+					Assert.assertEquals(worksheet1.getRow(LOMTConstant.TWO).getCell(LOMTConstant.THREE).getStringCellValue(), "College- and Career-Readiness Anchor Standards"); //Grade Title
 					Assert.assertEquals(worksheet1.getRow(LOMTConstant.TWO).getCell(LOMTConstant.FOUR).getStringCellValue(), "R"); //OSCode
 					
 					Assert.assertEquals(worksheet1.getRow(LOMTConstant.TWO).getCell(LOMTConstant.FIVE).getStringCellValue(), "Reading"); //Level 1

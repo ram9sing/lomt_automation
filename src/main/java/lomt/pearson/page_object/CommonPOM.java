@@ -288,6 +288,9 @@ public class CommonPOM {
 	@FindBy(xpath = "//div[@id='lomtAppId']/div/div/div[2]/div/div[2]/div[2]/div[1]/div/div[1]/div/span[2]/span[2]/a")
 	private WebElement exfFirtBrowsedGF;
 	
+	@FindBy(xpath = "//div[@id='lomtAppId']/div/div/div[2]/div/div[1]/div[2]/div[1]/div/div[1]/div/span/span/a")
+	private WebElement intermediaryFirtBrowsedGF;
+	
 	@FindBy(xpath = "//div[@id='lomtAppId']/div/div/div[1]/span")
 	private WebElement exfFirtBrowsedGFTitle;
 	
@@ -309,6 +312,9 @@ public class CommonPOM {
 	//For non-admin user
 	@FindBy(xpath = "//div[@id='browse-action-container']/div[2]/div[2]/span")
 	private WebElement commonExportButton;
+	
+	@FindBy(xpath = "//div[@id='browse-action-container']/div[2]/div[3]/span")
+	private WebElement smeExportButton;
 	
 	public WebElement getPearsonLogo() {
 		return pearsonLogo;
@@ -977,6 +983,14 @@ public class CommonPOM {
 
 	public WebElement getCommonExportButton() {
 		return commonExportButton;
+	}
+
+	public WebElement getSmeExportButton() {
+		return smeExportButton;
+	}
+
+	public WebElement getIntermediaryFirtBrowsedGF() {
+		return intermediaryFirtBrowsedGF;
 	}
 
 }

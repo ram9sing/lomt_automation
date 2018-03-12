@@ -163,7 +163,6 @@ public class NonAdminUserBrowseExport extends BaseClass {
 
 			englishPOM.getGseStructure().click();
 			wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
-			Thread.sleep(10000);
 			
 			jse.executeScript("window.scrollBy(0,400)");
 
@@ -171,13 +170,13 @@ public class NonAdminUserBrowseExport extends BaseClass {
 				removeExistingFile();
 				englishPOM.getSelectAll().click();
 				englishPOM.getRenderedLink().click();
-
+				
 				commonPOM.getExportButton().click();
 				wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));				
-				Thread.sleep(35000);
+				Thread.sleep(60000);
 				englishPOM.getFirstGSENode().click();
 				wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
-				Thread.sleep(20000);
+				Thread.sleep(30000);
 				flag = true;
 				
 				jse.executeScript("window.scrollBy(0,-1000)");
@@ -216,12 +215,19 @@ public class NonAdminUserBrowseExport extends BaseClass {
 					removeExistingFile();
 					exfPOM.getActionLink().click();
 					Thread.sleep(2000);
-					commonPOM.getExfExport().click();
-					wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
-					/*String exportedFileName = getFileFromDirectory(LOMTConstant.EXPORTED_FILE_PATH);
-					if (exportedFileName.contains("External_Framework_Template")) {
-						flag = true;
-					}*/
+					
+					if (userName.contains("LOMT-USER")) {
+						commonPOM.getCommonExportButton().click();
+						wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+					} else if (userName.contains("LOMT-SME")) {
+						commonPOM.getSmeExportButton().click();
+						wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+					} else {
+						//LOMT-EDITOR
+						commonPOM.getSmeExportButton().click();
+						wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+					}
+					
 					commonPOM.getExfFirtBrowsedGF().click();
 					wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
 					jse.executeScript("window.scrollBy(0,-800)");
@@ -254,12 +260,19 @@ public class NonAdminUserBrowseExport extends BaseClass {
 					removeExistingFile();
 					exfPOM.getActionLink().click();
 					Thread.sleep(2000);
-					commonPOM.getCommonExportButton().click();
-					wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
-					/*String exportedFileName = getFileFromDirectory(LOMTConstant.EXPORTED_FILE_PATH);
-					if (exportedFileName.contains("External_Framework_Template")) {
-						flag = true;
-					}*/
+					
+					if (userName.contains("LOMT-USER")) {
+						commonPOM.getExfExport().click();
+						wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+					} else if (userName.contains("LOMT-SME")) {
+						commonPOM.getSmeExportButton().click();
+						wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+					} else {
+						//LOMT-EDITOR
+						commonPOM.getSmeExportButton().click();
+						wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+					}
+					
 					commonPOM.getExfFirtBrowsedGF().click();
 					wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
 					jse.executeScript("window.scrollBy(0,-1000)");
@@ -295,22 +308,29 @@ public class NonAdminUserBrowseExport extends BaseClass {
 				commonPOM.getEnglishLOB().click();
 				commonPOM.getEnglishProductTOCStructure().click();
 				wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
-				Thread.sleep(30000);
+				Thread.sleep(80000);
 				jse.executeScript("window.scrollBy(0,300)");
 				
 				if (commonPOM.getShowingGFText().getText().contains("Showing")) {
 					removeExistingFile();
 					exfPOM.getActionLink().click();
 					Thread.sleep(2000);
-					commonPOM.getExfExport().click();
-					wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
 					
-					/*String exportedFileName = getFileFromDirectory(LOMTConstant.EXPORTED_FILE_PATH);
-					if (exportedFileName.contains(".xlsx") || exportedFileName.contains(".xlsx") ) {
-						flag = true;
-					}*/
+					if (userName.contains("LOMT-USER")) {
+						commonPOM.getExfExport().click();
+						wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+					} else if (userName.contains("LOMT-SME")) {
+						commonPOM.getSmeExportButton().click();
+						wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+					} else {
+						//LOMT-EDITOR
+						commonPOM.getSmeExportButton().click();
+						wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+					}
+					Thread.sleep(60000);
 					commonPOM.getExfFirtBrowsedGF().click();
 					wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+					Thread.sleep(20000);
 					flag = true;
 					
 					jse.executeScript("window.scrollBy(0,-1000)");
@@ -341,13 +361,19 @@ public class NonAdminUserBrowseExport extends BaseClass {
 					removeExistingFile();
 					productTocPOM.getTocActionLink().click();
 					Thread.sleep(2000);
-					commonPOM.getCommonExportButton().click();
-					wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
 					
-					/*String exportedFileName = getFileFromDirectory(LOMTConstant.EXPORTED_FILE_PATH);
-					if (exportedFileName.contains(".xlsx") || exportedFileName.contains(".xlsx") ) {
-						flag = true;
-					}*/
+					if (userName.contains("LOMT-USER")) {
+						commonPOM.getExfExport().click();
+						wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+					} else if (userName.contains("LOMT-SME")) {
+						commonPOM.getSmeExportButton().click();
+						wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+					} else {
+						//LOMT-EDITOR
+						commonPOM.getSmeExportButton().click();
+						wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+					}
+					
 					commonPOM.getTocFirstGF().click();
 					wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
 					flag = true;
@@ -384,9 +410,18 @@ public class NonAdminUserBrowseExport extends BaseClass {
 					productTocPOM.getActionLink().click();
 					Thread.sleep(2000);
 								
-					commonPOM.getCommonExportButton().click();
-					wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
-					
+					if (userName.contains("LOMT-USER")) {
+						commonPOM.getExfExport().click();
+						wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+					} else if (userName.contains("LOMT-SME")) {
+						commonPOM.getSmeExportButton().click();
+						wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+					} else {
+						//LOMT-EDITOR
+						commonPOM.getSmeExportButton().click();
+						wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+					}
+					Thread.sleep(60000);
 					commonPOM.getExfFirtBrowsedGF().click();
 					wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
 					flag = true;
@@ -425,6 +460,7 @@ public class NonAdminUserBrowseExport extends BaseClass {
 			if (commonPOM.getShowingGFText().getText().contains("Showing")) {
 				removeExistingFile();
 				schoolPOM.getAction().click();
+				
 				commonPOM.getCommonExportButton().click();
 				wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
 				Thread.sleep(15000);
@@ -460,14 +496,26 @@ public class NonAdminUserBrowseExport extends BaseClass {
 			try {
 				commonPOM.getSchoolGlobalLOB().click();
 				schoolPOM.getCurriculumSt().click();
-				wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));				
+				wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));		
+				Thread.sleep(60000);
 				jse.executeScript("window.scrollBy(0,250)");
 				if(schoolPOM.getResultFound().getText().contains("Showing")) {
 					removeExistingFile();
 					//export
 					schoolPOM.getAction().click();
-					commonPOM.getCommonExportButton().click();
-					wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+					
+					if (userName.contains("LOMT-USER")) {
+						commonPOM.getExfExport().click();
+						wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+					} else if (userName.contains("LOMT-SME")) {
+						commonPOM.getSmeExportButton().click();
+						wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+					} else {
+						//LOMT-EDITOR
+						commonPOM.getSmeExportButton().click();
+						wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+					}
+					Thread.sleep(60000);
 					
 					jse.executeScript("window.scrollBy(0,100)");
 					
@@ -517,30 +565,33 @@ public class NonAdminUserBrowseExport extends BaseClass {
 			commonPOM.getSchoolGlobalLOB().click();
 			intermediaryPOM.getIntermediaryStructure().click();
 			wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+			Thread.sleep(20000);
 			jse.executeScript("window.scrollBy(0,300)");
 			
-			if (schoolPOM.getResultFound().getText().contains("Showing")) {
-				removeExistingFile();
-				schoolPOM.getIntAction().click();
+			removeExistingFile();
+			schoolPOM.getIntAction().click();
 				
+			if (userName.contains("LOMT-USER")) {
+				commonPOM.getExfExport().click();
+				wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+			} else if (userName.contains("LOMT-SME")) {
 				commonPOM.getCommonExportButton().click();
 				wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
-				
-				commonPOM.getExfFirtBrowsedGF().click();
-				wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
-				flag = true;
-				
-				jse.executeScript("window.scrollBy(0,-1000)");
-				commonPOM.getPearsonLogo().click();
 			} else {
-				logger.log(LogStatus.FAIL, "No results found on School Global Intermediary browse page, logged user : " + userName);
-				jse.executeScript("window.scrollBy(0,-1000)");
-				commonPOM.getPearsonLogo().click();
-				flag = false;
-				return flag;
+				// LOMT-EDITOR
+				commonPOM.getCommonExportButton().click();
+				wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
 			}
+			Thread.sleep(60000);
+				
+			commonPOM.getIntermediaryFirtBrowsedGF().click();
+			wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+			Thread.sleep(60000);
+			flag = true;
+				
+			jse.executeScript("window.scrollBy(0,-1000)");
+			commonPOM.getPearsonLogo().click();
 		} catch (Exception e) {
-			logger.log(LogStatus.FAIL, "Exception occured on the School Global Intermediary browse page, logged user : " + userName);
 			jse.executeScript("window.scrollBy(0,-1000)");
 			commonPOM.getPearsonLogo().click();
 			flag = false;
@@ -803,7 +854,7 @@ public class NonAdminUserBrowseExport extends BaseClass {
 			commonPOM.getNextButtonFirst().click();
 			
 			hePom.getLearningTitleInputText().sendKeys("Test EducationalObjective");
-			Thread.sleep(1000);
+			Thread.sleep(8000);
 			
 			//DOMAIN SELECTION
 			hePom.getDomainNameDropDown().click();
