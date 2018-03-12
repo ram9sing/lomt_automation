@@ -2787,7 +2787,7 @@ public class ProductTOC extends BaseClass {
 		}
 	} 
 	if (usecase.equalsIgnoreCase("test align code validation")) {
-		if (exfPOM.getErrorRowOne().getText().contains("The referenced LO or EO does not exist : TEST")) {
+		if (exfPOM.getErrorRowThree().getText().contains("The referenced LO or EO does not exist : TEST")) {
 			flag = true;
 		} else {
 			flag = false;
