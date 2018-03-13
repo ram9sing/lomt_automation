@@ -24,8 +24,7 @@ public class ReportsTestScript {
 		report.login();
 	}
 
-	//@Test(priority = 1)
-	@Ignore
+	@Test(enabled=false)//priority = 1)
 	public void forwardIndirectIntermediaryReport() throws Exception {
 		logger = reports.startTest(ReportsConstant.FORWARD_INDIRECT_INTERMEDIARY_REPORT + LOMTConstant.COMMA
 				+ LOMTConstant.EMPTY_SPACE + ReportsConstant.LOMT_1758);
@@ -87,8 +86,7 @@ public class ReportsTestScript {
 		reports.flush();
 	}
 
-	//@Test(priority = 2)
-	@Ignore
+	@Test(enabled=false)//priority = 1)
 	public void productToCIntermediaryReport() throws Exception {
 		logger = reports.startTest("Product (ToC) Intermediary Report, LOMT-1762");
 
@@ -130,7 +128,7 @@ public class ReportsTestScript {
 		reports.flush();
 	}
 
-	@Test(priority = 1)
+	@Test(enabled=false)//priority = 1)
 	public void reverseSharedIntermediaryReport() throws Exception {
 		logger = reports.startTest(ReportsConstant.REVERSE_SHARED_INT_TEXT + LOMTConstant.COMMA
 				+ LOMTConstant.EMPTY_SPACE + ReportsConstant.LOMT_1839);
@@ -194,8 +192,7 @@ public class ReportsTestScript {
 		reports.flush();
 	}
 	
-	//@Test(priority = 1)
-	@Ignore
+	@Test(priority = 1)
 	public void reverseDirectReport() throws Exception {
 		logger = reports.startTest(ReportsConstant.REVERSE_DIRECT_TEXT + LOMTConstant.COMMA
 				+ LOMTConstant.EMPTY_SPACE + ReportsConstant.LOMT_1761);
@@ -212,7 +209,6 @@ public class ReportsTestScript {
 				boolean verifyFlag2 = report.verifyCurriculumStandardDataUI(productCSRepMap, logger);
 				;
 				if (verifyFlag1 && verifyFlag2) {
-					logger.log(LogStatus.PASS, TestCases.TC_LOMT_1761_06_REPORT_VERIFY);
 					logger.log(LogStatus.PASS, TestCases.TC_LOMT_1761_07_REPORT_VERIFY_BASIC);
 				} else {
 					logger.log(LogStatus.FAIL, TestCases.TC_LOMT_1761_06_REPORT_VERIFY);

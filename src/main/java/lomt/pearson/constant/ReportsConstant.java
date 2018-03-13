@@ -11,7 +11,7 @@ public class ReportsConstant {
 	//Variables that need to be changed manually
 	public static String INGESTED_PRODUCT = "Test_Standard_1";
 	public static String INGESTED_INTERMEDIARY = "Leisure and Tourism";
-	public static String INGESTED_STANDARD_YEAR = "England Accounting K-12 1398";
+	public static String INGESTED_STANDARD_YEAR = "England Accounting PK 1398";
 	//Forward Shared Intermediary Report
 	public static String TOC_NAME = "Feldman_Product_TOC_20thFeb_ReportTestData";
 	public static String DISCIPLINE_NAME = "Business";
@@ -83,7 +83,7 @@ public class ReportsConstant {
 	public static List <String> Corr_Product = Arrays.asList("1/1","3/4","","","2/4","","0/1","0/0","","0/0");
 	public static List <String> met_List = Arrays.asList("ELA.CP.1 -Intermediary 1", "ELA.CP.2 - Intermediary 2\nELA.CP.4 - Intermediary 4\nELA.CP.3 - Intermediary 3","","",
 			"ELA.CP.6 - Intermediary 6\nELA.CP.7 - Intermediary 7","","","","","");
-	public static List <String> strength_List = Arrays.asList("COMPLETE", "STRONG","","","AVERAGE","","WEAK", "NO CORRELATION","","NO CORRELATION");
+	public static List <String> strength_List = Arrays.asList("COMPLETE", "STRONG","","","AVERAGE","","NO CORRELATION", "NO CORRELATION","","NO CORRELATION");
 	public static List <String> unmet_List = Arrays.asList("","ELA.CP.5 - Intermediary 5","","","ELA.CP.8 - Intermediary 8\n ELA.CP.12 - Intermediary 12","","ELA.CP.9 -Intermediary 9","","","");
 	
 	public static String DATA_FORMAT = "dd/MM/yyyy HH:mm:ss";
@@ -168,6 +168,7 @@ public class ReportsConstant {
 	public static String TOC_CONTENT1 = "Content1";
 	public static String TOC_CONTENT2 = "Content2";
 	public static String TWO_BY_FOUR = "2/4";
+	public static String ONE_BY_THREE = "1/3";
 	public static String PERIPHERAL_ALIGNMENTS_BY_ONE = "1";
 	public static String PERIPHERAL_ALIGNMENTS_BY_TWO = "2";
 	public static String PRODUCT_TOC_TEST_DATA_1 = "Product Test 1";
