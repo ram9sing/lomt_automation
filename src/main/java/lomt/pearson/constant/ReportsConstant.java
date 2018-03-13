@@ -9,7 +9,7 @@ import java.util.Map;
 public class ReportsConstant {
 	
 	//Variables that need to be changed manually
-	public static String INGESTED_PRODUCT = "Test_Standard_1";
+	public static String INGESTED_PRODUCT = "Automation_Report_Verification_Product";
 	public static String INGESTED_INTERMEDIARY = "Leisure and Tourism";
 	public static String INGESTED_STANDARD_YEAR = "England Accounting PK 1398";
 	//Forward Shared Intermediary Report
@@ -174,7 +174,9 @@ public class ReportsConstant {
 	public static String PRODUCT_TOC_TEST_DATA_1 = "Product Test 1";
 	public static String PRODUCT_TOC_TEST_DATA_2 = "Product Test 2";
 	public static String PRODUCT_TOC_TEST_DATA_3 = "Product Test 3";
+	public static String PRODUCT_TOC_TEST_DATA_4 = "Product Test 4";
 	public static String PRODUCT_TOC_TEST_DATA_5 = "Product Test 5";
+	public static String PRODUCT_TOC_TEST_DATA_6 = "Product Test 6";
 	public static String PRODUCT_TOC_LEVEL_DATA_1 = "Product Level 1";
 	public static String PRODUCT_TOC_LEVEL_DATA_2 = "Product Level 2";
 	public static String PRODUCT_TOC_LEVEL_DATA_3 = "Product Level 3";
