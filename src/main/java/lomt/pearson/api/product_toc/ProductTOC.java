@@ -350,7 +350,7 @@ public class ProductTOC extends BaseClass {
 	public void productTOCIngestionValidatonCheck(String name, ExtentTest logger) {
 		try {
 			JavascriptExecutor jse = (JavascriptExecutor) driver;
-			WebDriverWait wait = new WebDriverWait(driver, 120);
+			WebDriverWait wait = new WebDriverWait(driver, 180);
 			
 			commonPOM.getUploadFileLink().click();
 			
@@ -566,7 +566,7 @@ public class ProductTOC extends BaseClass {
 	
 	public void productTOCIngestionWithoutMandatoryFields() {
 		try {
-			WebDriverWait wait = new WebDriverWait(driver, 600);
+			WebDriverWait wait = new WebDriverWait(driver, 180);
 			
 			//Header
 			Assert.assertTrue(commonPOM.getBackLinkFirst().isDisplayed());
@@ -618,7 +618,7 @@ public class ProductTOC extends BaseClass {
 	public void productTOCIngestion(String name, ExtentTest logger) {
 		try {
 			JavascriptExecutor jse = (JavascriptExecutor) driver;
-			WebDriverWait wait = new WebDriverWait(driver, 90);
+			WebDriverWait wait = new WebDriverWait(driver, 180);
 			Assert.assertTrue(commonPOM.getBackLinkFirst().isDisplayed());
 			Assert.assertEquals(commonPOM.getCreateUploadStructureHeader().getText(), LOMTConstant.CREATE_STRUCTURE_TILE);
 			Assert.assertEquals(commonPOM.getDragAndDropFilesText().getText(),LOMTConstant.DRAG_DROP_TEXT);
@@ -1603,7 +1603,7 @@ public class ProductTOC extends BaseClass {
 	
 	public void verifyProductTOCIngestedDataOnResultPage(String lobName, ExtentTest logger) {
 		JavascriptExecutor jse = (JavascriptExecutor) driver;
-		WebDriverWait wait = new WebDriverWait(driver, 120);
+		WebDriverWait wait = new WebDriverWait(driver, 180);
 		ReadProductTOCFile readProductTOCFile = new ReadProductTOCFile();
 
 		if (lobName.equalsIgnoreCase(LOMTConstant.HE_LOB)) {
@@ -1614,7 +1614,7 @@ public class ProductTOC extends BaseClass {
 				commonPOM.getHeLOB().click();
 				commonPOM.getHeProductTOCStructure().click();
 				wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
-				Thread.sleep(5000); 
+				Thread.sleep(20000); 
 				// sometime due to application slowness LOADER cross the give time, that's why applied sleep
 
 				productTocPOM.getTocHEenterSearchTerm().sendKeys(productTitleName);
@@ -1630,8 +1630,8 @@ public class ProductTOC extends BaseClass {
 					for (String toc : ProductTocPOM.getTOCList()) {
 						productTocPOM.getInnerEnterSearchTerm().sendKeys(toc);
 						productTocPOM.getTocInnerUpdateBtn().click();
-						//Thread.sleep(7000);
-						wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+						Thread.sleep(7000);
+						//wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
 
 						List<WebElement> webElement = schoolPOM.getParentChildList();
 						if (!webElement.isEmpty()) {
@@ -1663,7 +1663,7 @@ public class ProductTOC extends BaseClass {
 				commonPOM.getEnglishLOB().click();
 				commonPOM.getEnglishProductTOCStructure().click();
 				wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
-				Thread.sleep(5000); 
+				Thread.sleep(20000); 
 				//Sometime due to application slowness LOADER cross the give time, that'swhy applied sleep
 
 				productTocPOM.getTocEnglishEenterSearchTerm().sendKeys(productTitleName);
@@ -1679,8 +1679,8 @@ public class ProductTOC extends BaseClass {
 					for (String toc : ProductTocPOM.getTOCList()) {
 						productTocPOM.getInnerEnterSearchTermEnglishTOC().sendKeys(toc);
 						productTocPOM.getTocInnerUpdateBtnEnglish().click();
-						//Thread.sleep(7000);
-						wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+						Thread.sleep(7000);
+						//wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
 
 						List<WebElement> webElement = schoolPOM.getParentChildList();
 						if (!webElement.isEmpty()) {
@@ -1713,7 +1713,7 @@ public class ProductTOC extends BaseClass {
 				commonPOM.getSchoolGlobalLOB().click();
 				commonPOM.getSchoolProductTOCStructure().click();
 				wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
-				Thread.sleep(5000); 
+				Thread.sleep(20000); 
 				//Sometime due to application slowness LOADER cross the give time, that'swhy applied sleep
 
 				productTocPOM.getEnterSearchTerm().sendKeys(productTitleName);
@@ -1729,8 +1729,8 @@ public class ProductTOC extends BaseClass {
 					for (String toc : ProductTocPOM.getTOCList()) {
 						productTocPOM.getInnerEnterSearchTermSchoolTOC().sendKeys(toc);
 						productTocPOM.getTocInnerUpdateBtnSchool().click();
-						//Thread.sleep(7000);
-						wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+						Thread.sleep(7000);
+						//wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
 
 						List<WebElement> webElement = schoolPOM.getParentChildList();
 						if (!webElement.isEmpty()) {
@@ -1992,9 +1992,6 @@ public class ProductTOC extends BaseClass {
 				} else {
 					logger.log(LogStatus.FAIL, "Re-ingestion: Goal URN is done");
 				}
-				//Verify re-ingeted data
-				//verifyDataUI();
-				//VerifyDataInExportedFile();
 				System.out.println("####### DONE SCHOOL PRODUCT TOC ######");
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -2181,7 +2178,7 @@ public class ProductTOC extends BaseClass {
 		boolean alignFlag = false;
 		
 		ReadProductTOCFile readProductTOCFile = new ReadProductTOCFile();
-		WebDriverWait wait = new WebDriverWait(driver, 300);
+		WebDriverWait wait = new WebDriverWait(driver, 180);
 		JavascriptExecutor jse = (JavascriptExecutor) driver;
 		
 		//School lob
@@ -2211,7 +2208,6 @@ public class ProductTOC extends BaseClass {
 				productTocPOM.getExport().click();
 				wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
 				
-				Thread.sleep(10000); // Temporary applied
 				
 				productTocPOM.getEnterSearchTerm().clear();
 				Thread.sleep(1000);
@@ -2317,7 +2313,7 @@ public class ProductTOC extends BaseClass {
 				commonPOM.getHeLOB().click();
 				commonPOM.getHeProductTOCStructure().click();
 				wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));	
-				Thread.sleep(30000);
+				Thread.sleep(120000);
 				
 				productTocPOM.getTocHEenterSearchTerm().sendKeys(productTitle); 
 				Thread.sleep(1000);
@@ -2336,8 +2332,6 @@ public class ProductTOC extends BaseClass {
 				
 				productTocPOM.getTocExport().click();
 				wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
-				
-				Thread.sleep(10000); // Temporary applied
 				
 				productTocPOM.getTocHEenterSearchTerm().clear();
 				Thread.sleep(1000);
@@ -2441,7 +2435,7 @@ public class ProductTOC extends BaseClass {
 				commonPOM.getEnglishLOB().click();
 				commonPOM.getEnglishProductTOCStructure().click();
 				wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));	
-				Thread.sleep(30000);
+				Thread.sleep(40000);
 				
 				productTocPOM.getTocEnglishEenterSearchTerm().sendKeys(productTitle); 
 				Thread.sleep(1000);
@@ -2460,8 +2454,6 @@ public class ProductTOC extends BaseClass {
 				
 				productTocPOM.getTocEnglishExport().click();
 				wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
-				
-				Thread.sleep(10000); // Temporary applied
 				
 				productTocPOM.getTocEnglishEenterSearchTerm().clear();
 				Thread.sleep(1000);
@@ -2606,7 +2598,7 @@ public class ProductTOC extends BaseClass {
 	
 	public boolean ingestHEForAlignment() {
 		boolean flag = false;
-		WebDriverWait wait = new WebDriverWait(driver, 900);
+		WebDriverWait wait = new WebDriverWait(driver, 180);
 		try {
 			JavascriptExecutor jse = (JavascriptExecutor) driver;
 			commonPOM.getPearsonLogo().click();
@@ -2803,7 +2795,7 @@ public class ProductTOC extends BaseClass {
 	}
 	
 	public void exportProductTOC(String lobName, ExtentTest logger) {
-		WebDriverWait wait = new WebDriverWait(driver, 900);
+		WebDriverWait wait = new WebDriverWait(driver, 180);
 		JavascriptExecutor jse = (JavascriptExecutor) driver;
 		ReadProductTOCFile readProductTOCFile = new ReadProductTOCFile();
 		try {
@@ -2817,7 +2809,6 @@ public class ProductTOC extends BaseClass {
 				Thread.sleep(30000);
 				
 				productTocPOM.getEnterSearchTerm().sendKeys(productTitleName); // css is generic
-				Thread.sleep(3000);
 				
 				productTocPOM.getUpdateResultButton().click();
 				wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
@@ -2832,8 +2823,6 @@ public class ProductTOC extends BaseClass {
 							
 				productTocPOM.getExport().click();
 				wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
-				
-				Thread.sleep(10000); // Temporary applied
 				
 				productTocPOM.getEnterSearchTerm().clear();
 				Thread.sleep(1000);
@@ -2903,8 +2892,6 @@ public class ProductTOC extends BaseClass {
 				productTocPOM.getExport().click();
 				wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
 				
-				Thread.sleep(10000); // Temporary applied
-				
 				productTocPOM.getTocHEenterSearchTerm().clear();
 				Thread.sleep(1000);
 				
@@ -2956,8 +2943,6 @@ public class ProductTOC extends BaseClass {
 							
 				productTocPOM.getTocEnglishExport().click();
 				wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
-				
-				Thread.sleep(10000); // Temporary applied
 				
 				productTocPOM.getTocEnglishEenterSearchTerm().clear();
 				Thread.sleep(1000);

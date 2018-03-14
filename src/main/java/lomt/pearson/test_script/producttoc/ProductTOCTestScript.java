@@ -1,15 +1,14 @@
 package lomt.pearson.test_script.producttoc;
 
-import lomt.pearson.api.product_toc.ProductTOC;
-import lomt.pearson.constant.LOMTConstant;
-import lomt.pearson.constant.TestCases;
-
-import org.junit.Ignore;
 import org.testng.annotations.Test;
 
 import com.relevantcodes.extentreports.ExtentReports;
 import com.relevantcodes.extentreports.ExtentTest;
 import com.relevantcodes.extentreports.LogStatus;
+
+import lomt.pearson.api.product_toc.ProductTOC;
+import lomt.pearson.constant.LOMTConstant;
+import lomt.pearson.constant.TestCases;
 
 public class ProductTOCTestScript {
 
