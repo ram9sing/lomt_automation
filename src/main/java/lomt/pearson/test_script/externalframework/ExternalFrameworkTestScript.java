@@ -28,60 +28,60 @@ public class ExternalFrameworkTestScript {
 		exf.openBrowser();
 		exf.login();
 	}
-
+	
 	@Test(priority = 1)
-	public void ingestionExternalFrameworkForHE() {
-		logger = reports.startTest(LOMTConstant.HE_LOB+LOMTConstant.EMPTY_SPACE+LOMTConstant.EXTERNAL_FRAMEWORK_INGESTION, 
-				LOMTConstant.LOMT_1357+LOMTConstant.COMMA+LOMTConstant.EMPTY_SPACE+LOMTConstant.TC_COUNT_HE_EXF);
+	public void ingestionExternalFrameworkForSchool() {
+		logger = reports.startTest(LOMTConstant.SCHOOL+LOMTConstant.EMPTY_SPACE+LOMTConstant.EXTERNAL_FRAMEWORK_INGESTION, 
+				LOMTConstant.LOMT_1357+LOMTConstant.COMMA+LOMTConstant.EMPTY_SPACE+LOMTConstant.TC_COUNT_SCHOOL_EXF);
 		
-		exf.heBrowsePage(logger);
+		exf.sgBrowsePage(logger);
 		exf.createUploadStructureFirstPageExf(logger);	
 		
 		exf.backLinKSelection(logger);	
 		exf.getLOBAndStructure();
 		
-		exf.createUploadStructureWithoutMetaDataPageExf();
-		logger.log(LogStatus.PASS, TestCases.TC_LOMT_1357_09_WITHOUT_VALUE_NEXTBTN_EXFRAM_HE);
+		//De-scoped
+		logger.log(LogStatus.INFO, TestCases.TC_LOMT_1357_67_WITHOUT_VALUE_NEXTBTN_SCHOOL_LOB);
 		
-		exf.commonBackLink();		
-		exf.createUploadStructureMetaDataPageExf(logger);
-		
-		//Ingestion with all the mandatory and non-mandatory fields along-with all meta data
+		 year = startYear + (int)Math.round(Math.random() * (endYear - startYear));
+		 System.out.println("year : "+year);
+		 exf.getMetaDataFields(year);
+		 
 		exf.externalFrameworkIngestion(logger, LOMTConstant.EXF_ALL_FIELDS);
 		exf.commonBackLink();
-		exf.createUploadStructureWithoutMetaDataPageExf();
 		
+		int yearNonMandatory = year-1;
+		exf.getMetaDataFields(yearNonMandatory);
+		System.out.println("yearNonMandatory : "+yearNonMandatory);		
 		exf.externalFrameworkIngestion(logger, LOMTConstant.EXF_NON_MANDATORY_FIELDS);
-		exf.commonBackLink();
-		exf.createUploadStructureWithoutMetaDataPageExf();
 		
+		exf.commonBackLink();		
+		exf.getMetaDataFields(year);		
 		exf.externalFrameworkIngestion(logger, LOMTConstant.EXF_WRONG_FORMAT_FILE);
-		exf.commonBackLink();
-		exf.createUploadStructureWithoutMetaDataPageExf();
 		
+		exf.commonBackLink();
+		exf.getMetaDataFields(year);		
 		exf.externalFrameworkIngestion(logger, LOMTConstant.EXF_WITHOUT_MANDATORY_FIELDS);
-		exf.commonBackLink();
-		exf.createUploadStructureWithoutMetaDataPageExf();
 		
+		exf.commonBackLink();
+		exf.getMetaDataFields(year);		
 		exf.externalFrameworkIngestion(logger, LOMTConstant.WRONG_GRADE_VALUE);
-		exf.commonBackLink();
-		exf.createUploadStructureWithoutMetaDataPageExf();
 		
+		exf.commonBackLink();
+		exf.getMetaDataFields(year);
 		exf.externalFrameworkIngestion(logger, LOMTConstant.LEVELS_AT_SAME_ROW);
-		exf.commonBackLink();
-		exf.createUploadStructureWithoutMetaDataPageExf();
 		
-		// common TCs for ingestion
+		exf.commonBackLink();
+		int yearCommon = year-2;
+		exf.getMetaDataFields(yearCommon);		
 		exf.externalFrameworkIngestion(logger, LOMTConstant.COMMON_TCS_INGESTION);
-		exf.commonBackLink();
-		exf.createUploadStructureWithoutMetaDataPageExf();
 		
-		//Ingestion 10th level
+		exf.commonBackLink();
+		yearNthLevel = year+3;
+		exf.getMetaDataFields(yearNthLevel);			
 		exf.externalFrameworkIngestion(logger, LOMTConstant.NTH_LEVEL);
 		
-		// Verified ingested ExF data
-		exf.lomtHELOBPage();
-		exf.verifyIngestedDataOnResultPage(logger, 0, 0);
+		exf.verifyIngestedDataOnResultPage(logger, year, yearNthLevel);
 		
 		reports.endTest(logger);
 		reports.flush();
@@ -144,60 +144,60 @@ public class ExternalFrameworkTestScript {
 		reports.endTest(logger);
 		reports.flush();
 	}
-	
+
 	@Test(priority = 3)
-	public void ingestionExternalFrameworkForSchool() {
-		logger = reports.startTest(LOMTConstant.SCHOOL+LOMTConstant.EMPTY_SPACE+LOMTConstant.EXTERNAL_FRAMEWORK_INGESTION, 
-				LOMTConstant.LOMT_1357+LOMTConstant.COMMA+LOMTConstant.EMPTY_SPACE+LOMTConstant.TC_COUNT_SCHOOL_EXF);
+	public void ingestionExternalFrameworkForHE() {
+		logger = reports.startTest(LOMTConstant.HE_LOB+LOMTConstant.EMPTY_SPACE+LOMTConstant.EXTERNAL_FRAMEWORK_INGESTION, 
+				LOMTConstant.LOMT_1357+LOMTConstant.COMMA+LOMTConstant.EMPTY_SPACE+LOMTConstant.TC_COUNT_HE_EXF);
 		
-		exf.sgBrowsePage(logger);
+		exf.heBrowsePage(logger);
 		exf.createUploadStructureFirstPageExf(logger);	
 		
 		exf.backLinKSelection(logger);	
 		exf.getLOBAndStructure();
 		
-		//De-scoped
-		logger.log(LogStatus.INFO, TestCases.TC_LOMT_1357_67_WITHOUT_VALUE_NEXTBTN_SCHOOL_LOB);
-		
-		 year = startYear + (int)Math.round(Math.random() * (endYear - startYear));
-		 System.out.println("year : "+year);
-		 exf.getMetaDataFields(year);
-		 
-		exf.externalFrameworkIngestion(logger, LOMTConstant.EXF_ALL_FIELDS);
-		exf.commonBackLink();
-		
-		int yearNonMandatory = year-1;
-		exf.getMetaDataFields(yearNonMandatory);
-		System.out.println("yearNonMandatory : "+yearNonMandatory);		
-		exf.externalFrameworkIngestion(logger, LOMTConstant.EXF_NON_MANDATORY_FIELDS);
+		exf.createUploadStructureWithoutMetaDataPageExf();
+		logger.log(LogStatus.PASS, TestCases.TC_LOMT_1357_09_WITHOUT_VALUE_NEXTBTN_EXFRAM_HE);
 		
 		exf.commonBackLink();		
-		exf.getMetaDataFields(year);		
+		exf.createUploadStructureMetaDataPageExf(logger);
+		
+		//Ingestion with all the mandatory and non-mandatory fields along-with all meta data
+		exf.externalFrameworkIngestion(logger, LOMTConstant.EXF_ALL_FIELDS);
+		exf.commonBackLink();
+		exf.createUploadStructureWithoutMetaDataPageExf();
+		
+		exf.externalFrameworkIngestion(logger, LOMTConstant.EXF_NON_MANDATORY_FIELDS);
+		exf.commonBackLink();
+		exf.createUploadStructureWithoutMetaDataPageExf();
+		
 		exf.externalFrameworkIngestion(logger, LOMTConstant.EXF_WRONG_FORMAT_FILE);
-		
 		exf.commonBackLink();
-		exf.getMetaDataFields(year);		
+		exf.createUploadStructureWithoutMetaDataPageExf();
+		
 		exf.externalFrameworkIngestion(logger, LOMTConstant.EXF_WITHOUT_MANDATORY_FIELDS);
-		
 		exf.commonBackLink();
-		exf.getMetaDataFields(year);		
+		exf.createUploadStructureWithoutMetaDataPageExf();
+		
 		exf.externalFrameworkIngestion(logger, LOMTConstant.WRONG_GRADE_VALUE);
-		
 		exf.commonBackLink();
-		exf.getMetaDataFields(year);
+		exf.createUploadStructureWithoutMetaDataPageExf();
+		
 		exf.externalFrameworkIngestion(logger, LOMTConstant.LEVELS_AT_SAME_ROW);
-		
 		exf.commonBackLink();
-		int yearCommon = year-2;
-		exf.getMetaDataFields(yearCommon);		
+		exf.createUploadStructureWithoutMetaDataPageExf();
+		
+		// common TCs for ingestion
 		exf.externalFrameworkIngestion(logger, LOMTConstant.COMMON_TCS_INGESTION);
-		
 		exf.commonBackLink();
-		yearNthLevel = year+3;
-		exf.getMetaDataFields(yearNthLevel);			
+		exf.createUploadStructureWithoutMetaDataPageExf();
+		
+		//Ingestion 10th level
 		exf.externalFrameworkIngestion(logger, LOMTConstant.NTH_LEVEL);
 		
-		exf.verifyIngestedDataOnResultPage(logger, year, yearNthLevel);
+		// Verified ingested ExF data
+		exf.lomtHELOBPage();
+		exf.verifyIngestedDataOnResultPage(logger, 0, 0);
 		
 		reports.endTest(logger);
 		reports.flush();
