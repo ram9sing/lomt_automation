@@ -850,49 +850,49 @@ public class Reports extends BaseClass {
 				logger.log(LogStatus.FAIL, "TC_LOMT-1837-Column G is not blank in exported file");
 			}
 			// Standard Strands
-			if (worksheet.getRow(LOMTConstant.SEVENTEEN).getCell(LOMTConstant.TEN).getStringCellValue()
+			if (worksheet.getRow(LOMTConstant.SEVENTEEN).getCell(LOMTConstant.NINE).getStringCellValue()
 					.equalsIgnoreCase(ReportsConstant.STANDARDS_STRANDS)) {
 			} else {
 				count++;
 				logger.log(LogStatus.FAIL, "TC_LOMT-1837-Header : Standard Strands does not match in exported file");
 			}
 			// Standard Topics
-			if (worksheet.getRow(LOMTConstant.SEVENTEEN).getCell(LOMTConstant.ELEVENTH).getStringCellValue()
+			if (worksheet.getRow(LOMTConstant.SEVENTEEN).getCell(LOMTConstant.TEN).getStringCellValue()
 					.equalsIgnoreCase(ReportsConstant.STANDARDS_TOPICS)) {
 			} else {
 				count++;
 				logger.log(LogStatus.FAIL, "TC_LOMT-1837-Header : Standard Topics does not match in exported file");
 			}
 			// Standard Number
-			if (worksheet.getRow(LOMTConstant.SEVENTEEN).getCell(LOMTConstant.TWELEVE).getStringCellValue()
+			if (worksheet.getRow(LOMTConstant.SEVENTEEN).getCell(LOMTConstant.SEVEN).getStringCellValue()
 					.equalsIgnoreCase(ReportsConstant.STANDARDS_NUMBER)) {
 			} else {
 				count++;
 				logger.log(LogStatus.FAIL, "TC_LOMT-1837-Header : Standard Number does not match in exported file");
 			}
 			// ABGUID
-			if (worksheet.getRow(LOMTConstant.SEVENTEEN).getCell(LOMTConstant.THIRTEEN).getStringCellValue()
+			if (worksheet.getRow(LOMTConstant.SEVENTEEN).getCell(LOMTConstant.EIGHT).getStringCellValue()
 					.equalsIgnoreCase(ReportsConstant.AB_GUIDE)) {
 			} else {
 				count++;
 				logger.log(LogStatus.FAIL, "TC_LOMT-1837-Header : ABGUID does not match in exported file");
 			}
 			// Correlation Score
-			if (worksheet.getRow(LOMTConstant.SEVENTEEN).getCell(LOMTConstant.FOURTEEN).getStringCellValue()
+			if (worksheet.getRow(LOMTConstant.SEVENTEEN).getCell(LOMTConstant.ELEVENTH).getStringCellValue()
 					.equalsIgnoreCase(ReportsConstant.CORRELATION_SCORE)) {
 			} else {
 				count++;
 				logger.log(LogStatus.FAIL, "TC_LOMT-1837-Header : Correlation Score for Standard does not match in exported file");
 			}
 			// Strength
-			if (worksheet.getRow(LOMTConstant.SEVENTEEN).getCell(LOMTConstant.FIFTEEN).getStringCellValue()
+			if (worksheet.getRow(LOMTConstant.SEVENTEEN).getCell(LOMTConstant.TWELEVE).getStringCellValue()
 					.equalsIgnoreCase(ReportsConstant.STRENGTH)) {
 			} else {
 				count++;
 				logger.log(LogStatus.FAIL, "TC_LOMT-1837-Header : Strength for Standard does not match in exported file");
 			}
 			// Peripheral Alignments
-			if (worksheet.getRow(LOMTConstant.SEVENTEEN).getCell(LOMTConstant.SIXTEEN).getStringCellValue()
+			if (worksheet.getRow(LOMTConstant.SEVENTEEN).getCell(LOMTConstant.THIRTEEN).getStringCellValue()
 					.equalsIgnoreCase(ReportsConstant.PERIPHERAL_ALIGNMENTS)) {
 			} else {
 				count++;
@@ -4876,237 +4876,237 @@ public class Reports extends BaseClass {
 					if (row.getCell(LOMTConstant.ZERO) != null && row.getCell(LOMTConstant.ZERO).getStringCellValue().equalsIgnoreCase(ReportsConstant.PRODUCT_TOC_TEST_DATA_1)) {
 					} else {
 						headerValueCount++;
-						logger.log(LogStatus.FAIL, "TC_LOMT-1837 Component ToC value doesn't match at row number : "+row.getRowNum());
+						logger.log(LogStatus.FAIL, "TC_LOMT-1837 Component ToC value doesn't match at row number : "+row.getRowNum()+1+1);
 					}
-					if (row.getCell(LOMTConstant.THREE) != null && row.getCell(LOMTConstant.THREE).getStringCellValue().equalsIgnoreCase(ReportsConstant.ONE_BY_ONE)) {
+					if (row.getCell(LOMTConstant.ZERO) != null && row.getCell(LOMTConstant.THREE).getStringCellValue().equalsIgnoreCase(ReportsConstant.ONE_BY_ONE)) {
 					} else {
 						correlationCount++;
-						logger.log(LogStatus.FAIL, "TC_LOMT-1837 Correlation score not matching at row number : "+row.getRowNum());
+						logger.log(LogStatus.FAIL, "TC_LOMT-1837 Correlation score not matching at row number : "+row.getRowNum()+1);
 					}
-					if (row.getCell(LOMTConstant.FOUR) != null && row.getCell(LOMTConstant.THREE).getStringCellValue().equalsIgnoreCase(ReportsConstant.STRENGTH_COMPLETE)) {
+					if (row.getCell(LOMTConstant.ZERO) != null && row.getCell(LOMTConstant.FOUR).getStringCellValue().equalsIgnoreCase(ReportsConstant.STRENGTH_COMPLETE)) {
 					} else {
 						strengthCount++; 
-						logger.log(LogStatus.FAIL, "TC_LOMT-1837 Strength not matching at row number : "+row.getRowNum());
+						logger.log(LogStatus.FAIL, "TC_LOMT-1837 Strength not matching at row number : "+row.getRowNum()+1);
 					}
-					if (row.getCell(LOMTConstant.FOUR) != null && row.getCell(LOMTConstant.TEN).getStringCellValue().equalsIgnoreCase(ReportsConstant.ST_1)) {
+					if (row.getCell(LOMTConstant.ZERO) != null && row.getCell(LOMTConstant.TEN).getStringCellValue().equalsIgnoreCase(ReportsConstant.ST_1)) {
 					} else {
 						headerValueCount++; 
-						logger.log(LogStatus.FAIL, "TC_LOMT-1837 Standard Topic value not matching at row number : "+row.getRowNum());
+						logger.log(LogStatus.FAIL, "TC_LOMT-1837 Standard Topic value not matching at row number : "+row.getRowNum()+1);
 					}
-					if (row.getCell(LOMTConstant.THREE) != null && row.getCell(LOMTConstant.ELEVENTH).getStringCellValue().equalsIgnoreCase(ReportsConstant.ONE_BY_THREE)) {
+					if (row.getCell(LOMTConstant.ZERO) != null && row.getCell(LOMTConstant.ELEVENTH).getStringCellValue().equalsIgnoreCase(ReportsConstant.ONE_BY_THREE)) {
 					} else {
 						correlationCount++;
-						logger.log(LogStatus.FAIL, "TC_LOMT-1837 Target Correlation score not matching at row number : "+row.getRowNum());
+						logger.log(LogStatus.FAIL, "TC_LOMT-1837 Target Correlation score not matching at row number : "+row.getRowNum()+1);
 					}
-					if (row.getCell(LOMTConstant.FOUR) != null && row.getCell(LOMTConstant.TWELEVE).getStringCellValue().equalsIgnoreCase(ReportsConstant.STRENGTH_AVERAGE)) {
+					if (row.getCell(LOMTConstant.ZERO) != null && row.getCell(LOMTConstant.TWELEVE).getStringCellValue().equalsIgnoreCase(ReportsConstant.STRENGTH_AVERAGE)) {
 					} else {
 						strengthCount++; 
-						logger.log(LogStatus.FAIL, "TC_LOMT-1837 Target Strength not matching at row number : "+row.getRowNum());
+						logger.log(LogStatus.FAIL, "TC_LOMT-1837 Target Strength not matching at row number : "+row.getRowNum()+1);
 					}
 				}
 			else if (row.getRowNum() == 19) {
-					if (row.getCell(LOMTConstant.ZERO) != null && row.getCell(LOMTConstant.ZERO).getStringCellValue().equalsIgnoreCase(ReportsConstant.PRODUCT_TOC_TEST_DATA_2)) {
+					if (row.getCell(LOMTConstant.ONE) != null && row.getCell(LOMTConstant.ZERO).getStringCellValue().equalsIgnoreCase(ReportsConstant.PRODUCT_TOC_TEST_DATA_2)) {
 				} else {
 					headerValueCount++;
-					logger.log(LogStatus.FAIL, "TC_LOMT-1837 Component ToC value doesn't match at row number : "+row.getRowNum());
+					logger.log(LogStatus.FAIL, "TC_LOMT-1837 Component ToC value doesn't match at row number : "+row.getRowNum()+1);
 				}
-				if (row.getCell(LOMTConstant.THREE) != null && row.getCell(LOMTConstant.THREE).getStringCellValue().equalsIgnoreCase(ReportsConstant.THREE_BY_FOUR)) {
+				if (row.getCell(LOMTConstant.ONE) != null && row.getCell(LOMTConstant.THREE).getStringCellValue().equalsIgnoreCase(ReportsConstant.THREE_BY_FOUR)) {
 				} else {
 					correlationCount++;
-					logger.log(LogStatus.FAIL, "TC_LOMT-1837 Correlation score not matching at row number : "+row.getRowNum());
+					logger.log(LogStatus.FAIL, "TC_LOMT-1837 Correlation score not matching at row number : "+row.getRowNum()+1);
 				}
-				if (row.getCell(LOMTConstant.FOUR) != null && row.getCell(LOMTConstant.THREE).getStringCellValue().equalsIgnoreCase(ReportsConstant.STRENGTH_STRONG)) {
+				if (row.getCell(LOMTConstant.ONE) != null && row.getCell(LOMTConstant.FOUR).getStringCellValue().equalsIgnoreCase(ReportsConstant.STRENGTH_STRONG)) {
 				} else {
 					strengthCount++; 
-					logger.log(LogStatus.FAIL, "TC_LOMT-1837 Strength not matching at row number : "+row.getRowNum());
+					logger.log(LogStatus.FAIL, "TC_LOMT-1837 Strength not matching at row number : "+row.getRowNum()+1);
 				}
-				if (row.getCell(LOMTConstant.FOUR) != null && row.getCell(LOMTConstant.TEN).getStringCellValue().equalsIgnoreCase(ReportsConstant.ST_2)) {
+				if (row.getCell(LOMTConstant.ONE) != null && row.getCell(LOMTConstant.TEN).getStringCellValue().equalsIgnoreCase(ReportsConstant.ST_2)) {
 				} else {
 					headerValueCount++; 
-					logger.log(LogStatus.FAIL, "TC_LOMT-1837 Standard Topic value not matching at row number : "+row.getRowNum());
+					logger.log(LogStatus.FAIL, "TC_LOMT-1837 Standard Topic value not matching at row number : "+row.getRowNum()+1);
 				}
-				if (row.getCell(LOMTConstant.THREE) != null && row.getCell(LOMTConstant.ELEVENTH).getStringCellValue().equalsIgnoreCase(ReportsConstant.ONE_BY_TWO)) {
+				if (row.getCell(LOMTConstant.ONE) != null && row.getCell(LOMTConstant.ELEVENTH).getStringCellValue().equalsIgnoreCase(ReportsConstant.ONE_BY_TWO)) {
 				} else {
 					correlationCount++;
-					logger.log(LogStatus.FAIL, "TC_LOMT-1837 Target Correlation score not matching at row number : "+row.getRowNum());
+					logger.log(LogStatus.FAIL, "TC_LOMT-1837 Target Correlation score not matching at row number : "+row.getRowNum()+1);
 				}
-				if (row.getCell(LOMTConstant.FOUR) != null && row.getCell(LOMTConstant.TWELEVE).getStringCellValue().equalsIgnoreCase(ReportsConstant.STRENGTH_AVERAGE)) {
+				if (row.getCell(LOMTConstant.ONE) != null && row.getCell(LOMTConstant.TWELEVE).getStringCellValue().equalsIgnoreCase(ReportsConstant.STRENGTH_AVERAGE)) {
 				} else {
 					strengthCount++; 
-					logger.log(LogStatus.FAIL, "TC_LOMT-1837 Target Strength not matching at row number : "+row.getRowNum());
+					logger.log(LogStatus.FAIL, "TC_LOMT-1837 Target Strength not matching at row number : "+row.getRowNum()+1);
 				}
 				} 
 			else if (row.getRowNum() == 20) {
-				if (row.getCell(LOMTConstant.FOUR) != null && row.getCell(LOMTConstant.TEN).getStringCellValue().equalsIgnoreCase(ReportsConstant.ST_1)) {
+				if (row.getCell(LOMTConstant.TWO) != null && row.getCell(LOMTConstant.TEN).getStringCellValue().equalsIgnoreCase(ReportsConstant.ST_1)) {
 				} else {
 					headerValueCount++; 
-					logger.log(LogStatus.FAIL, "TC_LOMT-1837 Standard Topic value not matching at row number : "+row.getRowNum());
+					logger.log(LogStatus.FAIL, "TC_LOMT-1837 Standard Topic value not matching at row number : "+row.getRowNum()+1);
 				}
-				if (row.getCell(LOMTConstant.THREE) != null && row.getCell(LOMTConstant.ELEVENTH).getStringCellValue().equalsIgnoreCase(ReportsConstant.ONE_BY_THREE)) {
+				if (row.getCell(LOMTConstant.TWO) != null && row.getCell(LOMTConstant.ELEVENTH).getStringCellValue().equalsIgnoreCase(ReportsConstant.ONE_BY_THREE)) {
 				} else {
 					correlationCount++;
-					logger.log(LogStatus.FAIL, "TC_LOMT-1837 Target Correlation score not matching at row number : "+row.getRowNum());
+					logger.log(LogStatus.FAIL, "TC_LOMT-1837 Target Correlation score not matching at row number : "+row.getRowNum()+1);
 				}
-				if (row.getCell(LOMTConstant.FOUR) != null && row.getCell(LOMTConstant.TWELEVE).getStringCellValue().equalsIgnoreCase(ReportsConstant.STRENGTH_AVERAGE)) {
+				if (row.getCell(LOMTConstant.TWO) != null && row.getCell(LOMTConstant.TWELEVE).getStringCellValue().equalsIgnoreCase(ReportsConstant.STRENGTH_AVERAGE)) {
 				} else {
 					strengthCount++; 
-					logger.log(LogStatus.FAIL, "TC_LOMT-1837 Target Strength not matching at row number : "+row.getRowNum());
+					logger.log(LogStatus.FAIL, "TC_LOMT-1837 Target Strength not matching at row number : "+row.getRowNum()+1);
 					}
 				}
 			else if (row.getRowNum() == 21) {
-				if (row.getCell(LOMTConstant.FOUR) != null && row.getCell(LOMTConstant.TEN).getStringCellValue().equalsIgnoreCase(ReportsConstant.ST_3)) {
+				if (row.getCell(LOMTConstant.THREE) != null && row.getCell(LOMTConstant.TEN).getStringCellValue().equalsIgnoreCase(ReportsConstant.ST_3)) {
 				} else {
 					headerValueCount++; 
-					logger.log(LogStatus.FAIL, "TC_LOMT-1837 Standard Topic value not matching at row number : "+row.getRowNum());
+					logger.log(LogStatus.FAIL, "TC_LOMT-1837 Standard Topic value not matching at row number : "+row.getRowNum()+1);
 				}
 				if (row.getCell(LOMTConstant.THREE) != null && row.getCell(LOMTConstant.ELEVENTH).getStringCellValue().equalsIgnoreCase(ReportsConstant.ONE_BY_ONE)) {
 				} else {
 					correlationCount++;
-					logger.log(LogStatus.FAIL, "TC_LOMT-1837 Target Correlation score not matching at row number : "+row.getRowNum());
+					logger.log(LogStatus.FAIL, "TC_LOMT-1837 Target Correlation score not matching at row number : "+row.getRowNum()+1);
 				}
-				if (row.getCell(LOMTConstant.FOUR) != null && row.getCell(LOMTConstant.TWELEVE).getStringCellValue().equalsIgnoreCase(ReportsConstant.STRENGTH_COMPLETE)) {
+				if (row.getCell(LOMTConstant.THREE) != null && row.getCell(LOMTConstant.TWELEVE).getStringCellValue().equalsIgnoreCase(ReportsConstant.STRENGTH_COMPLETE)) {
 				} else {
 					strengthCount++; 
-					logger.log(LogStatus.FAIL, "TC_LOMT-1837 Target Strength not matching at row number : "+row.getRowNum());
+					logger.log(LogStatus.FAIL, "TC_LOMT-1837 Target Strength not matching at row number : "+row.getRowNum()+1);
 					}
 				}
 			else if (row.getRowNum() == 22) {
-					if (row.getCell(LOMTConstant.ZERO) != null && row.getCell(LOMTConstant.ZERO).getStringCellValue().equalsIgnoreCase(ReportsConstant.PRODUCT_TOC_TEST_DATA_3)) {
+					if (row.getCell(LOMTConstant.FOUR) != null && row.getCell(LOMTConstant.ZERO).getStringCellValue().equalsIgnoreCase(ReportsConstant.PRODUCT_TOC_TEST_DATA_3)) {
 				} else {
 					headerValueCount++;
-					logger.log(LogStatus.FAIL, "TC_LOMT-1837 Component ToC value doesn't match at row number : "+row.getRowNum());
+					logger.log(LogStatus.FAIL, "TC_LOMT-1837 Component ToC value doesn't match at row number : "+row.getRowNum()+1);
 				}
-				if (row.getCell(LOMTConstant.THREE) != null && row.getCell(LOMTConstant.THREE).getStringCellValue().equalsIgnoreCase(ReportsConstant.TWO_BY_FOUR)) {
+				if (row.getCell(LOMTConstant.FOUR) != null && row.getCell(LOMTConstant.THREE).getStringCellValue().equalsIgnoreCase(ReportsConstant.TWO_BY_FOUR)) {
 				} else {
 					correlationCount++;
-					logger.log(LogStatus.FAIL, "TC_LOMT-1837 Correlation score not matching at row number : "+row.getRowNum());
+					logger.log(LogStatus.FAIL, "TC_LOMT-1837 Correlation score not matching at row number : "+row.getRowNum()+1);
 				}
-				if (row.getCell(LOMTConstant.FOUR) != null && row.getCell(LOMTConstant.THREE).getStringCellValue().equalsIgnoreCase(ReportsConstant.STRENGTH_AVERAGE)) {
+				if (row.getCell(LOMTConstant.FOUR) != null && row.getCell(LOMTConstant.FOUR).getStringCellValue().equalsIgnoreCase(ReportsConstant.STRENGTH_AVERAGE)) {
 				} else {
 					strengthCount++; 
-					logger.log(LogStatus.FAIL, "TC_LOMT-1837 Strength not matching at row number : "+row.getRowNum());
+					logger.log(LogStatus.FAIL, "TC_LOMT-1837 Strength not matching at row number : "+row.getRowNum()+1);
 				}
 				if (row.getCell(LOMTConstant.FOUR) != null && row.getCell(LOMTConstant.TEN).getStringCellValue().equalsIgnoreCase(ReportsConstant.ST_1)) {
 				} else {
 					headerValueCount++; 
-					logger.log(LogStatus.FAIL, "TC_LOMT-1837 Standard Topic value not matching at row number : "+row.getRowNum());
+					logger.log(LogStatus.FAIL, "TC_LOMT-1837 Standard Topic value not matching at row number : "+row.getRowNum()+1);
 				}
-				if (row.getCell(LOMTConstant.THREE) != null && row.getCell(LOMTConstant.ELEVENTH).getStringCellValue().equalsIgnoreCase(ReportsConstant.ONE_BY_THREE)) {
+				if (row.getCell(LOMTConstant.FOUR) != null && row.getCell(LOMTConstant.ELEVENTH).getStringCellValue().equalsIgnoreCase(ReportsConstant.ONE_BY_THREE)) {
 				} else {
 					correlationCount++;
-					logger.log(LogStatus.FAIL, "TC_LOMT-1837 Target Correlation score not matching at row number : "+row.getRowNum());
+					logger.log(LogStatus.FAIL, "TC_LOMT-1837 Target Correlation score not matching at row number : "+row.getRowNum()+1);
 				}
 				if (row.getCell(LOMTConstant.FOUR) != null && row.getCell(LOMTConstant.TWELEVE).getStringCellValue().equalsIgnoreCase(ReportsConstant.STRENGTH_AVERAGE)) {
 				} else {
 					strengthCount++; 
-					logger.log(LogStatus.FAIL, "TC_LOMT-1837 Target Strength not matching at row number : "+row.getRowNum());
+					logger.log(LogStatus.FAIL, "TC_LOMT-1837 Target Strength not matching at row number : "+row.getRowNum()+1);
 					}
 				}
 			else if (row.getRowNum() == 23) {
-				if (row.getCell(LOMTConstant.FOUR) != null && row.getCell(LOMTConstant.TEN).getStringCellValue().equalsIgnoreCase(ReportsConstant.ST_2)) {
+				if (row.getCell(LOMTConstant.FIVE) != null && row.getCell(LOMTConstant.TEN).getStringCellValue().equalsIgnoreCase(ReportsConstant.ST_2)) {
 				} else {
 					headerValueCount++; 
-					logger.log(LogStatus.FAIL, "TC_LOMT-1837 Standard Topic value not matching at row number : "+row.getRowNum());
+					logger.log(LogStatus.FAIL, "TC_LOMT-1837 Standard Topic value not matching at row number : "+row.getRowNum()+1);
 				}
-				if (row.getCell(LOMTConstant.THREE) != null && row.getCell(LOMTConstant.ELEVENTH).getStringCellValue().equalsIgnoreCase(ReportsConstant.ONE_BY_TWO)) {
+				if (row.getCell(LOMTConstant.FIVE) != null && row.getCell(LOMTConstant.ELEVENTH).getStringCellValue().equalsIgnoreCase(ReportsConstant.ONE_BY_TWO)) {
 				} else {
 					correlationCount++;
-					logger.log(LogStatus.FAIL, "TC_LOMT-1837 Target Correlation score not matching at row number : "+row.getRowNum());
+					logger.log(LogStatus.FAIL, "TC_LOMT-1837 Target Correlation score not matching at row number : "+row.getRowNum()+1);
 				}
-				if (row.getCell(LOMTConstant.FOUR) != null && row.getCell(LOMTConstant.TWELEVE).getStringCellValue().equalsIgnoreCase(ReportsConstant.STRENGTH_AVERAGE)) {
+				if (row.getCell(LOMTConstant.FIVE) != null && row.getCell(LOMTConstant.TWELEVE).getStringCellValue().equalsIgnoreCase(ReportsConstant.STRENGTH_AVERAGE)) {
 				} else {
 					strengthCount++; 
-					logger.log(LogStatus.FAIL, "TC_LOMT-1837 Target Strength not matching at row number : "+row.getRowNum());
+					logger.log(LogStatus.FAIL, "TC_LOMT-1837 Target Strength not matching at row number : "+row.getRowNum()+1);
 					}
 				}
 			else if (row.getRowNum() == 24) {
-				if (row.getCell(LOMTConstant.ZERO) != null && row.getCell(LOMTConstant.ZERO).getStringCellValue().equalsIgnoreCase(ReportsConstant.PRODUCT_TOC_TEST_DATA_4)) {
+				if (row.getCell(LOMTConstant.SIX) != null && row.getCell(LOMTConstant.ZERO).getStringCellValue().equalsIgnoreCase(ReportsConstant.PRODUCT_TOC_TEST_DATA_4)) {
 				} else {
 					headerValueCount++;
-					logger.log(LogStatus.FAIL, "TC_LOMT-1837 Component ToC value doesn't match at row number : "+row.getRowNum());
+					logger.log(LogStatus.FAIL, "TC_LOMT-1837 Component ToC value doesn't match at row number : "+row.getRowNum()+1);
 				}
-				if (row.getCell(LOMTConstant.THREE) != null && row.getCell(LOMTConstant.THREE).getStringCellValue().equalsIgnoreCase(ReportsConstant.ZERO_BY_ONE)) {
+				if (row.getCell(LOMTConstant.SIX) != null && row.getCell(LOMTConstant.THREE).getStringCellValue().equalsIgnoreCase(ReportsConstant.ZERO_BY_ONE)) {
 				} else {
 					correlationCount++;
-					logger.log(LogStatus.FAIL, "TC_LOMT-1837 Correlation score not matching at row number : "+row.getRowNum());
+					logger.log(LogStatus.FAIL, "TC_LOMT-1837 Correlation score not matching at row number : "+row.getRowNum()+1);
 				}
-				if (row.getCell(LOMTConstant.FOUR) != null && row.getCell(LOMTConstant.THREE).getStringCellValue().equalsIgnoreCase(ReportsConstant.NO_CORRELATION)) {
+				if (row.getCell(LOMTConstant.SIX) != null && row.getCell(LOMTConstant.FOUR).getStringCellValue().equalsIgnoreCase(ReportsConstant.NO_CORRELATION)) {
 				} else {
 					strengthCount++; 
-					logger.log(LogStatus.FAIL, "TC_LOMT-1837 Strength not matching at row number : "+row.getRowNum());
+					logger.log(LogStatus.FAIL, "TC_LOMT-1837 Strength not matching at row number : "+row.getRowNum()+1);
 					}
 				}
 			else if (row.getRowNum() == 25) {
-				if (row.getCell(LOMTConstant.ZERO) != null && row.getCell(LOMTConstant.ZERO).getStringCellValue().equalsIgnoreCase(ReportsConstant.PRODUCT_TOC_TEST_DATA_5)) {
+				if (row.getCell(LOMTConstant.SEVEN) != null && row.getCell(LOMTConstant.ZERO).getStringCellValue().equalsIgnoreCase(ReportsConstant.PRODUCT_TOC_TEST_DATA_5)) {
 				} else {
 					headerValueCount++;
-					logger.log(LogStatus.FAIL, "TC_LOMT-1837 Component ToC value doesn't match at row number : "+row.getRowNum());
+					logger.log(LogStatus.FAIL, "TC_LOMT-1837 Component ToC value doesn't match at row number : "+row.getRowNum()+1);
 				}
-				if (row.getCell(LOMTConstant.THREE) != null && row.getCell(LOMTConstant.THREE).getStringCellValue().equalsIgnoreCase(ReportsConstant.ZERO_BY_ZERO)) {
+				if (row.getCell(LOMTConstant.SEVEN) != null && row.getCell(LOMTConstant.THREE).getStringCellValue().equalsIgnoreCase(ReportsConstant.ZERO_BY_ZERO)) {
 				} else {
 					correlationCount++;
-					logger.log(LogStatus.FAIL, "TC_LOMT-1837 Correlation score not matching at row number : "+row.getRowNum());
+					logger.log(LogStatus.FAIL, "TC_LOMT-1837 Correlation score not matching at row number : "+row.getRowNum()+1);
 				}
-				if (row.getCell(LOMTConstant.FOUR) != null && row.getCell(LOMTConstant.THREE).getStringCellValue().equalsIgnoreCase(ReportsConstant.NO_CORRELATION)) {
+				if (row.getCell(LOMTConstant.SEVEN) != null && row.getCell(LOMTConstant.FOUR).getStringCellValue().equalsIgnoreCase(ReportsConstant.NO_CORRELATION)) {
 				} else {
 					strengthCount++; 
-					logger.log(LogStatus.FAIL, "TC_LOMT-1837 Strength not matching at row number : "+row.getRowNum());
+					logger.log(LogStatus.FAIL, "TC_LOMT-1837 Strength not matching at row number : "+row.getRowNum()+1);
 				}
-				if (row.getCell(LOMTConstant.FOUR) != null && row.getCell(LOMTConstant.FIVE).getStringCellValue().trim().equals(LOMTConstant.TWO)) {
+				if (row.getCell(LOMTConstant.SEVEN) != null && row.getCell(LOMTConstant.FIVE).getStringCellValue().trim().equals(LOMTConstant.TWO)) {
 					logger.log(LogStatus.PASS,TestCases.TC_LOMT_1837_06_STRENGTH_COMPLETE_VERIFY);
 				} else {
 					headerValueCount++; 
-					logger.log(LogStatus.FAIL, "TC_LOMT-1837 Peripheral Alignment count not matching at row number : "+row.getRowNum());
+					logger.log(LogStatus.FAIL, "TC_LOMT-1837 Peripheral Alignment count not matching at row number : "+row.getRowNum()+1);
 					logger.log(LogStatus.FAIL,TestCases.TC_LOMT_1837_06_STRENGTH_COMPLETE_VERIFY);
 				}
-				if (row.getCell(LOMTConstant.FOUR) != null && row.getCell(LOMTConstant.TEN).getStringCellValue().equalsIgnoreCase(ReportsConstant.ST_1)) {
+				if (row.getCell(LOMTConstant.SEVEN) != null && row.getCell(LOMTConstant.TEN).getStringCellValue().equalsIgnoreCase(ReportsConstant.ST_1)) {
 				} else {
 					headerValueCount++; 
-					logger.log(LogStatus.FAIL, "TC_LOMT-1837 Standard Topic value not matching at row number : "+row.getRowNum());
+					logger.log(LogStatus.FAIL, "TC_LOMT-1837 Standard Topic value not matching at row number : "+row.getRowNum()+1);
 				}
-				if (row.getCell(LOMTConstant.THREE) != null && row.getCell(LOMTConstant.ELEVENTH).getStringCellValue().equalsIgnoreCase(ReportsConstant.ONE_BY_THREE)) {
+				if (row.getCell(LOMTConstant.SEVEN) != null && row.getCell(LOMTConstant.ELEVENTH).getStringCellValue().equalsIgnoreCase(ReportsConstant.ONE_BY_THREE)) {
 				} else {
 					correlationCount++;
-					logger.log(LogStatus.FAIL, "TC_LOMT-1837 Target Correlation score not matching at row number : "+row.getRowNum());
+					logger.log(LogStatus.FAIL, "TC_LOMT-1837 Target Correlation score not matching at row number : "+row.getRowNum()+1);
 				}
-				if (row.getCell(LOMTConstant.FOUR) != null && row.getCell(LOMTConstant.TWELEVE).getStringCellValue().equalsIgnoreCase(ReportsConstant.STRENGTH_AVERAGE)) {
+				if (row.getCell(LOMTConstant.SEVEN) != null && row.getCell(LOMTConstant.TWELEVE).getStringCellValue().equalsIgnoreCase(ReportsConstant.STRENGTH_AVERAGE)) {
 				} else {
 					strengthCount++; 
-					logger.log(LogStatus.FAIL, "TC_LOMT-1837 Target Strength not matching at row number : "+row.getRowNum());
+					logger.log(LogStatus.FAIL, "TC_LOMT-1837 Target Strength not matching at row number : "+row.getRowNum()+1);
 					}
 				}
 			else if (row.getRowNum() == 26) {
-				if (row.getCell(LOMTConstant.FOUR) != null && row.getCell(LOMTConstant.TEN).getStringCellValue().equalsIgnoreCase(ReportsConstant.ST_2)) {
+				if (row.getCell(LOMTConstant.EIGHT) != null && row.getCell(LOMTConstant.TEN).getStringCellValue().equalsIgnoreCase(ReportsConstant.ST_2)) {
 				} else {
 					headerValueCount++; 
-					logger.log(LogStatus.FAIL, "TC_LOMT-1837 Standard Topic value not matching at row number : "+row.getRowNum());
+					logger.log(LogStatus.FAIL, "TC_LOMT-1837 Standard Topic value not matching at row number : "+row.getRowNum()+1);
 				}
-				if (row.getCell(LOMTConstant.THREE) != null && row.getCell(LOMTConstant.ELEVENTH).getStringCellValue().equalsIgnoreCase(ReportsConstant.ONE_BY_TWO)) {
+				if (row.getCell(LOMTConstant.EIGHT) != null && row.getCell(LOMTConstant.ELEVENTH).getStringCellValue().equalsIgnoreCase(ReportsConstant.ONE_BY_TWO)) {
 				} else {
 					correlationCount++;
-					logger.log(LogStatus.FAIL, "TC_LOMT-1837 Target Correlation score not matching at row number : "+row.getRowNum());
+					logger.log(LogStatus.FAIL, "TC_LOMT-1837 Target Correlation score not matching at row number : "+row.getRowNum()+1);
 				}
-				if (row.getCell(LOMTConstant.FOUR) != null && row.getCell(LOMTConstant.TWELEVE).getStringCellValue().equalsIgnoreCase(ReportsConstant.STRENGTH_AVERAGE)) {
+				if (row.getCell(LOMTConstant.EIGHT) != null && row.getCell(LOMTConstant.TWELEVE).getStringCellValue().equalsIgnoreCase(ReportsConstant.STRENGTH_AVERAGE)) {
 				} else {
 					strengthCount++; 
-					logger.log(LogStatus.FAIL, "TC_LOMT-1837 Target Strength not matching at row number : "+row.getRowNum());
+					logger.log(LogStatus.FAIL, "TC_LOMT-1837 Target Strength not matching at row number : "+row.getRowNum()+1);
 					}
 				}
 			else if (row.getRowNum() == 27) {
-				if (row.getCell(LOMTConstant.ZERO) != null && row.getCell(LOMTConstant.ZERO).getStringCellValue().equalsIgnoreCase(ReportsConstant.PRODUCT_TOC_TEST_DATA_6)) {
+				if (row.getCell(LOMTConstant.NINE) != null && row.getCell(LOMTConstant.ZERO).getStringCellValue().equalsIgnoreCase(ReportsConstant.PRODUCT_TOC_TEST_DATA_6)) {
 				} else {
 					headerValueCount++;
-					logger.log(LogStatus.FAIL, "TC_LOMT-1837 Component ToC value doesn't match at row number : "+row.getRowNum());
+					logger.log(LogStatus.FAIL, "TC_LOMT-1837 Component ToC value doesn't match at row number : "+row.getRowNum()+1);
 				}
-				if (row.getCell(LOMTConstant.THREE) != null && row.getCell(LOMTConstant.THREE).getStringCellValue().equalsIgnoreCase(ReportsConstant.ZERO_BY_ZERO)) {
+				if (row.getCell(LOMTConstant.NINE) != null && row.getCell(LOMTConstant.THREE).getStringCellValue().equalsIgnoreCase(ReportsConstant.ZERO_BY_ZERO)) {
 				} else {
 					correlationCount++;
-					logger.log(LogStatus.FAIL, "TC_LOMT-1837 Correlation score not matching at row number : "+row.getRowNum());
+					logger.log(LogStatus.FAIL, "TC_LOMT-1837 Correlation score not matching at row number : "+row.getRowNum()+1);
 				}
-				if (row.getCell(LOMTConstant.FOUR) != null && row.getCell(LOMTConstant.THREE).getStringCellValue().equalsIgnoreCase(ReportsConstant.NO_CORRELATION)) {
+				if (row.getCell(LOMTConstant.NINE) != null && row.getCell(LOMTConstant.FOUR).getStringCellValue().equalsIgnoreCase(ReportsConstant.NO_CORRELATION)) {
 				} else {
 					strengthCount++; 
-					logger.log(LogStatus.FAIL, "TC_LOMT-1837 Strength not matching at row number : "+row.getRowNum());
+					logger.log(LogStatus.FAIL, "TC_LOMT-1837 Strength not matching at row number : "+row.getRowNum()+1);
 				}
 				}
 			}
