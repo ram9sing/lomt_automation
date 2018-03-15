@@ -347,6 +347,7 @@ public class Intermediary extends BaseClass {
 				commonPOM.getSchoolGlobalLOB().click();
 				intermediaryPOM.getIntermediaryStructure().click();
 				wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+				Thread.sleep(60000);
 				
 				removeExistingFile();
 				schoolPOM.getIntAction().click();
@@ -439,7 +440,7 @@ public class Intermediary extends BaseClass {
 			intermediaryPOM.getIntermediaryStructure().click();
 			wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
 			jse.executeScript("window.scrollBy(0,1000)");
-			
+			Thread.sleep(60000);
 			//expanding all the ingested Intermediary disciplines
 			if (!intermediaryPOM.getLoadMoreButton().getAttribute("class").contains("load-more-text disabled")) {
 				intermediaryPOM.getLoadMoreButton().click();
@@ -508,6 +509,7 @@ public class Intermediary extends BaseClass {
 			intermediaryPOM.getIntermediaryStructure().click();
 			wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
 			jse.executeScript("window.scrollBy(0,1000)");
+			Thread.sleep(60000);
 			
 			//expanding all the ingested Intermediary disciplines
 			if (!intermediaryPOM.getLoadMoreButton().getAttribute("class").contains("load-more-text disabled")) {
@@ -786,7 +788,7 @@ public class Intermediary extends BaseClass {
 			commonPOM.getSchoolGlobalLOB().click();
 			intermediaryPOM.getIntermediaryStructure().click();
 			wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
-			
+			Thread.sleep(60000);
 			String intGoalframework = intermediaryPOM.getFirstDisRow().getText(); 
 			int i = intGoalframework.indexOf("\n");
 			//int j = goalframework.lastIndexOf("\n");
@@ -903,6 +905,7 @@ public class Intermediary extends BaseClass {
 			commonPOM.getSchoolGlobalLOB().click();
 			intermediaryPOM.getIntermediaryStructure().click();
 			wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+			Thread.sleep(60000);
 			
 			intermediaryPOM.getFirstDisGoalframework().click();
 			wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
@@ -910,7 +913,8 @@ public class Intermediary extends BaseClass {
 			for (String dis : SchoolConstant.getIntermediaryUpdatedData()) {
 				intermediaryPOM.getEnterSearchTerm().sendKeys(dis);
 				intermediaryPOM.getUpdateResultButton().click();
-				wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+				//wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+				Thread.sleep(7000);
 				if (intermediaryPOM.getSearchResultText().getText().contains("Showing")) {
 					jse.executeScript("window.scrollBy(0,150)");
 					intermediaryPOM.getEnterSearchTerm().clear();
@@ -924,7 +928,8 @@ public class Intermediary extends BaseClass {
 			for (String dis : SchoolConstant.getIntermediaryDeletedData()) {
 				intermediaryPOM.getEnterSearchTerm().sendKeys(dis);
 				intermediaryPOM.getUpdateResultButton().click();
-				wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+				//wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(LOMTConstant.LOADER)));
+				Thread.sleep(7000);
 				if (intermediaryPOM.getSearchResultText().getText().contains("No results found")) {
 					intermediaryPOM.getEnterSearchTerm().clear();
 					flag = true;
