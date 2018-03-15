@@ -1129,7 +1129,7 @@ public class School extends BaseClass {
 				jse.executeScript("window.scrollBy(0,300)");
 				
 				//Compare Grades description
-				if (schoolPOM.getGradeText1().getText().equalsIgnoreCase(SchoolConstant.GRADE_1)) {
+				if (schoolPOM.getGradeText1().getText().contains(SchoolConstant.GRADE_1)) {
 					dataVFlag = true;
 				} else {
 					dataVFlag = false;
